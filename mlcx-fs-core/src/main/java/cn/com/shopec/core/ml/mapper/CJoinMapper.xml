@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CJoinDao">
+
+<resultMap type="CJoin" id="CJoin">
+	<id column="JOIN_NO" property="joinNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="JOIN_TYPE" property="joinType" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="REMARK" property="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+JOIN_NO,MEMBER_NO,JOIN_TYPE,REMARK,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+JOIN_NO,MEMBER_NO,JOIN_TYPE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="CJoin" useGeneratedKeys="true" keyProperty="joinNo">
+	insert into C_JOIN(
+		<if test="joinNo!=null">
+		JOIN_NO,
+		</if>
+		<if test="memberNo!=null">
+		MEMBER_NO,
+		</if>
+		JOIN_TYPE,
+		REMARK,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="joinNo!=null">
+		#{joinNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null">
+		#{memberNo,jdbcType = VARCHAR},
+		</if>
+		#{joinType,jdbcType = INTEGER},
+		#{remark,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CJoin">
+	update C_JOIN 
+	<set>
+		<if test="joinType!=null ">
+			JOIN_TYPE=#{joinType,jdbcType = INTEGER},
+		</if>
+		<if test="remark!=null and remark!=''">
+			REMARK=#{remark,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND JOIN_NO=#{joinNo}
+		AND MEMBER_NO=#{memberNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_JOIN 
+	<where>
+		JOIN_NO=#{0}
+		MEMBER_NO=#{1}
+	</where>
+</delete>
+
+<select id="get" resultMap="CJoin">
+	select <include refid="AllColumnlist"/> from C_JOIN
+	<where>
+		JOIN_NO=#{0}
+		MEMBER_NO=#{1}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CJoin">
+	select <include refid="AllColumnlist"/> from C_JOIN
+	<where>
+		JOIN_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(JOIN_NO) from C_JOIN 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CJoin">
+	select <include refid="CommonColumnlist"/> from C_JOIN 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CJoin">
+	select <include refid="CommonColumnlist"/> from C_JOIN
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.joinNo!=null and q.joinNo!=''">
+			AND JOIN_NO=#{q.joinNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.joinType!=null ">
+			AND JOIN_TYPE=#{q.joinType}
+		</if>
+		<if test="q.remark!=null and q.remark!=''">
+			AND REMARK=#{q.remark}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+<select id="getJoin" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.JoinVo">
+    select  j.JOIN_NO joinNo,j.REMARK remark,
+	j.MEMBER_NO memberNo,j.JOIN_TYPE joinType,
+	j.CREATE_TIME createTime,m.MEMBER_NAME memberName,
+	m.MOBILE_PHONE mobilePhone
+	from c_join j 
+	left JOIN t_member m on j.MEMBER_NO=m.MEMBER_NO
+	where 1=1
+	<if test="q.joinNo!=null and q.joinNo!=''" >
+	 and  j.JOIN_NO like '%' #{q.joinNo} '%'
+	</if>
+	<if test="q.joinType!=null" >
+	 and  j.JOIN_TYPE=#{q.joinType}
+	</if>
+	<if test="q.memberName!=null and q.memberName!=''" >
+	and  m.MEMBER_NAME like '%' #{q.memberName} '%'
+	</if>
+	order by j.CREATE_TIME desc
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getJoinCount" parameterType="Query" resultType="long">
+    select  count(1)
+    from c_join j 
+    left JOIN t_member m on j.MEMBER_NO=m.MEMBER_NO
+    where 1=1
+    <if test="q.joinNo!=null and joinNo!=''" >
+     and  j.JOIN_NO like '%' #{joinNo} '%'
+    </if>
+    <if test="q.joinType!=null" >
+     and  j.JOIN_TYPE=#{q.joinType}
+    </if>
+    <if test="q.memberName!=null and q.memberName!=''" >
+     and m.MEMBER_NAME like '%' #{q.memberName} '%'
+    </if>
+    order by j.CREATE_TIME desc
+</select>
+<select id="getJoinNo"  resultType="cn.com.shopec.core.ml.vo.JoinVo">
+    select  j.JOIN_NO joinNo,j.REMARK remark,
+    j.MEMBER_NO memberNo,j.JOIN_TYPE joinType,
+    j.CREATE_TIME createTime,m.MEMBER_NAME memberName,
+    m.MOBILE_PHONE mobilePhone
+    from c_join j 
+    left JOIN t_member m on j.MEMBER_NO=m.MEMBER_NO
+    where j.JOIN_NO=#{0}
+</select>
+</mapper>

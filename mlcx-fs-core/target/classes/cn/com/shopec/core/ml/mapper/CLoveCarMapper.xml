@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CLoveCarDao">
+
+<resultMap type="CLoveCar" id="CLoveCar">
+	<id column="LOVE_CAR_NO" property="loveCarNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VEHICLE_BRAND" property="vehicleBrand" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VEHICLE_MODEL" property="vehicleModel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVING_LICENSE" property="drivingLicense" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVING_LICENSE_COPY" property="drivingLicenseCopy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+LOVE_CAR_NO,MEMBER_NO,VEHICLE_BRAND,VEHICLE_MODEL,DRIVING_LICENSE,DRIVING_LICENSE_COPY,CENSOR_STATUS,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE, CENSOR_MEMO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+LOVE_CAR_NO,MEMBER_NO,VEHICLE_BRAND,VEHICLE_MODEL,CENSOR_STATUS,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE, CENSOR_MEMO
+</sql>
+
+<insert id="add" parameterType="CLoveCar" useGeneratedKeys="true" keyProperty="loveCarNo">
+	insert into C_LOVE_CAR(
+		<if test="loveCarNo!=null">
+		LOVE_CAR_NO,
+		</if>
+		MEMBER_NO,
+		VEHICLE_BRAND,
+		VEHICLE_MODEL,
+		DRIVING_LICENSE,
+		DRIVING_LICENSE_COPY,
+		CENSOR_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="loveCarNo!=null">
+		#{loveCarNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{vehicleBrand,jdbcType = VARCHAR},
+		#{vehicleModel,jdbcType = VARCHAR},
+		#{drivingLicense,jdbcType = VARCHAR},
+		#{drivingLicenseCopy,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CLoveCar">
+	update C_LOVE_CAR 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="vehicleBrand!=null and vehicleBrand!=''">
+			VEHICLE_BRAND=#{vehicleBrand,jdbcType = VARCHAR},
+		</if>
+		<if test="vehicleModel!=null and vehicleModel!=''">
+			VEHICLE_MODEL=#{vehicleModel,jdbcType = VARCHAR},
+		</if>
+		<if test="drivingLicense!=null and drivingLicense!=''">
+			DRIVING_LICENSE=#{drivingLicense,jdbcType = VARCHAR},
+		</if>
+		<if test="drivingLicenseCopy!=null and drivingLicenseCopy!=''">
+			DRIVING_LICENSE_COPY=#{drivingLicenseCopy,jdbcType = VARCHAR},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="censorMemo!=null ">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND LOVE_CAR_NO=#{loveCarNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_LOVE_CAR 
+	<where>
+		LOVE_CAR_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CLoveCar">
+	select <include refid="AllColumnlist"/> from C_LOVE_CAR
+	<where>
+		LOVE_CAR_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CLoveCar">
+	select <include refid="AllColumnlist"/> from C_LOVE_CAR
+	<where>
+		LOVE_CAR_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(LOVE_CAR_NO) from C_LOVE_CAR 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CLoveCar">
+	select <include refid="CommonColumnlist"/> from C_LOVE_CAR 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CLoveCar">
+	select <include refid="CommonColumnlist"/> from C_LOVE_CAR
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.loveCarNo!=null and q.loveCarNo!=''">
+			AND LOVE_CAR_NO=#{q.loveCarNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.vehicleBrand!=null and q.vehicleBrand!=''">
+			AND VEHICLE_BRAND=#{q.vehicleBrand}
+		</if>
+		<if test="q.vehicleModel!=null and q.vehicleModel!=''">
+			AND VEHICLE_MODEL=#{q.vehicleModel}
+		</if>
+		<if test="q.drivingLicense!=null and q.drivingLicense!=''">
+			AND DRIVING_LICENSE=#{q.drivingLicense}
+		</if>
+		<if test="q.drivingLicenseCopy!=null and q.drivingLicenseCopy!=''">
+			AND DRIVING_LICENSE_COPY=#{q.drivingLicenseCopy}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+<select id="getLaveCar" resultMap="CLoveCar">
+    select <include refid="AllColumnlist"/> from  c_love_car where MEMBER_NO=#{0}
+</select>
+</mapper>

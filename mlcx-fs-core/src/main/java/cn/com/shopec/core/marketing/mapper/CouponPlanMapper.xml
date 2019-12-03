@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.CouponPlanDao">
+
+<resultMap type="CouponPlan" id="CouponPlan">
+	<id column="PLAN_NO" property="planNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TITLE" property="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SUBTITLE" property="subtitle" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHOTO_URL" property="photoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COUPON_TYPE" property="couponType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COUPON_USE_TYPE" property="couponUseType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COUPON_METHOD" property="couponMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DISCOUNT_AMOUNT" property="discountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT" property="discount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT_MAX_AMOUNT" property="discountMaxAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CONSUME_AMOUNT" property="consumeAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="VAILABLE_TIME1" property="vailableTime1" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="VAILABLE_TIME2" property="vailableTime2" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AVAILABLE_DAYS" property="availableDays" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REMARK" property="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_ID" property="censorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_TIME" property="censorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MAX_QUANTITY" property="maxQuantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="EXISTING_QUANTITY" property="existingQuantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="RED_QUANTITY" property="redQuantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PLAN_NO,TITLE,SUBTITLE,PHOTO_URL,COUPON_TYPE,COUPON_USE_TYPE,COUPON_METHOD,DISCOUNT_AMOUNT,
+DISCOUNT,DISCOUNT_MAX_AMOUNT,CONSUME_AMOUNT,VAILABLE_TIME1,VAILABLE_TIME2,
+AVAILABLE_DAYS,CAR_MODEL_ID,CITY_ID,CAR_MODEL_NAME,CITY_NAME,REMARK,CENSOR_STATUS,CENSOR_TIME,CENSOR_ID,
+CENSOR_MEMO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,IS_DELETED,MAX_QUANTITY,EXISTING_QUANTITY
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PLAN_NO,TITLE,COUPON_TYPE,COUPON_USE_TYPE,COUPON_METHOD,VAILABLE_TIME1,VAILABLE_TIME2,DISCOUNT,DISCOUNT_AMOUNT,
+AVAILABLE_DAYS,CENSOR_STATUS,CENSOR_TIME,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,
+OPERATOR_ID,MAX_QUANTITY,EXISTING_QUANTITY,OPERATOR_TYPE,IS_DELETED
+</sql>
+
+<insert id="add" parameterType="CouponPlan" useGeneratedKeys="true" keyProperty="planNo">
+	insert into T_COUPON_PLAN(
+		<if test="planNo!=null">
+		PLAN_NO,
+		</if>
+		TITLE,
+		SUBTITLE,
+		PHOTO_URL,
+		COUPON_TYPE,
+		COUPON_USE_TYPE,
+		COUPON_METHOD,
+		DISCOUNT_AMOUNT,
+		DISCOUNT,
+		DISCOUNT_MAX_AMOUNT,
+		CONSUME_AMOUNT,
+		VAILABLE_TIME1,
+		VAILABLE_TIME2,
+		AVAILABLE_DAYS,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CITY_ID,
+		CITY_NAME,
+		REMARK,
+		CENSOR_STATUS,
+		CENSOR_TIME,
+		CENSOR_ID,
+		CENSOR_MEMO,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		IS_DELETED,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		MAX_QUANTITY,
+		EXISTING_QUANTITY
+	) values (
+		<if test="planNo!=null">
+		#{planNo,jdbcType = VARCHAR},
+		</if>
+		#{title,jdbcType = VARCHAR},
+		#{subtitle,jdbcType = VARCHAR},
+		#{photoUrl,jdbcType = VARCHAR},
+		#{couponType,jdbcType = TINYINT},
+		#{couponUseType,jdbcType = TINYINT},
+		#{couponMethod,jdbcType = TINYINT},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{discount,jdbcType = DOUBLE},
+		#{discountMaxAmount,jdbcType = DOUBLE},
+		#{consumeAmount,jdbcType = DOUBLE},
+		#{vailableTime1,jdbcType = TIMESTAMP},
+		#{vailableTime2,jdbcType = TIMESTAMP},
+		#{availableDays,jdbcType = INTEGER},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{remark,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{censorId,jdbcType = VARCHAR},
+		#{censorTime,jdbcType = TIMESTAMP},
+		#{censorMemo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{isDeleted,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{maxQuantity,jdbcType = INTEGER},
+		#{existingQuantity,jdbcType = INTEGER}
+	)
+</insert>
+
+<!-- 业务级别的update，对业务允许修改空的字段不做非空判断 -->
+<update id="updateForBusiness" parameterType="CouponPlan">
+	update t_coupon_plan 
+	<set>
+		<include refid="listCommonSet"/>
+		SUBTITLE=#{subtitle,jdbcType = VARCHAR},
+		PHOTO_URL=#{photoUrl,jdbcType = VARCHAR},
+		DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		DISCOUNT=#{discount,jdbcType = DOUBLE},
+		VAILABLE_TIME1=#{vailableTime1,jdbcType = TIMESTAMP},
+		VAILABLE_TIME2=#{vailableTime2,jdbcType = TIMESTAMP},
+		AVAILABLE_DAYS=#{availableDays,jdbcType = INTEGER},
+		REMARK=#{remark,jdbcType = VARCHAR},
+		DISCOUNT_MAX_AMOUNT=#{discountMaxAmount,jdbcType = DOUBLE},
+		MAX_QUANTITY=#{maxQuantity,jdbcType = TIMESTAMP},
+	</set>
+	<where>
+		AND PLAN_NO=#{planNo}
+	</where>
+</update>
+
+<!-- 通用update -->
+<update id="update" parameterType="CouponPlan">
+	update t_coupon_plan 
+	<set>
+		<include refid="listCommonSet"/>
+		<if test="subtitle!=null and subtitle!='' ">
+			SUBTITLE=#{subtitle,jdbcType = VARCHAR},
+		</if>
+		<if test="photoUrl!=null and  photoUrl!='' ">
+			PHOTO_URL=#{photoUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="discountMaxAmount!=null">
+			DISCOUNT_MAX_AMOUNT=#{discountMaxAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="discountAmount!=null">
+			DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="discount!=null">
+			DISCOUNT=#{discount,jdbcType = DOUBLE},
+		</if>
+		<if test="vailableTime1!=null ">
+			VAILABLE_TIME1=#{vailableTime1,jdbcType = TIMESTAMP},
+		</if>
+		<if test="vailableTime2!=null ">
+			VAILABLE_TIME2=#{vailableTime2,jdbcType = TIMESTAMP},
+		</if>
+		<if test="availableDays!=null ">
+			AVAILABLE_DAYS=#{availableDays,jdbcType = INTEGER},
+		</if>
+		<if test="remark!=null and remark!=''">
+			REMARK=#{remark,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PLAN_NO=#{planNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_coupon_plan 
+	<where>
+		PLAN_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CouponPlan">
+	select <include refid="AllColumnlist"/> from t_coupon_plan
+	<where>
+		PLAN_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CouponPlan">
+	select <include refid="AllColumnlist"/> from t_coupon_plan
+	<where>
+		PLAN_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PLAN_NO) from t_coupon_plan 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CouponPlan">
+	select <include refid="CommonColumnlist"/> from t_coupon_plan 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CouponPlan">
+	select <include refid="CommonColumnlist"/> from t_coupon_plan
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 查询优惠券方案  可用已审核未过期发放数量已经完毕 -->
+<select id="queryList" parameterType="Query" resultMap="CouponPlan">
+	select <include refid="CommonColumnlist"/> from t_coupon_plan cp
+	<where>
+	cp.MAX_QUANTITY > (SELECT COUNT(c.COUPON_NO) FROM t_coupon c WHERE c.PLAN_NO IN(cp.PLAN_NO)) 
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="queryCount" parameterType="Query" resultType="Long">
+	select count(PLAN_NO) from t_coupon_plan cp
+	<where>
+	cp.MAX_QUANTITY > (SELECT COUNT(c.COUPON_NO) FROM t_coupon c WHERE c.PLAN_NO IN(cp.PLAN_NO)) 
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="getCodePlanByRedCode"  resultMap="CouponPlan">
+	SELECT 
+		TCP.PLAN_NO,TCP.TITLE,COUPON_TYPE,TCP.COUPON_METHOD,TCP.COUPON_USE_TYPE,TCP.VAILABLE_TIME1,TCP.VAILABLE_TIME2,TCP.DISCOUNT,TCP.DISCOUNT_AMOUNT,
+		TCP.AVAILABLE_DAYS,TRCP.RED_QUTITY AS RED_QUANTITY
+	FROM t_redeem_coupon_plan TRCP
+	LEFT JOIN t_coupon_plan TCP ON TCP.PLAN_NO = TRCP.PLAN_NO
+	<where>
+		TRCP.RED_CODE = #{0}
+	</where>
+</select>
+
+
+<sql id="listCommonSet">
+		<if test="title!=null and  title!='' ">
+			TITLE=#{title,jdbcType = VARCHAR},
+		</if>
+		<if test="couponType!=null">
+			COUPON_TYPE=#{couponType,jdbcType = TINYINT},
+		</if>
+		<if test="couponUseType!=null">
+			COUPON_USE_TYPE=#{couponUseType,jdbcType = TINYINT},
+		</if>
+		<if test="couponMethod!=null">
+			COUPON_METHOD=#{couponMethod,jdbcType = TINYINT},
+		</if>
+		<if test="consumeAmount!=null">
+			CONSUME_AMOUNT=#{consumeAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="censorId!=null and censorId!=''">
+			CENSOR_ID=#{censorId,jdbcType = VARCHAR},
+		</if>
+		<if test="censorTime!=null ">
+			CENSOR_TIME=#{censorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorMemo!=null and censorMemo!=''">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="existingQuantity!=null ">
+			EXISTING_QUANTITY=#{existingQuantity,jdbcType = TIMESTAMP},
+		</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.planNo!=null and  q.planNo!='' ">
+			AND PLAN_NO like CONCAT('%',#{q.planNo},'%')  
+		</if>
+		<if test="q.title!=null and  q.title!='' ">
+			AND TITLE like CONCAT('%',#{q.title},'%')
+		</if>
+		<if test="q.couponType!=null">
+			AND COUPON_TYPE=#{q.couponType}
+		</if>
+		<if test="q.couponUseType!=null">
+			<if test="q.couponUseType==2">
+				AND COUPON_USE_TYPE=2
+			</if>
+			<if test="q.couponUseType==1">
+				AND (COUPON_USE_TYPE=1 OR COUPON_USE_TYPE IS NULL)
+			</if>
+		</if>
+		<if test="q.couponMethod!=null">
+			AND COUPON_METHOD=#{q.couponMethod}
+		</if>
+		<if test="q.vailableTime1!=null ">
+			AND VAILABLE_TIME1 = #{q.vailableTime1}
+		</if>
+		<if test="q.vailableTime2!=null ">
+			AND VAILABLE_TIME2 = #{q.vailableTime2}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND VAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND VAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND VAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND VAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.availableDays!=null ">
+			AND AVAILABLE_DAYS=#{q.availableDays}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorId!=null and q.censorId!=''">
+			AND CENSOR_ID=#{q.censorId}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CLabelDao">
+
+<resultMap type="CLabel" id="CLabel">
+	<id column="LABEL_ID" property="labelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LABEL_NAME" property="labelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENABLE_STATUS" property="enableStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LABEL_TYPE" property="labelType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+LABEL_ID,LABEL_NAME,ENABLE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+,LABEL_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+LABEL_ID,LABEL_NAME,ENABLE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+,LABEL_TYPE
+</sql>
+
+<insert id="add" parameterType="CLabel" useGeneratedKeys="true" keyProperty="labelId">
+	insert into C_LABEL(
+		<if test="labelId!=null">
+		LABEL_ID,
+		</if>
+		LABEL_NAME,
+		ENABLE_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,LABEL_TYPE
+	) values (
+		<if test="labelId!=null">
+		#{labelId,jdbcType = VARCHAR},
+		</if>
+		#{labelName,jdbcType = VARCHAR},
+		#{enableStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{labelType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CLabel">
+	update C_LABEL 
+	<set>
+		<if test="labelName!=null and labelName!=''">
+			LABEL_NAME=#{labelName,jdbcType = VARCHAR},
+		</if>
+		<if test="enableStatus!=null ">
+			ENABLE_STATUS=#{enableStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="labelType!=null ">
+			LABEL_TYPE=#{labelType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND LABEL_ID=#{labelId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_LABEL 
+	<where>
+		LABEL_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultType="CLabel">
+	select l.LABEL_ID labelId,l.LABEL_NAME labelName,
+	l.ENABLE_STATUS enableStatus,l.CREATE_TIME createTime,l.LABEL_TYPE labelType,
+	l.UPDATE_TIME updateTime,l.OPERATOR_TYPE operatorType,l.OPERATOR_ID operatorId,
+	u.USER_NAME userName from C_LABEL l
+	   LEFT JOIN t_sys_user u on l.OPERATOR_ID=u.USER_ID
+	<where>
+		l.LABEL_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CLabel">
+	select <include refid="AllColumnlist"/> from C_LABEL
+	<where>
+		LABEL_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(LABEL_ID) from C_LABEL 
+	<where>
+	<include refid="listCommonWhere"/> 
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CLabel">
+	select <include refid="CommonColumnlist"/> from C_LABEL 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME
+</select>
+
+<select id="pageList" parameterType="Query" resultType="CLabel">
+	select l.LABEL_ID labelId,l.LABEL_NAME labelName,l.LABEL_TYPE labelType,
+    l.ENABLE_STATUS enableStatus,l.CREATE_TIME createTime,
+    l.UPDATE_TIME updateTime,l.OPERATOR_TYPE operatorType,l.OPERATOR_ID operatorId,
+    u.USER_NAME userName from C_LABEL l
+       LEFT JOIN t_sys_user u on l.OPERATOR_ID=u.USER_ID
+	<where>
+	 <if test="q.enableStatus!=null ">
+            AND  l.ENABLE_STATUS=#{q.enableStatus}
+        </if>
+	 <if test="q.labelType!=null ">
+            AND  l.LABEL_TYPE=#{q.labelType}
+        </if>
+	</where>
+	 order by l.UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="searchInLabelNos" resultType="String">
+	select LABEL_NAME from C_LABEL 
+	<where>
+	   LABEL_ID IN <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+	         #{item}
+	    </foreach>
+	</where>
+	ORDER BY CREATE_TIME
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.labelId!=null and q.labelId!=''">
+			AND LABEL_ID=#{q.labelId}
+		</if>
+		<if test="q.labelName!=null and q.labelName!=''">
+			AND LABEL_NAME=#{q.labelName}
+		</if>
+		<if test="q.enableStatus!=null ">
+			AND ENABLE_STATUS=#{q.enableStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		 <if test="q.labelType!=null ">
+            AND  LABEL_TYPE=#{q.labelType}
+        </if>
+	</if>
+</sql>
+</mapper>

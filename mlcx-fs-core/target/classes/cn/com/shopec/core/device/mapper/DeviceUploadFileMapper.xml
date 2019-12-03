@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.device.dao.DeviceUploadFileDao">
+
+<resultMap type="DeviceUploadFile" id="DeviceUploadFile">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_PATH" property="filePath" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_TYPE" property="fileType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,DEVICE_SN,FILE_PATH,FILE_TYPE,CREATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,DEVICE_SN,FILE_PATH,FILE_TYPE,CREATE_TIME
+</sql>
+
+<insert id="add" parameterType="DeviceUploadFile" useGeneratedKeys="true" keyProperty="id">
+	insert into t_device_upload_file(
+		<if test="id!=null">
+		ID,
+		</if>
+		DEVICE_SN,
+		FILE_PATH,
+		FILE_TYPE,
+		CREATE_TIME
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{deviceSn,jdbcType = VARCHAR},
+		#{filePath,jdbcType = VARCHAR},
+		#{fileType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<delete id="delete">
+	delete from t_device_upload_file 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DeviceUploadFile">
+	select <include refid="AllColumnlist"/> from t_device_upload_file
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_device_upload_file 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DeviceUploadFile">
+	select <include refid="CommonColumnlist"/> from t_device_upload_file 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DeviceUploadFile">
+	select <include refid="CommonColumnlist"/> from t_device_upload_file
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getByDeviceSn" resultMap="DeviceUploadFile">
+	select <include refid="AllColumnlist"/> from t_device_upload_file
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.deviceSn!=null ">
+			AND DEVICE_SN=#{q.deviceSn}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

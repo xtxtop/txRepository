@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysRegionDao">
+
+<resultMap type="SysRegion" id="SysRegion">
+	<id column="REGION_ID" property="regionId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REGION_NAME" property="regionName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEVEL" property="level" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PARENT_ID" property="parentId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REGION_CODE" property="regionCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POST_CODE" property="postCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DIALLING_CODE" property="diallingCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SHOT_NAME" property="shotName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PINYIN_NAME" property="pinyinName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PINYIN_SHORT_NAME" property="pinyinShortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERGED_NAME" property="mergedName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERGED_SHORT_NAME" property="mergedShortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+<insert id="add" parameterType="SysRegion">
+	insert into T_SYS_REGION(
+		REGION_ID,
+		REGION_NAME,
+		LEVEL,
+		PARENT_ID,
+		REGION_CODE,
+		POST_CODE,
+		DIALLING_CODE,
+		SHOT_NAME,
+		PINYIN_NAME,
+		PINYIN_SHORT_NAME,
+		MERGED_NAME,
+		MERGED_SHORT_NAME,
+		LATITUDE,
+		LONGITUDE,
+		IS_AVAILABLE,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		#{regionId,jdbcType = VARCHAR},
+		#{regionName,jdbcType = VARCHAR},
+		#{level,jdbcType = INTEGER},
+		#{parentId,jdbcType = VARCHAR},
+		#{regionCode,jdbcType = VARCHAR},
+		#{postCode,jdbcType = VARCHAR},
+		#{diallingCode,jdbcType = VARCHAR},
+		#{shotName,jdbcType = VARCHAR},
+		#{pinyinName,jdbcType = VARCHAR},
+		#{pinyinShortName,jdbcType = VARCHAR},
+		#{mergedName,jdbcType = VARCHAR},
+		#{mergedShortName,jdbcType = VARCHAR},
+		#{latitude,jdbcType = DOUBLE},
+		#{longitude,jdbcType = DOUBLE},
+		#{isAvailable,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SysRegion">
+	update t_sys_region 
+	<set>
+		<if test="regionName!=null and regionName!=''">
+			REGION_NAME=#{regionName,jdbcType = VARCHAR},
+		</if>
+		<if test="level!=null ">
+			LEVEL=#{level,jdbcType = INTEGER},
+		</if>
+		<if test="parentId!=null ">
+			PARENT_ID=#{parentId,jdbcType = VARCHAR},
+		</if>
+		<if test="regionCode!=null and regionCode!=''">
+			REGION_CODE=#{regionCode,jdbcType = VARCHAR},
+		</if>
+		<if test="postCode!=null and postCode!=''">
+			POST_CODE=#{postCode,jdbcType = VARCHAR},
+		</if>
+		<if test="diallingCode!=null and diallingCode!=''">
+			DIALLING_CODE=#{diallingCode,jdbcType = VARCHAR},
+		</if>
+		<if test="shotName!=null and shotName!=''">
+			SHOT_NAME=#{shotName,jdbcType = VARCHAR},
+		</if>
+		<if test="pinyinName!=null and pinyinName!=''">
+			PINYIN_NAME=#{pinyinName,jdbcType = VARCHAR},
+		</if>
+		<if test="pinyinShortName!=null and pinyinShortName!=''">
+			PINYIN_SHORT_NAME=#{pinyinShortName,jdbcType = VARCHAR},
+		</if>
+		<if test="mergedName!=null and mergedName!=''">
+			MERGED_NAME=#{mergedName,jdbcType = VARCHAR},
+		</if>
+		<if test="mergedShortName!=null and mergedShortName!=''">
+			MERGED_SHORT_NAME=#{mergedShortName,jdbcType = VARCHAR},
+		</if>
+		<if test="latitude!=null ">
+			LATITUDE=#{latitude,jdbcType = DOUBLE},
+		</if>
+		<if test="longitude!=null ">
+			LONGITUDE=#{longitude,jdbcType = DOUBLE},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND REGION_ID=#{regionId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_region 
+	<where>
+		REGION_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		REGION_ID=#{0}
+	</where>
+</select>
+<!-- 根据名字得到id  配置系统参数时用到 -->
+<select id="getRegionIdByRegionName" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		REGION_NAME=#{0}
+	</where>
+</select>
+
+<!-- 根据名字得到id  配置系统参数时用到 -->
+<select id="getListByRegionName" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		REGION_NAME=#{0}
+	</where>
+</select>
+
+<select id="getProvices" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		LEVEL = 1
+	</where>
+</select>
+<select id="getProvices2" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		LEVEL = 2
+	</where>
+</select>
+<select id="getProvices3" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		LEVEL = 3
+	</where>
+</select>
+<select id="getCitys" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		PARENT_ID = #{0}
+	</where>
+</select>
+<select id="getProvince" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		REGION_NAME = #{0}
+	</where>
+</select>
+<select id="getCountrys" resultMap="SysRegion">
+	select * from t_sys_region
+	<where>
+		PARENT_ID = #{0}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_region 
+	<where>
+	<include refid="listCommonWhere1"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysRegion">
+	select * from t_sys_region 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysRegion">
+	select * from  t_sys_region
+	<where>
+	 <include refid="listCommonWhere1"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+         AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+		<if test="q.regionId!=null ">
+			AND REGION_ID=#{q.regionId}
+		</if>
+		<if test="q.regionName!=null and q.regionName!=''">
+			AND REGION_NAME=#{q.regionName}
+		</if>
+		<if test="q.level!=null ">
+			AND LEVEL=#{q.level}
+		</if>
+		<if test="q.parentId!=null ">
+			AND PARENT_ID=#{q.parentId}
+		</if>
+		<if test="q.regionCode!=null and q.regionCode!=''">
+			AND REGION_CODE=#{q.regionCode}
+		</if>
+		<if test="q.postCode!=null and q.postCode!=''">
+			AND POST_CODE=#{q.postCode}
+		</if>
+		<if test="q.diallingCode!=null and q.diallingCode!=''">
+			AND DIALLING_CODE=#{q.diallingCode}
+		</if>
+		<if test="q.shotName!=null and q.shotName!=''">
+			AND SHOT_NAME=#{q.shotName}
+		</if>
+		<if test="q.pinyinName!=null and q.pinyinName!=''">
+			AND PINYIN_NAME=#{q.pinyinName}
+		</if>
+		<if test="q.pinyinShortName!=null and q.pinyinShortName!=''">
+			AND PINYIN_SHORT_NAME=#{q.pinyinShortName}
+		</if>
+		<if test="q.mergedName!=null and q.mergedName!=''">
+			AND MERGED_NAME=#{q.mergedName}
+		</if>
+		<if test="q.mergedShortName!=null and q.mergedShortName!=''">
+			AND MERGED_SHORT_NAME=#{q.mergedShortName}
+		</if>
+		<if test="q.latitude!=null ">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.longitude!=null ">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+
+<sql id="listCommonWhere1">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+         AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+		<if test="q.regionId!=null ">
+			AND REGION_ID=#{q.regionId}
+		</if>
+		<if test="q.regionName!=null and q.regionName!=''">
+			AND REGION_NAME like CONCAT('%',#{q.regionName},'%')
+		</if>
+		<if test="q.level!=null ">
+			AND LEVEL=#{q.level}
+		</if>
+		<if test="q.parentId!=null ">
+			AND PARENT_ID=#{q.parentId}
+		</if>
+		<if test="q.regionCode!=null and q.regionCode!=''">
+			AND REGION_CODE=#{q.regionCode}
+		</if>
+		<if test="q.postCode!=null and q.postCode!=''">
+			AND POST_CODE like CONCAT('%',#{q.postCode},'%')
+		</if>
+		<if test="q.diallingCode!=null and q.diallingCode!=''">
+			AND DIALLING_CODE=#{q.diallingCode}
+		</if>
+		<if test="q.shotName!=null and q.shotName!=''">
+			AND SHOT_NAME=#{q.shotName}
+		</if>
+		<if test="q.pinyinName!=null and q.pinyinName!=''">
+			AND PINYIN_NAME=#{q.pinyinName}
+		</if>
+		<if test="q.pinyinShortName!=null and q.pinyinShortName!=''">
+			AND PINYIN_SHORT_NAME=#{q.pinyinShortName}
+		</if>
+		<if test="q.mergedName!=null and q.mergedName!=''">
+			AND MERGED_NAME=#{q.mergedName}
+		</if>
+		<if test="q.mergedShortName!=null and q.mergedShortName!=''">
+			AND MERGED_SHORT_NAME=#{q.mergedShortName}
+		</if>
+		<if test="q.latitude!=null ">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.longitude!=null ">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

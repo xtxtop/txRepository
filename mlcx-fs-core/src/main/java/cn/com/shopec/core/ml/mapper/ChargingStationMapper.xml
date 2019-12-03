@@ -1,0 +1,1031 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.ChargingStationDao">
+
+<resultMap type="ChargingStation" id="ChargingStation">
+	<id column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NAME" property="stationName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PROVINCE_ID" property="provinceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DISTRICT_ID" property="districtId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDR_STREET" property="addrStreet" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NUMBER" property="chargingPileNumber" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_SPACE_NUMBER" property="parkingSpaceNumber" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SUPPORTED_SERVICES" property="supportedServices" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_PUBLIC" property="isPublic" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="STATION_TYPE" property="stationType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ELECTRIC_PRICE" property="electricPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARK_RENT" property="parkRent" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="BUSINESS_HOURS" property="businessHours" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_BUSINESS_FESTIVAL" property="isBusinessFestival" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LABEL" property="label" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATING_CITY_NO" property="operatingCityNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<!-- 查询站类型 -->
+<resultMap type="ChargingStation" id="ChargingStationType">
+	<result column="STATION_TYPE" property="stationType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+STATION_NO,STATION_NAME,PROVINCE_ID,CITY_ID,DISTRICT_ID,ADDR_STREET,CHARGING_PILE_NUMBER,
+MEMO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,LONGITUDE,LATITUDE,PARKING_SPACE_NUMBER,
+SUPPORTED_SERVICES,IS_PUBLIC,ELECTRIC_PRICE,PARK_RENT,BUSINESS_HOURS,IS_BUSINESS_FESTIVAL
+,STATION_TYPE,LABEL,OPERATING_CITY_NO
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+STATION_NO,STATION_NAME,PROVINCE_ID,CITY_ID,DISTRICT_ID,ADDR_STREET,CHARGING_PILE_NUMBER,
+MEMO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,LONGITUDE,LATITUDE,PARKING_SPACE_NUMBER,
+SUPPORTED_SERVICES,IS_PUBLIC,ELECTRIC_PRICE,PARK_RENT,BUSINESS_HOURS,IS_BUSINESS_FESTIVAL
+,STATION_TYPE,LABEL,OPERATING_CITY_NO
+
+</sql>
+
+<insert id="add" parameterType="ChargingStation" useGeneratedKeys="true" keyProperty="stationNo">
+	insert into CHARGING_STATION(
+		<if test="stationNo!=null">
+		STATION_NO,
+		</if>
+		STATION_NAME,
+		PROVINCE_ID,
+		CITY_ID,
+		DISTRICT_ID,
+		ADDR_STREET,
+		CHARGING_PILE_NUMBER,
+		MEMO,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		LONGITUDE,
+		LATITUDE,
+		PARKING_SPACE_NUMBER,
+		SUPPORTED_SERVICES,
+		IS_PUBLIC,
+		ELECTRIC_PRICE,
+		PARK_RENT,
+		BUSINESS_HOURS,
+		IS_BUSINESS_FESTIVAL,
+		STATION_TYPE,
+		LABEL,OPERATING_CITY_NO
+	) values (
+		<if test="stationNo!=null">
+		#{stationNo,jdbcType = VARCHAR},
+		</if>
+		#{stationName,jdbcType = VARCHAR},
+		#{provinceId,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{districtId,jdbcType = VARCHAR},
+		#{addrStreet,jdbcType = VARCHAR},
+		#{chargingPileNumber,jdbcType = TINYINT},
+		#{memo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{longitude,jdbcType = VARCHAR},
+		#{latitude,jdbcType = VARCHAR},
+		#{parkingSpaceNumber,jdbcType = TINYINT},
+		#{supportedServices,jdbcType = VARCHAR},
+		#{isPublic,jdbcType = TINYINT},
+		#{electricPrice,jdbcType = DOUBLE},
+		#{parkRent,jdbcType = DOUBLE},
+		#{businessHours,jdbcType = VARCHAR},
+		#{isBusinessFestival,jdbcType = VARCHAR},
+		#{stationType,jdbcType = TINYINT},
+		#{label,jdbcType = VARCHAR},
+		#{operatingCityNo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="ChargingStation">
+	update CHARGING_STATION 
+	<set>
+		<if test="stationName!=null and stationName!=''">
+			STATION_NAME=#{stationName,jdbcType = VARCHAR},
+		</if>
+		<if test="provinceId!=null and provinceId!=''">
+			PROVINCE_ID=#{provinceId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="districtId!=null">
+			DISTRICT_ID=#{districtId,jdbcType = VARCHAR},
+		</if>
+		<if test="addrStreet!=null and addrStreet!=''">
+			ADDR_STREET=#{addrStreet,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingPileNumber!=null ">
+			CHARGING_PILE_NUMBER=#{chargingPileNumber,jdbcType = TINYINT},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="longitude!=null and longitude!=''">
+			LONGITUDE=#{longitude,jdbcType = VARCHAR},
+		</if>
+		<if test="latitude!=null and latitude!=''">
+			LATITUDE=#{latitude,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingSpaceNumber!=null ">
+			PARKING_SPACE_NUMBER=#{parkingSpaceNumber,jdbcType = TINYINT},
+		</if>
+		<if test="supportedServices!=null and supportedServices!=''">
+			SUPPORTED_SERVICES=#{supportedServices,jdbcType = VARCHAR},
+		</if>
+		<if test="isPublic!=null ">
+			IS_PUBLIC=#{isPublic,jdbcType = TINYINT},
+		</if>
+		<if test="electricPrice!=null ">
+			ELECTRIC_PRICE=#{electricPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="parkRent!=null ">
+			PARK_RENT=#{parkRent,jdbcType = DOUBLE},
+		</if>
+		<if test="businessHours!=null and businessHours!=''">
+			BUSINESS_HOURS=#{businessHours,jdbcType = VARCHAR},
+		</if>
+		<if test="isBusinessFestival!=null and isBusinessFestival!=''">
+			IS_BUSINESS_FESTIVAL=#{isBusinessFestival,jdbcType = VARCHAR},
+		</if>
+		<if test="stationType!=null">
+			STATION_TYPE=#{stationType,jdbcType = TINYINT},
+		</if>
+		<if test="label!=null and label!=''">
+			LABEL=#{label,jdbcType = VARCHAR},
+		</if>
+		<if test="operatingCityNo!=null and operatingCityNo!=''">
+			OPERATING_CITY_NO=#{operatingCityNo,jdbcType = VARCHAR}
+		</if>
+	</set>
+	<where>
+		AND STATION_NO=#{stationNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from CHARGING_STATION 
+	<where>
+		STATION_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ChargingStation">
+	select <include refid="AllColumnlist"/> from CHARGING_STATION
+	<where>
+		STATION_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ChargingStation">
+	select <include refid="AllColumnlist"/> from CHARGING_STATION
+	<where>
+		STATION_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(STATION_NO) from CHARGING_STATION 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ChargingStation">
+	select <include refid="CommonColumnlist"/> from CHARGING_STATION 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ChargingStation">
+	select <include refid="CommonColumnlist"/> from CHARGING_STATION
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.stationNo!=null and q.stationNo!=''">
+			AND STATION_NO=#{q.stationNo}
+		</if>
+		<if test="q.stationName!=null and q.stationName!=''">
+			AND STATION_NAME like '%' #{q.stationName} '%'
+		</if>
+		<if test="q.provinceId!=null and q.provinceId!=''">
+			AND PROVINCE_ID=#{q.provinceId}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.districtId!=null">
+			AND DISTRICT_ID=#{q.districtId}
+		</if>
+		<if test="q.addrStreet!=null and q.addrStreet!=''">
+			AND ADDR_STREET like '%' #{q.addrStreet} '%'
+		</if>
+		<if test="q.chargingPileNumber!=null ">
+			AND CHARGING_PILE_NUMBER=#{q.chargingPileNumber}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.longitude!=null and q.longitude!=''">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null and q.latitude!=''">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.parkingSpaceNumber!=null ">
+			AND PARKING_SPACE_NUMBER=#{q.parkingSpaceNumber}
+		</if>
+		<if test="q.supportedServices!=null and q.supportedServices!=''">
+			AND SUPPORTED_SERVICES=#{q.supportedServices}
+		</if>
+		<if test="q.isPublic!=null ">
+			AND IS_PUBLIC=#{q.isPublic}
+		</if>
+		<if test="q.electricPrice!=null ">
+			AND ELECTRIC_PRICE=#{q.electricPrice}
+		</if>
+		<if test="q.parkRent!=null ">
+			AND PARK_RENT=#{q.parkRent}
+		</if>
+		<if test="q.businessHours!=null and q.businessHours!=''">
+			AND BUSINESS_HOURS=#{q.businessHours}
+		</if>
+		<if test="q.isBusinessFestival!=null and q.isBusinessFestival!=''">
+			AND IS_BUSINESS_FESTIVAL=#{q.isBusinessFestival}
+		</if>
+		<if test="q.stationType!=null">
+           and  STATION_TYPE=#{q.stationType,jdbcType = TINYINT}
+        </if>
+        <if test="q.label!=null and q.label!=''">
+           and LABEL=#{q.label,jdbcType = VARCHAR}
+        </if>
+        <if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+           and OPERATING_CITY_NO=#{q.operatingCityNo,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+<select id="getChargingStationVoList" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingStationVo">
+   select  s.STATION_NO stationNo,s.STATION_NAME stationName,
+    s.ADDR_STREET addrStreet,
+    p.chargingPileNumber chargingPileNumber,s.MEMO memo,
+    s.IS_AVAILABLE isAvailable,s.LONGITUDE longitude,
+    s.LATITUDE latitude,s.CREATE_TIME createTime,
+    s.UPDATE_TIME updateTime,s.OPERATOR_TYPE operatorType,
+    s.IS_DELETED isDeleted,r.REGION_NAME provinceName,
+    r1.REGION_NAME cityName,r2.REGION_NAME districtName,
+    u.USER_NAME userName ,s.PARKING_SPACE_NUMBER parkingSpaceNumber,
+        s.SUPPORTED_SERVICES supportedServices,s.IS_PUBLIC isPublic,
+    s.ELECTRIC_PRICE electricPrice,s.PARK_RENT parkRent,
+    s.BUSINESS_HOURS businessHours,s.IS_BUSINESS_FESTIVAL isBusinessFestival,
+        p.interflowSum interflowSum,p.cocurrentSum cocurrentSum,s.STATION_TYPE stationType,
+        s.LABEL label,s.OPERATING_CITY_NO operatingCityNo,c.OPERATING_CITY_NAME operatingCityName
+        ,d.FILE_URL fileUrl
+        from  charging_station s
+    LEFT JOIN t_sys_region r on s.PROVINCE_ID=r.REGION_ID
+    LEFT JOIN t_sys_region r1 on s.CITY_ID=r1.REGION_ID
+    LEFT JOIN t_sys_region r2 on s.DISTRICT_ID=r2.REGION_ID
+    LEFT JOIN t_sys_user u on s.OPERATOR_ID=u.USER_ID
+    LEFT JOIN (select STATION_NO,count(STATION_NO) chargingPileNumber,SUM(CASE ELECTRICITY_TYPE WHEN 0 THEN 1 ELSE 0 END) interflowSum, 
+        SUM(CASE ELECTRICITY_TYPE WHEN 1 THEN 1 ELSE 0 END) cocurrentSum
+    from charging_pile GROUP BY STATION_NO) p on s.STATION_NO=p.STATION_NO
+    LEFT JOIN c_operating_city c on s.OPERATING_CITY_NO=c.OPERATING_CITY_NO
+    LEFT JOIN c_doc d on s.STATION_NO=d.BIZ_ID
+    where 1=1   
+     <if test="q.stationNo!=null and q.stationNo!=''">
+     and s.STATION_NO like '%'  #{q.stationNo} '%' 
+     </if>
+     <if test="q.stationName!=null and q.stationName!=''">
+     and s.STATION_NAME like '%'  #{q.stationName} '%' 
+     </if>
+     <if test="q.stationType!=null">
+     and s.STATION_TYPE=#{q.stationType}
+     </if>
+     <if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+     and s.OPERATING_CITY_NO=#{q.operatingCityNo}
+     </if>
+     <if test="q.isAvailable!=null ">
+     and s.IS_AVAILABLE=#{q.isAvailable}
+     </if>
+   order by s.UPDATE_TIME desc
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getChargingStationVoListCount" parameterType="Query" resultType="Long">
+ select  count(s.STATION_NO)  from  charging_station s
+    LEFT JOIN t_sys_region r on s.PROVINCE_ID=r.REGION_ID
+    LEFT JOIN t_sys_region r1 on s.CITY_ID=r1.REGION_ID
+    LEFT JOIN t_sys_region r2 on s.DISTRICT_ID=r2.REGION_ID
+    LEFT JOIN t_sys_user u on s.OPERATOR_ID=u.USER_ID
+    LEFT JOIN (select STATION_NO,count(STATION_NO) chargingPileNumber,SUM(CASE ELECTRICITY_TYPE WHEN 0 THEN 1 ELSE 0 END) interflowSum, 
+        SUM(CASE ELECTRICITY_TYPE WHEN 1 THEN 1 ELSE 0 END) cocurrentSum
+         from charging_pile GROUP BY STATION_NO) p on s.STATION_NO=p.STATION_NO
+    where 1=1 
+     <if test="q.stationNo!=null and q.stationNo!=''">
+     and s.STATION_NO like '%' #{q.stationNo} '%'
+     </if>
+     <if test="q.isAvailable!=null">
+     and s.IS_AVAILABLE=#{q.isAvailable}
+     </if>
+        <if test="q.stationType!=null">
+     and s.STATION_TYPE=#{q.stationType}
+     </if>
+     <if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+     and s.OPERATING_CITY_NO=#{q.operatingCityNo}
+     </if>
+    order by s.CREATE_TIME desc
+</select>
+<select id="getChargingStationVoList_NO" resultType="cn.com.shopec.core.ml.vo.ChargingStationVo">
+     select  s.STATION_NO stationNo,s.STATION_NAME stationName,
+    s.ADDR_STREET addrStreet,s.STATION_TYPE stationType,
+    p.chargingPileNumber chargingPileNumber,s.MEMO memo,
+    s.IS_AVAILABLE isAvailable,s.LONGITUDE longitude,
+    s.LATITUDE latitude,s.CREATE_TIME createTime,
+    s.UPDATE_TIME updateTime,s.OPERATOR_TYPE operatorType,
+    s.IS_DELETED isDeleted,r.REGION_NAME provinceName,
+    r1.REGION_NAME cityName,r2.REGION_NAME districtName,
+    u.USER_NAME userName ,s.PARKING_SPACE_NUMBER parkingSpaceNumber,
+        s.SUPPORTED_SERVICES supportedServices,s.IS_PUBLIC isPublic,
+    s.ELECTRIC_PRICE electricPrice,s.PARK_RENT parkRent,
+    s.BUSINESS_HOURS businessHours,s.IS_BUSINESS_FESTIVAL isBusinessFestival,
+     s.AVAILABLE_UPDATE_TIME availableUpdateTime,
+    s.PROVINCE_ID provinceId,s.CITY_ID cityId,s.DISTRICT_ID districtId,
+        p.interflowSum interflowSum,p.cocurrentSum cocurrentSum,
+        s.LABEL label,s.OPERATING_CITY_NO operatingCityNo,c.OPERATING_CITY_NAME operatingCityName
+        from  charging_station s
+    LEFT JOIN t_sys_region r on s.PROVINCE_ID=r.REGION_ID
+    LEFT JOIN t_sys_region r1 on s.CITY_ID=r1.REGION_ID
+    LEFT JOIN t_sys_region r2 on s.DISTRICT_ID=r2.REGION_ID
+    LEFT JOIN t_sys_user u on s.OPERATOR_ID=u.USER_ID
+    LEFT JOIN (select STATION_NO,count(STATION_NO) chargingPileNumber,SUM(CASE ELECTRICITY_TYPE WHEN 0 THEN 1 ELSE 0 END) interflowSum, 
+        SUM(CASE ELECTRICITY_TYPE WHEN 1 THEN 1 ELSE 0 END) cocurrentSum
+    from charging_pile GROUP BY STATION_NO) p on s.STATION_NO=p.STATION_NO
+    LEFT JOIN c_operating_city c on s.OPERATING_CITY_NO=c.OPERATING_CITY_NO
+    where s.STATION_NO=#{0} 
+ </select>
+ 
+ <!-- 以下是app端联合查询充电站列表的sql -->
+ <select id="pageChargingStationVoList" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingStationVo">
+ 	SELECT 
+	<if test="q.latitude!=null and q.longitude!=null" >
+	st.distance,
+	</if>
+	s.STATION_NO stationNo,
+	s.STATION_NAME stationName,
+	s.ADDR_STREET addrStreet,
+	s.STATION_TYPE stationType,
+	s.MEMO memo,
+	s.IS_AVAILABLE isAvailable,
+	s.LONGITUDE longitude,
+	s.LATITUDE latitude,
+	s.CREATE_TIME createTime,
+	s.UPDATE_TIME updateTime,
+	s.OPERATOR_TYPE operatorType,
+	s.IS_DELETED isDeleted,
+	s.PARKING_SPACE_NUMBER parkingSpaceNumber,
+	s.SUPPORTED_SERVICES supportedServices,
+	s.IS_PUBLIC isPublic,
+	s.ELECTRIC_PRICE electricPrice,
+	s.PARK_RENT parkRent,
+	s.BUSINESS_HOURS businessHours,
+	s.IS_BUSINESS_FESTIVAL isBusinessFestival,
+	s.AVAILABLE_UPDATE_TIME availableUpdateTime,
+	s.PROVINCE_ID provinceId,
+	s.CITY_ID cityId,
+	s.DISTRICT_ID districtId,
+	s.LABEL label,
+	p.chargingPileNumber chargingPileNumber,
+	p.interflowSum interflowSum,
+	p.cocurrentSum cocurrentSum,
+	r.REGION_NAME provinceName,
+	r1.REGION_NAME cityName,
+	r2.REGION_NAME districtName,
+	c.FILE_URL fileUrl,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+			AND s.STATION_NO = cp.STATION_NO
+	) AS chargeFastSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+		AND cgi.WORK_STATUS = 2
+		AND s.STATION_NO = cp.STATION_NO
+	) AS chargeFastIdleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+			AND s.STATION_NO = cp.STATION_NO
+	) AS chargeTrickleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+		AND cgi.WORK_STATUS = 2
+		AND s.STATION_NO = cp.STATION_NO
+	) AS chargeTrickleIdleSum
+	FROM charging_station s
+	LEFT JOIN t_sys_region r ON s.PROVINCE_ID = r.REGION_ID
+	LEFT JOIN t_sys_region r1 ON s.CITY_ID = r1.REGION_ID
+	LEFT JOIN t_sys_region r2 ON s.DISTRICT_ID = r2.REGION_ID
+	LEFT JOIN c_doc c ON c.BIZ_ID = s.STATION_NO
+	<if test="q.latitude!=null and q.longitude!=null" >
+	LEFT JOIN (
+	SELECT station_no, ROUND(
+        6378.138 * 2 * ASIN(
+            SQRT(
+                POW(
+                    SIN(
+                        (
+                           #{q.latitude} * PI() / 180 -  LATITUDE* PI() / 180
+                        ) / 2
+                    ),
+                    2
+                ) + COS(#{q.latitude} * PI() / 180) * COS(LATITUDE * PI() / 180) * POW(
+                    SIN(
+                        (
+                           #{q.longitude} * PI() / 180 - LONGITUDE * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                )
+            )
+        ) * 1000
+    )/1000 AS distance
+	from charging_station 
+	) st ON st.station_no = s.STATION_NO
+	</if>
+	LEFT JOIN  (
+		SELECT
+			STATION_NO,
+			count(STATION_NO) chargingPileNumber,
+			SUM(
+				CASE ELECTRICITY_TYPE
+				WHEN 0 THEN
+					1
+				ELSE
+					0
+				END
+			) interflowSum,
+			SUM(
+				CASE ELECTRICITY_TYPE
+				WHEN 1 THEN
+					1
+				ELSE
+					0
+				END
+			) cocurrentSum
+		FROM
+			charging_pile
+		GROUP BY
+			STATION_NO
+	) p ON s.STATION_NO = p.STATION_NO
+	where 
+	s.IS_DELETED = 0
+	AND s.IS_AVAILABLE = 1
+	<if test="q.operatingCityNo!=null and q.operatingCityNo!='' ">
+		and s.OPERATING_CITY_NO=#{q.operatingCityNo}
+	</if>
+	<if test="q.stationType!=null and q.stationType!='' ">
+		and s.STATION_TYPE=#{q.stationType}
+	</if>
+	<if test="q.stationName!=null and q.stationName!='' ">
+		and s.STATION_NAME  like '%${q.stationName}%'
+	</if>
+	<if test="q.labelArray!=null and q.labelArray!=''">
+         <foreach collection="q.labelArray" index="index" item="item">
+	        and FIND_IN_SET(#{item},LABEL)
+	    </foreach>
+    </if>
+	<if test="q.electricPrice == 1.0 "><!-- 价格最低 -->
+		order by s.ELECTRIC_PRICE  asc
+	</if>
+	<if test="q.latitude!=null and q.latitude!='' and q.longitude!=null and q.longitude!='' " >
+		order by st.distance asc
+	</if><!-- 离我最近 -->
+	 <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+ </select>
+ <!-- 以下是app端联合查询充电站详情 -->
+<select id="getChargingStationDatils" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingStationDetailsVo">
+SELECT
+		IFNULL(
+		(
+			SELECT
+				COLLECTION_STATUS
+			FROM
+				c_charging_station_collection
+			WHERE
+				MEMBER_NO = #{q.memberNo}
+			AND STATION_NO = #{q.stationNo}
+		),
+		'0'
+	) AS collectStatus,
+	cs.STATION_NO AS stationNo,
+	cs.STATION_NAME AS stationName,
+	<!-- <![CDATA[ IF(ccsc.STATION_NO IS NOT NULL,ccsc.COLLECTION_STATUS & 1,'0') AS collectStatus, ]]> -->
+	IFNULL(
+		(
+			SELECT
+			FORMAT(AVG(coe.EVALUATE_GRADE), 0)
+			FROM
+			c_order_evaluate coe
+			WHERE
+			coe.ORDER_NO IN (
+			SELECT
+			lo.ORDER_NO
+			FROM
+			lock_order lo
+			LEFT JOIN charging_station c ON c.STATION_NO = lo.STATION_NO
+			WHERE
+			coe.ORDER_TYPE = 1
+			AND  cs.STATION_NO=c.STATION_NO
+			UNION
+			SELECT
+			co.ORDER_NO
+			FROM
+			charge_order co
+			LEFT JOIN charging_station c ON c.STATION_NO = co.STATION_NO
+			WHERE
+			coe.ORDER_TYPE = 0
+			AND  cs.STATION_NO=c.STATION_NO
+			)
+		) ,'0'
+	) AS star,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+			AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeFastSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+		AND cgi.WORK_STATUS = 2
+		AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeFastIdleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+			AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeTrickleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+		AND cgi.WORK_STATUS = 2
+		AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeTrickleIdleSum,
+	cs.LONGITUDE AS longitude,
+	cs.LATITUDE AS latitude,
+	cs.ADDR_STREET AS addrStreet,
+	<if test="q.latitude!=null and q.latitude!='' and q.longitude!=null and q.longitude!='' " >
+		ROUND(
+			6378.138 * 2 * ASIN(
+				SQRT(
+					POW(
+						SIN(
+							(
+								#{q.latitude} * PI() / 180 - cs.LATITUDE * PI() / 180
+							) / 2
+						),
+						2
+					) + COS(#{q.latitude} * PI() / 180) * COS(cs.LATITUDE * PI() / 180) * POW(
+						SIN(
+							(
+								#{q.longitude} * PI() / 180 - cs.LONGITUDE * PI() / 180
+							) / 2
+						),
+						2
+					)
+				)
+			) * 1000
+		)/1000 AS distance,
+	</if>
+	'本APP,微信,支付宝' AS paymentMethod,
+	cs.BUSINESS_HOURS AS businessHours,
+	cs.ELECTRIC_PRICE AS unitPrice,
+	'猛龙出行' AS managementCompany,
+	'400-880-3711' AS serviceTel,
+	cs.LABEL AS labels,
+	cd.FILE_URL AS stationUrl,
+	cs.SUPPORTED_SERVICES AS matchList
+FROM
+	charging_station cs
+	LEFT JOIN c_charging_station_collection ccsc ON cs.STATION_NO = ccsc.STATION_NO
+	LEFT JOIN c_doc cd ON cd.BIZ_ID = cs.STATION_NO
+WHERE
+	cs.STATION_NO = #{q.stationNo}
+	AND cd.BIZ_TYPE = 1
+</select>
+<!-- 查询站类型 -->
+<select id="getTypeSort" resultMap="ChargingStation">
+	SELECT DISTINCT(station_type) FROM charging_station;
+</select>
+<!-- 充电桩首页模糊搜索 -->
+<select id="searchChargingStation" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingStationVo">
+	SELECT 
+	st.distance,
+	s.STATION_NO stationNo,
+	s.STATION_NAME stationName,
+	s.ADDR_STREET addrStreet,
+	s.STATION_TYPE stationType,
+	s.MEMO memo,
+	s.IS_AVAILABLE isAvailable,
+	s.LONGITUDE longitude,
+	s.LATITUDE latitude,
+	s.CREATE_TIME createTime,
+	s.UPDATE_TIME updateTime,
+	s.OPERATOR_TYPE operatorType,
+	s.IS_DELETED isDeleted,
+	s.PARKING_SPACE_NUMBER parkingSpaceNumber,
+	s.SUPPORTED_SERVICES supportedServices,
+	s.IS_PUBLIC isPublic,
+	s.ELECTRIC_PRICE electricPrice,
+	s.PARK_RENT parkRent,
+	s.BUSINESS_HOURS businessHours,
+	s.IS_BUSINESS_FESTIVAL isBusinessFestival,
+	s.AVAILABLE_UPDATE_TIME availableUpdateTime,
+	s.PROVINCE_ID provinceId,
+	s.CITY_ID cityId,
+	s.DISTRICT_ID districtId,
+	s.LABEL label,
+	p.chargingPileNumber chargingPileNumber,
+	p.interflowSum interflowSum,
+	p.cocurrentSum cocurrentSum,
+	r.REGION_NAME provinceName,
+	r1.REGION_NAME cityName,
+	r2.REGION_NAME districtName,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+			AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeFastSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 1
+		AND cgi.WORK_STATUS = 2
+		AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeFastIdleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+			AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeTrickleSum,
+	(
+		SELECT
+			COUNT(1)
+		FROM
+			charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+			cp.ELECTRICITY_TYPE = 0
+		AND cgi.WORK_STATUS = 2
+		AND cp.STATION_NO = #{q.stationNo}
+	) AS chargeTrickleIdleSum
+	FROM charging_station s
+	LEFT JOIN t_sys_region r ON s.PROVINCE_ID = r.REGION_ID
+	LEFT JOIN t_sys_region r1 ON s.CITY_ID = r1.REGION_ID
+	LEFT JOIN t_sys_region r2 ON s.DISTRICT_ID = r2.REGION_ID
+	LEFT JOIN (
+	SELECT station_no, ROUND(
+        6378.138 * 2 * ASIN(
+            SQRT(
+                POW(
+                    SIN(
+                        (
+                           #{q.latitude} * PI() / 180 -  LATITUDE* PI() / 180
+                        ) / 2
+                    ),
+                    2
+                ) + COS(#{q.latitude} * PI() / 180) * COS(LATITUDE * PI() / 180) * POW(
+                    SIN(
+                        (
+                           #{q.longitude} * PI() / 180 - LONGITUDE * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                )
+            )
+        ) * 1000
+    )/1000 AS distance
+	from charging_station 
+	) st ON st.station_no = s.STATION_NO
+	where 
+		s.IS_AVAILABLE = 1
+	<if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+	<if test="q.stationName!=null and q.stationName!=''">
+     	AND s.STATION_NAME like CONCAT(CONCAT('%', #{q.stationName}), '%')
+     </if>
+	</if>
+	order by distance
+</select>
+
+
+
+
+	<select id="pageChargingStationVoListBycollection" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingStationVo">
+		SELECT
+		<if test="q.latitude!=null and q.longitude!=null" >
+			st.distance,
+		</if>
+		s.STATION_NO stationNo,
+		s.STATION_NAME stationName,
+		s.ADDR_STREET addrStreet,
+		s.STATION_TYPE stationType,
+		s.MEMO memo,
+		s.IS_AVAILABLE isAvailable,
+		s.LONGITUDE longitude,
+		s.LATITUDE latitude,
+		s.CREATE_TIME createTime,
+		s.UPDATE_TIME updateTime,
+		s.OPERATOR_TYPE operatorType,
+		s.IS_DELETED isDeleted,
+		s.PARKING_SPACE_NUMBER parkingSpaceNumber,
+		s.SUPPORTED_SERVICES supportedServices,
+		s.IS_PUBLIC isPublic,
+		s.ELECTRIC_PRICE electricPrice,
+		s.PARK_RENT parkRent,
+		s.BUSINESS_HOURS businessHours,
+		s.IS_BUSINESS_FESTIVAL isBusinessFestival,
+		s.AVAILABLE_UPDATE_TIME availableUpdateTime,
+		s.PROVINCE_ID provinceId,
+		s.CITY_ID cityId,
+		s.DISTRICT_ID districtId,
+		s.LABEL label,
+		p.chargingPileNumber chargingPileNumber,
+		p.interflowSum interflowSum,
+		p.cocurrentSum cocurrentSum,
+		r.REGION_NAME provinceName,
+		r1.REGION_NAME cityName,
+		r2.REGION_NAME districtName,
+		(
+        SELECT
+            COUNT(1)
+        FROM
+            charging_gun_info cgi
+        LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+        WHERE
+            cp.ELECTRICITY_TYPE = 1
+            AND s.STATION_NO = cp.STATION_NO
+    ) AS chargeFastSum,
+    (
+        SELECT
+            COUNT(1)
+        FROM
+            charging_gun_info cgi
+        LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+        WHERE
+            cp.ELECTRICITY_TYPE = 1
+        AND cgi.WORK_STATUS = 2
+        AND s.STATION_NO = cp.STATION_NO
+    ) AS chargeFastIdleSum,
+    (
+        SELECT
+            COUNT(1)
+        FROM
+            charging_gun_info cgi
+        LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+        WHERE
+            cp.ELECTRICITY_TYPE = 0
+            AND s.STATION_NO = cp.STATION_NO
+    ) AS chargeTrickleSum,
+    (
+        SELECT
+            COUNT(1)
+        FROM
+            charging_gun_info cgi
+        LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+        WHERE
+            cp.ELECTRICITY_TYPE = 0
+        AND cgi.WORK_STATUS = 2
+        AND s.STATION_NO = cp.STATION_NO
+    ) AS chargeTrickleIdleSum,
+		(
+		SELECT
+		COUNT(1)
+		FROM
+		charging_gun_info cgi
+		LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+		WHERE
+		cp.ELECTRICITY_TYPE = 0
+		AND cgi.WORK_STATUS = 2
+		
+		) AS chargeTrickleIdleSum,
+		c.FILE_URL fileUrl
+		FROM  c_charging_station_collection co
+		left join charging_station s on co.STATION_NO = s.STATION_NO
+		LEFT JOIN t_sys_region r ON s.PROVINCE_ID = r.REGION_ID
+		LEFT JOIN t_sys_region r1 ON s.CITY_ID = r1.REGION_ID
+		LEFT JOIN t_sys_region r2 ON s.DISTRICT_ID = r2.REGION_ID
+		LEFT JOIN c_doc c ON c.BIZ_ID = co.STATION_NO
+		<if test="q.latitude!=null and q.longitude!=null" >
+			LEFT JOIN (
+			SELECT station_no, ROUND(
+			6378.138 * 2 * ASIN(
+			SQRT(
+			POW(
+			SIN(
+			(
+			#{q.latitude} * PI() / 180 -  LATITUDE* PI() / 180
+			) / 2
+			),
+			2
+			) + COS(#{q.latitude} * PI() / 180) * COS(LATITUDE * PI() / 180) * POW(
+			SIN(
+			(
+			#{q.longitude} * PI() / 180 - LONGITUDE * PI() / 180
+			) / 2
+			),
+			2
+			)
+			)
+			) * 1000
+			)/1000 AS distance
+			from charging_station
+			) st ON st.station_no = s.STATION_NO
+		</if>
+		LEFT JOIN  (
+		SELECT
+		STATION_NO,
+		count(STATION_NO) chargingPileNumber,
+		SUM(
+		CASE ELECTRICITY_TYPE
+		WHEN 0 THEN
+		1
+		ELSE
+		0
+		END
+		) interflowSum,
+		SUM(
+		CASE ELECTRICITY_TYPE
+		WHEN 1 THEN
+		1
+		ELSE
+		0
+		END
+		) cocurrentSum
+		FROM
+		charging_pile
+		GROUP BY
+		STATION_NO
+		) p ON co.STATION_NO = p.STATION_NO
+		where
+		s.IS_DELETED = 0
+		AND s.IS_AVAILABLE = 1
+		and co.COLLECTION_STATUS = 1
+		<if test="q.member!=null and q.member!=''">
+			and co.MEMBER_NO = #{q.member}
+		</if>
+		<if test="q.latitude!=null and q.latitude!='' and q.longitude!=null and q.longitude!='' " >
+			order by st.distance asc
+		</if>
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+</mapper>

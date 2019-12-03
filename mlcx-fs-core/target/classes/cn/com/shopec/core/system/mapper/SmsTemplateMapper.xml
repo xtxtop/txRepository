@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SmsTemplateDao">
+
+<resultMap type="SmsTemplate" id="SmsTemplate">
+	<id column="TEMPLATE_ID" property="templateId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TEMPLATE_TYPE" property="templateType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DEFAULT" property="isDefault" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TEMPLATE_CONTENT" property="templateContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TEMPLATE_ID,TEMPLATE_TYPE,IS_DEFAULT,TEMPLATE_CONTENT,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TEMPLATE_ID,TEMPLATE_TYPE,IS_DEFAULT,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,TEMPLATE_CONTENT,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="SmsTemplate" useGeneratedKeys="true" keyProperty="templateId">
+	insert into T_SMS_TEMPLATE(
+		<if test="templateId!=null">
+		TEMPLATE_ID,
+		</if>
+		TEMPLATE_TYPE,
+		IS_DEFAULT,
+		TEMPLATE_CONTENT,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="templateId!=null">
+		#{templateId,jdbcType = VARCHAR},
+		</if>
+		#{templateType,jdbcType = TINYINT},
+		#{isDefault,jdbcType = TINYINT},
+		#{templateContent,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SmsTemplate">
+	update t_sms_template 
+	<set>
+		<if test="templateType!=null ">
+			TEMPLATE_TYPE=#{templateType,jdbcType = TINYINT},
+		</if>
+		<if test="isDefault!=null ">
+			IS_DEFAULT=#{isDefault,jdbcType = TINYINT},
+		</if>
+		<if test="templateContent!=null and templateContent!=''">
+			TEMPLATE_CONTENT=#{templateContent,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND TEMPLATE_ID=#{templateId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sms_template 
+	<where>
+		TEMPLATE_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SmsTemplate">
+	select <include refid="AllColumnlist"/> from t_sms_template
+	<where>
+		TEMPLATE_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="SmsTemplate">
+	select <include refid="AllColumnlist"/> from t_sms_template
+	<where>
+		TEMPLATE_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(TEMPLATE_ID) from t_sms_template 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SmsTemplate">
+	select <include refid="CommonColumnlist"/> from t_sms_template 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SmsTemplate">
+	select <include refid="CommonColumnlist"/> from t_sms_template
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 根据短信模板类型获取短信模板内容 -->
+<select id="getSmsTemplateByTemplateType" resultMap="SmsTemplate">
+	select <include refid="AllColumnlist"/> from t_sms_template
+	<where>
+		TEMPLATE_TYPE=#{0}
+	</where>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.templateId!=null and q.templateId!=''">
+			AND TEMPLATE_ID=#{q.templateId}
+		</if>
+		<if test="q.templateType!=null ">
+			AND TEMPLATE_TYPE=#{q.templateType}
+		</if>
+		<if test="q.isDefault!=null ">
+			AND IS_DEFAULT=#{q.isDefault}
+		</if>
+		<if test="q.templateContent!=null and q.templateContent!=''">
+			AND TEMPLATE_CONTENT=#{q.templateContent}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

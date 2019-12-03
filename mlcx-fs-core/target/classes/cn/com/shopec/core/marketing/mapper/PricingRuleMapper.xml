@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.PricingRuleDao">
+
+<resultMap type="PricingRule" id="PricingRule">
+	<id column="RULE_NO" property="ruleNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RULE_NAME" property="ruleName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DISCOUNT" property="discount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_MINUTE" property="priceOfMinute" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_KM" property="priceOfKm" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_MINUTE_ORDINARY" property="priceOfMinuteOrdinary" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_KM_ORDINARY" property="priceOfKmOrdinary" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="BILLING_CAP_PER_DAY_ORDINARY" property="billingCapPerDayOrdinary" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SERVICE_PRICE_OF_MINUTE" property="servicePriceOfMinute" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SERVICE_PRICE_OF_KM" property="servicePriceOfKm" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FREE_MINUTES" property="freeMinutes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="BILLING_CAP_PER_DAY" property="billingCapPerDay" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_STANDARD_BILLING" property="isStandardBilling" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PRIORITY" property="priority" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_TIME1" property="availableTime1" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AVAILABLE_TIME2" property="availableTime2" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_MEMO" property="availableMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_STATUS" property="cencorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BASE_FEE" property="baseFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="RULE_TYPE" property="ruleType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REGARDLESS_FRANCHISE" property="regardlessFranchise" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="INSURANCE_AMOUNT" property="insuranceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RULE_NO,RULE_NAME,CITY_ID,CITY_NAME,PRICE_OF_MINUTE,PRICE_OF_KM,SERVICE_PRICE_OF_MINUTE,CAR_MODEL_NAME,COMPANY_ID,DISCOUNT,
+SERVICE_PRICE_OF_KM,BILLING_CAP_PER_DAY,IS_STANDARD_BILLING,PRIORITY,AVAILABLE_TIME1,AVAILABLE_TIME2,FREE_MINUTES,
+IS_AVAILABLE,CENCOR_STATUS,CENCOR_TIME,CENCOR_MEMO,CENCOR_ID,CREATE_TIME,AVAILABLE_MEMO,RULE_TYPE,REGARDLESS_FRANCHISE,INSURANCE_AMOUNT,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,BASE_FEE,PRICE_OF_MINUTE_ORDINARY, PRICE_OF_KM_ORDINARY,BILLING_CAP_PER_DAY_ORDINARY
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RULE_NO,RULE_NAME,CITY_ID,CITY_NAME,PRICE_OF_MINUTE,PRICE_OF_KM,SERVICE_PRICE_OF_MINUTE,CAR_MODEL_NAME,COMPANY_ID,DISCOUNT,
+SERVICE_PRICE_OF_KM,BILLING_CAP_PER_DAY,IS_STANDARD_BILLING,PRIORITY,AVAILABLE_TIME1,AVAILABLE_TIME2,FREE_MINUTES,
+IS_AVAILABLE,CENCOR_STATUS,CENCOR_TIME,CENCOR_MEMO,CENCOR_ID,CREATE_TIME,RULE_TYPE,REGARDLESS_FRANCHISE,INSURANCE_AMOUNT,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,BASE_FEE,PRICE_OF_MINUTE_ORDINARY, PRICE_OF_KM_ORDINARY,BILLING_CAP_PER_DAY_ORDINARY
+</sql>
+
+<insert id="add" parameterType="PricingRule" useGeneratedKeys="true" keyProperty="ruleNo">
+	insert into T_PRICING_RULE(
+		<if test="ruleNo!=null">
+		RULE_NO,
+		</if>
+		RULE_NAME,
+		CITY_ID,
+		CITY_NAME,
+		CAR_MODEL_NAME,
+		COMPANY_ID,
+		DISCOUNT,
+		PRICE_OF_MINUTE,
+		PRICE_OF_KM,
+		PRICE_OF_MINUTE_ORDINARY, 
+		PRICE_OF_KM_ORDINARY, 
+		BILLING_CAP_PER_DAY_ORDINARY,
+		SERVICE_PRICE_OF_MINUTE,
+		SERVICE_PRICE_OF_KM,
+		FREE_MINUTES,
+		BILLING_CAP_PER_DAY,
+		IS_STANDARD_BILLING,
+		PRIORITY,
+		AVAILABLE_TIME1,
+		AVAILABLE_TIME2,
+		IS_AVAILABLE,
+		CENCOR_STATUS,
+		CENCOR_TIME,
+		CENCOR_MEMO,
+		CENCOR_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		BASE_FEE,
+		RULE_TYPE,
+		REGARDLESS_FRANCHISE,
+		INSURANCE_AMOUNT
+	) values (
+		<if test="ruleNo!=null">
+		#{ruleNo,jdbcType = VARCHAR},
+		</if>
+		#{ruleName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{companyId,jdbcType = VARCHAR},
+		#{discount,jdbcType = DOUBLE},
+		#{priceOfMinute,jdbcType = DOUBLE},
+		#{priceOfKm,jdbcType = DOUBLE},
+		#{priceOfMinuteOrdinary,jdbcType = DOUBLE},
+		#{priceOfKmOrdinary,jdbcType = DOUBLE},
+		#{billingCapPerDayOrdinary,jdbcType = DOUBLE},
+		#{servicePriceOfMinute,jdbcType = DOUBLE},
+		#{servicePriceOfKm,jdbcType = DOUBLE},
+		#{freeMinutes,jdbcType = INTEGER},
+		#{billingCapPerDay,jdbcType = DOUBLE},
+		#{isStandardBilling,jdbcType = TINYINT},
+		#{priority,jdbcType = TINYINT},
+		#{availableTime1,jdbcType = TIMESTAMP},
+		#{availableTime2,jdbcType = TIMESTAMP},
+		#{isAvailable,jdbcType = TINYINT},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{cencorId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{baseFee,jdbcType= DOUBLE},
+		#{ruleType,jdbcType = TINYINT},
+		#{regardlessFranchise,jdbcType = DOUBLE},
+		#{insuranceAmount,jdbcType = DOUBLE}
+	)
+</insert>
+
+<update id="update" parameterType="PricingRule">
+	update t_pricing_rule 
+	<set>
+		<if test="ruleName!=null and ruleName!=''">
+			RULE_NAME=#{ruleName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="companyId!=null and companyId!=''">
+			COMPANY_ID=#{companyId,jdbcType = VARCHAR},
+		</if>
+		<if test="discount!=null ">
+			DISCOUNT=#{discount,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfMinute!=null ">
+			PRICE_OF_MINUTE=#{priceOfMinute,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfKm!=null ">
+			PRICE_OF_KM=#{priceOfKm,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfMinuteOrdinary!=null ">
+			PRICE_OF_MINUTE_ORDINARY=#{priceOfMinuteOrdinary,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfKmOrdinary!=null ">
+			PRICE_OF_KM_ORDINARY=#{priceOfKmOrdinary,jdbcType = DOUBLE},
+		</if>
+		<if test="billingCapPerDayOrdinary!=null ">
+			BILLING_CAP_PER_DAY_ORDINARY=#{billingCapPerDayOrdinary,jdbcType = DOUBLE},
+		</if>
+		<if test="servicePriceOfMinute!=null ">
+			SERVICE_PRICE_OF_MINUTE=#{servicePriceOfMinute,jdbcType = DOUBLE},
+		</if>
+		<if test="servicePriceOfKm!=null ">
+			SERVICE_PRICE_OF_KM=#{servicePriceOfKm,jdbcType = DOUBLE},
+		</if>
+		<if test="freeMinutes!=null ">
+			FREE_MINUTES=#{freeMinutes,jdbcType = INTEGER},
+		</if>
+		<if test="billingCapPerDay!=null ">
+			BILLING_CAP_PER_DAY=#{billingCapPerDay,jdbcType = DOUBLE},
+		</if>
+		<if test="isStandardBilling!=null ">
+			IS_STANDARD_BILLING=#{isStandardBilling,jdbcType = TINYINT},
+		</if>
+		<if test="priority!=null ">
+			PRIORITY=#{priority,jdbcType = TINYINT},
+		</if>
+		<if test="availableTime1!=null ">
+			AVAILABLE_TIME1=#{availableTime1,jdbcType = TIMESTAMP},
+		</if>
+		<if test="availableTime2!=null ">
+			AVAILABLE_TIME2=#{availableTime2,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableMemo!=null and availableMemo!=''">
+			AVAILABLE_MEMO=#{availableMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorStatus!=null ">
+			CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="baseFee!=null and baseFee!=''">
+			BASE_FEE=#{baseFee,jdbcType = DOUBLE},
+		</if>
+		<if test="ruleType!=null and ruleType!=''">
+			RULE_TYPE=#{ruleType,jdbcType = TINYINT},
+		</if>
+		<if test="regardlessFranchise!=null ">
+			REGARDLESS_FRANCHISE=#{regardlessFranchise,jdbcType = DOUBLE},
+		</if>
+		<if test="insuranceAmount!=null ">
+			INSURANCE_AMOUNT=#{insuranceAmount,jdbcType = DOUBLE}
+		</if>
+	</set>
+	<where>
+		AND RULE_NO=#{ruleNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_pricing_rule 
+	<where>
+		RULE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		RULE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		RULE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RULE_NO) from t_pricing_rule 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="countPagedLists" parameterType="Query" resultType="Long">
+	select count(RULE_NO) from t_pricing_rule 
+	<where>
+	<include refid="listCommonWheres"/>
+	</where>
+</select>
+<select id="queryAll" parameterType="Query" resultMap="PricingRule">
+	select <include refid="CommonColumnlist"/> from t_pricing_rule 
+	<where>
+	<include refid="listCommonWhereVide"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PricingRule">
+	select <include refid="CommonColumnlist"/> from t_pricing_rule
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[ORDER BY CREATE_TIME DESC ]]>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageLists" parameterType="Query" resultMap="PricingRule">
+	select <include refid="CommonColumnlist"/> from t_pricing_rule
+	<where>
+	 <include refid="listCommonWheres"/>
+	</where>
+	<![CDATA[ORDER BY CREATE_TIME DESC ]]>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 获取可用计费规则   zln -->
+<select id="getPricingRuleUse" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		IS_AVAILABLE=1
+	</where>
+</select>
+<!-- 获取集团会员+车型查出的计费规则 IS_AVAILABLE=1 and-->
+<select id="getPricingRuleUseByMM" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		 IS_AVAILABLE=1 and CENCOR_STATUS=1 and CAR_MODEL_NAME=#{0} and COMPANY_ID=#{1} 
+		 <![CDATA[	AND AVAILABLE_TIME1<=#{2}   ]]>
+		 <![CDATA[	AND AVAILABLE_TIME2>=#{2}   ]]>
+	</where>
+</select>
+<!-- 获取普通会员的计费规则 IS_AVAILABLE=1 and-->
+<select id="getPricingRuleUseByMMP" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		 IS_AVAILABLE=1 and CENCOR_STATUS=1 and CAR_MODEL_NAME=#{0}  AND COMPANY_ID=''
+		 <![CDATA[	AND AVAILABLE_TIME1<=#{1}   ]]>
+		 <![CDATA[	AND AVAILABLE_TIME2>=#{1}   ]]>
+	</where>
+</select>
+<!-- 根据车型查询计费规则 -->
+<select id="getPricingRuleUseByCar" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		 IS_AVAILABLE=1 and CENCOR_STATUS=1 and CAR_MODEL_NAME=#{0} and COMPANY_ID=''
+	</where>
+</select>
+<!-- 根据车型查询计费规则   集团的 -->
+<select id="getPricingRuleUseByCompanyId" resultMap="PricingRule">
+	select <include refid="AllColumnlist"/> from t_pricing_rule
+	<where>
+		 IS_AVAILABLE=1 and CENCOR_STATUS=1 and CAR_MODEL_NAME=#{0} and COMPANY_ID=#{1}
+	</where>
+</select>
+
+
+<sql id="listCommonWhereVide">
+	<if test="q!=null">
+		<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND RULE_NO=#{q.ruleNo}
+		</if>
+		<if test="q.ruleName!=null and q.ruleName!=''">
+			<if test="q.flag!=null">
+				AND RULE_NAME =#{q.ruleName}
+			</if>
+			<if test="q.flag==null">
+				AND RULE_NAME  like '%${q.ruleName}%'
+			</if>
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.companyId==null or q.companyId==''">
+			AND COMPANY_ID = ''
+		</if>
+		<if test="q.discount!=null ">
+			AND DISCOUNT=#{q.discount}
+		</if>
+		<if test="q.priceOfMinute!=null ">
+			AND PRICE_OF_MINUTE=#{q.priceOfMinute}
+		</if>
+		<if test="q.priceOfKm!=null ">
+			AND PRICE_OF_KM=#{q.priceOfKm}
+		</if>
+		<if test="q.servicePriceOfMinute!=null ">
+			AND SERVICE_PRICE_OF_MINUTE=#{q.servicePriceOfMinute}
+		</if>
+		<if test="q.servicePriceOfKm!=null ">
+			AND SERVICE_PRICE_OF_KM=#{q.servicePriceOfKm}
+		</if>
+		<if test="q.freeMinutes!=null ">
+			AND FREE_MINUTES=#{q.freeMinutes}
+		</if>
+		<if test="q.billingCapPerDay!=null ">
+			AND BILLING_CAP_PER_DAY=#{q.billingCapPerDay}
+		</if>
+		<if test="q.isStandardBilling!=null ">
+			AND IS_STANDARD_BILLING=#{q.isStandardBilling}
+		</if>
+		<if test="q.priority!=null ">
+			AND PRIORITY=#{q.priority}
+		</if>
+		<if test="q.availableTime1!=null ">
+			AND AVAILABLE_TIME1=#{q.availableTime1}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND AVAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2!=null ">
+			AND AVAILABLE_TIME2=#{q.availableTime2}
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND AVAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.baseFee!=null and q.baseFee!=''">
+			AND BASE_FEE=#{q.baseFee}
+		</if>
+	</if>
+</sql>
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND RULE_NO=#{q.ruleNo}
+		</if>
+		<if test="q.ruleName!=null and q.ruleName!=''">
+			AND RULE_NAME  like '%${q.ruleName}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.discount!=null ">
+			AND DISCOUNT=#{q.discount}
+		</if>
+		<if test="q.priceOfMinute!=null ">
+			AND PRICE_OF_MINUTE=#{q.priceOfMinute}
+		</if>
+		<if test="q.priceOfKm!=null ">
+			AND PRICE_OF_KM=#{q.priceOfKm}
+		</if>
+		<if test="q.servicePriceOfMinute!=null ">
+			AND SERVICE_PRICE_OF_MINUTE=#{q.servicePriceOfMinute}
+		</if>
+		<if test="q.servicePriceOfKm!=null ">
+			AND SERVICE_PRICE_OF_KM=#{q.servicePriceOfKm}
+		</if>
+		<if test="q.freeMinutes!=null ">
+			AND FREE_MINUTES=#{q.freeMinutes}
+		</if>
+		<if test="q.billingCapPerDay!=null ">
+			AND BILLING_CAP_PER_DAY=#{q.billingCapPerDay}
+		</if>
+		<if test="q.isStandardBilling!=null ">
+			AND IS_STANDARD_BILLING=#{q.isStandardBilling}
+		</if>
+		<if test="q.priority!=null ">
+			AND PRIORITY=#{q.priority}
+		</if>
+		<if test="q.availableTime1!=null ">
+			AND AVAILABLE_TIME1=#{q.availableTime1}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND AVAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2!=null ">
+			AND AVAILABLE_TIME2=#{q.availableTime2}
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND AVAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.baseFee!=null and q.baseFee!=''">
+			AND BASE_FEE=#{q.baseFee}
+		</if>
+	</if>
+</sql>
+
+
+<sql id="listCommonWheres">
+	<if test="q!=null">
+		<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND RULE_NO=#{q.ruleNo}
+		</if>
+		<if test="q.ruleName!=null and q.ruleName!=''">
+			AND RULE_NAME  like '%${q.ruleName}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.companyId!=null and q.companyId!='null'">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.discount!=null ">
+			AND DISCOUNT=#{q.discount}
+		</if>
+		<if test="q.priceOfMinute!=null ">
+			AND PRICE_OF_MINUTE=#{q.priceOfMinute}
+		</if>
+		<if test="q.priceOfKm!=null ">
+			AND PRICE_OF_KM=#{q.priceOfKm}
+		</if>
+		<if test="q.servicePriceOfMinute!=null ">
+			AND SERVICE_PRICE_OF_MINUTE=#{q.servicePriceOfMinute}
+		</if>
+		<if test="q.servicePriceOfKm!=null ">
+			AND SERVICE_PRICE_OF_KM=#{q.servicePriceOfKm}
+		</if>
+		<if test="q.freeMinutes!=null ">
+			AND FREE_MINUTES=#{q.freeMinutes}
+		</if>
+		<if test="q.billingCapPerDay!=null ">
+			AND BILLING_CAP_PER_DAY=#{q.billingCapPerDay}
+		</if>
+		<if test="q.isStandardBilling!=null ">
+			AND IS_STANDARD_BILLING=#{q.isStandardBilling}
+		</if>
+		<if test="q.priority!=null ">
+			AND PRIORITY=#{q.priority}
+		</if>
+		<if test="q.availableTime1!=null ">
+			AND AVAILABLE_TIME1=#{q.availableTime1}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND AVAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2!=null ">
+			AND AVAILABLE_TIME2=#{q.availableTime2}
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND AVAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.baseFee!=null and q.baseFee!=''">
+			AND BASE_FEE=#{q.baseFee}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.ChargerDao">
+
+<resultMap type="Charger" id="Charger">
+	<id column="CHARGER_NO" property="chargerNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NAME" property="parkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_BRAND_ID" property="chargerBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_BRAND_NAME" property="chargerBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_MODEL_ID" property="chargerModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_MODEL_NAME" property="chargerModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_POWER" property="chargerPower" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CHARGER_SN" property="chargerSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGER_TYPE" property="chargerType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_MEMO" property="availableMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CHARGER_NO,CITY_ID,CITY_NAME,PARK_NO,PARK_NAME,CHARGER_BRAND_ID,CHARGER_BRAND_NAME,
+CHARGER_MODEL_ID,CHARGER_MODEL_NAME,CHARGER_POWER,CHARGER_SN,CHARGER_TYPE,IS_AVAILABLE,AVAILABLE_MEMO,
+AVAILABLE_UPDATE_TIME,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CHARGER_NO,CITY_ID,CITY_NAME,PARK_NO,PARK_NAME,CHARGER_BRAND_ID,CHARGER_BRAND_NAME,
+CHARGER_MODEL_ID,CHARGER_MODEL_NAME,CHARGER_POWER,CHARGER_SN,CHARGER_TYPE,IS_AVAILABLE,AVAILABLE_MEMO,
+AVAILABLE_UPDATE_TIME,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+
+</sql>
+
+<insert id="add" parameterType="Charger" useGeneratedKeys="true" keyProperty="chargerNo">
+	insert into T_CHARGER(
+		<if test="chargerNo!=null">
+		CHARGER_NO,
+		</if>
+		CITY_ID,
+		CITY_NAME,
+		PARK_NO,
+		PARK_NAME,
+		CHARGER_BRAND_ID,
+		CHARGER_BRAND_NAME,
+		CHARGER_MODEL_ID,
+		CHARGER_MODEL_NAME,
+		CHARGER_POWER,
+		CHARGER_SN,
+		CHARGER_TYPE,
+		IS_AVAILABLE,
+		AVAILABLE_MEMO,
+		AVAILABLE_UPDATE_TIME,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="chargerNo!=null">
+		#{chargerNo,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{parkName,jdbcType = VARCHAR},
+		#{chargerBrandId,jdbcType = VARCHAR},
+		#{chargerBrandName,jdbcType = VARCHAR},
+		#{chargerModelId,jdbcType = VARCHAR},
+		#{chargerModelName,jdbcType = VARCHAR},
+		#{chargerPower,jdbcType = DOUBLE},
+		#{chargerSn,jdbcType = VARCHAR},
+		#{chargerType,jdbcType = TINYINT},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableMemo,jdbcType = VARCHAR},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="Charger">
+	update t_charger 
+	<set>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkName!=null and parkName!=''">
+			PARK_NAME=#{parkName,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerBrandId!=null and chargerBrandId!=''">
+			CHARGER_BRAND_ID=#{chargerBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerBrandName!=null and chargerBrandName!=''">
+			CHARGER_BRAND_NAME=#{chargerBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerModelId!=null ">
+			CHARGER_MODEL_ID=#{chargerModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerModelName!=null ">
+			CHARGER_MODEL_NAME=#{chargerModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerPower!=null ">
+			CHARGER_POWER=#{chargerPower,jdbcType = DOUBLE},
+		</if>
+		<if test="chargerSn!=null and chargerSn!=''">
+			CHARGER_SN=#{chargerSn,jdbcType = VARCHAR},
+		</if>
+		<if test="chargerType!=null ">
+			CHARGER_TYPE=#{chargerType,jdbcType = TINYINT},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableMemo!=null and availableMemo!=''">
+			AVAILABLE_MEMO=#{availableMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CHARGER_NO=#{chargerNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_charger 
+	<where>
+		CHARGER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Charger">
+	select <include refid="AllColumnlist"/> from t_charger
+	<where>
+		CHARGER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Charger">
+	select <include refid="AllColumnlist"/> from t_charger
+	<where>
+		CHARGER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CHARGER_NO) from t_charger 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Charger">
+	select <include refid="CommonColumnlist"/> from t_charger 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Charger">
+	select <include refid="CommonColumnlist"/> from t_charger
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonWhereMH">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.chargerNo!=null and q.chargerNo!=''">
+			AND CHARGER_NO=#{q.chargerNo}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND PARK_NAME like concat(concat("%",#{q.parkName}),"%") 
+		</if>
+		<if test="q.chargerBrandId!=null and q.chargerBrandId!=''">
+			AND CHARGER_BRAND_ID=#{q.chargerBrandId}
+		</if>
+		<if test="q.chargerBrandName!=null and q.chargerBrandName!=''">
+			AND CHARGER_BRAND_NAME=#{q.chargerBrandName}
+		</if>
+		<if test="q.chargerModelId!=null and q.chargerModelId!='' ">
+			AND CHARGER_MODEL_ID=#{q.chargerModelId}
+		</if>
+		<if test="q.chargerModelName!=null and q.chargerModelName!='' ">
+			AND CHARGER_MODEL_NAME=#{q.chargerModelName}
+		</if>
+		<if test="q.chargerPower!=null ">
+			AND CHARGER_POWER=#{q.chargerPower}
+		</if>
+		<if test="q.chargerSn!=null and q.chargerSn!=''">
+			AND CHARGER_SN=#{q.chargerSn}
+		</if>
+		<if test="q.chargerType!=null ">
+			AND CHARGER_TYPE=#{q.chargerType}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableMemo!=null and q.availableMemo!=''">
+			AND AVAILABLE_MEMO=#{q.availableMemo}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.chargerNo!=null and q.chargerNo!=''">
+			AND CHARGER_NO=#{q.chargerNo}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND PARK_NAME=#{q.parkName}
+		</if>
+		<if test="q.chargerBrandId!=null and q.chargerBrandId!=''">
+			AND CHARGER_BRAND_ID=#{q.chargerBrandId}
+		</if>
+		<if test="q.chargerBrandName!=null and q.chargerBrandName!=''">
+			AND CHARGER_BRAND_NAME=#{q.chargerBrandName}
+		</if>
+		<if test="q.chargerModelId!=null and q.chargerModelId!=''">
+			AND CHARGER_MODEL_ID=#{q.chargerModelId}
+		</if>
+		<if test="q.chargerModelName!=null and q.chargerModelName!=''">
+			AND CHARGER_MODEL_Name=#{q.chargerModelName}
+		</if>
+		<if test="q.chargerPower!=null ">
+			AND CHARGER_POWER=#{q.chargerPower}
+		</if>
+		<if test="q.chargerSn!=null and q.chargerSn!=''">
+			AND CHARGER_SN=#{q.chargerSn}
+		</if>
+		<if test="q.chargerType!=null ">
+			AND CHARGER_TYPE=#{q.chargerType}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableMemo!=null and q.availableMemo!=''">
+			AND AVAILABLE_MEMO=#{q.availableMemo}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

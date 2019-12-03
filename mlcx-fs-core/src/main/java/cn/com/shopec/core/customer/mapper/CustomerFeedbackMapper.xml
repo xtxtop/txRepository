@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.customer.dao.CustomerFeedbackDao">
+
+	<resultMap type="CustomerFeedback" id="CustomerFeedback">
+		<id column="FEEDBACK_NO" property="feedbackNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="FEEDBACK_TYPE" property="feedbackType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CUSTOMER_TYPE" property="customerType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PHOTO_URL1" property="photoUrl1" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PHOTO_URL2" property="photoUrl2" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PHOTO_URL3" property="photoUrl3" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="REPLY_STATUS" property="replyStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="REPLY_TIME" property="replyTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="REPLY_CONTENT" property="replyContent"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_NAME" property="operatorName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		FEEDBACK_NO,FEEDBACK_TYPE,CUSTOMER_TYPE,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,TITLE,
+		CONTENT,PHOTO_URL1,PHOTO_URL2,PHOTO_URL3,REPLY_STATUS,REPLY_TIME,
+		REPLY_CONTENT,OPERATOR_TYPE,OPERATOR_ID,OPERATOR_NAME,CREATE_TIME,UPDATE_TIME
+
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		FEEDBACK_NO,FEEDBACK_TYPE,CUSTOMER_TYPE,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,TITLE,
+		PHOTO_URL1,PHOTO_URL2,PHOTO_URL3,REPLY_STATUS,REPLY_TIME,REPLY_CONTENT,
+		OPERATOR_TYPE,OPERATOR_ID,OPERATOR_NAME,CREATE_TIME,UPDATE_TIME,CONTENT
+
+	</sql>
+
+	<insert id="add" parameterType="CustomerFeedback"
+		useGeneratedKeys="true" keyProperty="feedbackNo">
+		insert into T_CUSTOMER_FEEDBACK(
+		<if test="feedbackNo!=null">
+			FEEDBACK_NO,
+		</if>
+		FEEDBACK_TYPE,
+		CUSTOMER_TYPE,
+		MEMBER_NO,
+		MEMBER_NAME,
+		MOBILE_PHONE,
+		TITLE,
+		CONTENT,
+		PHOTO_URL1,
+		PHOTO_URL2,
+		PHOTO_URL3,
+		REPLY_STATUS,
+		REPLY_TIME,
+		REPLY_CONTENT,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+		) values (
+		<if test="feedbackNo!=null">
+			#{feedbackNo,jdbcType = VARCHAR},
+		</if>
+		#{feedbackType,jdbcType = TINYINT},
+		#{customerType,jdbcType = TINYINT},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{title,jdbcType = VARCHAR},
+		#{content,jdbcType = VARCHAR},
+		#{photoUrl1,jdbcType = VARCHAR},
+		#{photoUrl2,jdbcType = VARCHAR},
+		#{photoUrl3,jdbcType = VARCHAR},
+		#{replyStatus,jdbcType = TINYINT},
+		#{replyTime,jdbcType = TIMESTAMP},
+		#{replyContent,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorName,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+		)
+	</insert>
+
+	<update id="update" parameterType="CustomerFeedback">
+		update t_customer_feedback
+		<set>
+			<if test="feedbackType!=null ">
+				FEEDBACK_TYPE=#{feedbackType,jdbcType = TINYINT},
+			</if>
+			<if test="customerType!=null ">
+				CUSTOMER_TYPE=#{customerType,jdbcType = TINYINT},
+			</if>
+			<if test="memberNo!=null and memberNo!=''">
+				MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+			</if>
+			<if test="memberName!=null and memberName!=''">
+				MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!=''">
+				MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+			</if>
+			<if test="title!=null and title!=''">
+				TITLE=#{title,jdbcType = VARCHAR},
+			</if>
+			<if test="content!=null and content!=''">
+				CONTENT=#{content,jdbcType = VARCHAR},
+			</if>
+			<if test="photoUrl1!=null and photoUrl1!=''">
+				PHOTO_URL1=#{photoUrl1,jdbcType = VARCHAR},
+			</if>
+			<if test="photoUrl2!=null and photoUrl2!=''">
+				PHOTO_URL2=#{photoUrl2,jdbcType = VARCHAR},
+			</if>
+			<if test="photoUrl3!=null and photoUrl3!=''">
+				PHOTO_URL3=#{photoUrl3,jdbcType = VARCHAR},
+			</if>
+			<if test="replyStatus!=null ">
+				REPLY_STATUS=#{replyStatus,jdbcType = TINYINT},
+			</if>
+			<if test="replyTime!=null ">
+				REPLY_TIME=#{replyTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="replyContent!=null and replyContent!=''">
+				REPLY_CONTENT=#{replyContent,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorName!=null and operatorName!=''">
+				OPERATOR_NAME=#{operatorName,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+		</set>
+		<where>
+			AND FEEDBACK_NO=#{feedbackNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_customer_feedback
+		<where>
+			FEEDBACK_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="CustomerFeedback">
+		select
+		<include refid="AllColumnlist" />
+		from t_customer_feedback
+		<where>
+			FEEDBACK_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="CustomerFeedback">
+		select
+		<include refid="AllColumnlist" />
+		from t_customer_feedback
+		<where>
+			FEEDBACK_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(FEEDBACK_NO) from t_customer_feedback
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="CustomerFeedback">
+		select
+		<include refid="CommonColumnlist" />
+		from t_customer_feedback
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="CustomerFeedback">
+		select
+		<include refid="CommonColumnlist" />
+		from t_customer_feedback
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	
+	<select id="pageListCus" parameterType="Query" resultMap="CustomerFeedback">
+		select
+		<include refid="CommonColumnlist" />
+		from t_customer_feedback
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<sql id="listCommonWhereMH">
+		<if test="q!=null">
+			<if test="q.feedbackNo!=null and q.feedbackNo!=''">
+				AND FEEDBACK_NO=#{q.feedbackNo}
+			</if>
+			<if test="q.feedbackType!=null ">
+				AND FEEDBACK_TYPE=#{q.feedbackType}
+			</if>
+			<if test="q.customerType!=null ">
+				AND CUSTOMER_TYPE=#{q.customerType}
+			</if>
+			<if test="q.memberNo!=null and q.memberNo!=''">
+				AND MEMBER_NO=#{q.memberNo}
+			</if>
+			<if test="q.memberName!=null and q.memberName!=''">
+				AND MEMBER_NAME like concat(concat("%",#{q.memberName}),"%")
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND MOBILE_PHONE like concat(concat("%",#{q.mobilePhone}),"%")
+			</if>
+			<if test="q.title!=null and q.title!=''">
+				AND TITLE=#{q.title}
+			</if>
+			<if test="q.content!=null and q.content!=''">
+				AND CONTENT=#{q.content}
+			</if>
+			<if test="q.photoUrl1!=null and q.photoUrl1!=''">
+				AND PHOTO_URL1=#{q.photoUrl1}
+			</if>
+			<if test="q.photoUrl2!=null and q.photoUrl2!=''">
+				AND PHOTO_URL2=#{q.photoUrl2}
+			</if>
+			<if test="q.photoUrl3!=null and q.photoUrl3!=''">
+				AND PHOTO_URL3=#{q.photoUrl3}
+			</if>
+			<if test="q.replyStatus!=null ">
+				AND REPLY_STATUS=#{q.replyStatus}
+			</if>
+			<if test="q.replyTime!=null ">
+				AND REPLY_TIME=#{q.replyTime}
+			</if>
+			<if test="q.replyTimeStart!=null">
+		<![CDATA[	AND REPLY_TIME>=#{q.replyTimeStart}  ]]>
+			</if>
+			<if test="q.replyTimeEnd!=null">
+		<![CDATA[	AND REPLY_TIME<#{q.replyTimeEnd}   ]]>
+			</if>
+			<if test="q.replyContent!=null and q.replyContent!=''">
+				AND REPLY_CONTENT=#{q.replyContent}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorName!=null and q.operatorName!=''">
+				AND OPERATOR_NAME=#{q.operatorName}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+		</if>
+	</sql>
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.feedbackNo!=null and q.feedbackNo!=''">
+				AND FEEDBACK_NO=#{q.feedbackNo}
+			</if>
+			<if test="q.feedbackType!=null ">
+				AND FEEDBACK_TYPE=#{q.feedbackType}
+			</if>
+			<if test="q.customerType!=null ">
+				AND CUSTOMER_TYPE=#{q.customerType}
+			</if>
+			<if test="q.memberNo!=null and q.memberNo!=''">
+				AND MEMBER_NO=#{q.memberNo}
+			</if>
+			<if test="q.memberName!=null and q.memberName!=''">
+				AND MEMBER_NAME=#{q.memberName}
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND MOBILE_PHONE=#{q.mobilePhone}
+			</if>
+			<if test="q.title!=null and q.title!=''">
+				AND TITLE=#{q.title}
+			</if>
+			<if test="q.content!=null and q.content!=''">
+				AND CONTENT=#{q.content}
+			</if>
+			<if test="q.photoUrl1!=null and q.photoUrl1!=''">
+				AND PHOTO_URL1=#{q.photoUrl1}
+			</if>
+			<if test="q.photoUrl2!=null and q.photoUrl2!=''">
+				AND PHOTO_URL2=#{q.photoUrl2}
+			</if>
+			<if test="q.photoUrl3!=null and q.photoUrl3!=''">
+				AND PHOTO_URL3=#{q.photoUrl3}
+			</if>
+			<if test="q.replyStatus!=null ">
+				AND REPLY_STATUS=#{q.replyStatus}
+			</if>
+			<if test="q.replyTime!=null ">
+				AND REPLY_TIME=#{q.replyTime}
+			</if>
+			<if test="q.replyTimeStart!=null">
+		<![CDATA[	AND REPLY_TIME>=#{q.replyTimeStart}  ]]>
+			</if>
+			<if test="q.replyTimeEnd!=null">
+		<![CDATA[	AND REPLY_TIME<#{q.replyTimeEnd}   ]]>
+			</if>
+			<if test="q.replyContent!=null and q.replyContent!=''">
+				AND REPLY_CONTENT=#{q.replyContent}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorName!=null and q.operatorName!=''">
+				AND OPERATOR_NAME=#{q.operatorName}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+		</if>
+	</sql>
+
+</mapper>

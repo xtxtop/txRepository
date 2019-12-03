@@ -1,0 +1,130 @@
+/*
+ *  Document   : style.css
+ *  Author     : index+1
+ */
+li {
+    list-style:none;
+}
+
+.tubiaobox{
+	width:100%;
+    margin-bottom:10px;
+}
+.tubiaobox .date-group-content .tubiao {
+    width: 100%;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    height: 330px;
+    position:relative;
+}
+.date-group-content{
+    padding-right: 0;
+}
+.tubiaobox .date-group-content .tubiaoitem
+.direction li {
+    list-style: none outside none;
+    text-decoration: none;   
+}
+.direction {
+    overflow:hidden;
+    padding-left:0;
+}
+.direction-box {
+    height:86px;
+    padding:22px 10px 0;
+    border:1px solid #e5e6e7;
+    background-color: #fff;
+}
+.direction-icon {
+    border-radius: 50%;
+    color: #2b3245;
+    float: left;
+    width: 40px;
+    height: 40px;
+    top:0;
+    left: 0;
+    line-height: 40px;
+    position: relative;
+    text-align: center;    
+    background: #ecf1f5;    
+}
+.direction li{
+    padding-right: 0;
+}
+.direction p {
+    margin: 0;
+    text-align:center;
+}
+.direction p strong {
+    font-size:14px;
+}
+.containerBg{
+    background: none;
+    -webkit-box-shadow: none;
+    margin-left: -10px;
+    overflow: hidden;
+}
+.head-title {
+    font-size:14px;
+    padding:1px 10px;
+    font-weight:700;
+    margin: 18px 15px 15px;
+    border-left:4px solid #e41033;
+}
+.mg-direction {
+    margin-bottom:10px !important;
+}
+.pdl0{
+    padding-left: 0;
+}
+/*colorsBg*/
+.colorea6020 {
+    color:#ea6020;
+}
+.colora5cd9c {
+    color:#a5cd9c;
+}
+.color36a0b7 {
+    color:#36a0b7;
+}
+.color453037 {
+    color:#453037;
+}
+.color9439dd {
+    color:#9439dd;
+}
+.color9189ed {
+    color:#9189ed;
+}
+.colorf84375 {
+    color:#f84375;
+}
+.color36a0b7 {
+    color:#36a0b7;
+}
+.colorcd9179 {
+    color:#cd9179;
+}
+.color9189ed {
+    color:#9189ed;
+}
+.direction-date {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #f5f9fd;
+    padding-top: 10px;
+}
+.direction-date p {
+    margin-bottom:6px;
+    margin-top:0;
+    font-size:18px;
+}
+
+.direction-date p:first-child {
+    font-size:16px;
+    font-weight:bold;
+}

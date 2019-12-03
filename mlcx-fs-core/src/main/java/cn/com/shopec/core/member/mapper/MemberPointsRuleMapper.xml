@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.MemberPointsRuleDao">
+
+<resultMap type="MemberPointsRule" id="MemberPointsRule">
+	<id column="RULE_ID" property="ruleId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUSINESS_TYPE" property="businessType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_TYPE" property="pointsType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_VALUE" property="pointsValue" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_DEFAULT" property="isDefault" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RULE_ID,BUSINESS_TYPE,POINTS_TYPE,POINTS_VALUE,IS_DEFAULT,IS_AVAILABLE,IS_DELETED,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RULE_ID,BUSINESS_TYPE,POINTS_TYPE,POINTS_VALUE,IS_DEFAULT,IS_AVAILABLE,IS_DELETED,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="MemberPointsRule" useGeneratedKeys="true" keyProperty="ruleId">
+	insert into T_MEMBER_POINTS_RULE(
+		<if test="ruleId!=null">
+		RULE_ID,
+		</if>
+		BUSINESS_TYPE,
+		POINTS_TYPE,
+		POINTS_VALUE,
+		IS_DEFAULT,
+		IS_AVAILABLE,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="ruleId!=null">
+		#{ruleId,jdbcType = VARCHAR},
+		</if>
+		#{businessType,jdbcType = TINYINT},
+		#{pointsType,jdbcType = TINYINT},
+		#{pointsValue,jdbcType = INTEGER},
+		#{isDefault,jdbcType = TINYINT},
+		#{isAvailable,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MemberPointsRule">
+	update t_member_points_rule 
+	<set>
+		<if test="businessType!=null ">
+			BUSINESS_TYPE=#{businessType,jdbcType = TINYINT},
+		</if>
+		<if test="pointsType!=null ">
+			POINTS_TYPE=#{pointsType,jdbcType = TINYINT},
+		</if>
+		<if test="pointsValue!=null ">
+			POINTS_VALUE=#{pointsValue,jdbcType = INTEGER},
+		</if>
+		<if test="isDefault!=null ">
+			IS_DEFAULT=#{isDefault,jdbcType = TINYINT},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND RULE_ID=#{ruleId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_member_points_rule 
+	<where>
+		RULE_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MemberPointsRule">
+	select <include refid="AllColumnlist"/> from t_member_points_rule
+	<where>
+		RULE_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MemberPointsRule">
+	select <include refid="AllColumnlist"/> from t_member_points_rule
+	<where>
+		RULE_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RULE_ID) from t_member_points_rule 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MemberPointsRule">
+	select <include refid="CommonColumnlist"/> from t_member_points_rule 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where> order by create_time desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MemberPointsRule">
+	select <include refid="CommonColumnlist"/> from t_member_points_rule
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.ruleId!=null and q.ruleId!=''">
+			AND RULE_ID=#{q.ruleId}
+		</if>
+		<if test="q.businessType!=null ">
+			AND BUSINESS_TYPE=#{q.businessType}
+		</if>
+		<if test="q.pointsType!=null ">
+			AND POINTS_TYPE=#{q.pointsType}
+		</if>
+		<if test="q.pointsValue!=null ">
+			AND POINTS_VALUE=#{q.pointsValue}
+		</if>
+		<if test="q.isDefault!=null ">
+			AND IS_DEFAULT=#{q.isDefault}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

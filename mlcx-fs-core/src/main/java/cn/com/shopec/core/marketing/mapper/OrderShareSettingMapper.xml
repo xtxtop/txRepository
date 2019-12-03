@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.OrderShareSettingDao">
+
+<resultMap type="OrderShareSetting" id="OrderShareSetting">
+	<id column="ORDER_SHARE_SETTING_NO" property="orderShareSettingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SHARE_NAME" property="orderShareName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SHARE_CONTENT" property="orderShareContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SHARE_MEMO" property="orderShareMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SHARE_PIC_URL" property="orderSharePicUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SHARE_ICON_URL" property="orderShareIconUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LINK_URL" property="linkUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_SHARE_SETTING_NO,ORDER_SHARE_NAME,ORDER_SHARE_CONTENT,ORDER_SHARE_MEMO,ORDER_SHARE_PIC_URL,ORDER_SHARE_ICON_URL,LINK_URL,IS_AVAILABLE,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_SHARE_SETTING_NO,ORDER_SHARE_NAME,ORDER_SHARE_CONTENT,ORDER_SHARE_MEMO,ORDER_SHARE_PIC_URL,ORDER_SHARE_ICON_URL,LINK_URL,IS_AVAILABLE,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="OrderShareSetting" useGeneratedKeys="true" keyProperty="orderShareSettingNo">
+	insert into T_ORDER_SHARE_SETTING(
+		<if test="orderShareSettingNo!=null">
+		ORDER_SHARE_SETTING_NO,
+		</if>
+		ORDER_SHARE_NAME,
+		ORDER_SHARE_CONTENT,
+		ORDER_SHARE_MEMO,
+		ORDER_SHARE_PIC_URL,
+		ORDER_SHARE_ICON_URL,
+		LINK_URL,
+		IS_AVAILABLE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="orderShareSettingNo!=null">
+		#{orderShareSettingNo,jdbcType = VARCHAR},
+		</if>
+		#{orderShareName,jdbcType = VARCHAR},
+		#{orderShareContent,jdbcType = VARCHAR},
+		#{orderShareMemo,jdbcType = VARCHAR},
+		#{orderSharePicUrl,jdbcType = VARCHAR},
+		#{orderShareIconUrl,jdbcType = VARCHAR},
+		#{linkUrl,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="OrderShareSetting">
+	update t_order_share_setting 
+	<set>
+		<if test="orderShareName!=null and orderShareName!=''">
+			ORDER_SHARE_NAME=#{orderShareName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderShareContent!=null and orderShareContent!=''">
+			ORDER_SHARE_CONTENT=#{orderShareContent,jdbcType = VARCHAR},
+		</if>
+		<if test="orderShareMemo!=null and orderShareMemo!=''">
+			ORDER_SHARE_MEMO=#{orderShareMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderSharePicUrl!=null and orderSharePicUrl!=''">
+			ORDER_SHARE_PIC_URL=#{orderSharePicUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="orderShareIconUrl!=null and orderShareIconUrl!=''">
+			ORDER_SHARE_ICON_URL=#{orderShareIconUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="linkUrl!=null and linkUrl!=''">
+			LINK_URL=#{linkUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ORDER_SHARE_SETTING_NO=#{orderShareSettingNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_share_setting 
+	<where>
+		ORDER_SHARE_SETTING_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderShareSetting">
+	select <include refid="AllColumnlist"/> from t_order_share_setting
+	<where>
+		ORDER_SHARE_SETTING_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderShareSetting">
+	select <include refid="AllColumnlist"/> from t_order_share_setting
+	<where>
+		ORDER_SHARE_SETTING_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_SHARE_SETTING_NO) from t_order_share_setting 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderShareSetting">
+	select <include refid="CommonColumnlist"/> from t_order_share_setting 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderShareSetting">
+	select <include refid="CommonColumnlist"/> from t_order_share_setting
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderShareSettingNo!=null and q.orderShareSettingNo!=''">
+			AND ORDER_SHARE_SETTING_NO=#{q.orderShareSettingNo}
+		</if>
+		<if test="q.orderShareName!=null and q.orderShareName!=''">
+			AND ORDER_SHARE_NAME=#{q.orderShareName}
+		</if>
+		<if test="q.orderShareContent!=null and q.orderShareContent!=''">
+			AND ORDER_SHARE_CONTENT=#{q.orderShareContent}
+		</if>
+		<if test="q.orderSharePicUrl!=null and q.orderSharePicUrl!=''">
+			AND ORDER_SHARE_PIC_URL=#{q.orderSharePicUrl}
+		</if>
+		<if test="q.linkUrl!=null and q.linkUrl!=''">
+			AND LINK_URL=#{q.linkUrl}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

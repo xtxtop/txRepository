@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.ParkingSpaceDao">
+
+<resultMap type="ParkingSpace" id="ParkingSpace">
+	<id column="PARKING_SPACE_NO" property="parkingSpaceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="DISABLED_UPDATE_TIME" property="disabledUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="HAS_CHARGER" property="hasCharger" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CHARGER_NO" property="chargerNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARKING_SPACE_NO,CITY_ID,CITY_NAME,PARK_NO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,HAS_CHARGER,
+CHARGER_NO,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,DISABLED_UPDATE_TIME
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARKING_SPACE_NO,CITY_ID,CITY_NAME,PARK_NO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,HAS_CHARGER,
+CHARGER_NO,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,DISABLED_UPDATE_TIME
+
+</sql>
+
+<insert id="add" parameterType="ParkingSpace" useGeneratedKeys="true" keyProperty="parkingSpaceNo">
+	insert into T_PARKING_SPACE(
+		<if test="parkingSpaceNo!=null">
+		PARKING_SPACE_NO,
+		</if>
+		CITY_ID,
+		CITY_NAME,
+		PARK_NO,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		HAS_CHARGER,
+		CHARGER_NO,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		DISABLED_UPDATE_TIME
+	) values (
+		<if test="parkingSpaceNo!=null">
+		#{parkingSpaceNo,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{hasCharger,jdbcType = TINYINT},
+		#{chargerNo,jdbcType = VARCHAR},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{disabledUpdateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="ParkingSpace">
+	update t_parking_space 
+	<set>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="disabledUpdateTime!=null ">
+			DISABLED_UPDATE_TIME=#{disabledUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="hasCharger!=null ">
+			HAS_CHARGER=#{hasCharger,jdbcType = TINYINT},
+		</if>
+		<if test="chargerNo!=null and chargerNo!=''">
+			CHARGER_NO=#{chargerNo,jdbcType = VARCHAR},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PARKING_SPACE_NO=#{parkingSpaceNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_parking_space 
+	<where>
+		PARKING_SPACE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ParkingSpace">
+	select <include refid="AllColumnlist"/> from t_parking_space
+	<where>
+		PARKING_SPACE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ParkingSpace">
+	select <include refid="AllColumnlist"/> from t_parking_space
+	<where>
+		PARKING_SPACE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARKING_SPACE_NO) from t_parking_space 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ParkingSpace">
+	select <include refid="CommonColumnlist"/> from t_parking_space 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ParkingSpace">
+	select <include refid="CommonColumnlist"/> from t_parking_space
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 后台 查询-->
+<select id="pageParkingList" parameterType="Query" resultMap="ParkingSpace">
+	select tps.* from t_parking_space tps,t_park tp 
+	<where>
+	 <include refid="listCommonWhereP"/> and tps.PARK_NO=tp.PARK_NO
+	</where> order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="parkingCount" parameterType="Query" resultType="Long">
+	select count(tps.PARKING_SPACE_NO) from t_parking_space tps,t_park tp
+	<where>
+	<include refid="listCommonWhereP"/>and tps.PARK_NO=tp.PARK_NO
+	</where>
+</select>
+<!-- end -->
+<sql id="listCommonWhereP">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND tps.IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.parkingSpaceNo!=null and q.parkingSpaceNo!=''">
+			AND tps.PARKING_SPACE_NO like concat(concat("%",#{q.parkingSpaceNo}),"%")
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND tps.CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND tps.CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND tps.PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND tps.IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND tps.AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND tps.AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND tps.AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.hasCharger!=null ">
+			AND tps.HAS_CHARGER=#{q.hasCharger}
+		</if>
+		<if test="q.chargerNo!=null and q.chargerNo!=''">
+			AND tps.CHARGER_NO=#{q.chargerNo}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND tps.IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND tps.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tps.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tps.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND tps.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND tps.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND tps.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND tps.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND tps.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND tp.PARK_NAME like concat(concat("%",#{q.parkName}),"%")
+		</if>
+		<if test="q.ownerType!=null">
+			AND tp.OWNER_TYPE=#{q.ownerType}
+		</if>
+	</if>
+</sql>
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.parkingSpaceNo!=null and q.parkingSpaceNo!=''">
+			AND PARKING_SPACE_NO=#{q.parkingSpaceNo}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.hasCharger!=null ">
+			AND HAS_CHARGER=#{q.hasCharger}
+		</if>
+		<if test="q.chargerNo!=null and q.chargerNo!=''">
+			AND CHARGER_NO=#{q.chargerNo}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

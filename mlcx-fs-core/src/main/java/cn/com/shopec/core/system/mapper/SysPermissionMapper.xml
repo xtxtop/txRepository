@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysPermissionDao">
+
+<resultMap type="SysPermission" id="SysPermission">
+	<id column="PERM_ID" property="permId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PERM_NAME" property="permName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PERM_CODE" property="permCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MODULE_NAME" property="moduleName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PERM_TYPE" property="permType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PERM_RESOURCE" property="permResource" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_MENU" property="isMenu" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_MENU_SHOW" property="isMenuShow" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MENU_NAME" property="menuName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEVEL" property="level" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARENT_ID" property="parentId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RANKING" property="ranking" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ICON_NAME" property="iconName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+<insert id="add" parameterType="SysPermission">
+	insert into T_SYS_PERMISSION(
+		PERM_ID,
+		PERM_NAME,
+		PERM_CODE,
+		MODULE_NAME,
+		PERM_TYPE,
+		PERM_RESOURCE,
+		MEMO,
+		IS_AVAILABLE,
+		IS_MENU,
+		IS_MENU_SHOW,
+		MENU_NAME,
+		LEVEL,
+		PARENT_ID,
+		RANKING,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		ICON_NAME
+	) values (
+		#{permId,jdbcType = VARCHAR},
+		#{permName,jdbcType = VARCHAR},
+		#{permCode,jdbcType = VARCHAR},
+		#{moduleName,jdbcType = VARCHAR},
+		#{permType,jdbcType = TINYINT},
+		#{permResource,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{isMenu,jdbcType = TINYINT},
+		#{isMenuShow,jdbcType = TINYINT},
+		#{menuName,jdbcType = VARCHAR},
+		#{level,jdbcType = TINYINT},
+		#{parentId,jdbcType = VARCHAR},
+		#{ranking,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{iconName,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SysPermission">
+	update t_sys_permission 
+	<set>
+		<if test="permName!=null and permName!=''">
+			PERM_NAME=#{permName,jdbcType = VARCHAR},
+		</if>
+		<if test="permCode!=null and permCode!=''">
+			PERM_CODE=#{permCode,jdbcType = VARCHAR},
+		</if>
+		<if test="moduleName!=null and moduleName!=''">
+			MODULE_NAME=#{moduleName,jdbcType = VARCHAR},
+		</if>
+		<if test="permType!=null ">
+			PERM_TYPE=#{permType,jdbcType = TINYINT},
+		</if>
+		<if test="permResource!=null and permResource!=''">
+			PERM_RESOURCE=#{permResource,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="isMenu!=null ">
+            IS_MENU=#{isMenu,jdbcType = TINYINT},
+        </if>
+        <if test="isMenuShow!=null ">
+            IS_MENU_SHOW=#{isMenuShow,jdbcType = TINYINT},
+        </if>
+        <if test="menuName!=null and menuName!=''">
+            MENU_NAME=#{menuName,jdbcType = VARCHAR},
+        </if>
+        <if test="level!=null ">
+            LEVEL=#{level,jdbcType = TINYINT},
+        </if>
+        <if test="parentId!=null ">
+            PARENT_ID=#{parentId,jdbcType = VARCHAR},
+        </if>
+		<if test="ranking!=null ">
+			RANKING=#{ranking,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+            CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+        </if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="iconName!=null ">
+			ICON_NAME=#{iconName,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PERM_ID=#{permId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_permission 
+	<where>
+		PERM_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SysPermission">
+	select * from t_sys_permission
+	<where>
+		PERM_ID=#{0}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_permission 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysPermission">
+	select * from t_sys_permission 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysPermission">
+	select * from  t_sys_permission
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageList1" parameterType="Query" resultMap="SysPermission">
+	select * from  t_sys_permission
+	<where>
+	 <include refid="listCommonWhere1"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="count1" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_permission 
+	<where>
+	<include refid="listCommonWhere1"/>
+	</where>
+</select>
+
+    <select id="getParentIdByChildrenIds" resultType="java.lang.String">
+    select PARENT_ID from t_sys_permission where PERM_ID in(
+    <foreach collection="array" separator="," item="item">
+        #{item}
+    </foreach>
+    )
+    and PARENT_ID != 0 and PARENT_ID is not null
+    group by PARENT_ID
+    </select>
+
+
+    <sql id="listCommonWhere">
+		<if test="q.permId!=null ">
+			AND PERM_ID=#{q.permId}
+		</if>
+		<if test="q.permName!=null and q.permName!=''">
+			AND PERM_NAME=#{q.permName}
+		</if>
+		<if test="q.permCode!=null and q.permCode!=''">
+			AND PERM_CODE=#{q.permCode}
+		</if>
+		<if test="q.moduleName!=null and q.moduleName!=''">
+			AND MODULE_NAME=#{q.moduleName}
+		</if>
+		<if test="q.permType!=null ">
+			AND PERM_TYPE=#{q.permType}
+		</if>
+		<if test="q.permResource!=null and q.permResource!=''">
+			AND PERM_RESOURCE=#{q.permResource}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		  <if test="q.isMenu!=null ">
+            AND IS_MENU=#{q.isMenu},
+        </if>
+        <if test="q.isMenuShow!=null ">
+            AND IS_MENU_SHOW=#{q.isMenuShow},
+        </if>
+        <if test="q.menuName!=null and q.menuName!=''">
+            AND MENU_NAME=#{q.menuName},
+        </if>
+        <if test="q.level!=null ">
+            AND LEVEL=#{q.level},
+        </if>
+        <if test="q.parentId!=null ">
+            AND PARENT_ID=#{q.parentId},
+        </if>
+        <if test="q.ranking!=null ">
+            AND RANKING=#{q.ranking},
+        </if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.iconName!=null ">
+			AND ICON_NAME=#{q.iconName}
+		</if>
+</sql>
+
+<sql id="listCommonWhere1">
+		<if test="q.permId!=null ">
+			AND PERM_ID=#{q.permId}
+		</if>
+		<if test="q.permName!=null and q.permName!=''">
+			AND PERM_NAME like CONCAT('%',#{q.permName},'%')
+		</if>
+		<if test="q.permCode!=null and q.permCode!=''">
+			AND PERM_CODE=#{q.permCode}
+		</if>
+		<if test="q.moduleName!=null and q.moduleName!=''">
+			AND MODULE_NAME like CONCAT('%',#{q.moduleName},'%')
+		</if>
+		<if test="q.permType!=null ">
+			AND PERM_TYPE=#{q.permType}
+		</if>
+		<if test="q.permResource!=null and q.permResource!=''">
+			AND PERM_RESOURCE=#{q.permResource}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		  <if test="q.isMenu!=null ">
+            AND IS_MENU=#{q.isMenu},
+        </if>
+        <if test="q.isMenuShow!=null ">
+            AND IS_MENU_SHOW=#{q.isMenuShow},
+        </if>
+        <if test="q.menuName!=null and q.menuName!=''">
+            AND MENU_NAME=#{q.menuName},
+        </if>
+        <if test="q.level!=null ">
+            AND LEVEL=#{q.level},
+        </if>
+        <if test="q.parentId!=null ">
+            AND PARENT_ID=#{q.parentId},
+        </if>
+        <if test="q.ranking!=null ">
+            AND RANKING=#{q.ranking},
+        </if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.iconName!=null ">
+			AND ICON_NAME=#{q.iconName}
+		</if>
+</sql>
+
+</mapper>

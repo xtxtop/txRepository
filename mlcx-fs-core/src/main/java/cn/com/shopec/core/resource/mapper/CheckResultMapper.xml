@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.CheckResultDao">
+
+<resultMap type="CheckResult" id="CheckResult">
+	<id column="CHECK_RESULT_ID" property="checkResultId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_PLAN_NO" property="checkPlanNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_ITEM_ID" property="checkItemId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_NO" property="deviceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_RESULT" property="checkResult" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ABNORMAL_BRIEF" property="abnormalBrief" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ABNORMAL_DETAIL" property="abnormalDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHOTOURL1" property="photourl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHOTOURL2" property="photourl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHOTOURL3" property="photourl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CHECK_RESULT_ID,CHECK_PLAN_NO,CHECK_ITEM_ID,DEVICE_NO,CHECK_RESULT,ABNORMAL_BRIEF,ABNORMAL_DETAIL,
+MEMO,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,PHOTOURL1,PHOTOURL2,PHOTOURL3
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CHECK_RESULT_ID,CHECK_PLAN_NO,ABNORMAL_BRIEF,CHECK_ITEM_ID,DEVICE_NO,CHECK_RESULT,IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,PHOTOURL1,PHOTOURL2,PHOTOURL3
+
+</sql>
+
+<insert id="add" parameterType="CheckResult" useGeneratedKeys="true" keyProperty="checkResultId">
+	insert into T_CHECK_RESULT(
+		<if test="checkResultId!=null">
+		CHECK_RESULT_ID,
+		</if>
+		CHECK_PLAN_NO,
+		CHECK_ITEM_ID,
+		DEVICE_NO,
+		CHECK_RESULT,
+		ABNORMAL_BRIEF,
+		ABNORMAL_DETAIL,
+		MEMO,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		PHOTOURL1,
+		PHOTOURL2,
+		PHOTOURL3
+	) values (
+		<if test="checkResultId!=null">
+		#{checkResultId,jdbcType = VARCHAR},
+		</if>
+		#{checkPlanNo,jdbcType = VARCHAR},
+		#{checkItemId,jdbcType = VARCHAR},
+		#{deviceNo,jdbcType = VARCHAR},
+		#{checkResult,jdbcType = TINYINT},
+		#{abnormalBrief,jdbcType = VARCHAR},
+		#{abnormalDetail,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{photourl1,jdbcType = VARCHAR},
+		#{photourl2,jdbcType = VARCHAR},
+		#{photourl3,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CheckResult">
+	update t_check_result 
+	<set>
+		<if test="checkPlanNo!=null and checkPlanNo!=''">
+			CHECK_PLAN_NO=#{checkPlanNo,jdbcType = VARCHAR},
+		</if>
+		<if test="checkItemId!=null and checkItemId!=''">
+			CHECK_ITEM_ID=#{checkItemId,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceNo!=null and deviceNo!=''">
+			DEVICE_NO=#{deviceNo,jdbcType = VARCHAR},
+		</if>
+		<if test="checkResult!=null ">
+			CHECK_RESULT=#{checkResult,jdbcType = TINYINT},
+		</if>
+		<if test="abnormalBrief!=null and abnormalBrief!=''">
+			ABNORMAL_BRIEF=#{abnormalBrief,jdbcType = VARCHAR},
+		</if>
+		<if test="photourl1!=null and photourl1!=''">
+			PHOTOURL1=#{photourl1,jdbcType = VARCHAR},
+		</if>
+		<if test="photourl2!=null and photourl2!=''">
+			PHOTOURL2=#{photourl2,jdbcType = VARCHAR},
+		</if>
+		<if test="photourl3!=null and photourl3!=''">
+			PHOTOURL3=#{photourl3,jdbcType = VARCHAR},
+		</if>
+		<if test="abnormalDetail!=null and abnormalDetail!=''">
+			ABNORMAL_DETAIL=#{abnormalDetail,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CHECK_RESULT_ID=#{checkResultId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_check_result 
+	<where>
+		CHECK_RESULT_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CheckResult">
+	select <include refid="AllColumnlist"/> from t_check_result
+	<where>
+		CHECK_RESULT_ID=#{0}
+	</where>
+</select>
+
+<select id="getCheckResultNs" parameterType="Query" resultType="cn.com.shopec.core.resource.vo.CheckPlanResultNsVo">
+	select 
+	DEVICE_NO AS deviceNo,
+	CHECK_RESULT AS checkResult,
+	ABNORMAL_BRIEF AS abnormalBrief,
+	ABNORMAL_DETAIL AS abnormalDetail,
+	MEMO AS memo,
+	PHOTOURL1 AS photourl1,
+	PHOTOURL2 AS photourl2,
+	PHOTOURL3 AS photourl3
+	from t_check_result
+	<where>
+	<if test="q!=null">
+		<if test="q.checkPlanNo!=null and q.checkPlanNo!=''">
+			AND CHECK_PLAN_NO=#{q.checkPlanNo}
+		</if>
+		<if test="q.isDeleted!=null">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+	</if>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getByIds" resultMap="CheckResult">
+	select <include refid="AllColumnlist"/> from t_check_result
+	<where>
+		CHECK_RESULT_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<!-- 获取巡检计划的巡检结果列表 zln -->
+<select id="getCheckResultListByCheckPlanNo" resultMap="CheckResult">
+	select <include refid="AllColumnlist"/> from t_check_result
+	<where>
+		CHECK_PLAN_NO=#{0} and IS_DELETED=0
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CHECK_RESULT_ID) from t_check_result 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CheckResult">
+	select <include refid="CommonColumnlist"/> from t_check_result 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CheckResult">
+	select <include refid="CommonColumnlist"/> from t_check_result
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where> ORDER BY CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.checkResultId!=null and q.checkResultId!=''">
+			AND CHECK_RESULT_ID=#{q.checkResultId}
+		</if>
+		<if test="q.checkPlanNo!=null and q.checkPlanNo!=''">
+			AND CHECK_PLAN_NO  like '%${q.checkPlanNo}%'
+		</if>
+		<if test="q.checkItemId!=null and q.checkItemId!=''">
+			AND CHECK_ITEM_ID=#{q.checkItemId}
+		</if>
+		<if test="q.deviceNo!=null and q.deviceNo!=''">
+			AND DEVICE_NO=#{q.deviceNo}
+		</if>
+		<if test="q.checkResult!=null ">
+			AND CHECK_RESULT=#{q.checkResult}
+		</if>
+		<if test="q.abnormalBrief!=null and q.abnormalBrief!=''">
+			AND ABNORMAL_BRIEF=#{q.abnormalBrief}
+		</if>
+		<if test="q.abnormalDetail!=null and q.abnormalDetail!=''">
+			AND ABNORMAL_DETAIL=#{q.abnormalDetail}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.photourl1!=null and q.photourl1!=''">
+			AND PHOTOURL1=#{q.photourl1}
+		</if>
+		<if test="q.photourl2!=null and q.photourl2!=''">
+			AND PHOTOURL2=#{q.photourl2}
+		</if>
+		<if test="q.photourl3!=null and q.photourl3!=''">
+			AND PHOTOURL3=#{q.photourl3}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

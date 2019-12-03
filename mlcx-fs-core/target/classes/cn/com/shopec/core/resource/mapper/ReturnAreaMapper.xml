@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.ReturnAreaDao">
+
+<resultMap type="ReturnArea" id="ReturnArea">
+	<id column="RETURN_AREA_ID" property="returnAreaId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="AREA_NAME" property="areaName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POLYGON_POINTS" property="ploygonPoints" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RETURN_AREA_ID,AREA_NAME,CITY_ID,CITY_NAME,LONGITUDE,LATITUDE,IS_AVAILABLE,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,POLYGON_POINTS,MEMO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RETURN_AREA_ID,AREA_NAME,CITY_ID,CITY_NAME,LONGITUDE,LATITUDE,IS_AVAILABLE,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,POLYGON_POINTS,MEMO
+</sql>
+
+<insert id="add" parameterType="ReturnArea" useGeneratedKeys="true" keyProperty="returnAreaId">
+	insert into T_RETURN_AREA(
+		<if test="returnAreaId!=null">
+		RETURN_AREA_ID,
+		</if>
+		AREA_NAME,
+		CITY_ID,
+		CITY_NAME,
+		LONGITUDE,
+		LATITUDE,
+		IS_AVAILABLE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		POLYGON_POINTS,
+		MEMO
+	) values (
+		<if test="returnAreaId!=null">
+		#{returnAreaId,jdbcType = VARCHAR},
+		</if>
+		#{areaName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{longitude,jdbcType = VARCHAR},
+		#{latitude,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{ploygonPoints,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="ReturnArea">
+	update t_return_area 
+	<set>
+		<if test="areaName!=null and areaName!=''">
+			AREA_NAME=#{areaName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="longitude!=null and longitude!=''">
+			LONGITUDE=#{longitude,jdbcType = VARCHAR},
+		</if>
+		<if test="latitude!=null and latitude!=''">
+			LATITUDE=#{latitude,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="ploygonPoints!=null ">
+			POLYGON_POINTS=#{ploygonPoints,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null ">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		
+	</set>
+	<where>
+		AND RETURN_AREA_ID=#{returnAreaId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_return_area 
+	<where>
+		RETURN_AREA_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ReturnArea">
+	select <include refid="AllColumnlist"/> from t_return_area
+	<where>
+		RETURN_AREA_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ReturnArea">
+	select <include refid="AllColumnlist"/> from t_return_area
+	<where>
+		RETURN_AREA_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RETURN_AREA_ID) from t_return_area 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ReturnArea">
+	select <include refid="CommonColumnlist"/> from t_return_area 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ReturnArea">
+	select <include refid="CommonColumnlist"/> from t_return_area
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.returnAreaId!=null and q.returnAreaId!=''">
+			AND RETURN_AREA_ID=#{q.returnAreaId}
+		</if>
+		<if test="q.areaName!=null and q.areaName!=''">
+			AND AREA_NAME=#{q.areaName}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.longitude!=null and q.longitude!=''">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null and q.latitude!=''">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.ploygonPoints!=null ">
+			AND POLYGON_POINTS=#{q.ploygonPoints}
+		</if>
+		<if test="q.memo!=null ">
+			AND MEMO=#{q.memo}
+		</if>
+	</if>
+</sql>
+
+</mapper>

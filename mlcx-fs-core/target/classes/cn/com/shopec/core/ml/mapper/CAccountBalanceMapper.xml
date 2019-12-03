@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CAccountBalanceDao">
+
+<resultMap type="CAccountBalance" id="CAccountBalance">
+	<id column="ACCOUNT_BALANCE_NO" property="accountBalanceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_BALANCE" property="chargingBalance" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STOP_BALANCE" property="stopBalance" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_FREEZE" property="isFreeze" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FREEZE_REASON" property="freezeReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FREEZE_PERSON" property="freezePerson" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FREEZE_TIME" property="freezeTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ACCOUNT_BALANCE_NO,MEMBER_NO,CHARGING_BALANCE,STOP_BALANCE,IS_FREEZE,FREEZE_REASON,FREEZE_PERSON,
+FREEZE_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ACCOUNT_BALANCE_NO,MEMBER_NO,CHARGING_BALANCE,STOP_BALANCE,IS_FREEZE,FREEZE_REASON,FREEZE_PERSON,
+FREEZE_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="CAccountBalance" useGeneratedKeys="true" keyProperty="accountBalanceNo">
+	insert into C_ACCOUNT_BALANCE(
+		<if test="accountBalanceNo!=null">
+		ACCOUNT_BALANCE_NO,
+		</if>
+		MEMBER_NO,
+		CHARGING_BALANCE,
+		STOP_BALANCE,
+		IS_FREEZE,
+		FREEZE_REASON,
+		FREEZE_PERSON,
+		FREEZE_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="accountBalanceNo!=null">
+		#{accountBalanceNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{chargingBalance,jdbcType = DOUBLE},
+		#{stopBalance,jdbcType = DOUBLE},
+		#{isFreeze,jdbcType = TINYINT},
+		#{freezeReason,jdbcType = VARCHAR},
+		#{freezePerson,jdbcType = VARCHAR},
+		#{freezeTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CAccountBalance">
+	update C_ACCOUNT_BALANCE 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingBalance!=null ">
+			CHARGING_BALANCE=#{chargingBalance,jdbcType = DOUBLE},
+		</if>
+		<if test="stopBalance!=null ">
+			STOP_BALANCE=#{stopBalance,jdbcType = DOUBLE},
+		</if>
+		<if test="isFreeze!=null ">
+			IS_FREEZE=#{isFreeze,jdbcType = TINYINT},
+		</if>
+		<if test="freezeReason!=null and freezeReason!=''">
+			FREEZE_REASON=#{freezeReason,jdbcType = VARCHAR},
+		</if>
+		<if test="freezePerson!=null and freezePerson!=''">
+			FREEZE_PERSON=#{freezePerson,jdbcType = VARCHAR},
+		</if>
+		<if test="freezeTime!=null ">
+			FREEZE_TIME=#{freezeTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND ACCOUNT_BALANCE_NO=#{accountBalanceNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_ACCOUNT_BALANCE 
+	<where>
+		ACCOUNT_BALANCE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CAccountBalance">
+	select <include refid="AllColumnlist"/> from C_ACCOUNT_BALANCE
+	<where>
+		ACCOUNT_BALANCE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CAccountBalance">
+	select <include refid="AllColumnlist"/> from C_ACCOUNT_BALANCE
+	<where>
+		ACCOUNT_BALANCE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ACCOUNT_BALANCE_NO) from C_ACCOUNT_BALANCE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CAccountBalance">
+	select <include refid="CommonColumnlist"/> from C_ACCOUNT_BALANCE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CAccountBalance">
+	select <include refid="CommonColumnlist"/> from C_ACCOUNT_BALANCE
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.accountBalanceNo!=null and q.accountBalanceNo!=''">
+			AND ACCOUNT_BALANCE_NO=#{q.accountBalanceNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.chargingBalance!=null ">
+			AND CHARGING_BALANCE=#{q.chargingBalance}
+		</if>
+		<if test="q.stopBalance!=null ">
+			AND STOP_BALANCE=#{q.stopBalance}
+		</if>
+		<if test="q.isFreeze!=null ">
+			AND IS_FREEZE=#{q.isFreeze}
+		</if>
+		<if test="q.freezeReason!=null and q.freezeReason!=''">
+			AND FREEZE_REASON=#{q.freezeReason}
+		</if>
+		<if test="q.freezePerson!=null and q.freezePerson!=''">
+			AND FREEZE_PERSON=#{q.freezePerson}
+		</if>
+		<if test="q.freezeTime!=null ">
+			AND FREEZE_TIME=#{q.freezeTime}
+		</if>
+		<if test="q.freezeTimeStart!=null">
+		<![CDATA[	AND FREEZE_TIME>=#{q.freezeTimeStart}  ]]>
+		</if>
+		<if test="q.freezeTimeEnd!=null">
+		<![CDATA[	AND FREEZE_TIME<#{q.freezeTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+<select id="pageListTwo" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.AccountBalanceVo">
+    select 
+    m.MEMBER_NO memberNo,m.MEMBER_NAME memberName,m.MOBILE_PHONE mobilePhone,m.MEMBER_TYPE memberType,
+    m.REGISTER_TIME registerTime,a.CHARGING_BALANCE chargingBalance,a.STOP_BALANCE stopBalance
+     from c_account_balance a
+    inner JOIN t_member m  on a.MEMBER_NO=m.MEMBER_NO
+    where 1=1
+	<if test="q.memberNo!=null and q.memberNo!=''">
+            AND m.MEMBER_NO like "%"#{q.memberNo}"%"
+        </if>
+	<if test="q.memberName!=null and q.memberName!=''">
+            AND m.MEMBER_NAME like "%"#{q.memberName}"%"
+        </if>
+    ORDER BY a.UPDATE_TIME desc 
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageListTwoCount" parameterType="Query" resultType="Long">
+    select count(m.MEMBER_NO)
+	  from c_account_balance a
+    inner JOIN t_member m  on a.MEMBER_NO=m.MEMBER_NO
+    where 1=1
+	<if test="q.memberNo!=null and q.memberNo!=''">
+            AND m.MEMBER_NO like "%"#{q.memberNo}"%"
+        </if>
+    <if test="q.memberName!=null and q.memberName!=''">
+            AND m.MEMBER_NAME like "%"#{q.memberName}"%"
+        </if>
+     ORDER BY a.UPDATE_TIME desc 
+</select>
+
+<select id="pageListTwo_No" resultType="cn.com.shopec.core.ml.vo.AccountBalanceVo">
+select a.ACCOUNT_BALANCE_NO accountBalanceNo,
+    m.MEMBER_NO memberNo,m.MEMBER_NAME memberName,m.MOBILE_PHONE mobilePhone,m.MEMBER_TYPE memberType,
+    m.REGISTER_TIME registerTime,a.CHARGING_BALANCE chargingBalance,a.STOP_BALANCE stopBalance,
+    m.MEMBER_PHOTO_URL memberPhotoUrl,m.MEMBER_NICK memberNick,m.SEX sex,m.ID_CARD idCard
+     from c_account_balance a
+    inner JOIN t_member m  on a.MEMBER_NO=m.MEMBER_NO
+    where m.MEMBER_NO=#{0}
+    
+</select>
+</mapper>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>电商平台商品分类</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="../../dep/jstree/themes/default/style.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="../../dep/font-awesome-4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" type="text/css" href="../../dep/ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" type="text/css" href="../../dep/AdminLTE-2.3.0/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <!-- daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="../../dep/daterangepicker/daterangepicker-bs3.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="../../dep/Datatables/css/dataTables.bootstrap.css">
+    <!-- skin -->
+    <link rel="stylesheet" type="text/css" href="../../dep/AdminLTE-2.3.0/css/skins/skin-green-light.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-7">
+                  <div class="panel panel-default">
+                      <!--<div class="panel-heading">Panel heading without title</div>-->
+                      <div class="panel-body">
+                          <div class="row">
+                              <div class="col-md-9">
+                                  <button type="button" class="btn btn-success btn-sm" id="addBtn"><i class="glyphicon glyphicon-asterisk"></i>新增</button>
+                                  <button type="button" class="btn btn-warning btn-sm" id="editBtn"><i class="glyphicon glyphicon-pencil"></i>编辑</button>
+                                  <button type="button" class="btn btn-danger btn-sm" id="removeBtn"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                              </div>
+                              <div class="col-md-3">
+                                  <input type="text" value="" class="form-control" placeholder="Search">
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div id="data"></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-5">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="box">
+                              <div class="box-header with-border">
+                                  <h3 class="box-title"></h3>
+                                  <div class="box-tools pull-right">
+                                      <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                      <!--<div class="btn-group">
+                                          <button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i></button>
+                                          <ul class="dropdown-menu" role="menu">
+                                              <li><a href="#">Action</a></li>
+                                              <li><a href="#">Another action</a></li>
+                                              <li><a href="#">Something else here</a></li>
+                                              <li class="divider"></li>
+                                              <li><a href="#">Separated link</a></li>
+                                          </ul>
+                                      </div>
+                                      <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
+                                  </div>
+                              </div><!-- /.box-header -->
+                              <div class="box-body">
+                                  <form class="form-horizontal">
+                                      <div class="form-group">
+                                          <label for="inputEmail3" class="col-sm-3 control-label">商品名称：</label>
+                                          <div class="col-sm-8">
+                                              <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">上级分类：</label>
+                                          <div class="col-sm-8">
+                                              <select class="form-control">
+                                                  <option>1</option>
+                                                  <option>2</option>
+                                                  <option>3</option>
+                                                  <option>4</option>
+                                                  <option>5</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">排序：</label>
+                                          <div class="col-sm-8">
+                                              <input type="password" class="form-control" id="inputPassword3" placeholder="">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">分类类别：</label>
+                                          <div class="col-sm-8">
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                                              </label>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">是否前台显示：</label>
+                                          <div class="col-sm-8">
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                                              </label>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">是否热销类目：</label>
+                                          <div class="col-sm-8">
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                                              </label>
+                                              <label class="radio-inline">
+                                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                                              </label>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="exampleInputFile" class="col-sm-3 control-label">类目图片：</label>
+                                          <div class="col-sm-8">
+                                              <input type="file" class="form-control" id="exampleInputFile">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">搜索关键字：</label>
+                                          <div class="col-sm-8">
+                                              <input type="password" class="form-control" id="inputPassword3" placeholder="">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="inputPassword3" class="col-sm-3 control-label">分类描述：</label>
+                                          <div class="col-sm-8">
+                                              <input type="password" class="form-control" id="inputPassword3" placeholder="">
+                                          </div>
+                                      </div>
+                                      <!--<div class="form-group">
+                                          <div class="col-sm-offset-6 col-sm-10">
+                                              <button type="submit" class="btn btn-default">保存</button>
+                                              <button type="submit" class="btn btn-default">重置</button>
+                                          </div>
+                                      </div>-->
+                                  </form>
+
+                              </div><!-- ./box-body -->
+                              <div class="box-footer">
+                                  <button type="button" class="btn btn-default pull-right btn-flat" onclick="demo_create();">重置</button>
+                                  <button type="button" class="btn btn-default pull-right btn-flat" onclick="demo_create();">确认</button>
+                              </div><!-- /.box-footer -->
+                          </div><!-- /.box -->
+                      </div><!-- /.col -->
+                  </div><!-- /.row -->
+              </div><!-- /.col -->
+          </div><!-- /.row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">数据列</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-striped" width="100%">
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <!--<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>-->
+    <script type="text/javascript" src="../../js/lib/jquery-1.11.3.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../dep/AdminLTE-2.3.0/js/app.js"></script>
+    <script type="text/javascript" src="../../js/lib/require.js"></script>
+
+    <script type="text/javascript" src="../../js/itemcat/main.js"></script>
+
+
+</body>
+</html>

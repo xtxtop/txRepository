@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.CompanyDao">
+
+<resultMap type="Company" id="Company">
+	<id column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_NAME" property="companyName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACT_PERSON" property="contactPerson" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACT_TEL" property="contactTel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="EMAIL" property="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_STATUS" property="cencorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="COMPANY_STATUS" property="companyStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COMPANY_MEMO" property="companyMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENABLE_TIME" property="enableTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+COMPANY_ID,COMPANY_NAME,CITY_ID,CITY_NAME,CONTACT_PERSON,CONTACT_TEL,EMAIL,
+CENCOR_STATUS,CENCOR_TIME,COMPANY_STATUS,COMPANY_MEMO,ENABLE_TIME,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+COMPANY_ID,COMPANY_NAME,CITY_ID,CITY_NAME,CONTACT_PERSON,CONTACT_TEL,EMAIL,
+CENCOR_STATUS,CENCOR_TIME,COMPANY_STATUS,COMPANY_MEMO,ENABLE_TIME,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="Company" useGeneratedKeys="true" keyProperty="companyId">
+	insert into T_COMPANY(
+		<if test="companyId!=null">
+		COMPANY_ID,
+		</if>
+		COMPANY_NAME,
+		CITY_ID,
+		CITY_NAME,
+		CONTACT_PERSON,
+		CONTACT_TEL,
+		EMAIL,
+		CENCOR_STATUS,
+		CENCOR_TIME,
+		COMPANY_STATUS,
+		COMPANY_MEMO,
+		ENABLE_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="companyId!=null">
+		#{companyId,jdbcType = VARCHAR},
+		</if>
+		#{companyName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{contactPerson,jdbcType = VARCHAR},
+		#{contactTel,jdbcType = VARCHAR},
+		#{email,jdbcType = VARCHAR},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{companyStatus,jdbcType = TINYINT},
+		#{companyMemo,jdbcType = VARCHAR},
+		#{enableTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="Company">
+	update t_company 
+	<set>
+		<if test="companyName!=null and companyName!=''">
+			COMPANY_NAME=#{companyName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="contactPerson!=null and contactPerson!=''">
+			CONTACT_PERSON=#{contactPerson,jdbcType = VARCHAR},
+		</if>
+		<if test="contactTel!=null and contactTel!=''">
+			CONTACT_TEL=#{contactTel,jdbcType = VARCHAR},
+		</if>
+		<if test="email!=null and email!=''">
+			EMAIL=#{email,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorStatus!=null ">
+			CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="companyStatus!=null ">
+			COMPANY_STATUS=#{companyStatus,jdbcType = TINYINT},
+		</if>
+		<if test="companyMemo!=null and companyMemo!=''">
+			COMPANY_MEMO=#{companyMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="enableTime!=null ">
+			ENABLE_TIME=#{enableTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND COMPANY_ID=#{companyId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_company 
+	<where>
+		COMPANY_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Company">
+	select <include refid="AllColumnlist"/> from t_company
+	<where>
+		COMPANY_ID=#{0}
+	</where>
+</select>
+<!-- 根据名字获取id -->
+<select id="getByName" resultType="string">
+	select COMPANY_ID from t_company
+	<where>
+		COMPANY_NAME=#{0}
+	</where>
+</select>
+<select id="getByIds" resultMap="Company">
+	select <include refid="AllColumnlist"/> from t_company
+	<where>
+		COMPANY_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(COMPANY_ID) from t_company 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Company">
+	select <include refid="CommonColumnlist"/> from t_company 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Company">
+	select <include refid="CommonColumnlist"/> from t_company
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by update_time desc,create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.companyName!=null and q.companyName!=''">
+			AND COMPANY_NAME like '%${q.companyName}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.contactPerson!=null and q.contactPerson!=''">
+			AND CONTACT_PERSON=#{q.contactPerson}
+		</if>
+		<if test="q.contactTel!=null and q.contactTel!=''">
+			AND CONTACT_TEL=#{q.contactTel}
+		</if>
+		<if test="q.email!=null and q.email!=''">
+			AND EMAIL=#{q.email}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.companyStatus!=null ">
+			AND COMPANY_STATUS=#{q.companyStatus}
+		</if>
+		<if test="q.companyMemo!=null and q.companyMemo!=''">
+			AND COMPANY_MEMO=#{q.companyMemo}
+		</if>
+		<if test="q.enableTime!=null ">
+			AND ENABLE_TIME=#{q.enableTime}
+		</if>
+		<if test="q.enableTimeStart!=null">
+		<![CDATA[	AND ENABLE_TIME>=#{q.enableTimeStart}  ]]>
+		</if>
+		<if test="q.enableTimeEnd!=null">
+		<![CDATA[	AND ENABLE_TIME<#{q.enableTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarOnlineCountDao">
+
+<resultMap type="CarOnlineCount" id="CarOnlineCount">
+	<id column="CAR_ONLINE_COUNT_NO" property="carOnlineCountNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ONLINE_NUM" property="onlineNum" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OFFLINE_NUM" property="offlineNum" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_ONLINE_COUNT_NO,ONLINE_NUM,OFFLINE_NUM,CREATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_ONLINE_COUNT_NO,ONLINE_NUM,OFFLINE_NUM,CREATE_TIME
+</sql>
+
+<insert id="add" parameterType="CarOnlineCount" useGeneratedKeys="true" keyProperty="carOnlineCountNo">
+	insert into t_car_online_count(
+		<if test="carOnlineCountNo!=null">
+		CAR_ONLINE_COUNT_NO,
+		</if>
+		ONLINE_NUM,
+		OFFLINE_NUM,
+		CREATE_TIME
+	) values (
+		<if test="carOnlineCountNo!=null">
+		#{carOnlineCountNo,jdbcType = VARCHAR},
+		</if>
+		#{onlineNum,jdbcType = TINYINT},
+		#{offlineNum,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="CarOnlineCount">
+	update t_car_online_count 
+	<set>
+		<if test="onlineNum!=null ">
+			ONLINE_NUM=#{onlineNum,jdbcType = TINYINT},
+		</if>
+		<if test="notlineNum!=null ">
+			OFFLINE_NUM=#{offlineNum,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND CAR_ONLINE_COUNT_NO=#{carOnlineCountNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_online_count 
+	<where>
+		CAR_ONLINE_COUNT_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarOnlineCount">
+	select <include refid="AllColumnlist"/> from t_car_online_count
+	<where>
+		CAR_ONLINE_COUNT_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarOnlineCount">
+	select <include refid="AllColumnlist"/> from t_car_online_count
+	<where>
+		CAR_ONLINE_COUNT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_ONLINE_COUNT_NO) from t_car_online_count 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarOnlineCount">
+	select <include refid="CommonColumnlist"/> from t_car_online_count 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarOnlineCount">
+	select <include refid="CommonColumnlist"/> from t_car_online_count
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getCarLineDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(CREATE_TIME,'%m-%d') as date,
+	round(avg(ONLINE_NUM)) as onlineNum,
+	-round(avg(OFFLINE_NUM)) as offlineNum
+	from t_car_online_count 
+	where 
+	<![CDATA[ CREATE_TIME>=date_format(date_add(now(), interval -10 day),'%Y-%m-%d') ]]>
+	group by date_format(CREATE_TIME,'%m-%d')
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carOnlineCountNo!=null and q.carOnlineCountNo!=''">
+			AND CAR_ONLINE_COUNT_NO=#{q.carOnlineCountNo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+	</if>
+</sql>
+
+</mapper>

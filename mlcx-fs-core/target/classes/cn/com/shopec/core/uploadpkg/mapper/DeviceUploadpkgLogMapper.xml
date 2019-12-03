@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.uploadpkg.dao.DeviceUploadpkgLogDao">
+
+<resultMap type="DeviceUploadpkgLog" id="DeviceUploadpkgLog">
+	<id column="LOG_ID" property="logId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CMD_TYPE" property="cmdType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHINISE_CONTENT" property="chiniseContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOG_CONTENT" property="logContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+<resultMap type="DeviceUploadpkgLog" id="DeviceUploadpkgLogS">
+	<id column="LOG_ID" property="logId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CMD_TYPE" property="cmdType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHINISE_CONTENT" property="chiniseContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOG_CONTENT" property="logContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+LOG_ID,DEVICE_SN,CMD_TYPE,CHINISE_CONTENT,LOG_CONTENT,OPERATOR_TYPE,OPERATOR_ID,CREATE_TIME,
+UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+LOG_ID,DEVICE_SN,CMD_TYPE,CHINISE_CONTENT,OPERATOR_TYPE,CREATE_TIME,
+UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="DeviceUploadpkgLog" useGeneratedKeys="true" keyProperty="logId">
+	insert into T_DEVICE_UPLOADPKG_LOG(
+		<if test="logId!=null">
+		LOG_ID,
+		</if>
+		DEVICE_SN,
+		CMD_TYPE,
+		CHINISE_CONTENT,
+		LOG_CONTENT,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="logId!=null">
+		#{logId,jdbcType = VARCHAR},
+		</if>
+		#{deviceSn,jdbcType = VARCHAR},
+		#{cmdType,jdbcType = VARCHAR},
+		#{chiniseContent,jdbcType = VARCHAR},
+		#{logContent,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="DeviceUploadpkgLog">
+	update t_device_uploadpkg_log 
+	<set>
+		<if test="deviceSn!=null and deviceSn!=''">
+			DEVICE_SN=#{deviceSn,jdbcType = VARCHAR},
+		</if>
+		<if test="cmdType!=null ">
+			CMD_TYPE=#{cmdType,jdbcType = TINYINT},
+		</if>
+		<if test="chiniseContent!=null and chiniseContent!=''">
+			CHINISE_CONTENT=#{chiniseContent,jdbcType = VARCHAR},
+		</if>
+		<if test="logContent!=null and logContent!=''">
+			LOG_CONTENT=#{logContent,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND LOG_ID=#{logId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_device_uploadpkg_log 
+	<where>
+		LOG_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DeviceUploadpkgLog">
+	select <include refid="AllColumnlist"/> from t_device_uploadpkg_log
+	<where>
+		LOG_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DeviceUploadpkgLog">
+	select <include refid="AllColumnlist"/> from t_device_uploadpkg_log
+	<where>
+		LOG_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(LOG_ID) from t_device_uploadpkg_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DeviceUploadpkgLog">
+	select <include refid="CommonColumnlist"/> from t_device_uploadpkg_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="deviceUploadpkgLogList" parameterType="Query" resultMap="DeviceUploadpkgLogS">
+	select u.*, td.CAR_PLATE_NO from t_device_uploadpkg_log u LEFT JOIN t_device  td ON u.DEVICE_SN=td.DEVICE_SN
+	<where>
+	<if test="q!=null">
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND u.DEVICE_SN=#{q.deviceSn}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND u.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND u.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+	</where>
+	ORDER BY u.create_time DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+ 
+<select id="pageList" parameterType="Query" resultMap="DeviceUploadpkgLog">
+	select <include refid="CommonColumnlist"/> from t_device_uploadpkg_log
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageListDeviceUploadPkgLog" parameterType="Query"  resultMap="DeviceUploadpkgLogS">
+	SELECT d.CAR_PLATE_NO,u.* FROM (SELECT * FROM t_device_uploadpkg_log  ORDER BY CREATE_TIME DESC) u LEFT JOIN t_device d on d.DEVICE_SN=u.device_sn 
+	<where>
+	<include refid="listCommonWhereS"/>
+	</where>
+	GROUP BY u.device_sn 
+	ORDER BY u.create_time DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="countListDeviceUploadPkgLog" parameterType="Query" resultType="Integer">
+	SELECT count(*) FROM
+	(
+		SELECT
+			u.device_sn
+		FROM
+			t_device_uploadpkg_log u
+		LEFT JOIN t_device d ON d.DEVICE_SN = u.device_sn
+		<where>
+			<include refid="listCommonWhereS"/>
+		</where>
+		GROUP BY
+			device_sn
+	)t
+</select>
+
+<select id="getDeviceUploadpkgLogMaxTime" resultMap="DeviceUploadpkgLogS">
+	SELECT DEVICE_SN as deviceSn, max(CREATE_TIME) as createTime FROM t_device_uploadpkg_log group by DEVICE_SN
+</select>
+
+<delete id="delDeviceUploadpkgLog">
+	delete from t_device_uploadpkg_log 
+	<where>
+		DEVICE_SN=#{0}
+		<![CDATA[ AND CREATE_TIME<#{1}]]>
+	</where>
+</delete>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.logId!=null and q.logId!=''">
+			AND LOG_ID=#{q.logId}
+		</if>
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND DEVICE_SN=#{q.deviceSn}
+		</if>
+		<if test="q.cmdType!=null ">
+			AND CMD_TYPE=#{q.cmdType}
+		</if>
+		<if test="q.chiniseContent!=null and q.chiniseContent!=''">
+			AND CHINISE_CONTENT=#{q.chiniseContent}
+		</if>
+		<if test="q.logContent!=null and q.logContent!=''">
+			AND LOG_CONTENT=#{q.logContent}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhereS">
+	<if test="q!=null">
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND u.DEVICE_SN like '%${q.deviceSn}%'
+		</if>
+		<if test="q.cmdType!=null ">
+			AND CMD_TYPE like '%${q.cmdType}%'
+		</if>
+		<if test="q.chiniseContent!=null and q.chiniseContent!=''">
+			AND CHINISE_CONTENT=#{q.chiniseContent}
+		</if>
+		<if test="q.logContent!=null and q.logContent!=''">
+			AND LOG_CONTENT=#{q.logContent}
+		</if>
+		<if test="q.createTime!=null ">
+			AND u.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND u.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND u.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.CarRedPacketDao">
+
+<resultMap type="CarRedPacket" id="CarRedPacket">
+	<id column="CAR_RED_PACKET_ID" property="carRedPacketId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NAME" property="parkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RED_PACKET_AMOUNT" property="redPacketAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_ORDER_AMOUNT_LIMIT" property="isOrderAmountLimit" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ORDER_AMOUNT_LIMIT" property="orderAmountLimit" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CAR_USERAGE_STATUS" property="carUserageStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="RED_PACKET_SEND_STATUS" property="redPacketSendStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CAR_RED_PACKET_STATUS" property="carRedPacketStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="RED_PACKET_OPERATOR_ID" property="redPacketOperatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RED_PACKET_OPERATOR_NAME" property="redPacketOperatorName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_CHARGE" property="isCharge" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_RED_PACKET_ID,CAR_PLATE_NO,PARK_NO,PARK_NAME,RED_PACKET_AMOUNT,IS_ORDER_AMOUNT_LIMIT,ORDER_AMOUNT_LIMIT,
+CAR_USERAGE_STATUS,RED_PACKET_SEND_STATUS,CAR_RED_PACKET_STATUS,RED_PACKET_OPERATOR_ID,RED_PACKET_OPERATOR_NAME,ORDER_NO,
+IS_CHARGE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,IS_AVAILABLE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_RED_PACKET_ID,CAR_PLATE_NO,PARK_NO,PARK_NAME,RED_PACKET_AMOUNT,IS_ORDER_AMOUNT_LIMIT,ORDER_AMOUNT_LIMIT,
+CAR_USERAGE_STATUS,RED_PACKET_SEND_STATUS,CAR_RED_PACKET_STATUS,RED_PACKET_OPERATOR_ID,RED_PACKET_OPERATOR_NAME,ORDER_NO,
+IS_CHARGE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,IS_AVAILABLE
+</sql>
+
+<insert id="add" parameterType="CarRedPacket" useGeneratedKeys="true" keyProperty="carRedPacketId">
+	insert into T_CAR_RED_PACKET(
+		<if test="carRedPacketId!=null">
+		CAR_RED_PACKET_ID,
+		</if>
+		CAR_PLATE_NO,
+		PARK_NO,
+		PARK_NAME,
+		RED_PACKET_AMOUNT,
+		IS_ORDER_AMOUNT_LIMIT,
+		ORDER_AMOUNT_LIMIT,
+		CAR_USERAGE_STATUS,
+		RED_PACKET_SEND_STATUS,
+		CAR_RED_PACKET_STATUS,
+		RED_PACKET_OPERATOR_ID,
+		RED_PACKET_OPERATOR_NAME,
+		ORDER_NO,
+		IS_CHARGE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		IS_AVAILABLE
+	) values (
+		<if test="carRedPacketId!=null">
+		#{carRedPacketId,jdbcType = VARCHAR},
+		</if>
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{parkName,jdbcType = VARCHAR},
+		#{redPacketAmount,jdbcType = DOUBLE},
+		#{isOrderAmountLimit,jdbcType = TINYINT},
+		#{orderAmountLimit,jdbcType = DOUBLE},
+		#{carUserageStatus,jdbcType = TINYINT},
+		#{redPacketSendStatus,jdbcType = TINYINT},
+		#{carRedPacketStatus,jdbcType = TINYINT},
+		#{redPacketOperatorId,jdbcType = VARCHAR},
+		#{redPacketOperatorName,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{isCharge,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CarRedPacket">
+	update t_car_red_packet 
+	<set>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkName!=null and parkName!=''">
+			PARK_NAME=#{parkName,jdbcType = VARCHAR},
+		</if>
+		<if test="redPacketAmount!=null ">
+			RED_PACKET_AMOUNT=#{redPacketAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="isOrderAmountLimit!=null ">
+			IS_ORDER_AMOUNT_LIMIT=#{isOrderAmountLimit,jdbcType = TINYINT},
+		</if>
+		<if test="orderAmountLimit!=null ">
+			ORDER_AMOUNT_LIMIT=#{orderAmountLimit,jdbcType = DOUBLE},
+		</if>
+		<if test="carUserageStatus!=null ">
+			CAR_USERAGE_STATUS=#{carUserageStatus,jdbcType = TINYINT},
+		</if>
+		<if test="redPacketSendStatus!=null ">
+			RED_PACKET_SEND_STATUS=#{redPacketSendStatus,jdbcType = TINYINT},
+		</if>
+		<if test="carRedPacketStatus!=null ">
+			CAR_RED_PACKET_STATUS=#{carRedPacketStatus,jdbcType = TINYINT},
+		</if>
+		<if test="redPacketOperatorId!=null and redPacketOperatorId!=''">
+			RED_PACKET_OPERATOR_ID=#{redPacketOperatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="redPacketOperatorName!=null and redPacketOperatorName!=''">
+			RED_PACKET_OPERATOR_NAME=#{redPacketOperatorName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="isCharge!=null ">
+			IS_CHARGE=#{isCharge,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND CAR_RED_PACKET_ID=#{carRedPacketId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_red_packet 
+	<where>
+		CAR_RED_PACKET_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarRedPacket">
+	select <include refid="AllColumnlist"/> from t_car_red_packet
+	<where>
+		CAR_RED_PACKET_ID=#{0}
+	</where>
+</select>
+
+<!-- 根据车牌号查询有没有红包已生效或者进行中-->
+<select id="getByCarPlateNo" resultMap="CarRedPacket">
+	select <include refid="AllColumnlist"/> from t_car_red_packet
+	<where>
+		CAR_PLATE_NO=#{0} 
+	</where>
+	AND (CAR_RED_PACKET_STATUS=1 or CAR_RED_PACKET_STATUS=2)
+	AND IS_AVAILABLE=1
+</select>
+
+
+
+
+
+
+<!-- 根据红包车状态获取红包车记录-->
+<select id="getCarRedPacketByCarPlateNo" resultMap="CarRedPacket">
+	select <include refid="AllColumnlist"/> from t_car_red_packet
+	<where>
+		CAR_PLATE_NO=#{0}
+		AND CAR_RED_PACKET_STATUS=#{1}
+		AND IS_AVAILABLE=1
+	</where>
+</select>
+<!-- 获取红包车所在的场站编号 -->
+<select id="getCarRedParketLocationParkNos" resultType="String">
+	SELECT
+	GROUP_CONCAT(LOCATION_PARK_NO) AS PARK_NOS
+	FROM
+		t_car_status cs LEFT JOIN t_car c ON cs.CAR_NO=c.CAR_NO
+	WHERE
+	c.ONLINE_STATUS=1
+	AND
+	cs.CAR_PLATE_NO IN (
+		SELECT
+			CAR_PLATE_NO
+		FROM
+			t_car_red_packet
+		WHERE
+			CAR_RED_PACKET_STATUS =#{0}
+		AND IS_AVAILABLE = 1
+	)
+</select>
+
+<select id="getByIds" resultMap="CarRedPacket">
+	select <include refid="AllColumnlist"/> from t_car_red_packet
+	<where>
+		CAR_RED_PACKET_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_RED_PACKET_ID) from t_car_red_packet 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarRedPacket">
+	select <include refid="CommonColumnlist"/> from t_car_red_packet 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarRedPacket">
+	select <include refid="CommonColumnlist"/> from t_car_red_packet
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carRedPacketId!=null and q.carRedPacketId!=''">
+			AND CAR_RED_PACKET_ID=#{q.carRedPacketId}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND PARK_NAME=#{q.parkName}
+		</if>
+		<if test="q.redPacketAmount!=null ">
+			AND RED_PACKET_AMOUNT=#{q.redPacketAmount}
+		</if>
+		<if test="q.isOrderAmountLimit!=null ">
+			AND IS_ORDER_AMOUNT_LIMIT=#{q.isOrderAmountLimit}
+		</if>
+		<if test="q.orderAmountLimit!=null ">
+			AND ORDER_AMOUNT_LIMIT=#{q.orderAmountLimit}
+		</if>
+		<if test="q.carUserageStatus!=null ">
+			AND CAR_USERAGE_STATUS=#{q.carUserageStatus}
+		</if>
+		<if test="q.redPacketSendStatus!=null ">
+			AND RED_PACKET_SEND_STATUS=#{q.redPacketSendStatus}
+		</if>
+		<if test="q.carRedPacketStatus!=null ">
+			AND CAR_RED_PACKET_STATUS=#{q.carRedPacketStatus}
+		</if>
+		<if test="q.redPacketOperatorId!=null and q.redPacketOperatorId!=''">
+			AND RED_PACKET_OPERATOR_ID=#{q.redPacketOperatorId}
+		</if>
+		<if test="q.redPacketOperatorName!=null and q.redPacketOperatorName!=''">
+			AND RED_PACKET_OPERATOR_NAME=#{q.redPacketOperatorName}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.isCharge!=null ">
+			AND IS_CHARGE=#{q.isCharge}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+	</if>
+</sql>
+
+</mapper>

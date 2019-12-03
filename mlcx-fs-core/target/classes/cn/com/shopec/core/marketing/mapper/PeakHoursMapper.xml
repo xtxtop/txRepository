@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.PeakHoursDao">
+
+<resultMap type="PeakHours" id="PeakHours">
+	<id column="PEAK_HOUR_ID" property="peakHourId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RULE_NO" property="ruleNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PEAK_HOURS" property="peakHours" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PEAK_START_HOURS" property="peakStartHours" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PEAK_END_HOURS" property="peakEndHours" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PRICE_OF_MINUTE" property="priceOfMinute" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_KM" property="priceOfKm" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PEAK_HOUR_ID,RULE_NO,PEAK_HOURS,PEAK_START_HOURS,PEAK_END_HOURS,PRICE_OF_MINUTE,PRICE_OF_KM,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PEAK_HOUR_ID,RULE_NO,PEAK_HOURS,PEAK_START_HOURS,PEAK_END_HOURS,PRICE_OF_MINUTE,PRICE_OF_KM,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="PeakHours" useGeneratedKeys="true" keyProperty="peakHourId">
+	insert into T_PEAK_HOURS(
+		<if test="peakHourId!=null">
+		PEAK_HOUR_ID,
+		</if>
+		RULE_NO,
+		PEAK_HOURS,
+		PEAK_START_HOURS,
+		PEAK_END_HOURS,
+		PRICE_OF_MINUTE,
+		PRICE_OF_KM,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="peakHourId!=null">
+		#{peakHourId,jdbcType = VARCHAR},
+		</if>
+		#{ruleNo,jdbcType = VARCHAR},
+		#{peakHours,jdbcType = VARCHAR},
+		#{peakStartHours,jdbcType = VARCHAR},
+		#{peakEndHours,jdbcType = VARCHAR},
+		#{priceOfMinute,jdbcType = DOUBLE},
+		#{priceOfKm,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="PeakHours">
+	update t_peak_hours 
+	<set>
+		<if test="ruleNo!=null and ruleNo!=''">
+			RULE_NO=#{ruleNo,jdbcType = VARCHAR},
+		</if>
+		<if test="peakHours!=null and peakHours!=''">
+			PEAK_HOURS=#{peakHours,jdbcType = VARCHAR},
+		</if>
+		<if test="peakStartHours!=null and peakStartHours!=''">
+			PEAK_START_HOURS=#{peakStartHours,jdbcType = VARCHAR},
+		</if>
+		<if test="peakEndHours!=null and peakEndHours!=''">
+			PEAK_END_HOURS=#{peakEndHours,jdbcType = VARCHAR},
+		</if>
+		<if test="priceOfMinute!=null ">
+			PRICE_OF_MINUTE=#{priceOfMinute,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfKm!=null ">
+			PRICE_OF_KM=#{priceOfKm,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND PEAK_HOUR_ID=#{peakHourId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_peak_hours 
+	<where>
+		PEAK_HOUR_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PeakHours">
+	select <include refid="AllColumnlist"/> from t_peak_hours
+	<where>
+		PEAK_HOUR_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="PeakHours">
+	select <include refid="AllColumnlist"/> from t_peak_hours
+	<where>
+		PEAK_HOUR_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PEAK_HOUR_ID) from t_peak_hours 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PeakHours">
+	select <include refid="CommonColumnlist"/> from t_peak_hours 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by  CAST(PEAK_START_HOURS AS SIGNED);
+</select>
+<!-- 编辑查询不包含当前ID的其他数据 -->
+<select id="queryPeakHoursList" parameterType="Query" resultMap="PeakHours">
+	select * from t_peak_hours 
+	<where>
+	RULE_NO =#{0} AND PEAK_HOUR_ID != #{1} 
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PeakHours">
+	select <include refid="CommonColumnlist"/> from t_peak_hours
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.peakHourId!=null and q.peakHourId!=''">
+			AND PEAK_HOUR_ID=#{q.peakHourId}
+		</if>
+		<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND RULE_NO=#{q.ruleNo}
+		</if>
+		<if test="q.peakHours!=null and q.peakHours!=''">
+			AND PEAK_HOURS=#{q.peakHours}
+		</if>
+		<if test="q.peakStartHours!=null and q.peakStartHours!=''">
+			AND PEAK_START_HOURS=#{q.peakStartHours}
+		</if>
+		<if test="q.peakEndHours!=null and q.peakEndHours!=''">
+			AND PEAK_END_HOURS=#{q.peakEndHours}
+		</if>
+		<if test="q.priceOfMinute!=null ">
+			AND PRICE_OF_MINUTE=#{q.priceOfMinute}
+		</if>
+		<if test="q.priceOfKm!=null ">
+			AND PRICE_OF_KM=#{q.priceOfKm}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

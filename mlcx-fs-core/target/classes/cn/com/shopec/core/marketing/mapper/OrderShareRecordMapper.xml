@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.OrderShareRecordDao">
+
+<resultMap type="OrderShareRecord" id="OrderShareRecord">
+	<id column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BIZ_OBJ_NO" property="bizObjNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_NO,MEMBER_NO,MOBILE_PHONE,BIZ_OBJ_TYPE,BIZ_OBJ_NO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_NO,MEMBER_NO,MOBILE_PHONE,BIZ_OBJ_TYPE,BIZ_OBJ_NO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="OrderShareRecord" useGeneratedKeys="true" keyProperty="memberNo">
+	insert into T_ORDER_SHARE_RECORD(
+		<if test="orderNo!=null">
+		ORDER_NO,
+		</if>
+		<if test="memberNo!=null">
+		MEMBER_NO,
+		</if>
+		MOBILE_PHONE,
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_NO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="orderNo!=null">
+		#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null">
+		#{memberNo,jdbcType = VARCHAR},
+		</if>
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{bizObjType,jdbcType = TINYINT},
+		#{bizObjNo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="OrderShareRecord">
+	update t_order_share_record 
+	<set>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjType!=null ">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = TINYINT},
+		</if>
+		<if test="bizObjNo!=null and bizObjNo!=''">
+			BIZ_OBJ_NO=#{bizObjNo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND MEMBER_NO=#{memberNo}
+		AND ORDER_NO=#{orderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_share_record 
+	<where>
+		MEMBER_NO=#{0}
+		AND ORDER_NO=#{1}
+	</where>
+</delete>
+
+<select id="getOrderShareRecord" resultMap="OrderShareRecord">
+	select <include refid="AllColumnlist"/> from t_order_share_record
+	<where>
+		ORDER_NO=#{0}
+		AND MEMBER_NO=#{1}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderShareRecord">
+	select <include refid="AllColumnlist"/> from t_order_share_record
+	<where>
+		ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from t_order_share_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderShareRecord">
+	select <include refid="CommonColumnlist"/> from t_order_share_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderShareRecord">
+	select <include refid="CommonColumnlist"/> from t_order_share_record
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.bizObjType!=null ">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.bizObjNo!=null and q.bizObjNo!=''">
+			AND BIZ_OBJ_NO=#{q.bizObjNo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

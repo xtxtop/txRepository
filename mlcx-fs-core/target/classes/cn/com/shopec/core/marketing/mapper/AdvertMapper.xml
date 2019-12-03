@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.AdvertDao">
+
+<resultMap type="Advert" id="Advert">
+	<id column="ADVERT_NO" property="advertNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADVERT_TYPE" property="advertType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ADVERT_NAME" property="advertName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RANKING" property="ranking" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="EXTERNAL_LINK_URL" property="externalLinkUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADVERT_PIC_URL" property="advertPicUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LINK_URL" property="linkUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TEXT1" property="text1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TEXT2" property="text2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TEXT3" property="text3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_ID" property="censorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_TIME" property="censorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_NAME" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_START_ADVERT" property="isStartAdvert" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ADVERT_MEMBER_TYPE" property="advertMemberType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="JUMP_TYPE" property="jumpType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="NATIVE_URL_TYPE" property="nativeUrlType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ADVERT_NO,ADVERT_TYPE,ADVERT_NAME,RANKING,ADVERT_PIC_URL,LINK_URL,TEXT1,EXTERNAL_LINK_URL,
+TEXT2,TEXT3,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,CENSOR_STATUS,CENSOR_ID,
+CENSOR_TIME,CENSOR_MEMO,OPERATOR_TYPE,IS_DELETED,OPERATOR_ID,OPERATOR_NAME,
+CREATE_TIME,UPDATE_TIME,IS_START_ADVERT,ADVERT_MEMBER_TYPE,JUMP_TYPE,NATIVE_URL_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ADVERT_NO,ADVERT_TYPE,ADVERT_NAME,RANKING,ADVERT_PIC_URL,LINK_URL,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,CENSOR_STATUS,CENSOR_ID,
+CENSOR_TIME,OPERATOR_TYPE,IS_DELETED,OPERATOR_ID,OPERATOR_NAME,
+CREATE_TIME,UPDATE_TIME,EXTERNAL_LINK_URL,IS_START_ADVERT,ADVERT_MEMBER_TYPE,JUMP_TYPE,NATIVE_URL_TYPE
+</sql>
+
+<insert id="add" parameterType="Advert" useGeneratedKeys="true" keyProperty="advertNo">
+	insert into T_ADVERT(
+		<if test="advertNo!=null">
+		ADVERT_NO,
+		</if>
+		ADVERT_TYPE,
+		ADVERT_NAME,
+		RANKING,
+		EXTERNAL_LINK_URL,
+		ADVERT_PIC_URL,
+		LINK_URL,
+		TEXT1,
+		TEXT2,
+		TEXT3,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		CENSOR_STATUS,
+		CENSOR_ID,
+		CENSOR_TIME,
+		CENSOR_MEMO,
+		OPERATOR_TYPE,
+		IS_DELETED,
+		OPERATOR_ID,
+		OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		IS_START_ADVERT,
+		ADVERT_MEMBER_TYPE,
+		JUMP_TYPE,
+		NATIVE_URL_TYPE
+	) values (
+		<if test="advertNo!=null">
+		#{advertNo,jdbcType = VARCHAR},
+		</if>
+		#{advertType,jdbcType = TINYINT},
+		#{advertName,jdbcType = VARCHAR},
+		#{ranking,jdbcType = INTEGER},
+		#{externalLinkUrl,jdbcType = INTEGER},
+		#{advertPicUrl,jdbcType = VARCHAR},
+		#{linkUrl,jdbcType = VARCHAR},
+		#{text1,jdbcType = VARCHAR},
+		#{text2,jdbcType = VARCHAR},
+		#{text3,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{censorStatus,jdbcType = TINYINT},
+		#{censorId,jdbcType = VARCHAR},
+		#{censorTime,jdbcType = TIMESTAMP},
+		#{censorMemo,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorName,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{isStartAdvert,jdbcType = TINYINT},
+		#{advertMemberType,jdbcType = TINYINT},
+		#{jumpType,jdbcType = TINYINT},
+		#{nativeUrlType,jdbcType = TINYINT}
+		
+	)
+</insert>
+
+<update id="update" parameterType="Advert">
+	update T_ADVERT 
+	<set>
+		<if test="advertType!=null ">
+			ADVERT_TYPE=#{advertType,jdbcType = TINYINT},
+		</if>
+		<if test="advertName!=null and advertName!=''">
+			ADVERT_NAME=#{advertName,jdbcType = VARCHAR},
+		</if>
+		<if test="ranking!=null ">
+			RANKING=#{ranking,jdbcType = INTEGER},
+		</if>
+		<if test="externalLinkUrl!=null and externalLinkUrl!=''">
+			EXTERNAL_LINK_URL=#{externalLinkUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="advertPicUrl!=null and advertPicUrl!=''">
+			ADVERT_PIC_URL=#{advertPicUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="linkUrl!=null and linkUrl!=''">
+			LINK_URL=#{linkUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="text1!=null and text1!=''">
+			TEXT1=#{text1,jdbcType = VARCHAR},
+		</if>
+		<if test="text2!=null and text2!=''">
+			TEXT2=#{text2,jdbcType = VARCHAR},
+		</if>
+		<if test="text3!=null and text3!=''">
+			TEXT3=#{text3,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="censorId!=null and censorId!=''">
+			CENSOR_ID=#{censorId,jdbcType = VARCHAR},
+		</if>
+		<if test="censorTime!=null ">
+			CENSOR_TIME=#{censorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorMemo!=null and censorMemo!=''">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorName!=null and operatorName!=''">
+			OPERATOR_NAME=#{operatorName,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isStartAdvert!=null ">
+			IS_START_ADVERT=#{isStartAdvert,jdbcType = TINYINT},
+		</if>
+		<if test="advertMemberType!=null ">
+			ADVERT_MEMBER_TYPE=#{advertMemberType,jdbcType = TINYINT},
+		</if>
+		<if test="jumpType!=null ">
+			JUMP_TYPE=#{jumpType,jdbcType = TINYINT},
+		</if>
+		<if test="nativeUrlType!=null ">
+			NATIVE_URL_TYPE=#{nativeUrlType,jdbcType = TINYINT}
+		</if>
+	</set>
+	<where>
+		AND ADVERT_NO=#{advertNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_ADVERT 
+	<where>
+		ADVERT_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Advert">
+	select <include refid="AllColumnlist"/> from T_ADVERT
+	<where>
+		ADVERT_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Advert">
+	select <include refid="AllColumnlist"/> from T_ADVERT
+	<where>
+		ADVERT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ADVERT_NO) from T_ADVERT 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Advert">
+	select <include refid="CommonColumnlist"/> from T_ADVERT 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Advert">
+	select <include refid="CommonColumnlist"/> from T_ADVERT
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where>
+	order by RANKING asc,AVAILABLE_UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!--  得到最新的促销信息 -->
+<select id="getLatestAdverts" resultType="Advert">
+select <include refid="CommonColumnlist"/> from T_ADVERT where IS_AVAILABLE = 1 and CENSOR_STATUS = 1 order by CREATE_TIME limit 1
+</select>
+<sql id="listCommonWhereMH">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.advertNo!=null and q.advertNo!=''">
+			AND ADVERT_NO=#{q.advertNo}
+		</if>
+		<if test="q.advertType!=null ">
+			AND ADVERT_TYPE=#{q.advertType}
+		</if>
+		<if test="q.advertName!=null and q.advertName!=''">
+			AND ADVERT_NAME like '%${q.advertName}%'
+		</if>
+		<if test="q.ranking!=null ">
+			AND RANKING=#{q.ranking}
+		</if>
+		<if test="q.advertPicUrl!=null and q.advertPicUrl!=''">
+			AND ADVERT_PIC_URL=#{q.advertPicUrl}
+		</if>
+		<if test="q.linkUrl!=null and q.linkUrl!=''">
+			AND LINK_URL=#{q.linkUrl}
+		</if>
+		<if test="q.text1!=null and q.text1!=''">
+			AND TEXT1=#{q.text1}
+		</if>
+		<if test="q.text2!=null and q.text2!=''">
+			AND TEXT2=#{q.text2}
+		</if>
+		<if test="q.text3!=null and q.text3!=''">
+			AND TEXT3=#{q.text3}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorId!=null and q.censorId!=''">
+			AND CENSOR_ID=#{q.censorId}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.censorTimeStart!=null">
+		<![CDATA[	AND CENSOR_TIME>=#{q.censorTimeStart}  ]]>
+		</if>
+		<if test="q.censorTimeEnd!=null">
+		<![CDATA[	AND CENSOR_TIME<#{q.censorTimeEnd}   ]]>
+		</if>
+		<if test="q.censorMemo!=null and q.censorMemo!=''">
+			AND CENSOR_MEMO=#{q.censorMemo}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorName!=null and q.operatorName!=''">
+			AND OPERATOR_NAME=#{q.operatorName}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.isStartAdvert!=null">
+		<![CDATA[	AND IS_START_ADVERT=#{q.isStartAdvert}   ]]>
+		</if>
+		<if test="q.advertMemberType!=null">
+		<![CDATA[	AND ADVERT_MEMBER_TYPE=#{q.advertMemberType}   ]]>
+		</if>
+		<if test="q.jumpType!=null ">
+			AND JUMP_TYPE=#{q.jumpType}
+		</if>
+		<if test="q.nativeUrlType!=null ">
+			AND NATIVE_URL_TYPE=#{q.nativeUrlType}
+		</if>
+	</if>
+</sql>
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.advertNo!=null and q.advertNo!=''">
+			AND ADVERT_NO=#{q.advertNo}
+		</if>
+		<if test="q.advertType!=null ">
+			AND ADVERT_TYPE=#{q.advertType}
+		</if>
+		<if test="q.advertName!=null and q.advertName!=''">
+			AND ADVERT_NAME=#{q.advertName}
+		</if>
+		<if test="q.ranking!=null ">
+			AND RANKING=#{q.ranking}
+		</if>
+		<if test="q.advertPicUrl!=null and q.advertPicUrl!=''">
+			AND ADVERT_PIC_URL=#{q.advertPicUrl}
+		</if>
+		<if test="q.linkUrl!=null and q.linkUrl!=''">
+			AND LINK_URL=#{q.linkUrl}
+		</if>
+		<if test="q.text1!=null and q.text1!=''">
+			AND TEXT1=#{q.text1}
+		</if>
+		<if test="q.text2!=null and q.text2!=''">
+			AND TEXT2=#{q.text2}
+		</if>
+		<if test="q.text3!=null and q.text3!=''">
+			AND TEXT3=#{q.text3}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorId!=null and q.censorId!=''">
+			AND CENSOR_ID=#{q.censorId}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.censorTimeStart!=null">
+		<![CDATA[	AND CENSOR_TIME>=#{q.censorTimeStart}  ]]>
+		</if>
+		<if test="q.censorTimeEnd!=null">
+		<![CDATA[	AND CENSOR_TIME<#{q.censorTimeEnd}   ]]>
+		</if>
+		<if test="q.censorMemo!=null and q.censorMemo!=''">
+			AND CENSOR_MEMO=#{q.censorMemo}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorName!=null and q.operatorName!=''">
+			AND OPERATOR_NAME=#{q.operatorName}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.isStartAdvert!=null">
+		<![CDATA[	AND IS_START_ADVERT=#{q.isStartAdvert}   ]]>
+		</if>
+		<if test="q.advertMemberType!=null">
+		<![CDATA[	AND ADVERT_MEMBER_TYPE=#{q.advertMemberType}   ]]>
+		</if>
+		<if test="q.jumpType!=null ">
+			AND JUMP_TYPE=#{q.jumpType}
+		</if>
+		<if test="q.nativeUrlType!=null ">
+			AND NATIVE_URL_TYPE=#{q.nativeUrlType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

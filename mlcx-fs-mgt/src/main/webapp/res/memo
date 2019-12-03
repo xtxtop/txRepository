@@ -1,0 +1,12 @@
+res 目录结构说明
+
+1.简洁。有习惯性缩写的单词 必须(MUST) 采用容易理解的缩写。如：源代码目录使用src，不使用source。下面是更多例子：
+
+	img: 图片。 不允许(MUST NOT) 使用image、images、imgs等。
+	js: javascript脚本。 不允许(MUST NOT) 使用script、scripts等。
+	css: 样式表。 不允许(MUST NOT) 使用style、styles等。
+	swf: flash。 不允许(MUST NOT) 使用flash等。
+	src: 源文件目录。 不允许(MUST NOT) 使用source等。
+	dep: 引入的第三方依赖包目录。 不允许(MUST NOT) 使用lib、library、dependency等。
+	html:页面
+2.不允许(MUST NOT) 使用复数形式。如：imgs、docs是不被允许的。

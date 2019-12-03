@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.MerchantOrderConfirmDao">
+
+<resultMap type="MerchantOrderConfirm" id="MerchantOrderConfirm">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_NAME" property="merchantName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="YEAR" property="year" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="MONTH" property="month" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="DATE" property="date" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="NUM" property="num" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PROFIT_AMOUNT" property="profitAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CONFIRM_STATUS" property="confirmStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CONFIRM_TIME" property="confirmTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PROFIT_RATIO" property="profitRatio" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_SETTLED" property="isSettled" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,MERCHANT_ID,YEAR,MONTH,DATE,NUM,ORDER_AMOUNT,IS_SETTLED,
+PROFIT_AMOUNT,CONFIRM_STATUS,CONFIRM_TIME,PROFIT_RATIO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,MERCHANT_ID,YEAR,MONTH,DATE,NUM,ORDER_AMOUNT,IS_SETTLED,
+PROFIT_AMOUNT,CONFIRM_STATUS,CONFIRM_TIME,PROFIT_RATIO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="MerchantOrderConfirm" useGeneratedKeys="true" keyProperty="id">
+	insert into T_MERCHANT_ORDER_CONFIRM(
+		<if test="id!=null">
+		ID,
+		</if>
+		MERCHANT_ID,
+		YEAR,
+		MONTH,
+		DATE,
+		NUM,
+		ORDER_AMOUNT,
+		PROFIT_AMOUNT,
+		CONFIRM_STATUS,
+		CONFIRM_TIME,
+		PROFIT_RATIO,
+		IS_SETTLED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{merchantId,jdbcType = VARCHAR},
+		#{year,jdbcType = INTEGER},
+		#{month,jdbcType = INTEGER},
+		#{date,jdbcType = VARCHAR},
+		#{num,jdbcType = INTEGER},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{profitAmount,jdbcType = DOUBLE},
+		#{confirmStatus,jdbcType = TINYINT},
+		#{confirmTime,jdbcType = TIMESTAMP},
+		#{profitRatio,jdbcType = DOUBLE},
+		#{isSettled,jdbcType = INTEGER},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="MerchantOrderConfirm">
+	update T_MERCHANT_ORDER_CONFIRM 
+	<set>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="year!=null ">
+			YEAR=#{year,jdbcType = INTEGER},
+		</if>
+		<if test="month!=null ">
+			MONTH=#{month,jdbcType = INTEGER},
+		</if>
+		<if test="date!=null and date!=''">
+			DATE=#{date,jdbcType = VARCHAR},
+		</if>
+		<if test="num!=null ">
+			NUM=#{num,jdbcType = INTEGER},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="profitAmount!=null ">
+			PROFIT_AMOUNT=#{profitAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="confirmStatus!=null ">
+			CONFIRM_STATUS=#{confirmStatus,jdbcType = TINYINT},
+		</if>
+		<if test="confirmTime!=null ">
+			CONFIRM_TIME=#{confirmTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="profitRatio!=null ">
+			PROFIT_RATIO=#{profitRatio,jdbcType = DOUBLE},
+		</if>
+		<if test="isSettled!=null ">
+			IS_SETTLED=#{isSettled,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_MERCHANT_ORDER_CONFIRM 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MerchantOrderConfirm">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER_CONFIRM
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getListByMerchantId" resultMap="MerchantOrderConfirm">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER_CONFIRM
+	<where>
+		MERCHANT_ID=#{0} 
+		order by DATE desc
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MerchantOrderConfirm">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER_CONFIRM
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from T_MERCHANT_ORDER_CONFIRM 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MerchantOrderConfirm">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_ORDER_CONFIRM 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MerchantOrderConfirm">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_ORDER_CONFIRM
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by DATE desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageListForMgt" parameterType="Query" resultMap="MerchantOrderConfirm">
+	select c.*,m.MERCHANT_NAME from T_MERCHANT_ORDER_CONFIRM c 
+	LEFT JOIN t_merchant m ON c.MERCHANT_ID=m.MERCHANT_ID
+	<where>
+	 <include refid="listCommonWhereForMgt"/>
+	</where>
+	order by DATE desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonWhereForMgt">
+	<if test="q!=null">
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND c.MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.date!=null and q.date!=''">
+			AND c.DATE=#{q.date}
+		</if>
+		<if test="q.confirmStatus!=null ">
+			AND c.CONFIRM_STATUS=#{q.confirmStatus}
+		</if>
+		<if test="q.isSettled!=null ">
+			AND c.IS_SETTLED=#{q.isSettled}
+		</if>
+		
+	</if>
+</sql>
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.year!=null ">
+			AND YEAR=#{q.year}
+		</if>
+		<if test="q.month!=null ">
+			AND MONTH=#{q.month}
+		</if>
+		<if test="q.date!=null and q.date!=''">
+			AND DATE=#{q.date}
+		</if>
+		<if test="q.num!=null ">
+			AND NUM=#{q.num}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.profitAmount!=null ">
+			AND PROFIT_AMOUNT=#{q.profitAmount}
+		</if>
+		<if test="q.confirmStatus!=null ">
+			AND CONFIRM_STATUS=#{q.confirmStatus}
+		</if>
+		<if test="q.confirmTime!=null ">
+			AND CONFIRM_TIME=#{q.confirmTime}
+		</if>
+		<if test="q.confirmTimeStart!=null">
+		<![CDATA[	AND CONFIRM_TIME>=#{q.confirmTimeStart}  ]]>
+		</if>
+		<if test="q.confirmTimeEnd!=null">
+		<![CDATA[	AND CONFIRM_TIME<#{q.confirmTimeEnd}   ]]>
+		</if>
+		<if test="q.profitRatio!=null ">
+			AND PROFIT_RATIO=#{q.profitRatio}
+		</if>
+		<if test="q.isSettled!=null ">
+			AND IS_SETTLED=#{q.isSettled}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

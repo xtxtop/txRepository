@@ -1,0 +1,2887 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.OrderDao">
+
+	<resultMap type="Order" id="Order">
+		<id column="ORDER_NO" property="orderNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_NAME" property="carModelName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_TYPE" property="memberType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="IS_BIZ_ORDER" property="isBizOrder" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_STATUS" property="orderStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="STRIKE_BALANCE_AMOUNT" property="strikeBalanceAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="DISCOUNT_AMOUNT" property="discountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PACK_MINUTES_DISCOUNT" property="packMinutesDiscount"
+			javaType="java.lang.Integer" jdbcType="INTEGER" />
+		<result column="PACK_MINUTES_DISCOUNT_AMOUNT" property="packMinutesDiscountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PACK_AMOUNT_DISCOUNT_AMOUNT" property="packAmountDiscountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PAYABLE_AMOUNT" property="payableAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="PAYMENT_METHOD" property="paymentMethod"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="PAYMENT_FLOW_NO" property="paymentFlowNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="START_PARK_NO" property="startParkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ACTUAL_TAKE_LOACTON" property="actualTakeLoacton"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NO" property="terminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ACTUAL_TERMINAL_PARK_NO" property="actualTerminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="APPOINTMENT_TIME" property="appointmentTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="START_ENGINE_TIME" property="startEngineTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="OPEN_CAR_DOOR_TIME" property="openCarDoorTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="START_BILLING_TIME" property="startBillingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="FINISH_TYPE" property="finishType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="ORDER_DURATION" property="orderDuration"
+			javaType="java.lang.Integer" jdbcType="INTEGER" />
+		<result column="ORDER_MILEAGE" property="orderMileage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="IS_ILLEGAL" property="isIllegal" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="IS_ACCIDENT" property="isAccident" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="RECORD_ACCIDENT_TIME" property="recordAccidentTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_FAULT" property="isFault" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="RECORD_FAULT_TIME" property="recordFaultTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="RECORD_ILLEGAL_TIME" property="recordIllegalTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="ORDER_MEMO" property="orderMemo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CANCEL_TIME" property="cancelTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="CANCEL_OPERATOR_TYPE" property="cancelOperatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CANCEL_OPERATOR_ID" property="cancelOperatorId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="IS_DELETE" property="isDelete"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_NEED_INVOICE" property="isNeedInvoice"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_INVOICE_ISSUED" property="isInvoiceIssued"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="INVOICE_TIME" property="invoiceTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="INVIOCE_ID" property="invioceId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="INVIOCE_NO" property="invioceNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ORDER_SOURCE" property="orderSource" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SERVICE_FEE_AMOUNT" property="serviceFeeAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="RULE_NO" property="ruleNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ORDER_START_MILEAGE" property="orderStartMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="ORDER_FINISH_MILEAGE" property="orderFinishMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="START_LONGITUDE" property="startLongitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="START_LATITUDE" property="startLatitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="START_ADDRESS" property="startAddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_LONGITUDE" property="terminalLongitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="TERMINAL_LATITUDE" property="terminalLatitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="TERMINAL_ADDRESS" property="terminalAddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="IS_TAKE_IN_PARK" property="isTakeInPark" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_RETURN_IN_PARK" property="isReturnInPark" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CARPOSITION" property="carPosition" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="REGARDLESS_FRANCHISE" property="regardlessFranchise" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="WARNING_ORDER" property="warningOrder" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="MEMBER_LEVEL_DISCOUNT_AMOUNT" property="memberLevelDiscountAmount" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="GLOD_BEANS_DEDUTION_AMOUNT" property="glodBeansDedutionAmount" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CAR_TAKE_URL" property="carTakeUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BACK_URL" property="carBackUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_TAKE_MEMO" property="carTakeMemo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BACK_MEMO" property="carBackMemo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="PICKUPCARSTATUS" property="pickupcarstatus" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RETURNCARSTATUS" property="returncarstatus" javaType="java.lang.Integer" jdbcType="TINYINT" />
+	</resultMap>
+
+		<resultMap type="Order" id="Order1">
+		<id column="ORDER_NO" property="orderNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_NAME" property="carModelName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMBER_TYPE" property="memberType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="IS_BIZ_ORDER" property="isBizOrder" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_STATUS" property="orderStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="STRIKE_BALANCE_AMOUNT" property="strikeBalanceAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="DISCOUNT_AMOUNT" property="discountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PACK_MINUTES_DISCOUNT" property="packMinutesDiscount"
+			javaType="java.lang.Integer" jdbcType="INTEGER" />
+		<result column="PACK_MINUTES_DISCOUNT_AMOUNT" property="packMinutesDiscountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PACK_AMOUNT_DISCOUNT_AMOUNT" property="packAmountDiscountAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PAYABLE_AMOUNT" property="payableAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="PAYMENT_METHOD" property="paymentMethod"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="PAYMENT_FLOW_NO" property="paymentFlowNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="START_PARK_NO" property="startParkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ACTUAL_TAKE_LOACTON" property="actualTakeLoacton"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NO" property="terminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ACTUAL_TERMINAL_PARK_NO" property="actualTerminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="APPOINTMENT_TIME" property="appointmentTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="START_ENGINE_TIME" property="startEngineTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="OPEN_CAR_DOOR_TIME" property="openCarDoorTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="START_BILLING_TIME" property="startBillingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="FINISH_TYPE" property="finishType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="ORDER_DURATION" property="orderDuration"
+			javaType="java.lang.Integer" jdbcType="INTEGER" />
+		<result column="ORDER_MILEAGE" property="orderMileage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="IS_ILLEGAL" property="isIllegal" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="IS_ACCIDENT" property="isAccident" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="RECORD_ACCIDENT_TIME" property="recordAccidentTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_FAULT" property="isFault" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="RECORD_FAULT_TIME" property="recordFaultTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="RECORD_ILLEGAL_TIME" property="recordIllegalTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="ORDER_MEMO" property="orderMemo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CANCEL_TIME" property="cancelTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="CANCEL_OPERATOR_TYPE" property="cancelOperatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CANCEL_OPERATOR_ID" property="cancelOperatorId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="IS_DELETE" property="isDelete"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_NEED_INVOICE" property="isNeedInvoice"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_INVOICE_ISSUED" property="isInvoiceIssued"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="INVOICE_TIME" property="invoiceTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="INVIOCE_ID" property="invioceId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="INVIOCE_NO" property="invioceNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ORDER_SOURCE" property="orderSource" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MEMO" property="memo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="COMPANY_NAME" property="companyName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ACTUAL_TERMINAL_PARK_NAME" property="actualTerminalParkName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SERVICE_FEE_AMOUNT" property="serviceFeeAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="RULE_NO" property="ruleNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="START_LONGITUDE" property="startLongitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="START_LATITUDE" property="startLatitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="START_ADDRESS" property="startAddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_LONGITUDE" property="terminalLongitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="TERMINAL_LATITUDE" property="terminalLatitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+		<result column="TERMINAL_ADDRESS" property="terminalAddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="IS_TAKE_IN_PARK" property="isTakeInPark" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="IS_RETURN_IN_PARK" property="isReturnInPark" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CARPOSITION" property="carPosition" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="REGARDLESS_FRANCHISE" property="regardlessFranchise" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="WARNING_ORDER" property="warningOrder" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="MEMBER_LEVEL_DISCOUNT_AMOUNT" property="memberLevelDiscountAmount" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="GLOD_BEANS_DEDUTION_AMOUNT" property="glodBeansDedutionAmount" javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CAR_TAKE_URL" property="carTakeUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BACK_URL" property="carBackUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_TAKE_MEMO" property="carTakeMemo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BACK_MEMO" property="carBackMemo" javaType="java.lang.String" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		ORDER_NO,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CITY_ID,IS_DELETE,
+		CITY_NAME,MEMBER_TYPE,IS_BIZ_ORDER,ORDER_STATUS,ORDER_AMOUNT,STRIKE_BALANCE_AMOUNT,ORDER_MILEAGE,
+		DISCOUNT_AMOUNT,PACK_MINUTES_DISCOUNT,PACK_MINUTES_DISCOUNT_AMOUNT,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,
+		PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,START_PARK_NO,ACTUAL_TAKE_LOACTON,TERMINAL_PARK_NO,ACTUAL_TERMINAL_PARK_NO,
+		APPOINTMENT_TIME,START_ENGINE_TIME,OPEN_CAR_DOOR_TIME,START_BILLING_TIME,FINISH_TYPE,FINISH_TIME,ORDER_DURATION,
+		IS_ILLEGAL,IS_ACCIDENT,RECORD_ACCIDENT_TIME,IS_FAULT,RECORD_FAULT_TIME,RECORD_ILLEGAL_TIME,
+		ORDER_MEMO,CANCEL_TIME,CANCEL_OPERATOR_TYPE,CANCEL_OPERATOR_ID,IS_NEED_INVOICE,IS_INVOICE_ISSUED,
+		INVOICE_TIME,INVIOCE_ID,INVIOCE_NO,ORDER_SOURCE,MEMO,CREATE_TIME,UPDATE_TIME,
+		OPERATOR_TYPE,OPERATOR_ID,SERVICE_FEE_AMOUNT,RULE_NO,ORDER_START_MILEAGE,ORDER_FINISH_MILEAGE,
+		START_LONGITUDE,START_LATITUDE,START_ADDRESS,TERMINAL_LONGITUDE,MEMBER_LEVEL_DISCOUNT_AMOUNT,
+		TERMINAL_LATITUDE,TERMINAL_ADDRESS,IS_TAKE_IN_PARK,IS_RETURN_IN_PARK,CARPOSITION,PACK_AMOUNT_DISCOUNT_AMOUNT,
+		REGARDLESS_FRANCHISE,WARNING_ORDER,GLOD_BEANS_DEDUTION_AMOUNT,CAR_TAKE_URL,CAR_BACK_URL,CAR_TAKE_MEMO,CAR_BACK_MEMO
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		ORDER_NO,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CITY_ID,IS_DELETE,
+		CITY_NAME,MEMBER_TYPE,IS_BIZ_ORDER,ORDER_STATUS,ORDER_AMOUNT,STRIKE_BALANCE_AMOUNT,FINISH_TYPE,ORDER_MILEAGE,
+		DISCOUNT_AMOUNT,PACK_MINUTES_DISCOUNT,PACK_MINUTES_DISCOUNT_AMOUNT,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,
+		PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,START_PARK_NO,ACTUAL_TAKE_LOACTON,TERMINAL_PARK_NO,ACTUAL_TERMINAL_PARK_NO,
+		APPOINTMENT_TIME,START_ENGINE_TIME,OPEN_CAR_DOOR_TIME,START_BILLING_TIME,FINISH_TIME,ORDER_DURATION,
+		IS_ILLEGAL,IS_ACCIDENT,RECORD_ACCIDENT_TIME,IS_FAULT,RECORD_FAULT_TIME,RECORD_ILLEGAL_TIME,
+		ORDER_MEMO,CANCEL_TIME,CANCEL_OPERATOR_TYPE,CANCEL_OPERATOR_ID,IS_NEED_INVOICE,IS_INVOICE_ISSUED,
+		INVOICE_TIME,INVIOCE_ID,INVIOCE_NO,ORDER_SOURCE,MEMO,CREATE_TIME,UPDATE_TIME,MEMBER_LEVEL_DISCOUNT_AMOUNT,
+		OPERATOR_TYPE,OPERATOR_ID,SERVICE_FEE_AMOUNT,RULE_NO,ORDER_START_MILEAGE,ORDER_FINISH_MILEAGE,
+		START_ADDRESS,TERMINAL_ADDRESS,IS_TAKE_IN_PARK,IS_RETURN_IN_PARK,CARPOSITION,
+		PACK_AMOUNT_DISCOUNT_AMOUNT,REGARDLESS_FRANCHISE,WARNING_ORDER,GLOD_BEANS_DEDUTION_AMOUNT,CAR_TAKE_URL,CAR_BACK_URL,CAR_TAKE_MEMO,CAR_BACK_MEMO
+	</sql>
+
+	<insert id="add" parameterType="Order" useGeneratedKeys="true"
+		keyProperty="orderNo">
+		insert into T_ORDER(
+		<if test="orderNo!=null">
+			ORDER_NO,
+		</if>
+		MEMBER_NO,
+		MEMBER_NAME,
+		MOBILE_PHONE,
+		CAR_NO,
+		CAR_PLATE_NO,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CITY_ID,
+		CITY_NAME,
+		MEMBER_TYPE,
+		IS_BIZ_ORDER,
+		ORDER_STATUS,
+		ORDER_AMOUNT,
+		STRIKE_BALANCE_AMOUNT,
+		DISCOUNT_AMOUNT,
+		PACK_MINUTES_DISCOUNT,
+		PACK_MINUTES_DISCOUNT_AMOUNT,
+		PAYABLE_AMOUNT,
+		PAY_STATUS,
+		PAYMENT_METHOD,
+		PAYMENT_TIME,
+		PAYMENT_FLOW_NO,
+		PART_TRADE_FLOW_NO,
+		START_PARK_NO,
+		ACTUAL_TAKE_LOACTON,
+		TERMINAL_PARK_NO,
+		ACTUAL_TERMINAL_PARK_NO,
+		APPOINTMENT_TIME,
+		START_ENGINE_TIME,
+		OPEN_CAR_DOOR_TIME,
+		START_BILLING_TIME,
+		FINISH_TYPE,
+		FINISH_TIME,
+		ORDER_DURATION,
+		ORDER_MILEAGE,
+		IS_ILLEGAL,
+		IS_ACCIDENT,
+		RECORD_ACCIDENT_TIME,
+		IS_FAULT,
+		RECORD_FAULT_TIME,
+		RECORD_ILLEGAL_TIME,
+		ORDER_MEMO,
+		CANCEL_TIME,
+		CANCEL_OPERATOR_TYPE,
+		CANCEL_OPERATOR_ID,
+		IS_DELETE,
+		IS_NEED_INVOICE,
+		IS_INVOICE_ISSUED,
+		INVOICE_TIME,
+		INVIOCE_ID,
+		INVIOCE_NO,
+		ORDER_SOURCE,
+		MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		SERVICE_FEE_AMOUNT,
+		RULE_NO,
+		START_LONGITUDE,
+		START_LATITUDE,
+		START_ADDRESS,
+		TERMINAL_LONGITUDE,
+		TERMINAL_LATITUDE,
+		TERMINAL_ADDRESS,
+		IS_TAKE_IN_PARK,
+		IS_RETURN_IN_PARK,
+		CARPOSITION,
+		REGARDLESS_FRANCHISE,
+		WARNING_ORDER,
+		GLOD_BEANS_DEDUTION_AMOUNT,
+		CAR_TAKE_URL,
+		CAR_BACK_URL,
+		CAR_TAKE_MEMO,
+		CAR_BACK_MEMO
+		) values (
+		<if test="orderNo!=null">
+			#{orderNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{memberType,jdbcType = TINYINT},
+		#{isBizOrder,jdbcType = TINYINT},
+		#{orderStatus,jdbcType = TINYINT},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{strikeBalanceAmount,jdbcType =
+		DOUBLE},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{packMinutesDiscount,jdbcType = INTEGER},
+		#{packMinutesDiscountAmount,jdbcType = DOUBLE},
+		#{payableAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{paymentTime,jdbcType =
+		TIMESTAMP},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{partTradeFlowNo,jdbcType = VARCHAR},
+		#{startParkNo,jdbcType
+		= VARCHAR},
+		#{actualTakeLoacton,jdbcType = VARCHAR},
+		#{terminalParkNo,jdbcType = VARCHAR},
+		#{actualTerminalParkNo,jdbcType =
+		VARCHAR},
+		#{appointmentTime,jdbcType = TIMESTAMP},
+		#{startEngineTime,jdbcType = TIMESTAMP},
+		#{openCarDoorTime,jdbcType =
+		TIMESTAMP},
+		#{startBillingTime,jdbcType = TIMESTAMP},
+		#{finishType,jdbcType = TINYINT},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{orderDuration,jdbcType = INTEGER},
+		#{orderMileage,jdbcType = DOUBLE},
+		#{isIllegal,jdbcType = TINYINT},
+		#{isAccident,jdbcType = TINYINT},
+		#{recordAccidentTime,jdbcType = TIMESTAMP},
+		#{isFault,jdbcType =
+		TINYINT},
+		#{recordFaultTime,jdbcType = TIMESTAMP},
+		#{recordIllegalTime,jdbcType = TIMESTAMP},
+		#{orderMemo,jdbcType =
+		VARCHAR},
+		#{cancelTime,jdbcType = TIMESTAMP},
+		#{cancelOperatorType,jdbcType = TINYINT},
+		#{cancelOperatorId,jdbcType =
+		VARCHAR},
+		#{isDelete,jdbcType = TINYINT},
+		#{isNeedInvoice,jdbcType = TINYINT},
+		#{isInvoiceIssued,jdbcType = TINYINT},
+		#{invoiceTime,jdbcType =
+		TIMESTAMP},
+		#{invioceId,jdbcType = VARCHAR},
+		#{invioceNo,jdbcType =
+		VARCHAR},
+		#{orderSource,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{serviceFeeAmount,jdbcType = DOUBLE},
+		#{ruleNo,jdbcType = VARCHAR},
+		#{startLongitude,jdbcType = DOUBLE},
+		#{startLatitude,jdbcType = DOUBLE},
+		#{startAddress,jdbcType = VARCHAR},
+		#{terminalLongitude,jdbcType = DOUBLE},
+		#{terminalLatitude,jdbcType = DOUBLE},
+		#{terminalAddress,jdbcType = VARCHAR},
+		#{isTakeInPark,jdbcType = TINYINT},
+		#{isReturnInPark,jdbcType = TINYINT},
+		#{carPosition,jdbcType = TINYINT},
+		#{regardlessFranchise,jdbcType = DOUBLE},
+		#{warningOrder,jdbcType = TINYINT},
+		#{glodBeansDedutionAmount,jdbcType = DOUBLE},
+		#{carTakeUrl,jdbcType = VARCHAR},
+		#{carBackUrl,jdbcType = VARCHAR},
+		#{carTakeMemo,jdbcType = VARCHAR},
+		#{carBackMemo,jdbcType = VARCHAR}
+		
+		)
+	</insert>
+
+	<update id="update" parameterType="Order">
+		update t_order
+		<set>
+			<if test="memberNo!=null and memberNo!=''">
+				MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+			</if>
+			<if test="memberName!=null and memberName!=''">
+				MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!=''">
+				MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+			</if>
+			<if test="carNo!=null and carNo!=''">
+				CAR_NO=#{carNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carModelId!=null and carModelId!=''">
+				CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+			</if>
+			<if test="carModelName!=null and carModelName!=''">
+				CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+			</if>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="cityName!=null and cityName!=''">
+				CITY_NAME=#{cityName,jdbcType = VARCHAR},
+			</if>
+			<if test="memberType!=null ">
+				MEMBER_TYPE=#{memberType,jdbcType = TINYINT},
+			</if>
+			<if test="isBizOrder!=null ">
+				IS_BIZ_ORDER=#{isBizOrder,jdbcType = TINYINT},
+			</if>
+			<if test="orderStatus!=null ">
+				ORDER_STATUS=#{orderStatus,jdbcType = TINYINT},
+			</if>
+			<if test="orderAmount!=null ">
+				ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="strikeBalanceAmount!=null ">
+				STRIKE_BALANCE_AMOUNT=#{strikeBalanceAmount,jdbcType =
+				DOUBLE},
+			</if>
+			<if test="discountAmount!=null ">
+				DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="packMinutesDiscount!=null ">
+				PACK_MINUTES_DISCOUNT=#{packMinutesDiscount,jdbcType =
+				INTEGER},
+			</if>
+			<if test="packMinutesDiscountAmount!=null ">
+				PACK_MINUTES_DISCOUNT_AMOUNT=#{packMinutesDiscountAmount,jdbcType =
+				DOUBLE},
+			</if>
+			<if test="packAmountDiscountAmount!=null ">
+				PACK_AMOUNT_DISCOUNT_AMOUNT=#{packAmountDiscountAmount,jdbcType =
+				DOUBLE},
+			</if>
+			<if test="payableAmount!=null ">
+				PAYABLE_AMOUNT=#{payableAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="payStatus!=null ">
+				PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+			</if>
+			<if test="paymentMethod!=null ">
+				PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+			</if>
+			<if test="paymentTime!=null ">
+				PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+				PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+			</if>
+			<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+				PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR},
+			</if>
+			<if test="startParkNo!=null and startParkNo!=''">
+				START_PARK_NO=#{startParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="actualTakeLoacton!=null and actualTakeLoacton!=''">
+				ACTUAL_TAKE_LOACTON=#{actualTakeLoacton,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="terminalParkNo!=null and terminalParkNo!=''">
+				TERMINAL_PARK_NO=#{terminalParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="actualTerminalParkNo!=null and actualTerminalParkNo!=''">
+				ACTUAL_TERMINAL_PARK_NO=#{actualTerminalParkNo,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="appointmentTime!=null ">
+				APPOINTMENT_TIME=#{appointmentTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="startEngineTime!=null ">
+				START_ENGINE_TIME=#{startEngineTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="openCarDoorTime!=null ">
+				OPEN_CAR_DOOR_TIME=#{openCarDoorTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="startBillingTime!=null ">
+				START_BILLING_TIME=#{startBillingTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="finishType!=null ">
+				FINISH_TYPE=#{finishType,jdbcType = TINYINT},
+			</if>
+			<if test="finishTime!=null ">
+				FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="orderDuration!=null ">
+				ORDER_DURATION=#{orderDuration,jdbcType = INTEGER},
+			</if>
+			<if test="orderMileage!=null ">
+				ORDER_MILEAGE=#{orderMileage,jdbcType = DOUBLE},
+			</if>
+			<if test="isIllegal!=null ">
+				IS_ILLEGAL=#{isIllegal,jdbcType = TINYINT},
+			</if>
+			<if test="isAccident!=null ">
+				IS_ACCIDENT=#{isAccident,jdbcType = TINYINT},
+			</if>
+			<if test="recordAccidentTime!=null ">
+				RECORD_ACCIDENT_TIME=#{recordAccidentTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="isFault!=null ">
+				IS_FAULT=#{isFault,jdbcType = TINYINT},
+			</if>
+			<if test="recordFaultTime!=null ">
+				RECORD_FAULT_TIME=#{recordFaultTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="recordIllegalTime!=null ">
+				RECORD_ILLEGAL_TIME=#{recordIllegalTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="orderMemo!=null and orderMemo!=''">
+				ORDER_MEMO=#{orderMemo,jdbcType = VARCHAR},
+			</if>
+			<if test="cancelTime!=null ">
+				CANCEL_TIME=#{cancelTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="cancelOperatorType!=null ">
+				CANCEL_OPERATOR_TYPE=#{cancelOperatorType,jdbcType =
+				TINYINT},
+			</if>
+			<if test="cancelOperatorId!=null and cancelOperatorId!=''">
+				CANCEL_OPERATOR_ID=#{cancelOperatorId,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="isDelete!=null ">
+				IS_DELETE=#{isDelete,jdbcType = TINYINT},
+			</if>
+			<if test="isNeedInvoice!=null ">
+				IS_NEED_INVOICE=#{isNeedInvoice,jdbcType = TINYINT},
+			</if>
+			<if test="isInvoiceIssued!=null ">
+				IS_INVOICE_ISSUED=#{isInvoiceIssued,jdbcType = TINYINT},
+			</if>
+			<if test="invoiceTime!=null ">
+				INVOICE_TIME=#{invoiceTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="invioceNo!=null and invioceNo!=''">
+				INVIOCE_NO=#{invioceNo,jdbcType = VARCHAR},
+			</if>
+			<if test="orderSource!=null and orderSource!=''">
+				ORDER_SOURCE=#{orderSource,jdbcType = VARCHAR},
+			</if>
+			<if test="memo!=null and memo!=''">
+				MEMO=#{memo,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="serviceFeeAmount!=null and serviceFeeAmount!=''">
+				SERVICE_FEE_AMOUNT=#{serviceFeeAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="ruleNo !=null and ruleNo!=''">
+				RULE_NO=#{ruleNo,jdbcType = VARCHAR},
+			</if>
+			<if test="orderStartMileage!=null ">
+				ORDER_START_MILEAGE=#{orderStartMileage,jdbcType = DOUBLE},
+			</if>
+			<if test="orderFinishMileage!=null ">
+				ORDER_FINISH_MILEAGE=#{orderFinishMileage,jdbcType = DOUBLE},
+			</if>
+			
+			<if test="startLongitude!=null ">
+				START_LONGITUDE=#{startLongitude,jdbcType = DOUBLE},
+			</if>
+			<if test="startLatitude!=null ">
+				START_LATITUDE=#{startLatitude,jdbcType = DOUBLE},
+			</if>
+			<if test="startAddress!=null and startAddress!=''">
+				START_ADDRESS=#{startAddress,jdbcType = VARCHAR},
+			</if>
+			
+			<if test="terminalLongitude!=null ">
+				TERMINAL_LONGITUDE=#{terminalLongitude,jdbcType = DOUBLE},
+			</if>
+			<if test="terminalLatitude!=null ">
+				TERMINAL_LATITUDE=#{terminalLatitude,jdbcType = DOUBLE},
+			</if>			
+			<if test="terminalAddress!=null and terminalAddress!=''">
+				TERMINAL_ADDRESS=#{terminalAddress,jdbcType = VARCHAR},
+			</if>
+			<if test="isTakeInPark!=null ">
+				IS_TAKE_IN_PARK=#{isTakeInPark,jdbcType = TINYINT},
+			</if>
+			<if test="isReturnInPark!=null ">
+				IS_RETURN_IN_PARK=#{isReturnInPark,jdbcType = TINYINT},
+			</if>
+			<if test="carPosition!=null ">
+				CARPOSITION=#{carPosition,jdbcType = TINYINT},
+			</if>
+			<if test="regardlessFranchise!=null ">
+				REGARDLESS_FRANCHISE=#{regardlessFranchise,jdbcType = DOUBLE},
+			</if>	
+			<if test="warningOrder!=null ">
+				WARNING_ORDER=#{warningOrder,jdbcType = TINYINT},
+			</if>	
+			<if test="memberLevelDiscountAmount!=null ">
+				MEMBER_LEVEL_DISCOUNT_AMOUNT=#{memberLevelDiscountAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="glodBeansDedutionAmount!=null ">
+				GLOD_BEANS_DEDUTION_AMOUNT=#{glodBeansDedutionAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="carTakeUrl!=null and carTakeUrl!=''">
+				CAR_TAKE_URL=#{carTakeUrl,jdbcType = VARCHAR},
+			</if>
+			<if test="carBackUrl!=null and carBackUrl!=''">
+				CAR_BACK_URL=#{carBackUrl,jdbcType = VARCHAR},
+			</if>
+			<if test="carTakeMemo!=null and carTakeMemo!=''">
+				CAR_TAKE_MEMO=#{carTakeMemo,jdbcType = VARCHAR},
+			</if>
+			<if test="carBackMemo!=null and carBackMemo!=''">
+				CAR_BACK_MEMO=#{carBackMemo,jdbcType = VARCHAR}
+			</if>
+			
+			<if test="pickupcarstatus!=null ">
+				PICKUPCARSTATUS=#{pickupcarstatus,jdbcType = TINYINT},
+			</if>
+			
+			<if test="returncarstatus!=null ">
+				RETURNCARSTATUS=#{returncarstatus,jdbcType = TINYINT},
+			</if>								
+		</set>
+		<where>
+			AND ORDER_NO=#{orderNo}
+		</where>
+	</update>
+
+<!-- 订单删除
+	<delete id="delete">
+		update t_order SET IS_DELETE=1 where ORDER_NO=#{0}
+	</delete> -->
+	 
+	<update id="delete" parameterType="int">
+		update t_order set IS_DELETE=1 where ORDER_NO = #{0}
+	</update>
+	
+
+	<select id="get" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order
+		<where>
+			ORDER_NO=#{0}
+		</where>
+	</select>
+	<select id="getOrderWaring" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order
+		<where>
+			MEMBER_NO=#{0}  AND  (WARNING_ORDER=1 or  WARNING_ORDER=2 ) And  ORDER_STATUS=2
+		</where>
+	</select>
+	<!-- 根据车辆编号查询最新的订单信息 -->
+	<select id="getOrderNowByCarNo" resultMap="Order">
+		select <include refid="AllColumnlist" /> from t_order
+		<where>
+			CAR_NO=#{0} and ORDER_STATUS=2
+		</where> order by CREATE_TIME desc limit 1
+	</select>
+	<!-- 判断当前是否有正在进行的订单 -->
+	<select id="judgeNowadayOrder" parameterType="String"
+		resultType="int">
+		select count(*) from t_order
+		<where>
+			MEMBER_NO=#{0} and ORDER_STATUS in (0,1,2)
+		</where>
+	</select>
+
+	<!-- 得到当前正在进行中的订单，根据会员ID得到当前正在进行的订单 -->
+	<select id="getNowadayOrderByMemberNo" parameterType="String"
+		resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order where
+		MEMBER_NO=#{0} and ORDER_STATUS in (0,1,2,3) 
+		order by
+		CREATE_TIME DESC limit 1
+	</select>
+
+	<!-- 根据车辆编号查找已预约的订单信息 -->
+	<select id="getOrderByCarNo" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order
+		<where>
+			CAR_NO=#{0} and ORDER_STATUS=1
+		</where>
+	</select>
+	<!-- 根据会员编号查询取车点列表 -->
+
+	<select id="getByMemberNoTake" resultMap="cn.com.shopec.core.resource.dao.ParkDao.Park">
+		select tp.* from
+		t_order tor,t_park tp
+		where tor.ACTUAL_TAKE_LOACTON=tp.PARK_NO and
+		tor.MEMBER_NO=#{0}
+	</select>
+	<!-- 根据会员编号查询还车点列表 -->
+
+	<select id="getByMemberNoReturn" resultMap="cn.com.shopec.core.resource.dao.ParkDao.Park">
+		select tp.* from
+		t_order tor,t_park tp
+		where tor.ACTUAL_TERMINAL_PARK_NO=tp.PARK_NO and
+		tor.MEMBER_NO=#{0}
+	</select>
+
+	<!-- 记录首次开门时间 -->
+	<update id="startOrdeOpenCarDoorTime" parameterType="int">
+		update
+		t_order set OPEN_CAR_DOOR_TIME = #{1},ORDER_STATUS = 2 where ORDER_NO
+		= #{0} and OPEN_CAR_DOOR_TIME is null
+	</update>
+
+	<!-- 记录首次计费时间 -->
+	<update id="setStartBillingTime" parameterType="int">
+		update t_order
+		set START_BILLING_TIME = #{1}, ORDER_STATUS = 2 where
+		ORDER_NO = #{0}
+		and START_BILLING_TIME is null
+	</update>
+
+    <!-- 记录第一次开车门时间及开始计费时间，同时订单状态改为“已计费” -->
+	<update id="firsttimeOpenCarDoorAndStartBilling" parameterType="int">
+		update t_order t 
+		set t.OPEN_CAR_DOOR_TIME = (case when t.OPEN_CAR_DOOR_TIME is null then #{1} else t.OPEN_CAR_DOOR_TIME end),
+		      t.START_BILLING_TIME = (case when t.START_BILLING_TIME is null then #{1} else t.START_BILLING_TIME end),
+		      t.ACTUAL_TAKE_LOACTON = (case when t.ACTUAL_TAKE_LOACTON is null then 
+		            (select CONCAT_WS('',p.ADDR_REGION1_NAME,p.ADDR_REGION2_NAME,p.ADDR_REGION3_NAME,p.ADDR_STREET)  
+		              from t_park p where p.PARK_NO=t.START_PARK_NO) else t.ACTUAL_TAKE_LOACTON end),			      
+		      t.ORDER_STATUS = 2,t.UPDATE_TIME=#{1} where t.ORDER_NO = #{0} and t.MEMBER_NO = #{2} and t.ORDER_STATUS=1
+	</update>	
+
+    <!-- 根据车辆编号，修改订单表，记录第一次开车门时间及开始计费时间，同时订单状态改为“已计费” -->
+	<update id="updateFirsttimeOpenCarDoorAndStartBillingByCarNo" parameterType="int">
+		update t_order t 
+		set t.OPEN_CAR_DOOR_TIME = (case when t.OPEN_CAR_DOOR_TIME is null then #{1} else t.OPEN_CAR_DOOR_TIME end),
+		      t.START_BILLING_TIME = (case when t.START_BILLING_TIME is null then #{1} else t.START_BILLING_TIME end),
+		      t.ACTUAL_TAKE_LOACTON = (case when t.ACTUAL_TAKE_LOACTON is null then 
+		            (select CONCAT_WS('',p.ADDR_REGION1_NAME,p.ADDR_REGION2_NAME,p.ADDR_REGION3_NAME,p.ADDR_STREET)  
+		              from t_park p where p.PARK_NO=t.START_PARK_NO) else t.ACTUAL_TAKE_LOACTON end),		      
+		      t.ORDER_STATUS = 2,t.UPDATE_TIME=#{1} where CAR_NO = #{0} and t.ORDER_STATUS=1
+	</update>	
+
+	<!-- 得到所有已提交的订单 -->
+	<select id="getAllAutoBeginCharging" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order where ORDER_STATUS = 1 and START_BILLING_TIME is null
+	</select>
+
+	<!-- 得到所有已计费的订单 -->
+	<select id="getAllAutoEndCharging" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order where ORDER_STATUS = 2 and START_BILLING_TIME is not null
+		and OPEN_CAR_DOOR_TIME is null
+	</select>
+	
+	<!-- 得到所有已计费的订单 -->
+	<select id="getAllAutoStartOrderChargings" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order where ORDER_STATUS = 2 and START_BILLING_TIME is not null and (WARNING_ORDER is null or  WARNING_ORDER=0 )
+	</select>
+
+	<select id="getByIds" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order
+		<where>
+			ORDER_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+<!-- 获取会员的欠款金额 -->
+<select id="getAmountByMemberNo" resultType="Double">
+	select sum(PAYABLE_AMOUNT) from t_order where 
+	ORDER_STATUS = 3 and PAY_STATUS=0  and MEMBER_NO=#{0}
+</select>
+<!-- 获取会员的订单数 -->
+<select id="getOrderNumByMemberNo" resultType="Long">
+	select count(ORDER_NO) from t_order where MEMBER_NO=#{0}
+</select>
+<!-- 获取一个月内的会员的订单总时长（已结束） zln -->
+<select id="getOrderMinutesByMemberNo" parameterType="Query" resultType="Integer">
+	SELECT COALESCE(SUM(ORDER_DURATION),0) from t_order where MEMBER_NO=#{q.memberNo} and ORDER_STATUS=#{q.orderStatus}
+	and MONTH(FINISH_TIME)=#{q.month} 
+</select>
+	<!-- 查询当前状态为订单中和已完成的最新订单信息 -->
+	<select id="getIdleCar" parameterType="Query" resultMap="Order">
+		SELECT
+		<include refid="AllColumnlist" />
+		FROM
+		(SELECT * FROM t_order 
+		WHERE ORDER_STATUS IN(2,3) 
+		ORDER BY update_time DESC)AS a
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		GROUP BY CAR_PLATE_NO
+	</select>
+	<!--  判断用户是否有未支付和正在进行中的订单，不能申请保证金退款    zln-->
+	<select id="getOrderNoRefundByMemberNo"  resultMap="Order">
+	SELECT ORDER_NO from t_order where MEMBER_NO=#{0} and 
+	((ORDER_STATUS=3 and PAY_STATUS=0) or (ORDER_STATUS=1 or ORDER_STATUS=2))
+	</select>
+	<!--  最近结束/取消的订单，距离当前时间，应当要超过20天。这个20天，应该是来自系统参数。未超过20天的也不能申请退款    zln-->
+	<select id="getOrderNewNoRefundByMemberNo"  resultMap="Order">
+	SELECT ORDER_NO,FINISH_TIME from t_order where MEMBER_NO=#{0} and 
+	(ORDER_STATUS=3 or ORDER_STATUS=4) order by FINISH_TIME desc limit 1
+	</select>
+	<!-- 统计当前状态为订单中和已完成的最新订单信息 -->
+	<select id="countIdleCar" parameterType="Query" resultType="Long">
+	SELECT count(*) FROM(
+		SELECT
+		<include refid="AllColumnlist" />
+		FROM
+		(SELECT * FROM t_order 
+		WHERE ORDER_STATUS IN(2,3) 
+		ORDER BY update_time DESC)AS a
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		GROUP BY CAR_PLATE_NO)b
+	</select>
+	
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(o.ORDER_NO) from t_order o left join t_member m on o.member_no=m.member_no
+		left join t_company tc on m.company_id=tc.company_id left join t_park p on o.ACTUAL_TERMINAL_PARK_NO=p.park_no
+		<where>
+			<include refid="listCommonWhereM" /> 
+		</where>
+	</select>
+	
+	<select id="countscCar" parameterType="Query" resultType="Long">
+		select count(ORDER_NO) from t_order
+		<where>
+			<include refid="listCommonWhere" /> AND ORDER_STATUS=2
+		</where>
+	</select>
+
+   <!-- 可以开票的订单 -->
+	<select id="countInvoice" parameterType="Query" resultType="Long">
+		select count(ORDER_NO) from t_order
+		<where>
+			<include refid="listCommonWhere" /> AND PAYABLE_AMOUNT > '0' 
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="Order1">
+	select o.*,tc.company_name,p.park_name as ACTUAL_TERMINAL_PARK_NAME  from t_order o left join t_member m on o.member_no=m.member_no
+		left join t_company tc on m.company_id=tc.company_id left join t_park p on o.ACTUAL_TERMINAL_PARK_NO=p.park_no
+		<where>
+			<include refid="listCommonWhereM" /> 
+		</where>
+		order by o.CREATE_TIME desc
+	</select>
+<select id="queryAlls" parameterType="Query" resultMap="Order">
+		select
+		<include refid="CommonColumnlist" />
+		from t_order
+		<where>
+			<include refid="listCommonWheres" /> 
+		</where> order by CREATE_TIME desc
+	</select>
+	<sql id="listCommonWheres">
+		<if test="q!=null">
+			
+			<if test="q.memberNo!=null and q.memberNo!=''">
+				AND MEMBER_NO=#{q.memberNo}
+			</if>
+			
+			<if test="q.isDelete!=null ">
+				AND IS_DELETE=#{q.isDelete}
+			</if>
+			
+			<if test="q.month!=null and q.month!=''">
+			<![CDATA[AND MONTH(CREATE_TIME)=#{q.month} ]]>
+			</if>
+		</if>
+	</sql>
+	
+	
+   <!-- 可以开票的订单 -->
+	<select id="queryAllInvoice" parameterType="Query" resultMap="Order">
+		select
+		<include refid="CommonColumnlist" />
+		from t_order
+		<where>
+			<include refid="listCommonWhere" /> AND PAYABLE_AMOUNT > '0' 
+		</where> order by CREATE_TIME desc
+	</select>
+
+
+ <select id="pageList" parameterType="Query" resultMap="Order1">
+		select o.*,tc.company_name,p.park_name as ACTUAL_TERMINAL_PARK_NAME  from t_order o left join t_member m on o.member_no=m.member_no
+		left join t_company tc on m.company_id=tc.company_id left join t_park p on o.ACTUAL_TERMINAL_PARK_NO=p.park_no
+		<where>
+			<include refid="listCommonWhereM" /> 
+		</where>
+		order by o.CREATE_TIME desc 
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	 <select id="pageListW" parameterType="Query" resultMap="Order1">
+		select o.*,tc.company_name,p.park_name as ACTUAL_TERMINAL_PARK_NAME  from t_order o left join t_member m on o.member_no=m.member_no
+		left join t_company tc on m.company_id=tc.company_id left join t_park p on o.ACTUAL_TERMINAL_PARK_NO=p.park_no
+		<where>
+			<include refid="listCommonWhereM" /> 
+		</where>
+		order by o.CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	
+ <select id="getOrderPagedListPayableAmount" parameterType="Query" resultMap="Order1">
+		select o.*,tc.company_name,p.park_name as ACTUAL_TERMINAL_PARK_NAME  from t_order o left join t_member m on o.member_no=m.member_no
+		left join t_company tc on m.company_id=tc.company_id left join t_park p on o.ACTUAL_TERMINAL_PARK_NO=p.park_no
+		<where>
+			<include refid="listCommonWhereM" /> 
+		</where>
+		and o.PAYABLE_AMOUNT>0
+		order by o.CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+ <!-- 财务对账 -->
+ <select id="pageListCheckAccounts" parameterType="Query" resultType="String">
+		select DISTINCT o.member_no
+		from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="q.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{q.checkDateRange1}  ]]>
+		</if>
+		<if test="q.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{q.checkDateRange2}  ]]>
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.member_name like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND m.mobile_phone like '%${q.mobilePhone}%'
+		</if>	
+		</where>
+		order by o.CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+ <select id="countCheckAccounts" parameterType="Query" resultType="Long">
+ <!-- select count(member_no) from t_order where order_status in(3,4) group by member_no -->
+		select count(DISTINCT o.member_no) from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="q.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{q.checkDateRange1}  ]]>
+		</if>
+		<if test="q.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{q.checkDateRange2}  ]]>
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.member_name like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND m.mobile_phone like '%${q.mobilePhone}%'
+		</if>		
+		</where> 
+	</select>
+	<select id="getCheckAccountsByMember" resultType="cn.com.shopec.core.finace.model.CheckAccounts">
+		SELECT o.member_No AS memberNo,o.member_name AS memberName,o.mobile_Phone AS mobilePhone,
+		(SELECT COUNT(o.order_no) FROM t_order o WHERE o.member_no=#{cA.memberNo} 
+			<if test="cA.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{cA.checkDateRange1}  ]]>
+		</if>
+		<if test="cA.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{cA.checkDateRange2}  ]]>
+		</if>) AS orderNum,
+		SUM(o.order_amount) AS orderAmount,SUM(o.payable_amount) AS payableAmount,
+		(SELECT SUM(o.payable_amount) FROM t_order o WHERE  o.member_no=#{cA.memberNo} 
+			AND o.order_status IN (3,4) AND o.pay_status=1 
+			<if test="cA.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{cA.checkDateRange1}  ]]>
+		</if>
+		<if test="cA.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{cA.checkDateRange2}  ]]>
+		</if>
+			) AS alreadyPayAmount
+		FROM t_order o WHERE o.member_no=#{cA.memberNo}
+		
+		<if test="cA.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{cA.checkDateRange1}  ]]>
+		</if>
+		<if test="cA.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{cA.checkDateRange2}  ]]>
+		</if>
+	</select>
+ <!-- 财务对账导出 -->
+ <select id="listCheckAccounts" resultType="String">
+		select DISTINCT o.member_no
+		from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="cA.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{cA.checkDateRange1}  ]]>
+		</if>
+		<if test="cA.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{cA.checkDateRange2}  ]]>
+		</if>
+		<if test="cA.memberName!=null and cA.memberName!=''">
+			AND m.member_name like '%${cA.memberName}%'
+		</if>
+		<if test="cA.mobilePhone!=null and cA.mobilePhone!=''">
+			AND m.mobile_phone like '%${cA.mobilePhone}%'
+		</if>	
+		</where>
+	</select>
+	<!-- 财务对账明细 -->
+	<select id="pageListCheckAccountsView" resultType="cn.com.shopec.core.finace.model.CheckAccountsView">
+		SELECT o.order_no as orderNo,o.member_No AS memberNo,o.member_name AS memberName,o.mobile_Phone AS mobilePhone,
+		o.city_name as cityName,o.car_model_name as carModelName,o.car_plate_no as carPlateNo,o.create_time as startTime,
+		o.finish_time as finishTime,o.order_status as orderStatus,o.order_amount as orderAmount,o.payable_amount as payableAmount,
+		o.pay_status as payStatus from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="q.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{q.checkDateRange1}  ]]>
+		</if>
+		<if test="q.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{q.checkDateRange2}  ]]>
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.member_name like '%${q.memberName}%'
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND o.car_plate_no like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.orderStatus!=null">
+			AND o.order_status =#{q.orderStatus}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND o.pay_status =#{q.payStatus}%'
+		</if>
+		</where>
+		order by o.CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<select id="countCheckAccountsView" resultType="Long">
+		SELECT count(o.order_no) from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="q.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{q.checkDateRange1}  ]]>
+		</if>
+		<if test="q.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{q.checkDateRange2}  ]]>
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.member_name like '%${q.memberName}%'
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND o.car_plate_no like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.orderStatus!=null">
+			AND o.order_status =#{q.orderStatus}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND o.pay_status =#{q.payStatus}%'
+		</if>
+		</where>
+	</select>
+	<!-- 导出账务明细 -->
+	<select id="listCheckAccountsView" resultType="cn.com.shopec.core.finace.model.CheckAccountsView">
+		SELECT o.order_no as orderNo,o.member_No AS memberNo,o.member_name AS memberName,o.mobile_Phone AS mobilePhone,
+		o.city_name as cityName,o.car_model_name as carModelName,o.car_plate_no as carPlateNo,o.create_time as startTime,
+		o.finish_time as finishTime,o.order_status as orderStatus,o.order_amount as orderAmount,o.payable_amount as payableAmount,
+		o.pay_status as payStatus from t_order o left join t_member m on o.member_no=m.member_no
+		<where>
+		<if test="cAV.checkDateRange1!=null">
+			<![CDATA[	AND o.CREATE_TIME>=#{cAV.checkDateRange1}  ]]>
+		</if>
+		<if test="cAV.checkDateRange2!=null">
+			<![CDATA[	AND o.FINISH_TIME<=#{cAV.checkDateRange2}  ]]>
+		</if>
+		<if test="cAV.memberName!=null and cAV.memberName!=''">
+			AND m.member_name like '%${cAV.memberName}%'
+		</if>
+		<if test="cAV.carPlateNo!=null and cAV.carPlateNo!=''">
+			AND o.car_plate_no like '%${cAV.carPlateNo}%'
+		</if>
+		<if test="cAV.orderStatus!=null">
+			AND o.order_status =#{cAV.orderStatus}
+		</if>
+		<if test="cAV.payStatus!=null ">
+			AND o.pay_status =#{cAV.payStatus}%'
+		</if>
+		</where>
+		order by o.CREATE_TIME desc
+	</select>
+   <!-- 可以开票的订单 -->
+	<select id="pageListInvoice" parameterType="Query" resultMap="Order">
+		select
+		<include refid="CommonColumnlist" />
+		from t_order
+		<where>
+			<include refid="listCommonWhere" />  AND PAYABLE_AMOUNT > '0' 
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+ 
+   <!-- 查询会员的最新订单 -->
+	<select id="notPaidOrder"  resultMap="Order">
+	 	select
+		<include refid="CommonColumnlist" />
+		from t_order
+	 	where member_no = #{0} 
+ 		 and ORDER_STATUS in ('1','2','3')  ORDER BY UPDATE_TIME 
+	</select>
+	
+ 	<!-- 取消订单 -->
+	<update id="cancelOrder" parameterType="int">
+		update t_order
+		 set order_status = 4 ,cancel_time = #{1},finish_time =#{1} 
+		<where>
+			AND ORDER_NO=#{0} and order_status in (0,1)
+		</where>
+	</update>
+ 
+ 
+ <!-- 财务报表集团  导出信息 -->
+ <select id="getGroupRptsList" parameterType="Query" resultType="cn.com.shopec.core.statement.model.GroupRpts">
+SELECT c.company_name As companyName,
+ ROUND(ROUND(SUM(o.order_duration))/COUNT(o.order_no),2) AS orderDurationAvg,
+  ROUND(ROUND(SUM(o.order_amount))/COUNT(o.order_no),2) AS orderAmountAvg,
+  o.member_no,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+ 
+ FROM t_order o INNER JOIN t_member m  ON o.MEMBER_NO=m.MEMBER_NO INNER JOIN t_company c 
+ON c.company_id=m.company_id LEFT JOIN t_payment_record pr ON pr.biz_obj_type=2 AND pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+		
+				<![CDATA[	AND pr.PAID_TIME>=#{groupRpts.startTime}  ]]>
+				<![CDATA[	AND pr.PAID_TIME<=#{groupRpts.endTime}  ]]>
+	
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+AND o.PAY_STATUS=1 GROUP BY c.company_id
+ 
+	</select>
+ 
+ 
+ 
+ <!-- 财务报表集团汇总信息 -->
+ <select id="pageListGroupRpts" parameterType="Query" resultType="cn.com.shopec.core.statement.model.GroupRpts">
+SELECT c.company_name As companyName,
+ ROUND(ROUND(SUM(o.order_duration))/COUNT(o.order_no),2) AS orderDurationAvg,
+  ROUND(ROUND(SUM(o.order_amount))/COUNT(o.order_no),2) AS orderAmountAvg,
+  o.member_no,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+FROM t_order o INNER JOIN t_member m  ON o.MEMBER_NO=m.MEMBER_NO INNER JOIN t_company c 
+ON c.company_id=m.company_id LEFT JOIN t_payment_record pr ON pr.biz_obj_type=2 AND pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+		<if test="q.startTime!=null ">
+				<![CDATA[	AND o.START_BILLING_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null ">
+				<![CDATA[	AND o.START_BILLING_TIME<=#{q.endTime}  ]]>
+		</if>
+	
+	AND o.ORDER_STATUS =3 and o.ORDER_DURATION > 0 
+ </where>
+AND o.PAY_STATUS=1 GROUP BY c.company_id 
+ 
+	</select>
+ 
+ <!-- 订单汇总 新修改SQL -->
+  <select id="getOrderStatisticalList" parameterType="Query" 
+	resultType="cn.com.shopec.core.order.vo.OrderStatisticalVo">
+		SELECT
+			COUNT(t.ORDER_NO) AS orderNo,
+			ROUND(SUM(t.ORDER_AMOUNT), 2) AS orderAmount,
+			ROUND(SUM(t.PAYABLE_AMOUNT),2) AS payableAmount,
+		    SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+			ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+			SUM(CASE WHEN t.PAY_STATUS=0 THEN 1 ELSE 0 END) AS noPayOrderNum,
+			ROUND(SUM(CASE WHEN t.PAY_STATUS=0 THEN t.PAYABLE_AMOUNT ELSE 0 END),2) AS noPayAmount,
+			SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+			ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+			SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+			ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount
+		FROM t_order t
+		<where> 
+			<if test="q.startTime!=null ">
+					<![CDATA[	AND t.FINISH_TIME>=#{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null ">
+					<![CDATA[	AND t.FINISH_TIME<=#{q.endTime}  ]]>
+			</if>
+ 		</where>
+ 		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<select id="countOrderStatistical" parameterType="Query" resultType="Long">
+	select count(*) from 
+	(SELECT
+			COUNT(t.ORDER_NO) AS orderNo,
+			ROUND(SUM(t.ORDER_AMOUNT), 2) AS orderAmount,
+			ROUND(SUM(t.PAYABLE_AMOUNT),2) AS payableAmount,
+		    SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+			ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+			SUM(CASE WHEN t.PAY_STATUS=0 THEN 1 ELSE 0 END) AS noPayOrderNum,
+			ROUND(SUM(CASE WHEN t.PAY_STATUS=0 THEN t.order_amount ELSE 0 END),2) AS noPayAmount,
+			SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+			ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+			SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+			ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount
+		FROM t_order t
+		<where> 
+			<if test="q.startTime!=null ">
+					<![CDATA[	AND t.FINISH_TIME>=#{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null ">
+					<![CDATA[	AND t.FINISH_TIME<=#{q.endTime}  ]]>
+			</if>
+ 		</where>
+ 		) as t
+</select>
+
+ <select id="getOrderExportStatList" resultType="cn.com.shopec.core.order.vo.OrderStatisticalVo">
+		SELECT
+		    COUNT(t.ORDER_NO) AS orderNo,
+			ROUND(SUM(t.ORDER_AMOUNT), 2) AS orderAmount,
+			ROUND(SUM(t.PAYABLE_AMOUNT),2) AS payableAmount,
+		    SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+			ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+			SUM(CASE WHEN t.PAY_STATUS=0 THEN 1 ELSE 0 END) AS noPayOrderNum,
+			ROUND(SUM(CASE WHEN t.PAY_STATUS=0 THEN t.order_amount ELSE 0 END),2) AS noPayAmount,
+			SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+			ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+			SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+			ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount
+		FROM t_order t
+	<where>
+		<![CDATA[	AND t.FINISH_TIME>=#{orderVo.startTime}  ]]>
+		<![CDATA[	AND t.FINISH_TIME<=#{orderVo.endTime}  ]]>
+	 </where>
+	</select>
+ 
+ 
+ <!-- 财务报表车辆汇总信息 -->
+ <select id="pageListCarRpts" parameterType="Query" resultType="cn.com.shopec.core.statement.model.CarRpts">
+select 
+  o.car_plate_no AS carPlateNo,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+from t_order o 
+left join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+		<if test="q.startTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME<=#{q.endTime}  ]]>
+		</if>
+	
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+GROUP BY o.car_plate_no
+	</select>
+ 
+ <!-- 财务报表场站count信息 -->
+ <select id="countSummary" parameterType="Query" resultType="Long">
+select count(*) from (
+select pk.park_name AS parkName,t.* from (
+select 
+  o.start_park_no AS startParkNo,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+from t_order o 
+left join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+		<if test="q.startTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME<=#{q.endTime}  ]]>
+		</if>
+	 
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+  
+GROUP BY o.start_park_no
+) t,t_park pk 
+
+where t.startParkNo=pk.park_no ) as rs
+	</select>
+ 
+ 
+ <!-- 财务报表场站汇总信息 -->
+ <select id="pageListParkRpts" parameterType="Query" resultType="cn.com.shopec.core.statement.model.ParkRpts">
+select pk.park_name AS parkName,t.* from (
+select 
+  o.start_park_no AS startParkNo,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+from t_order o 
+left join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+		<if test="q.startTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null ">
+				<![CDATA[	AND pr.PAID_TIME<=#{q.endTime}  ]]>
+		</if>
+	
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+ GROUP BY o.start_park_no
+ ) t,t_park pk  
+ where t.startParkNo=pk.park_no 
+ </select>
+ 
+ <!-- 财务报表-场站汇总  新 -->
+  <select id="listParkSummary" parameterType="Query" resultType="cn.com.shopec.core.statement.model.ParkRpts">
+	SELECT
+		t.START_PARK_NO AS startParkNo,
+		pk.park_name as parkName,
+	    count(t.order_no) AS orderNum,
+	    ROUND(SUM(t.order_amount),2) AS orderAmount,
+		ROUND(SERVICE_FEE_BACK,2) AS serviceFeeBack,
+		ROUND(SERVICE_FEE_GET,2) AS serviceFeeGet,
+		ROUND(SUM(t.PAYABLE_AMOUNT),2) AS alreadyAmount,
+	    SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+		ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+		SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+		ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount,
+		SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+		ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount
+	FROM
+		(
+			SELECT * FROM t_order WHERE order_no IN 
+			(select BIZ_OBJ_NO from t_payment_record
+			<where>  
+			<if test="q.startTime!=null ">
+					<![CDATA[  AND PAID_TIME>=#{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null ">
+					<![CDATA[  AND PAID_TIME<=#{q.endTime}  ]]>
+			</if>
+			AND BIZ_OBJ_TYPE=2
+ 			</where>
+			) 
+			AND ORDER_STATUS = 3
+		) t LEFT JOIN  t_park pk ON t.START_PARK_NO=pk.park_no WHERE t.START_PARK_NO IS NOT NULL
+		  GROUP BY t.START_PARK_NO
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+ </select>
+ 
+   <select id="countParkSummary" parameterType="Query" resultType="Long">
+	SELECT COUNT(*) FROM(
+	SELECT
+		t.START_PARK_NO AS startParkNo,
+		pk.park_name as parkName,
+	    count(t.order_no) AS orderNum,
+	    ROUND(SUM(t.order_amount),2) AS orderAmount,
+		ROUND(SERVICE_FEE_BACK,2) AS serviceFeeBack,
+		ROUND(SERVICE_FEE_GET,2) AS serviceFeeGet,
+		ROUND(SUM(t.PAYABLE_AMOUNT),2) AS alreadyAmount,
+	    SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+		ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+		SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+		ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount,
+		SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+		ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount
+	FROM
+		(
+			SELECT * FROM t_order WHERE order_no IN 
+			(select BIZ_OBJ_NO from t_payment_record
+			<where> 
+			<if test="q.startTime!=null ">
+				<![CDATA[  AND PAID_TIME>=#{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null ">
+				<![CDATA[  AND PAID_TIME<=#{q.endTime}  ]]>
+			</if>
+			 AND BIZ_OBJ_TYPE=2
+ 			</where>
+			) 
+			AND ORDER_STATUS = 3
+		) t LEFT JOIN  t_park pk ON t.START_PARK_NO=pk.park_no WHERE t.START_PARK_NO IS NOT NULL
+		  GROUP BY t.START_PARK_NO
+	) as t
+ </select>
+ 
+   <select id="listParkSummaryExport" parameterType="Query" resultType="cn.com.shopec.core.statement.model.ParkRpts">
+	SELECT
+		t.START_PARK_NO AS startParkNo,
+		pk.park_name as parkName,
+	    count(t.order_no) AS orderNum,
+	    ROUND(SUM(t.order_amount),2) AS orderAmount,
+		ROUND(SERVICE_FEE_BACK,2) AS serviceFeeBack,
+		ROUND(SERVICE_FEE_GET,2) AS serviceFeeGet,
+		ROUND(SUM(t.PAYABLE_AMOUNT),2) AS alreadyAmount,
+	    SUM(CASE WHEN t.PACK_AMOUNT_DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS balanceNum,
+		ROUND(SUM(t.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceDiscountAmount,
+		SUM(CASE WHEN t.DISCOUNT_AMOUNT>0 	THEN 1 ELSE 0 END) AS discountAmountNum,
+		ROUND(SUM(t.DISCOUNT_AMOUNT),2) AS discountAmount,
+		SUM(CASE WHEN t.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+		ROUND(SUM(t.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount
+	FROM
+		(
+			SELECT * FROM t_order WHERE order_no IN 
+			(select BIZ_OBJ_NO from t_payment_record
+			<where> 
+				<![CDATA[  AND PAID_TIME>=#{parkRpts.startTime}  ]]>
+				<![CDATA[  AND PAID_TIME<=#{parkRpts.endTime}    ]]>
+			AND BIZ_OBJ_TYPE=2
+ 			</where>
+			) 
+			AND ORDER_STATUS = 3
+		) t LEFT JOIN  t_park pk ON t.START_PARK_NO=pk.park_no WHERE t.START_PARK_NO IS NOT NULL
+		  GROUP BY t.START_PARK_NO
+ </select>
+ 
+ 
+ <!-- 财务报表汇总信息 -->
+ <select id="pageListSummary" parameterType="Query" resultType="cn.com.shopec.core.statement.model.Summary">
+ select 
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_AMOUNT_DISCOUNT_AMOUNT>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS packAmount,
+  SUM(CASE WHEN o.DISCOUNT_AMOUNT>0 THEN 1 ELSE 0 END) AS discountAmountNum,
+  ROUND(SUM(o.DISCOUNT_AMOUNT),2) AS discountAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge
+from t_order o 
+inner join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+<where>
+<![CDATA[	AND pr.PAID_TIME>=#{q.startTime}  ]]>
+<![CDATA[	AND pr.PAID_TIME<=#{q.endTime}  ]]>
+ and o.ORDER_STATUS in(3,4)
+ </where>
+	</select>
+	
+ <select id="getPackAmountPostDoctor"  resultType="Double">
+	 	SELECT ROUND(SUM(o.payable_amount),2) FROM t_order o,t_member m WHERE o.member_no=m.member_no AND m.COMPANY_ID=#{0} AND o.order_status=3 AND o.pay_status=0
+<![CDATA[	AND o.finish_time>=#{1}  ]]>
+<![CDATA[	 AND o.FINISH_TIME<=#{2}  ]]>
+	</select>
+	<!-- 财务汇总信息导出信息查询 -->
+	 <select id="getSummaryList" resultType="cn.com.shopec.core.statement.model.Summary">
+	select 
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge
+from t_order o 
+inner join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+<where>
+<![CDATA[	AND pr.PAID_TIME>=#{summary.startTime}  ]]>
+<![CDATA[	AND pr.PAID_TIME<=#{summary.endTime}  ]]>
+ and o.ORDER_STATUS in(3,4) 
+ </where>
+	</select>
+	<!-- 财务明细信息 -->
+	<select id="pageListDetails" parameterType="Query" resultType="cn.com.shopec.core.statement.model.Details">
+		select o.order_no as orderNo,o.member_name as memberName,o.mobile_phone as mobilePhone,o.APPOINTMENT_TIME as appointmentTime,
+      o.create_time as createTime,o.finish_time as finishTime,o.START_BILLING_TIME AS startBillingTime,o.order_duration as orderDuration ,o.ACTUAL_TAKE_LOACTON as actualTakeLoacton,
+      tp.PARK_Name as actualTerminalLoacton,
+      o.car_plate_no as carPlateNo,o.order_amount as orderAmount,o.PACK_AMOUNT_DISCOUNT_AMOUNT as packAmountDiscountAmount,o.DISCOUNT_AMOUNT as discountAmount,
+      o.STRIKE_BALANCE_AMOUNT as strikeBalanceAmount,o.payable_amount as payableAmount,o.payable_amount as alreadyAmount ,o.PAYMENT_METHOD as paymentMethod,
+      o.PAYMENT_FLOW_NO as paymentFlowNo
+       from t_order o left join t_park tp on o.ACTUAL_TERMINAL_PARK_NO=tp.park_no 
+      <where>
+      <![CDATA[	AND o.finish_time>=#{q.finishTimeStart}   ]]>
+       <![CDATA[	AND o.FINISH_TIME<=#{q.finishTimeEnd}    ]]>
+       and pay_status=1 
+      </where>
+       order by o.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<select id="countDetails" parameterType="Query" resultType="Long">
+		select count(o.order_no) from t_order o left join t_park tp on o.ACTUAL_TERMINAL_PARK_NO=tp.park_no 
+      <where>
+      <![CDATA[	AND o.finish_time>=#{q.finishTimeStart}   ]]>
+       <![CDATA[	AND o.FINISH_TIME<=#{q.finishTimeEnd}    ]]>
+       and pay_status=1 
+      </where>
+	</select>
+	<select id="getDetailsList" resultType="cn.com.shopec.core.statement.model.Details">
+		select o.order_no as orderNo,o.member_name as memberName,o.mobile_phone as mobilePhone,o.APPOINTMENT_TIME as appointmentTime,
+      o.create_time as createTime,o.finish_time as finishTime,o.START_BILLING_TIME AS startBillingTime,o.order_duration as orderDuration ,o.ACTUAL_TAKE_LOACTON as actualTakeLoacton,
+      tp.PARK_Name as actualTerminalLoacton,
+      o.car_plate_no as carPlateNo,o.order_amount as orderAmount,o.PACK_AMOUNT_DISCOUNT_AMOUNT as packAmountDiscountAmount,o.DISCOUNT_AMOUNT as discountAmount,
+      o.STRIKE_BALANCE_AMOUNT as strikeBalanceAmount,o.payable_amount as payableAmount,o.payable_amount as alreadyAmount ,o.PAYMENT_METHOD as paymentMethod,
+      o.PAYMENT_FLOW_NO as paymentFlowNo
+       from t_order o left join t_park tp on o.ACTUAL_TERMINAL_PARK_NO=tp.park_no 
+      <where>
+      <![CDATA[	AND o.finish_time>=#{details.finishTimeStart}   ]]>
+       <![CDATA[	AND o.FINISH_TIME<=#{details.finishTimeEnd}    ]]>
+       and pay_status=1 
+      </where>
+       order by o.create_time desc
+	</select>
+	
+	<!-- 财务场站汇总信息导出信息查询 -->
+	<select id="getParkRptsList" resultType="cn.com.shopec.core.statement.model.ParkRpts">
+		select pk.park_name AS parkName,t.* from (
+		select 
+		 o.start_park_no AS startParkNo,
+		  count(o.order_no) AS parkName,
+		  ROUND(SUM(o.order_duration),2) AS orderDuration,
+		  ROUND(SUM(o.order_amount),2) AS orderAmount,
+		  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+		  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+		  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+		  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+		  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+		  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+		  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+		  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+		  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+		  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+		  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+		  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+		  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+		  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+		  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+		 '' AS "备注"
+		from t_order o 
+		left join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+		<where>
+				<![CDATA[	AND pr.PAID_TIME>=#{parkRpts.startTime}  ]]>
+				<![CDATA[	AND pr.PAID_TIME<=#{parkRpts.endTime}  ]]>
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+GROUP BY o.start_park_no
+) t,t_park pk 
+
+where t.startParkNo=pk.park_no 
+
+	</select>
+	
+	
+	<!-- 财务 车辆 汇总信息导出信息查询 -->
+	<select id="getCarRptsList" resultType="cn.com.shopec.core.statement.model.CarRpts">
+select 
+  o.car_plate_no AS carPlateNo,
+  count(o.order_no) AS orderNum,
+  ROUND(SUM(o.order_duration),2) AS orderDuration,
+  ROUND(SUM(o.order_amount),2) AS orderAmount,
+  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN pr.paid_amount ELSE 0 END),2) AS alreadyAmount,
+  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id is not null THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS alreadyDuration,
+  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packOrderNum,
+  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packAmount,
+  ROUND(SUM(o.pack_minutes_discount),2) AS packDuration,
+  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeBalanceOrderNum,
+  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS wxCharge,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS alipayOrderNum,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS alilpayAmount,
+  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS alilpayRealAmount,
+  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN round(cast(pr.paid_amount as decimal(15,2))*0.006,2) ELSE 0 END) AS alipayCharge,
+ '' AS "备注"
+from t_order o 
+left join t_payment_record pr on pr.biz_obj_type=2 and pr.BIZ_OBJ_NO=o.ORDER_NO
+
+	<where> 
+				<![CDATA[	AND pr.PAID_TIME>=#{carRpts.startTime}  ]]>
+				<![CDATA[	AND pr.PAID_TIME<=#{carRpts.endTime}  ]]>
+	
+	AND o.ORDER_STATUS IN (3,4)
+ </where>
+GROUP BY o.car_plate_no
+
+	</select>
+	
+	
+	<!-- 查询车辆最近一笔订单 -->
+	<select id="getLatelyOrderByCarNo"  resultMap="Order">
+	 	select
+		<include refid="CommonColumnlist" />
+		from t_order
+	 	where car_no = #{0} 
+ 		ORDER BY APPOINTMENT_TIME desc limit 1
+	</select>
+	
+	<sql id="listCommonWhereM">
+		<if test="q!=null">
+			<if test="q.orderNo!=null and q.orderNo!=''">
+				AND o.ORDER_NO like '%${q.orderNo}%'
+			</if>
+			<if test="q.memberNo!=null and q.memberNo!=''">
+				AND o.MEMBER_NO=#{q.memberNo}
+			</if>
+			<if test="q.memberName!=null and q.memberName!=''">
+				AND o.MEMBER_NAME like '%${q.memberName}%'
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND o.MOBILE_PHONE like '%${q.mobilePhone}%'
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND o.CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND o.CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				AND o.CAR_MODEL_ID=#{q.carModelId}
+			</if>
+			<if test="q.carModelName!=null and q.carModelName!=''">
+				AND o.CAR_MODEL_NAME=#{q.carModelName}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND o.CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND o.CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.memberType!=null ">
+				AND o.MEMBER_TYPE=#{q.memberType}
+			</if>
+			<if test="q.isBizOrder!=null ">
+				AND o.IS_BIZ_ORDER=#{q.isBizOrder}
+			</if>
+			<if test="q.orderStatus!=null ">
+				AND o.ORDER_STATUS=#{q.orderStatus}
+			</if>
+			<if test="q.orderAmount!=null ">
+				AND o.ORDER_AMOUNT=#{q.orderAmount}
+			</if>
+			<if test="q.strikeBalanceAmount!=null ">
+				AND o.STRIKE_BALANCE_AMOUNT=#{q.strikeBalanceAmount}
+			</if>
+			<if test="q.discountAmount!=null ">
+				AND o.DISCOUNT_AMOUNT=#{q.discountAmount}
+			</if>
+			<if test="q.packMinutesDiscount!=null ">
+				AND o.PACK_MINUTES_DISCOUNT=#{q.packMinutesDiscount}
+			</if>
+			<if test="q.packMinutesDiscountAmount!=null ">
+				AND
+				o.PACK_MINUTES_DISCOUNT_AMOUNT=#{q.packMinutesDiscountAmount}
+			</if>
+			<if test="q.payableAmount!=null ">
+				AND o.PAYABLE_AMOUNT=#{q.payableAmount}
+			</if>
+			<if test="q.payStatus!=null ">
+				AND o.PAY_STATUS=#{q.payStatus}
+			</if>
+			<if test="q.paymentMethod!=null ">
+				AND o.PAYMENT_METHOD=#{q.paymentMethod}
+			</if>
+			<if test="q.paymentTime!=null ">
+				AND o.PAYMENT_TIME=#{q.paymentTime}
+			</if>
+			<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND o.PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+			</if>
+			<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND o.PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+			</if>
+			<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+				AND o.PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+			</if>
+			<if test="q.startParkNo!=null and q.startParkNo!=''">
+				AND o.START_PARK_NO=#{q.startParkNo}
+			</if>
+			<if test="q.actualTakeLoacton!=null and q.actualTakeLoacton!=''">
+				AND o.ACTUAL_TAKE_LOACTON like '%${q.actualTakeLoacton}%'
+			</if>
+			<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+				AND o.TERMINAL_PARK_NO=#{q.terminalParkNo}
+			</if>
+			<if test="q.actualTerminalParkNo!=null and q.actualTerminalParkNo!=''">
+				AND o.ACTUAL_TERMINAL_PARK_NO=#{q.actualTerminalParkNo}
+			</if>
+			<if test="q.appointmentTime!=null ">
+				AND o.APPOINTMENT_TIME=#{q.appointmentTime}
+			</if>
+			<if test="q.appointmentTimeStart!=null">
+		<![CDATA[	AND o.APPOINTMENT_TIME>=#{q.appointmentTimeStart}  ]]>
+			</if>
+			<if test="q.appointmentTimeEnd!=null">
+		<![CDATA[	AND o.APPOINTMENT_TIME<#{q.appointmentTimeEnd}   ]]>
+			</if>
+			<if test="q.startEngineTime!=null ">
+				AND o.START_ENGINE_TIME=#{q.startEngineTime}
+			</if>
+			<if test="q.startEngineTimeStart!=null">
+		<![CDATA[	AND o.START_ENGINE_TIME>=#{q.startEngineTimeStart}  ]]>
+			</if>
+			<if test="q.startEngineTimeEnd!=null">
+		<![CDATA[	AND o.START_ENGINE_TIME<#{q.startEngineTimeEnd}   ]]>
+			</if>
+			<if test="q.openCarDoorTime!=null ">
+				AND o.OPEN_CAR_DOOR_TIME=#{q.openCarDoorTime}
+			</if>
+			<if test="q.openCarDoorTimeStart!=null">
+		<![CDATA[	AND o.OPEN_CAR_DOOR_TIME>=#{q.openCarDoorTimeStart}  ]]>
+			</if>
+			<if test="q.openCarDoorTimeEnd!=null">
+		<![CDATA[	AND o.OPEN_CAR_DOOR_TIME<#{q.openCarDoorTimeEnd}   ]]>
+			</if>
+			<if test="q.startBillingTime!=null ">
+				AND o.START_BILLING_TIME=#{q.startBillingTime}
+			</if>
+			<if test="q.startBillingTimeStart!=null">
+		<![CDATA[	AND o.START_BILLING_TIME>=#{q.startBillingTimeStart}  ]]>
+			</if>
+			<if test="q.startBillingTimeEnd!=null">
+		<![CDATA[	AND o.START_BILLING_TIME<#{q.startBillingTimeEnd}   ]]>
+			</if>
+			<if test="q.finishType!=null ">
+				AND o.FINISH_TYPE=#{q.finishType}
+			</if>
+			<if test="q.finishTime!=null ">
+				AND o.FINISH_TYPE=#{q.finishTime}
+			</if>
+			<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND o.FINISH_TIME>=#{q.finishTimeStart}  ]]>
+			</if>
+			<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND o.FINISH_TIME<#{q.finishTimeEnd}   ]]>
+			</if>
+			<if test="q.orderDuration!=null ">
+				AND o.ORDER_DURATION=#{q.orderDuration}
+			</if>
+			<if test="q.orderMileage!=null ">
+				AND o.ORDER_MILEAGE=#{q.orderMileage}
+			</if>
+			<if test="q.isIllegal!=null ">
+				AND o.IS_ILLEGAL=#{q.isIllegal}
+			</if>
+			<if test="q.isAccident!=null ">
+				AND o.IS_ACCIDENT=#{q.isAccident}
+			</if>
+			<if test="q.recordAccidentTime!=null ">
+				AND o.RECORD_ACCIDENT_TIME=#{q.recordAccidentTime}
+			</if>
+			<if test="q.recordAccidentTimeStart!=null">
+		<![CDATA[	AND o.RECORD_ACCIDENT_TIME>=#{q.recordAccidentTimeStart}  ]]>
+			</if>
+			<if test="q.recordAccidentTimeEnd!=null">
+		<![CDATA[	AND o.RECORD_ACCIDENT_TIME<#{q.recordAccidentTimeEnd}   ]]>
+			</if>
+			<if test="q.isFault!=null ">
+				AND o.IS_FAULT=#{q.isFault}
+			</if>
+			<if test="q.recordFaultTime!=null ">
+				AND o.RECORD_FAULT_TIME=#{q.recordFaultTime}
+			</if>
+			<if test="q.recordFaultTimeStart!=null">
+		<![CDATA[	AND o.RECORD_FAULT_TIME>=#{q.recordFaultTimeStart}  ]]>
+			</if>
+			<if test="q.recordFaultTimeEnd!=null">
+		<![CDATA[	AND o.RECORD_FAULT_TIME<#{q.recordFaultTimeEnd}   ]]>
+			</if>
+			<if test="q.recordIllegalTime!=null ">
+				AND o.RECORD_ILLEGAL_TIME=#{q.recordIllegalTime}
+			</if>
+			<if test="q.recordIllegalTimeStart!=null">
+		<![CDATA[	AND o.RECORD_ILLEGAL_TIME>=#{q.recordIllegalTimeStart}  ]]>
+			</if>
+			<if test="q.recordIllegalTimeEnd!=null">
+		<![CDATA[	AND o.RECORD_ILLEGAL_TIME<#{q.recordIllegalTimeEnd}   ]]>
+			</if>
+			<if test="q.orderMemo!=null and q.orderMemo!=''">
+				AND o.ORDER_MEMO=#{q.orderMemo}
+			</if>
+			<if test="q.cancelTime!=null ">
+				AND o.CANCEL_TIME=#{q.cancelTime}
+			</if>
+			<if test="q.cancelTimeStart!=null">
+		<![CDATA[	AND o.CANCEL_TIME>=#{q.cancelTimeStart}  ]]>
+			</if>
+			<if test="q.cancelTimeEnd!=null">
+		<![CDATA[	AND o.CANCEL_TIME<#{q.cancelTimeEnd}   ]]>
+			</if>
+			<if test="q.cancelOperatorType!=null ">
+				AND o.CANCEL_OPERATOR_TYPE=#{q.cancelOperatorType}
+			</if>
+			<if test="q.cancelOperatorId!=null and q.cancelOperatorId!=''">
+				AND o.CANCEL_OPERATOR_ID=#{q.cancelOperatorId}
+			</if>
+			<if test="q.companyId!=null and q.companyId!=''">
+				AND m.company_id=#{q.companyId}
+			</if>
+			<if test="q.isDelete!=null ">
+				AND o.IS_DELETE=#{q.isDelete}
+			</if>
+			<if test="q.isNeedInvoice!=null ">
+				AND o.IS_NEED_INVOICE=#{q.isNeedInvoice}
+			</if>
+			<if test="q.isInvoiceIssued!=null ">
+				AND o.IS_INVOICE_ISSUED=#{q.isInvoiceIssued}
+			</if>
+			<if test="q.invoiceTime!=null ">
+				AND o.INVOICE_TIME=#{q.invoiceTime}
+			</if>
+			<if test="q.invoiceTimeStart!=null">
+		<![CDATA[	AND o.INVOICE_TIME>=#{q.invoiceTimeStart}  ]]>
+			</if>
+			<if test="q.invoiceTimeEnd!=null">
+		<![CDATA[	AND o.INVOICE_TIME<#{q.invoiceTimeEnd}   ]]>
+			</if>
+			<if test="q.invioceId!=null and q.invioceId!=''">
+				AND o.INVIOCE_ID=#{q.invioceId}
+			</if>
+			<if test="q.invioceNo!=null and q.invioceNo!=''">
+				AND o.INVIOCE_NO=#{q.invioceNo}
+			</if>
+			<if test="q.orderSource!=null and q.orderSource!=''">
+				AND o.ORDER_SOURCE=#{q.orderSource}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND o.MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND o.CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND o.CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND o.CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND o.UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND o.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND o.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND o.OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND o.OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.serviceFeeAmount!=null and q.serviceFeeAmount!=''">
+				AND o.SERVICE_FEE_AMOUNT=#{q.serviceFeeAmount}
+			</if>
+			<if test="q.month!=null and q.month!=''">
+			<![CDATA[AND o.MONTH(CREATE_TIME)<#{q.month} ]]>
+			</if>
+			<if test="q.companyName!=null and q.companyName!=''">
+			AND tc.company_name like '%${q.companyName}%'
+			</if>
+			<if test="q.actualTerminalParkName!=null and q.actualTerminalParkName!=''">
+			AND p.PARK_NAME like '%${q.actualTerminalParkName}%'
+			</if>
+			<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND p.RULE_NO like '%${q.ruleNo}%'
+			</if>
+			<if test="q.glodBeansDedutionAmount!=null ">
+				AND o.GLOD_BEANS_DEDUTION_AMOUNT=#{q.glodBeansDedutionAmount}
+			</if>
+			<if test="q.warningOrder!=null ">
+				<if test="q.warningOrder==0 ">
+					AND (o.WARNING_ORDER is null or o.WARNING_ORDER=0)
+				</if>
+				<if test="q.warningOrder==1 ">
+					AND (o.WARNING_ORDER=1 or o.WARNING_ORDER=2)
+				</if>
+			</if>
+		</if>
+	</sql>
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.orderNo!=null and q.orderNo!=''">
+				AND ORDER_NO like '%${q.orderNo}%'
+			</if>
+			<if test="q.memberNo!=null and q.memberNo!=''">
+				AND MEMBER_NO=#{q.memberNo}
+			</if>
+			<if test="q.memberName!=null and q.memberName!=''">
+				AND MEMBER_NAME like '%${q.memberName}%'
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND MOBILE_PHONE=#{q.mobilePhone}
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				AND CAR_MODEL_ID=#{q.carModelId}
+			</if>
+			<if test="q.carModelName!=null and q.carModelName!=''">
+				AND CAR_MODEL_NAME=#{q.carModelName}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.memberType!=null ">
+				AND MEMBER_TYPE=#{q.memberType}
+			</if>
+			<if test="q.isBizOrder!=null ">
+				AND IS_BIZ_ORDER=#{q.isBizOrder}
+			</if>
+			<if test="q.orderStatus!=null ">
+				AND ORDER_STATUS=#{q.orderStatus}
+			</if>
+			<if test="q.orderAmount!=null ">
+				AND ORDER_AMOUNT=#{q.orderAmount}
+			</if>
+			<if test="q.strikeBalanceAmount!=null ">
+				AND STRIKE_BALANCE_AMOUNT=#{q.strikeBalanceAmount}
+			</if>
+			<if test="q.discountAmount!=null ">
+				AND DISCOUNT_AMOUNT=#{q.discountAmount}
+			</if>
+			<if test="q.packMinutesDiscount!=null ">
+				AND PACK_MINUTES_DISCOUNT=#{q.packMinutesDiscount}
+			</if>
+			<if test="q.packMinutesDiscountAmount!=null ">
+				AND
+				PACK_MINUTES_DISCOUNT_AMOUNT=#{q.packMinutesDiscountAmount}
+			</if>
+			<if test="q.payableAmount!=null ">
+				AND PAYABLE_AMOUNT=#{q.payableAmount}
+			</if>
+			<if test="q.payStatus!=null ">
+				AND PAY_STATUS=#{q.payStatus}
+			</if>
+			<if test="q.paymentMethod!=null ">
+				AND PAYMENT_METHOD=#{q.paymentMethod}
+			</if>
+			<if test="q.paymentTime!=null ">
+				AND PAYMENT_TIME=#{q.paymentTime}
+			</if>
+			<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+			</if>
+			<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+			</if>
+			<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+				AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+			</if>
+			
+			<if test="q.startParkNo!=null and q.startParkNo!=''">
+				AND START_PARK_NO=#{q.startParkNo}
+			</if>
+			<if test="q.actualTakeLoacton!=null and q.actualTakeLoacton!=''">
+				AND ACTUAL_TAKE_LOACTON=#{q.actualTakeLoacton}
+			</if>
+			<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+				AND TERMINAL_PARK_NO=#{q.terminalParkNo}
+			</if>
+			<if test="q.actualTerminalParkNo!=null and q.actualTerminalParkNo!=''">
+				AND ACTUAL_TERMINAL_PARK_NO=#{q.actualTerminalParkNo}
+			</if>
+			<if test="q.appointmentTime!=null ">
+				AND APPOINTMENT_TIME=#{q.appointmentTime}
+			</if>
+			<if test="q.appointmentTimeStart!=null">
+		<![CDATA[	AND APPOINTMENT_TIME>=#{q.appointmentTimeStart}  ]]>
+			</if>
+			<if test="q.appointmentTimeEnd!=null">
+		<![CDATA[	AND APPOINTMENT_TIME<#{q.appointmentTimeEnd}   ]]>
+			</if>
+			<if test="q.startEngineTime!=null ">
+				AND START_ENGINE_TIME=#{q.startEngineTime}
+			</if>
+			<if test="q.startEngineTimeStart!=null">
+		<![CDATA[	AND START_ENGINE_TIME>=#{q.startEngineTimeStart}  ]]>
+			</if>
+			<if test="q.startEngineTimeEnd!=null">
+		<![CDATA[	AND START_ENGINE_TIME<#{q.startEngineTimeEnd}   ]]>
+			</if>
+			<if test="q.openCarDoorTime!=null ">
+				AND OPEN_CAR_DOOR_TIME=#{q.openCarDoorTime}
+			</if>
+			<if test="q.openCarDoorTimeStart!=null">
+		<![CDATA[	AND OPEN_CAR_DOOR_TIME>=#{q.openCarDoorTimeStart}  ]]>
+			</if>
+			<if test="q.openCarDoorTimeEnd!=null">
+		<![CDATA[	AND OPEN_CAR_DOOR_TIME<#{q.openCarDoorTimeEnd}   ]]>
+			</if>
+			<if test="q.startBillingTime!=null ">
+				AND START_BILLING_TIME=#{q.startBillingTime}
+			</if>
+			<if test="q.startBillingTimeStart!=null">
+		<![CDATA[	AND START_BILLING_TIME>=#{q.startBillingTimeStart}  ]]>
+			</if>
+			<if test="q.startBillingTimeEnd!=null">
+		<![CDATA[	AND START_BILLING_TIME<#{q.startBillingTimeEnd}   ]]>
+			</if>
+			<if test="q.finishType!=null ">
+				AND FINISH_TYPE=#{q.finishType}
+			</if>
+			<if test="q.finishTime!=null ">
+				AND FINISH_TYPE=#{q.finishTime}
+			</if>
+			<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+			</if>
+			<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+			</if>
+			<if test="q.orderDuration!=null ">
+				AND ORDER_DURATION=#{q.orderDuration}
+			</if>
+			<if test="q.orderMileage!=null ">
+				AND ORDER_MILEAGE=#{q.orderMileage}
+			</if>
+			<if test="q.isIllegal!=null ">
+				AND IS_ILLEGAL=#{q.isIllegal}
+			</if>
+			<if test="q.isAccident!=null ">
+				AND IS_ACCIDENT=#{q.isAccident}
+			</if>
+			<if test="q.recordAccidentTime!=null ">
+				AND RECORD_ACCIDENT_TIME=#{q.recordAccidentTime}
+			</if>
+			<if test="q.recordAccidentTimeStart!=null">
+		<![CDATA[	AND RECORD_ACCIDENT_TIME>=#{q.recordAccidentTimeStart}  ]]>
+			</if>
+			<if test="q.recordAccidentTimeEnd!=null">
+		<![CDATA[	AND RECORD_ACCIDENT_TIME<#{q.recordAccidentTimeEnd}   ]]>
+			</if>
+			<if test="q.isFault!=null ">
+				AND IS_FAULT=#{q.isFault}
+			</if>
+			<if test="q.recordFaultTime!=null ">
+				AND RECORD_FAULT_TIME=#{q.recordFaultTime}
+			</if>
+			<if test="q.recordFaultTimeStart!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME>=#{q.recordFaultTimeStart}  ]]>
+			</if>
+			<if test="q.recordFaultTimeEnd!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME<#{q.recordFaultTimeEnd}   ]]>
+			</if>
+			<if test="q.recordIllegalTime!=null ">
+				AND RECORD_ILLEGAL_TIME=#{q.recordIllegalTime}
+			</if>
+			<if test="q.recordIllegalTimeStart!=null">
+		<![CDATA[	AND RECORD_ILLEGAL_TIME>=#{q.recordIllegalTimeStart}  ]]>
+			</if>
+			<if test="q.recordIllegalTimeEnd!=null">
+		<![CDATA[	AND RECORD_ILLEGAL_TIME<#{q.recordIllegalTimeEnd}   ]]>
+			</if>
+			<if test="q.orderMemo!=null and q.orderMemo!=''">
+				AND ORDER_MEMO=#{q.orderMemo}
+			</if>
+			<if test="q.cancelTime!=null ">
+				AND CANCEL_TIME=#{q.cancelTime}
+			</if>
+			<if test="q.cancelTimeStart!=null">
+		<![CDATA[	AND CANCEL_TIME>=#{q.cancelTimeStart}  ]]>
+			</if>
+			<if test="q.cancelTimeEnd!=null">
+		<![CDATA[	AND CANCEL_TIME<#{q.cancelTimeEnd}   ]]>
+			</if>
+			<if test="q.cancelOperatorType!=null ">
+				AND CANCEL_OPERATOR_TYPE=#{q.cancelOperatorType}
+			</if>
+			<if test="q.cancelOperatorId!=null and q.cancelOperatorId!=''">
+				AND CANCEL_OPERATOR_ID=#{q.cancelOperatorId}
+			</if>
+			<if test="q.isDelete!=null ">
+				AND IS_DELETE=#{q.isDelete}
+			</if>
+			<if test="q.isNeedInvoice!=null ">
+				AND IS_NEED_INVOICE=#{q.isNeedInvoice}
+			</if>
+			<if test="q.isInvoiceIssued!=null ">
+				AND IS_INVOICE_ISSUED=#{q.isInvoiceIssued}
+			</if>
+			<if test="q.invoiceTime!=null ">
+				AND INVOICE_TIME=#{q.invoiceTime}
+			</if>
+			<if test="q.invoiceTimeStart!=null">
+		<![CDATA[	AND INVOICE_TIME>=#{q.invoiceTimeStart}  ]]>
+			</if>
+			<if test="q.invoiceTimeEnd!=null">
+		<![CDATA[	AND INVOICE_TIME<#{q.invoiceTimeEnd}   ]]>
+			</if>
+			<if test="q.invioceId!=null and q.invioceId!=''">
+				AND INVIOCE_ID=#{q.invioceId}
+			</if>
+			<if test="q.invioceNo!=null and q.invioceNo!=''">
+				AND INVIOCE_NO=#{q.invioceNo}
+			</if>
+			<if test="q.orderSource!=null and q.orderSource!=''">
+				AND ORDER_SOURCE=#{q.orderSource}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.serviceFeeAmount!=null and q.serviceFeeAmount!=''">
+				AND SERVICE_FEE_AMOUNT=#{q.serviceFeeAmount}
+			</if>
+			<if test="q.month!=null and q.month!=''">
+			<![CDATA[AND MONTH(CREATE_TIME)<#{q.month} ]]>
+			</if>
+			<if test="q.ruleNo!=null and q.ruleNo!=''">
+				AND RULE_NO=#{q.ruleNo}
+			</if>
+			<if test="q.carPosition!=null">
+				CARPOSITION=#{q.CARPOSITION}
+			</if>
+			<if test="q.regardlessFranchise!=null">
+				REGARDLESS_FRANCHISE=#{q.regardlessFranchise}
+			</if>
+			<if test="q.warningOrder!=null">
+				WARNING_ORDER=#{q.warningOrder}
+			</if>
+			<if test="q.glodBeansDedutionAmount!=null ">
+				GLOD_BEANS_DEDUTION_AMOUNT=#{q.glodBeansDedutionAmount}
+			</if>
+		</if>
+	</sql>
+<!-- 运行日报获取日订单数 -->
+<select id="getOrderNum" resultType="Long">
+	select count(*) from t_order where 1=1
+	<![CDATA[and create_time>=#{0} ]]>
+	<![CDATA[and create_time <= #{1} ]]>
+	and order_status in (2,3) 
+	and mobile_phone not in (select mobile_phone from t_insider_member)
+</select>
+	
+<select id="getRunDaily" resultType="cn.com.shopec.core.quartz.model.RunDaily">
+	select count(*) as alPayOrderNum,round(sum(payable_amount),2) as payAmount from t_order where 1=1
+	<![CDATA[ and PAYMENT_TIME>=#{0}]]>
+	<![CDATA[ and PAYMENT_TIME <= #{1} ]]>
+	and pay_status=1 and payable_amount>0 
+	and mobile_phone not in (select mobile_phone from t_insider_member)
+</select>
+
+<!-- 首页数据获取当日订单数 -->
+<select id="getNowDayAllOrder" resultMap="Order">
+	select * from t_order where 1=1
+	<![CDATA[and create_time>=#{0} ]]>
+	<![CDATA[and create_time <= #{1} ]]>
+	<!-- and order_status in (2,3) 
+	and mobile_phone not in (select mobile_phone from t_insider_member) -->
+</select>
+
+ 
+<!--  取订单数前5的场站 -->
+<select id="getorderCount" resultType="String">
+	select  a.logcton from  
+		(
+			select ACTUAL_TAKE_LOACTON as logcton,count(*) as count   from t_order t 
+			where 1=1 and ACTUAL_TAKE_LOACTON  IS NOT  NULL
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]> 
+			GROUP BY t.ACTUAL_TAKE_LOACTON 
+		)a   
+		where 1=1 
+		ORDER BY a.count desc limit 5
+</select>
+
+ <!-- 根据部门查询当前时间段的订单数量 -->
+<select id="getorderCountlogctonList" resultType="Integer">
+		select count(*) as count from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]> 
+				and ACTUAL_TAKE_LOACTON = #{2} 
+			GROUP BY t.ACTUAL_TAKE_LOACTON 
+			
+	<!-- select  a.logcton ,a.count from  
+		(
+			select ACTUAL_TAKE_LOACTON as logcton,count(*) as count   from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]> 
+			GROUP BY t.ACTUAL_TAKE_LOACTON 
+		)a   
+		where 1=1 
+		ORDER BY a.count desc limit 5 -->
+</select>
+ 
+ <!-- 根据部门查询当前时间段的订单总金额 -->
+<select id="getorderMoneyCountlogctonList" resultType="Integer">
+		select sum(ORDER_AMOUNT) from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]> 
+				and ACTUAL_TAKE_LOACTON = #{2} 
+			GROUP BY t.ACTUAL_TAKE_LOACTON  
+</select>
+
+
+ <!-- 查询当前时间段的订单数量 -->
+<select id="getorderUserCountList" resultType="Integer">
+		select count(*) as count from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]>
+</select>
+
+ <!-- 查询当前时间段的订单总金额 -->
+<select id="getorderUserMoneyList" resultType="Integer">
+		select sum(ORDER_AMOUNT) from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]>
+</select>
+ 
+ <!-- 查询当前时间段的订单总时长 -->
+<select id="getorderUserTimeList" resultType="Integer">
+		select sum(ORDER_DURATION) from t_order t 
+			where 1=1 
+				<![CDATA[and create_time>=#{0} ]]>
+				<![CDATA[and create_time <= #{1} ]]>
+</select>
+
+
+<select id="getorderAutCount" resultType="cn.com.shopec.core.order.model.OrderCountVo">
+	select sum(ORDER_AMOUNT) as orderAutCount,sum(STRIKE_BALANCE_AMOUNT) as strikeBalanceAmount,sum(PAYABLE_AMOUNT) as payableAmount from t_order where 1=1
+	<![CDATA[and create_time>=#{0} ]]>
+	<![CDATA[and create_time <= #{1} ]]> 
+</select>
+
+<select id="getorderCancelCount" resultType="Integer">
+	select count(*) from t_order where 1=1
+	<![CDATA[and create_time>=#{0} ]]>
+	<![CDATA[and create_time <= #{1} ]]> 
+</select>
+
+
+	 
+
+
+<update id="updateOrderOvers"  parameterType="java.util.List">
+			update  t_order
+			<set>
+			  WARNING_ORDER = 1
+			</set>
+			 WHERE ORDER_NO in
+ 	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+        #{item.orderNo}  
+    </foreach>
+</update>
+
+
+<select id="getRealTimeInOrderNum" resultType="java.util.HashMap">
+select 
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 00:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum01,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 01:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum02,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 02:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum03,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 03:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum04,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 04:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum05,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 05:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum06,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 06:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum07,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 07:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum08,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 08:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum09,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 09:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum10,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 10:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum11,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 11:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum12,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 12:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum13,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 13:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum14,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 14:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum15,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 15:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum16,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 16:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum17,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 17:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum18,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 18:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum19,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 19:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum20,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 20:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum21,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 21:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum22,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 22:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum23,
+sum(CASE WHEN <![CDATA[create_time<=CONCAT(CURDATE(),' 23:59:59')]]> and <![CDATA[create_time>=CONCAT(CURDATE(),' 00:00:00')]]> THEN 1 ELSE 0 END) as orderNum24
+from t_order
+</select>
+	<!-- 根据车辆编号查询车辆据现在时间最近的一笔订单（状态为已完成或者已取消） -->
+	<select id="getOrderNewestByCarNo" resultMap="Order">
+		select
+		<include refid="AllColumnlist" />
+		from t_order
+		<where>
+			CAR_NO=#{carNo} and ORDER_STATUS in(3,4) order by CREATE_TIME desc limit 1
+		</where>
+	</select>
+	<select id="orderNumberNs" parameterType="Query" resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber,SUM(ORDER_AMOUNT) AS total FROM t_order 
+		<where>
+		<include refid="listCommonWhere" /> 
+		</where>
+	</select>
+	<!-- 订单统计 新 -->
+	<select id="orderNumberReport" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.eportTime!=null">
+				AND START_BILLING_TIME like '%${q.eportTime}%'
+		  </if>
+		   <if test="q.startTime!=null">
+				AND FINISH_TIME like '%${q.startTime}%'
+		  </if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		  <if test="q.endTime!=null">
+				AND CANCEL_TIME like '%${q.endTime}%'
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	<!-- 订单按日累计 统计X轴默认第一天之前的累加数据 -->
+	<select id="getOrderFirstDayData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.eportTime!=null">
+		 		<![CDATA[ AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m-%d') <= #{q.eportTime}  ]]> 	
+		  </if>
+		   <if test="q.startTime!=null">
+		   		<![CDATA[ AND DATE_FORMAT(FINISH_TIME,'%Y-%m-%d') <= #{q.startTime}  ]]> 
+		  </if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		  <if test="q.endTime!=null">
+		  		<![CDATA[ AND DATE_FORMAT(CANCEL_TIME,'%Y-%m-%d') <= #{q.endTime}  ]]> 
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	<!-- 订单按周累计 统计X轴默认第一天之前的累加数据 -->
+	<select id="getOrderFirstWeekDayData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.eportTime!=null">
+		 		<![CDATA[ AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m-%d') < #{q.eportTime}  ]]> 	
+		  </if>
+		   <if test="q.startTime!=null">
+		   		<![CDATA[ AND DATE_FORMAT(FINISH_TIME,'%Y-%m-%d') < #{q.startTime}  ]]> 
+		  </if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		  <if test="q.endTime!=null">
+		  		<![CDATA[ AND DATE_FORMAT(CANCEL_TIME,'%Y-%m-%d') < #{q.endTime}  ]]> 
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	
+	<!-- 订单金额按日统计 -->
+	<select id="getOrderPayAmountData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') = #{0}  ]]> 
+	</select>
+	<!-- 统计订单付款金额 统计X轴第一天日期之前的数值，包括第一天 -->
+	<select id="getOrderPayAmountDataFirst" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <= #{0}  ]]> 
+	</select>
+	
+	<!--按周 统计订单付款金额 统计X轴第一天日期之前的数值，包括第一天 -->
+	<select id="getOrderPayAmountWeekDataFirst" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') < #{0}  ]]> 
+	</select>
+	
+	<!-- 按天统计订单金额和余额抵扣额数值 -->
+	<select id="getOrderAmountAndBalanceData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m-%d') = #{0}  ]]> 
+	</select>
+	<!-- 统计X轴第一天之前的订单金额和余额抵扣额 -->
+	<select id="getOrderAmountAndBalanceDataFirst" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m-%d') <= #{0}  ]]> 
+	</select>
+	
+	<!-- 按周 统计X轴第一天之前的订单金额和余额抵扣额 -->
+	<select id="getOrderAmountAndBalanceWeekDataFirst" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderAmountDayVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m-%d') < #{0}  ]]> 
+	</select>
+	
+	<select id="orderNumberReportNs" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber,SUM(ORDER_AMOUNT) AS total FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<=#{q.createTimeEnd}  ]]>
+			</if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	<!-- 订单销售量按周统计 -->
+	<select id="orderNumberReportWeek" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportFormVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber,SUM(ORDER_AMOUNT) AS total FROM t_order 
+		<where>
+		<if test="q!=null">
+		<if test="q.startTime!=null and q.startTime!=''">
+		<![CDATA[	AND CREATE_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null and q.endTime!=''">
+		<![CDATA[	AND CREATE_TIME<=#{q.endTime}  ]]>
+		</if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	
+	<select id="orderNumberReportStatWeek" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+			<if test="q.startTime!=null and q.startTime!=''">
+			<![CDATA[	AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m-%d') >= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null and q.endTime!=''">
+			<![CDATA[	AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m-%d') <= #{q.endTime}  ]]>
+			</if>
+			<if test="q.fisStartTime!=null and q.fisStartTime!=''">
+			<![CDATA[	AND DATE_FORMAT(FINISH_TIME,'%Y-%m-%d') >= #{q.fisStartTime}  ]]>
+			</if>
+			<if test="q.fisEndTime!=null and q.fisEndTime!=''">
+			<![CDATA[	AND DATE_FORMAT(FINISH_TIME,'%Y-%m-%d') <= #{q.fisEndTime}  ]]>
+			</if>
+			
+			<if test="q.calStartTime!=null and q.calStartTime!=''">
+			<![CDATA[	AND DATE_FORMAT(CANCEL_TIME,'%Y-%m-%d') >= #{q.calStartTime}  ]]>
+			</if>
+			<if test="q.calEndTime!=null and q.calEndTime!=''">
+			<![CDATA[	AND DATE_FORMAT(CANCEL_TIME,'%Y-%m-%d') <= #{q.calEndTime}  ]]>
+			</if>
+			<if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+			</if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	
+	<select id="getOrderIncomeTotal" resultType="Double">
+		select round(sum(ORDER_AMOUNT),2) from t_order 
+		<where>
+		ORDER_STATUS!=4 and IS_DELETE=0 
+		<![CDATA[	AND CREATE_TIME>=#{money.startTime}   ]]>
+		<![CDATA[	AND CREATE_TIME<=#{money.endTime}   ]]>
+		</where>
+	</select>
+	
+	<select id="countOrderMember" resultType="Integer">
+		select count(t.memberNo) from (select MEMBER_NO as memberNo from t_order GROUP BY MEMBER_NO) t
+	</select>
+		
+	<select id="getTransactionCountMap" resultType="java.util.HashMap">
+		select 
+		sum(case when CREATE_TIME>=date_format(now(),'%Y-%m-%d') then 1 else 0 end) as todayOrderNum,
+		sum(case when ORDER_STATUS=2 and IS_DELETE=0 then 1 else 0 end) as doingOrderNum,
+		sum(case when PAY_STATUS=0 and IS_DELETE=0 and ORDER_STATUS=3 then 1 else 0 end) as notPayOrderNum
+		from t_order
+	</select>
+		
+	<select id="getOrderDay10CountMap" resultType="java.util.HashMap">
+		select date_format(CREATE_TIME,'%m-%d') as date,count(CREATE_TIME) as num from t_order 
+		where ORDER_STATUS!=4 and CREATE_TIME>=date_format(date_add(now(), interval -9 day),'%Y-%m-%d')
+		group by date_format(CREATE_TIME,'%m-%d')
+	</select>
+	
+	<select id="countExcessOrder" resultType="Integer">
+		select count(ORDER_NO) from t_order 
+		<where>
+		WARNING_ORDER=1 or WARNING_ORDER=2 
+		</where>
+	</select>
+	
+	<!-- 订单销售金额按周统计 -->
+	<select id="getOrderPayAmountWeekData" parameterType="Query"  
+	resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >= #{q.paidTimeS}  ]]> 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <= #{q.paidTimeE}  ]]> 
+	</select>
+
+
+	<select id="getOrderAmountAndBalanceWeekData" parameterType="Query"  
+	resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m-%d') >= #{q.payMentTimeS}  ]]> 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m-%d') <= #{q.payMentTimeE}  ]]> 
+	</select>
+	<!-- 订单销售量和销售金额按月统计和累计-->
+	<!-- 按月统计订单销售量 -->
+	<select id="orderNumberReportMonth" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.eportTime!=null">
+			<![CDATA[ AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m') = #{q.eportTime} ]]> 
+		  </if>
+		   <if test="q.startTime!=null">
+		   	<![CDATA[ AND DATE_FORMAT(FINISH_TIME,'%Y-%m') = #{q.startTime} ]]> 
+		  </if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		  <if test="q.endTime!=null">
+		  	<![CDATA[ AND DATE_FORMAT(CANCEL_TIME,'%Y-%m') = #{q.endTime} ]]> 
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	<!-- 按月统计订单付款额 -->
+	<select id="getOrderPayAmountMonthData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m') = #{0}  ]]> 
+	</select>
+	<!-- 按月统计订单金额和余额抵扣额数值 -->
+	<select id="getOrderAmountAndBalanceMonthData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m') = #{0}  ]]> 
+	</select>
+	<!-- 统计X轴第一月之前的新增订单数、完成和取消订单数 -->
+	<select id="getFirstMonthOrderData" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT COUNT(ORDER_NO) AS orderNumber FROM t_order 
+		<where>
+		<if test="q!=null">
+		  <if test="q.eportTime!=null">
+		 		<![CDATA[ AND DATE_FORMAT(START_BILLING_TIME,'%Y-%m') <= #{q.eportTime}  ]]> 	
+		  </if>
+		   <if test="q.startTime!=null">
+		   		<![CDATA[ AND DATE_FORMAT(FINISH_TIME,'%Y-%m') <= #{q.startTime}  ]]> 
+		  </if>
+		  <if test="q.orderStatus!=null">
+				AND ORDER_STATUS = #{q.orderStatus}
+		  </if>
+		  <if test="q.endTime!=null">
+		  		<![CDATA[ AND DATE_FORMAT(CANCEL_TIME,'%Y-%m') <= #{q.endTime}  ]]> 
+		  </if>
+		</if>
+		and IS_DELETE = 0 
+		</where>
+	</select>
+	
+	<!-- 统计订单付款金额 统计X轴第一月日期之前的数值，包括第一月 -->
+	<select id="getOrderPayAmountFirstMonth" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT ROUND(SUM(pr.PAID_AMOUNT),2) AS payAmount 
+		FROM t_order o LEFT JOIN t_payment_record pr ON o.ORDER_NO = pr.BIZ_OBJ_NO 
+		where o.PAY_STATUS = 1 and pr.BIZ_OBJ_TYPE = 2 AND o.IS_DELETE = 0 
+		<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m') <= #{0}  ]]> 
+	</select>
+	<!-- 统计X轴第一月之前的订单金额和余额抵扣额，包括第一月 -->
+	<select id="getOrderAmountAndBalanceFirstMonth" parameterType="Query"  resultType="cn.com.shopec.core.order.vo.OrderReportStatisticalVo">
+		SELECT 
+		ROUND(SUM(ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(PACK_AMOUNT_DISCOUNT_AMOUNT),2) AS balanceAmount 
+		FROM t_order where PAY_STATUS = 1 
+		<![CDATA[ AND DATE_FORMAT(PAYMENT_TIME,'%Y-%m') <= #{0}  ]]> 
+	</select>
+	<select id="getCarOrderCountMap" resultType="cn.com.shopec.core.order.vo.OrderCarUsedVo">
+		SELECT
+		 COUNT(o.ORDER_NO) as count1,
+		 o.CAR_MODEL_NAME as carModelName
+		FROM t_order o
+		WHERE o.ORDER_STATUS  = 3
+		GROUP BY o.CAR_MODEL_ID
+	</select>
+	
+</mapper>

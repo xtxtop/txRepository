@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mall.dao.MallItemSortDao">
+
+<resultMap type="MallItemSort" id="MallItemSort">
+	<id column="SORT_NO" property="sortNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARENT_SORT_NO" property="parentSortNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARENT_SORT_NAME" property="parentSortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SORT_NAME" property="sortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SORT_LEVEL" property="sortLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+SORT_NO,PARENT_SORT_NO,PARENT_SORT_NAME,SORT_NAME,SORT_LEVEL,CREATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+SORT_NO,PARENT_SORT_NO,PARENT_SORT_NAME,SORT_NAME,SORT_LEVEL,CREATE_TIME
+</sql>
+
+<insert id="add" parameterType="MallItemSort" useGeneratedKeys="true" keyProperty="sortNo">
+	insert into t_mall_item_sort(
+		<if test="sortNo!=null">
+		SORT_NO,
+		</if>
+		PARENT_SORT_NO,
+		PARENT_SORT_NAME,
+		SORT_NAME,
+		SORT_LEVEL,
+		CREATE_TIME
+	) values (
+		<if test="sortNo!=null">
+		#{sortNo,jdbcType = VARCHAR},
+		</if>
+		#{parentSortNo,jdbcType = VARCHAR},
+		#{parentSortName,jdbcType = VARCHAR},
+		#{sortName,jdbcType = VARCHAR},
+		#{sortLevel,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="MallItemSort">
+	update t_mall_item_sort 
+	<set>
+		<if test="parentSortNo!=null and parentSortNo!=''">
+			PARENT_SORT_NO=#{parentSortNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parentSortName!=null and parentSortName!=''">
+			PARENT_SORT_NAME=#{parentSortName,jdbcType = VARCHAR},
+		</if>
+		<if test="sortName!=null and sortName!=''">
+			SORT_NAME=#{sortName,jdbcType = VARCHAR},
+		</if>
+		<if test="sortLevel!=null ">
+			SORT_LEVEL=#{sortLevel,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND SORT_NO=#{sortNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_mall_item_sort 
+	<where>
+		SORT_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MallItemSort">
+	select <include refid="AllColumnlist"/> from t_mall_item_sort
+	<where>
+		SORT_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MallItemSort">
+	select <include refid="AllColumnlist"/> from t_mall_item_sort
+	<where>
+		SORT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(SORT_NO) from t_mall_item_sort 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MallItemSort">
+	select <include refid="CommonColumnlist"/> from t_mall_item_sort 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MallItemSort">
+	select <include refid="CommonColumnlist"/> from t_mall_item_sort
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.sortNo!=null and q.sortNo!=''">
+			AND SORT_NO=#{q.sortNo}
+		</if>
+		<if test="q.parentSortNo!=null and q.parentSortNo!=''">
+			AND PARENT_SORT_NO=#{q.parentSortNo}
+		</if>
+		<if test="q.parentSortName!=null and q.parentSortName!=''">
+			AND PARENT_SORT_NAME like '%${q.parentSortName}%'
+		</if>
+		<if test="q.sortName!=null and q.sortName!=''">
+			AND SORT_NAME like '%${q.sortName}%'
+		</if>
+		<if test="q.sortLevel!=null ">
+			AND SORT_LEVEL=#{q.sortLevel}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

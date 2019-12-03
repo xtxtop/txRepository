@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.DelayOrderDayDao">
+
+<resultMap type="DelayOrderDay" id="DelayOrderDay">
+	<id column="DELAY_ORDER_ID" property="delayOrderId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INSURANCE" property="insurance" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CAR_RENTAL_AMOUNT" property="carRentalAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="REGARDLESS_FRANCHISE" property="regardlessFranchise" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="OTHER_AMOUNT" property="otherAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_METHOD" property="paymentMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PAYMENT_FLOW_NO" property="paymentFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="START_TIME" property="startTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="REPLENISH_DAYS" property="replenishDays" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="TOTAL_REPLENISH_AMOUNT" property="totalReplenishAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DELAY_ORDER_ID,ORDER_NO,INSURANCE,REGARDLESS_FRANCHISE,CAR_RENTAL_AMOUNT,OTHER_AMOUNT,PAY_STATUS,PAYMENT_METHOD,
+PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,START_TIME,FINISH_TIME,REPLENISH_DAYS,
+TOTAL_REPLENISH_AMOUNT,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DELAY_ORDER_ID,ORDER_NO,INSURANCE,CAR_RENTAL_AMOUNT,REGARDLESS_FRANCHISE,OTHER_AMOUNT,PAY_STATUS,PAYMENT_METHOD,
+PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,START_TIME,FINISH_TIME,REPLENISH_DAYS,
+TOTAL_REPLENISH_AMOUNT,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="DelayOrderDay" useGeneratedKeys="true" keyProperty="delayOrderId">
+	insert into T_DELAY_ORDER_DAY(
+		<if test="delayOrderId!=null">
+		DELAY_ORDER_ID,
+		</if>
+		ORDER_NO,
+		INSURANCE,
+		REGARDLESS_FRANCHISE,
+		CAR_RENTAL_AMOUNT,
+		OTHER_AMOUNT,
+		PAY_STATUS,
+		PAYMENT_METHOD,
+		PAYMENT_TIME,
+		PAYMENT_FLOW_NO,
+		PART_TRADE_FLOW_NO,
+		START_TIME,
+		FINISH_TIME,
+		REPLENISH_DAYS,
+		TOTAL_REPLENISH_AMOUNT,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="delayOrderId!=null">
+		#{delayOrderId,jdbcType = VARCHAR},
+		</if>
+		#{orderNo,jdbcType = VARCHAR},
+		#{insurance,jdbcType = DOUBLE},
+		#{regardlessFranchise,jdbcType = DOUBLE},
+		#{carRentalAmount,jdbcType = DOUBLE},
+		#{otherAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{paymentTime,jdbcType = TIMESTAMP},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{partTradeFlowNo,jdbcType = VARCHAR},
+		#{startTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{replenishDays,jdbcType = INTEGER},
+		#{totalReplenishAmount,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DelayOrderDay">
+	update T_DELAY_ORDER_DAY 
+	<set>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="insurance!=null ">
+			INSURANCE=#{insurance,jdbcType = DOUBLE},
+		</if>
+		<if test="regardlessFranchise!=null ">
+			REGARDLESS_FRANCHISE=#{regardlessFranchise,jdbcType = DOUBLE},
+		</if>
+		<if test="carRentalAmount!=null ">
+			CAR_RENTAL_AMOUNT=#{carRentalAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="otherAmount!=null ">
+			OTHER_AMOUNT=#{otherAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="paymentMethod!=null ">
+			PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+		</if>
+		<if test="paymentTime!=null ">
+			PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+			PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+			PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="startTime!=null ">
+			START_TIME=#{startTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="finishTime!=null ">
+			FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="replenishDays!=null ">
+			REPLENISH_DAYS=#{replenishDays,jdbcType = INTEGER},
+		</if>
+		<if test="totalReplenishAmount!=null ">
+			TOTAL_REPLENISH_AMOUNT=#{totalReplenishAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND DELAY_ORDER_ID=#{delayOrderId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_DELAY_ORDER_DAY 
+	<where>
+		DELAY_ORDER_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DelayOrderDay">
+	select <include refid="AllColumnlist"/> from T_DELAY_ORDER_DAY
+	<where>
+		DELAY_ORDER_ID=#{0}
+	</where>
+</select>
+
+<select id="getDelayOrderDayByOrderDayNo" resultMap="DelayOrderDay">
+	select <include refid="AllColumnlist"/> from T_DELAY_ORDER_DAY
+	<where>
+		ORDER_NO=#{0}
+		ORDER BY CREATE_TIME DESC
+		LIMIT 1
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DelayOrderDay">
+	select <include refid="AllColumnlist"/> from T_DELAY_ORDER_DAY
+	<where>
+		DELAY_ORDER_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DELAY_ORDER_ID) from T_DELAY_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DelayOrderDay">
+	select <include refid="CommonColumnlist"/> from T_DELAY_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DelayOrderDay">
+	select <include refid="CommonColumnlist"/> from T_DELAY_ORDER_DAY
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.delayOrderId!=null and q.delayOrderId!=''">
+			AND DELAY_ORDER_ID=#{q.delayOrderId}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.insurance!=null ">
+			AND INSURANCE=#{q.insurance}
+		</if>
+		<if test="q.carRentalAmount!=null ">
+			AND CAR_RENTAL_AMOUNT=#{q.carRentalAmount}
+		</if>
+		<if test="q.otherAmount!=null ">
+			AND OTHER_AMOUNT=#{q.otherAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.paymentTime!=null ">
+			AND PAYMENT_TIME=#{q.paymentTime}
+		</if>
+		<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+		</if>
+		<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+		</if>
+		<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+			AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND PART_TRADE_FLOW_NO=#{q.partTradeFlowNo}
+		</if>
+		<if test="q.startTime!=null ">
+			AND START_TIME=#{q.startTime}
+		</if>
+		<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+		</if>
+		<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.replenishDays!=null ">
+			AND REPLENISH_DAYS=#{q.replenishDays}
+		</if>
+		<if test="q.totalReplenishAmount!=null ">
+			AND TOTAL_REPLENISH_AMOUNT=#{q.totalReplenishAmount}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

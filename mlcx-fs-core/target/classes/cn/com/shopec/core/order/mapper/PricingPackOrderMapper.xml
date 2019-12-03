@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.PricingPackOrderDao">
+
+<resultMap type="PricingPackOrder" id="PricingPackOrder">
+	<id column="PACK_ORDER_NO" property="packOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACKAGE_ID" property="packageId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACKAGE_NAME" property="packageName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACK_AMOUNT" property="packAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PACK_MINUTE" property="packMinute" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="USERD_MINUTE" property="userdMinute" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PACK_ORDER_AMOUNT" property="packOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="USERD_ORDER_AMOUNT" property="useredOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAYABLE_AMOUNT" property="payableAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_METHOD" property="paymentMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="VAILABLE_TIME1" property="vailableTime1" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="VAILABLE_TIME2" property="vailableTime2" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="INVOICE_ID" property="invoiceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_NO" property="invoiceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_STATUS" property="invoiceStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PACK_ORDER_NO,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,PACKAGE_ID,PACKAGE_NAME,PACK_AMOUNT,
+PACK_MINUTE,USERD_MINUTE,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,IS_AVAILABLE,
+VAILABLE_TIME1,VAILABLE_TIME2,INVOICE_ID,INVOICE_NO,INVOICE_STATUS,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,PART_TRADE_FLOW_NO,PACK_ORDER_AMOUNT,USERD_ORDER_AMOUNT
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PACK_ORDER_NO,MEMBER_NO,MEMBER_NAME,MOBILE_PHONE,PACKAGE_ID,PACKAGE_NAME,PACK_AMOUNT,
+PACK_MINUTE,USERD_MINUTE,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,IS_AVAILABLE,
+VAILABLE_TIME1,VAILABLE_TIME2,INVOICE_ID,INVOICE_NO,INVOICE_STATUS,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,PART_TRADE_FLOW_NO,PACK_ORDER_AMOUNT,USERD_ORDER_AMOUNT
+</sql>
+
+<insert id="add" parameterType="PricingPackOrder" useGeneratedKeys="true" keyProperty="packOrderNo">
+	insert into T_PRICING_PACK_ORDER(
+		<if test="packOrderNo!=null">
+		PACK_ORDER_NO,
+		</if>
+		MEMBER_NO,
+		MEMBER_NAME,
+		MOBILE_PHONE,
+		PACKAGE_ID,
+		PACKAGE_NAME,
+		PACK_AMOUNT,
+		PACK_MINUTE,
+		USERD_MINUTE,
+		PACK_ORDER_AMOUNT,
+		USERD_ORDER_AMOUNT,
+		PAYABLE_AMOUNT,
+		PAY_STATUS,
+		PAYMENT_METHOD,
+		IS_AVAILABLE,
+		VAILABLE_TIME1,
+		VAILABLE_TIME2,
+		INVOICE_ID,
+		INVOICE_NO,
+		INVOICE_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		PART_TRADE_FLOW_NO
+	) values (
+		<if test="packOrderNo!=null">
+		#{packOrderNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{packageId,jdbcType = VARCHAR},
+		#{packageName,jdbcType = VARCHAR},
+		#{packAmount,jdbcType = DOUBLE},
+		#{packMinute,jdbcType = INTEGER},
+		#{userdMinute,jdbcType = INTEGER},
+		#{packOrderAmount,jdbcType = DOUBLE},
+		#{useredOrderAmount,jdbcType = DOUBLE},
+		#{payableAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{isAvailable,jdbcType = TINYINT},
+		#{vailableTime1,jdbcType = TIMESTAMP},
+		#{vailableTime2,jdbcType = TIMESTAMP},
+		#{invoiceId,jdbcType = VARCHAR},
+		#{invoiceNo,jdbcType = VARCHAR},
+		#{invoiceStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{partTradeFlowNo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="PricingPackOrder">
+	update t_pricing_pack_order 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="packageId!=null and packageId!=''">
+			PACKAGE_ID=#{packageId,jdbcType = VARCHAR},
+		</if>
+		<if test="packageName!=null and packageName!=''">
+			PACKAGE_NAME=#{packageName,jdbcType = VARCHAR},
+		</if>
+		<if test="packAmount!=null ">
+			PACK_AMOUNT=#{packAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="packMinute!=null ">
+			PACK_MINUTE=#{packMinute,jdbcType = INTEGER},
+		</if>
+		<if test="userdMinute!=null ">
+			USERD_MINUTE=#{userdMinute,jdbcType = INTEGER},
+		</if>
+		<if test="packOrderAmount!=null">
+			PACK_ORDER_AMOUNT=#{packOrderAmount,jdbcType = INTEGER},
+		</if>
+		<if test="useredOrderAmount!=null">
+			USERD_ORDER_AMOUNT=#{useredOrderAmount,jdbcType = INTEGER},
+		</if>
+		<if test="payableAmount!=null ">
+			PAYABLE_AMOUNT=#{payableAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="paymentMethod!=null ">
+			PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="vailableTime1!=null ">
+			VAILABLE_TIME1=#{vailableTime1,jdbcType = TIMESTAMP},
+		</if>
+		<if test="vailableTime2!=null ">
+			VAILABLE_TIME2=#{vailableTime2,jdbcType = TIMESTAMP},
+		</if>
+		<if test="invoiceId!=null and invoiceId!=''">
+			INVOICE_ID=#{invoiceId,jdbcType = VARCHAR},
+		</if>
+		<if test="invoiceNo!=null and invoiceNo!=''">
+			INVOICE_NO=#{invoiceNo,jdbcType = VARCHAR},
+		</if>
+		<if test="invoiceStatus!=null ">
+			INVOICE_STATUS=#{invoiceStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+			PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR}
+		</if>
+	</set>
+	<where>
+		AND PACK_ORDER_NO=#{packOrderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_pricing_pack_order 
+	<where>
+		PACK_ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PricingPackOrder">
+	select <include refid="AllColumnlist"/> from t_pricing_pack_order
+	<where>
+		PACK_ORDER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="PricingPackOrder">
+	select <include refid="AllColumnlist"/> from t_pricing_pack_order
+	<where>
+		PACK_ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="availablePackageList" parameterType="Query" resultMap="PricingPackOrder">
+	SELECT <include refid="AllColumnlist"/>
+	FROM t_pricing_pack_order 
+	<where>
+	<![CDATA[ member_no=#{q.memberNo} AND USERD_MINUTE<PACK_MINUTE AND VAILABLE_TIME1<=NOW() AND VAILABLE_TIME2>=NOW() ]]>
+	and IS_AVAILABLE=1 and PAY_STATUS=1
+	</where>
+	ORDER BY CREATE_TIME
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<!-- 不可用的套餐  包含过期-->
+<select id="disablePackageList" parameterType="Query" resultMap="PricingPackOrder">
+	SELECT <include refid="AllColumnlist"/>
+	FROM t_pricing_pack_order 
+	<where>
+	<![CDATA[member_no=#{q.memberNo} AND( USERD_MINUTE>=PACK_MINUTE OR VAILABLE_TIME1>NOW() or PAY_STATUS=0 or IS_AVAILABLE=0  OR VAILABLE_TIME2<NOW()) ]]>
+	</where>
+	ORDER BY CREATE_TIME
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PACK_ORDER_NO) from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	ORDER BY CREATE_TIME DESC
+</select>
+
+
+<select id="pageList" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	ORDER BY CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="queryAllForPackageType" parameterType="Query" resultMap="PricingPackOrder">
+	select t.* from t_pricing_pack_order t,t_pricing_package p 
+	<where>
+	 <include refid="listCommonWheres"/>  and t.PACKAGE_ID=p.PACKAGE_NO 
+	</where>
+	ORDER BY t.CREATE_TIME DESC
+</select>
+
+<select id="pageLists" parameterType="Query" resultMap="PricingPackOrder">
+	select t.* from t_pricing_pack_order t,t_pricing_package p 
+	<where>
+	 <include refid="listCommonWheres"/>  and t.PACKAGE_ID=p.PACKAGE_NO 
+	</where>
+	ORDER BY t.CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="counts" parameterType="Query" resultType="Long">
+	select count(t.PACK_ORDER_NO) from t_pricing_pack_order t,t_pricing_package p
+	<where>
+	<include refid="listCommonWheres"/> and t.PACKAGE_ID=p.PACKAGE_NO
+	</where>
+</select>
+
+<select id="eportFormPackageListAll" resultMap="PricingPackOrder">
+		SELECT
+		count(o.PACK_ORDER_NO) count,
+		round(sum(o.PACK_AMOUNT), 2) sum
+		FROM
+			t_pricing_pack_order o
+		LEFT JOIN t_pricing_package p ON o.PACKAGE_ID = p.PACKAGE_NO
+		
+		WHERE
+		p.PACKAGE_TYPE = 1 
+</select>
+
+<select id="eportFormPackageList" resultMap="PricingPackOrder">
+			SELECT
+			DATE_FORMAT(o.create_time, '%Y年') weeks,
+			count(o.PACK_ORDER_NO) count,
+			round(sum(o.PACK_AMOUNT), 2) sum
+		FROM
+			t_pricing_pack_order o
+		LEFT JOIN t_pricing_package p ON o.PACKAGE_ID = p.PACKAGE_NO
+	<where>
+		<include refid="listCommonWhereNs"/>AND p.PACKAGE_TYPE = 1 
+	</where> GROUP BY weeks
+</select>
+<select id="eportFormPackageListMonth" resultMap="PricingPackOrder">
+			SELECT
+			DATE_FORMAT(o.create_time, '%Y年%m月') weeks,
+			count(o.PACK_ORDER_NO) count,
+			round(sum(o.PACK_AMOUNT), 2) sum
+		FROM
+			t_pricing_pack_order o
+		LEFT JOIN t_pricing_package p ON o.PACKAGE_ID = p.PACKAGE_NO
+	<where>
+		<include refid="listCommonWhereNs"/>AND p.PACKAGE_TYPE = 1 
+	</where> GROUP BY weeks
+</select>
+<select id="eportFormPackageListDay" resultMap="PricingPackOrder">
+			SELECT
+			DATE_FORMAT(o.create_time, '%m月%d日') weeks,
+			count(o.PACK_ORDER_NO) count,
+			round(sum(o.PACK_AMOUNT), 2) sum
+		FROM
+			t_pricing_pack_order o
+		LEFT JOIN t_pricing_package p ON o.PACKAGE_ID = p.PACKAGE_NO
+	<where>
+		<include refid="listCommonWhereNs"/>AND p.PACKAGE_TYPE = 1 
+	</where> GROUP BY weeks
+</select>
+<select id="getPackageSum" resultType="Double">
+			SELECT round(sum(PACK_AMOUNT), 2) sum FROM t_pricing_pack_order
+			 WHERE PACKAGE_ID = #{0}
+</select>
+<select id="getPackageCount" resultType="Long">
+			SELECT COUNT(PACK_ORDER_NO) count FROM t_pricing_pack_order
+			 WHERE PACKAGE_ID = #{0}
+</select>
+<sql id="listCommonWhereNs">
+	<if test="q!=null">
+		<if test="q.timeMonth!=null and q.timeMonth!=''">
+		date_format(o.create_time,'%Y') = #{q.timeMonth}
+		</if>
+		<if test="q.timeDay!=null and q.timeDay!=''">
+		date_format(o.create_time,'%Y%m') = #{q.timeDay}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND o.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND o.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWheres">
+	<if test="q!=null">
+		<if test="q.packOrderNo!=null and q.packOrderNo!=''">
+			AND t.PACK_ORDER_NO like '%${q.packOrderNo}%'
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND t.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND t.MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND t.MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		
+		<if test="q.packageName!=null and q.packageName!=''">
+			AND t.PACKAGE_NAME=#{q.packageName}
+		</if>
+		<if test="q.packageType!=null ">
+			AND p.PACKAGE_TYPE=#{q.packageType}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND t.IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isRecharge!=null ">
+			<if test="q.isRecharge==0 ">
+				 <![CDATA[	AND (t.PACK_AMOUNT<=0 OR t.PACK_AMOUNT is null) ]]> 
+			</if>
+			<if test="q.isRecharge==1 ">
+				 <![CDATA[	AND t.PACK_AMOUNT>0 ]]> 
+			</if>
+		</if>
+		<if test="q.startTime!=null">
+			<![CDATA[	AND t.CREATE_TIME>=#{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null">
+			<![CDATA[	AND t.CREATE_TIME<#{q.endTime}   ]]>
+		</if>
+	</if>
+</sql>
+
+<!-- 获取会员可用套餐列表 -->
+<select id="getPricingPackOrderListByUse" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhereUse"/> 
+	 <![CDATA[	AND PACK_MINUTE-USERD_MINUTE  >0   ]]>    order by CREATE_TIME asc
+	</where>
+</select>
+
+<!-- 获取会员可用余额 -->
+<select id="getPricingPackOrderListBypo" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhereUse"/> 
+	 <![CDATA[	AND PACK_ORDER_AMOUNT-USERD_ORDER_AMOUNT  >0   ]]>    order by CREATE_TIME asc
+	</where>
+</select>
+
+<sql id="listCommonWhereUse">
+	<if test="q!=null">
+		<if test="q.packOrderNo!=null and q.packOrderNo!=''">
+			AND PACK_ORDER_NO=#{q.packOrderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.packageId!=null and q.packageId!=''">
+			AND PACKAGE_ID=#{q.packageId}
+		</if>
+		<if test="q.packageName!=null and q.packageName!=''">
+			AND PACKAGE_NAME=#{q.packageName}
+		</if>
+		<if test="q.packAmount!=null ">
+			AND PACK_AMOUNT=#{q.packAmount}
+		</if>
+		<if test="q.packMinute!=null ">
+			AND PACK_MINUTE=#{q.packMinute}
+		</if>
+		<if test="q.userdMinute!=null ">
+			AND USERD_MINUTE=#{q.userdMinute}
+		</if>
+		<if test="q.payableAmount!=null ">
+			AND PAYABLE_AMOUNT=#{q.payableAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.vailableTime1!=null ">
+			AND VAILABLE_TIME1=#{q.vailableTime1}
+		</if>
+		<if test="q.vailableTime1Start!=null">
+		<![CDATA[	AND VAILABLE_TIME1>=#{q.vailableTime1Start}  ]]>
+		</if>
+		<if test="q.vailableTime1End!=null">
+		<![CDATA[	AND VAILABLE_TIME1<#{q.vailableTime1End}   ]]>
+		</if>
+		<if test="q.vailableTime2!=null ">
+			AND VAILABLE_TIME2=#{q.vailableTime2}
+		</if>
+		<if test="q.vailableTime2Start!=null">
+		<![CDATA[	AND VAILABLE_TIME2>=#{q.vailableTime2Start}  ]]>
+		</if>
+		<if test="q.vailableTime2End!=null">
+		<![CDATA[	AND VAILABLE_TIME2<#{q.vailableTime2End}   ]]>
+		</if>
+		<if test="q.invoiceId!=null and q.invoiceId!=''">
+			AND INVOICE_ID=#{q.invoiceId}
+		</if>
+		<if test="q.invoiceNo!=null and q.invoiceNo!=''">
+			AND INVOICE_NO=#{q.invoiceNo}
+		</if>
+		<if test="q.invoiceStatus!=null ">
+			AND INVOICE_STATUS=#{q.invoiceStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.nowTime!=null">
+		<![CDATA[	AND VAILABLE_TIME1<#{q.nowTime}   ]]>
+		<![CDATA[	AND VAILABLE_TIME2>#{q.nowTime}   ]]>
+		</if>
+		<if test="q.packOrderAmount!=null ">
+			AND PACK_ORDER_AMOUNT=#{q.packOrderAmount}
+		</if>
+		<if test="q.useredOrderAmount!=null ">
+			AND USERD_ORDER_AMOUNT=#{q.useredOrderAmount}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.packageType!=null ">
+			AND p.PACKAGE_TYPE=#{q.packageType}
+		</if>
+		<if test="q.packOrderNo!=null and q.packOrderNo!=''">
+			AND PACK_ORDER_NO like '%${q.packOrderNo}%'
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.packageId!=null and q.packageId!=''">
+			AND PACKAGE_ID=#{q.packageId}
+		</if>
+		<if test="q.packageName!=null and q.packageName!=''">
+			AND PACKAGE_NAME=#{q.packageName}
+		</if>
+		<if test="q.packAmount!=null ">
+			AND PACK_AMOUNT=#{q.packAmount}
+		</if>
+		<if test="q.packMinute!=null ">
+			AND PACK_MINUTE=#{q.packMinute}
+		</if>
+		<if test="q.userdMinute!=null ">
+			AND USERD_MINUTE=#{q.userdMinute}
+		</if>
+		<if test="q.payableAmount!=null ">
+			AND PAYABLE_AMOUNT=#{q.payableAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.vailableTime1!=null ">
+			AND VAILABLE_TIME1=#{q.vailableTime1}
+		</if>
+		<if test="q.vailableTime1Start!=null">
+		<![CDATA[	AND VAILABLE_TIME1>=#{q.vailableTime1Start}  ]]>
+		</if>
+		<if test="q.vailableTime1End!=null">
+		<![CDATA[	AND VAILABLE_TIME1<#{q.vailableTime1End}   ]]>
+		</if>
+		<if test="q.vailableTime2!=null ">
+			AND VAILABLE_TIME2=#{q.vailableTime2}
+		</if>
+		<if test="q.vailableTime2Start!=null">
+		<![CDATA[	AND VAILABLE_TIME2>=#{q.vailableTime2Start}  ]]>
+		</if>
+		<if test="q.vailableTime2End!=null">
+		<![CDATA[	AND VAILABLE_TIME2<#{q.vailableTime2End}   ]]>
+		</if>
+		<if test="q.invoiceId!=null and q.invoiceId!=''">
+			AND INVOICE_ID=#{q.invoiceId}
+		</if>
+		<if test="q.invoiceNo!=null and q.invoiceNo!=''">
+			AND INVOICE_NO=#{q.invoiceNo}
+		</if>
+		<if test="q.invoiceStatus!=null ">
+			AND INVOICE_STATUS=#{q.invoiceStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND PART_TRADE_FLOW_NO=#{q.partTradeFlowNo}
+		</if>
+	</if>
+</sql>
+
+
+<select id="getPricingPackOrderListByDiKou" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhereUse"/> 
+	 <![CDATA[	AND PACK_MINUTE-USERD_MINUTE  >0   ]]>  
+	 <![CDATA[	AND VAILABLE_TIME1 <=#{q.endTime}   ]]>
+	 <![CDATA[	AND VAILABLE_TIME2 >=#{q.startTime}   ]]>
+	   order by VAILABLE_TIME2 asc
+	</where>
+</select>
+<select id="getPricingPackOrderAmountListByDiKou" parameterType="Query" resultMap="PricingPackOrder">
+	select <include refid="CommonColumnlist"/> from t_pricing_pack_order 
+	<where>
+	<include refid="listCommonWhereUse"/> 
+	 <![CDATA[	AND PACK_ORDER_AMOUNT-USERD_ORDER_AMOUNT >0   ]]>  
+	   order by VAILABLE_TIME2 asc
+	</where>
+</select>
+
+<select id="countRecharge" resultType="Integer">
+	select count(t.PACK_ORDER_NO) from t_pricing_pack_order t,t_pricing_package p
+	<where>
+	  t.PACKAGE_ID=p.PACKAGE_NO AND p.PACKAGE_TYPE=2
+	  
+	 <![CDATA[ AND t.PACK_AMOUNT>0  ]]>
+	 <![CDATA[	AND t.CREATE_TIME>=date_format(now(),'%Y-%m-%d')  ]]>
+	</where>
+</select>
+
+</mapper>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CAccountRecordDao">
+
+<resultMap type="CAccountRecord" id="CAccountRecord">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEAL_TYPE" property="dealType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TYPE" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TRNASACTION_AMOUNT" property="trnasactionAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORIGINAL_AMOUNT" property="originalAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="BALANCE" property="balance" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAYFLOW_NO" property="payflowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAY_TYPE" property="payType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,MEMBER_NO,DEAL_TYPE,TYPE,TRNASACTION_AMOUNT,ORIGINAL_AMOUNT,BALANCE,
+ORDER_NO,PAYFLOW_NO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+,PAY_TYPE,PAY_STATUS
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,MEMBER_NO,DEAL_TYPE,TYPE,TRNASACTION_AMOUNT,ORIGINAL_AMOUNT,BALANCE,
+ORDER_NO,PAYFLOW_NO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+,PAY_TYPE,PAY_STATUS
+</sql>
+
+<insert id="add" parameterType="CAccountRecord" useGeneratedKeys="true" keyProperty="id">
+	insert into C_ACCOUNT_RECORD(
+		<if test="id!=null">
+		ID,
+		</if>
+		MEMBER_NO,
+		DEAL_TYPE,
+		TYPE,
+		TRNASACTION_AMOUNT,
+		ORIGINAL_AMOUNT,
+		BALANCE,
+		ORDER_NO,
+		PAYFLOW_NO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,PAY_TYPE,PAY_STATUS
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{dealType,jdbcType = TINYINT},
+		#{type,jdbcType = TINYINT},
+		#{trnasactionAmount,jdbcType = DOUBLE},
+		#{originalAmount,jdbcType = DOUBLE},
+		#{balance,jdbcType = DOUBLE},
+		#{orderNo,jdbcType = VARCHAR},
+		#{payflowNo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{payType,jdbcType = TINYINT},
+		#{payStatus,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CAccountRecord">
+	update C_ACCOUNT_RECORD 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="dealType!=null ">
+			DEAL_TYPE=#{dealType,jdbcType = TINYINT},
+		</if>
+		<if test="type!=null ">
+			TYPE=#{type,jdbcType = TINYINT},
+		</if>
+		<if test="trnasactionAmount!=null ">
+			TRNASACTION_AMOUNT=#{trnasactionAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="originalAmount!=null ">
+			ORIGINAL_AMOUNT=#{originalAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="balance!=null ">
+			BALANCE=#{balance,jdbcType = DOUBLE},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="payflowNo!=null and payflowNo!=''">
+			PAYFLOW_NO=#{payflowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="payType!=null ">
+			PAY_TYPE=#{payType,jdbcType = TINYINT},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT}
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_ACCOUNT_RECORD 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CAccountRecord">
+	select <include refid="AllColumnlist"/> from C_ACCOUNT_RECORD
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CAccountRecord">
+	select <include refid="AllColumnlist"/> from C_ACCOUNT_RECORD
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from C_ACCOUNT_RECORD 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CAccountRecord">
+	select <include refid="CommonColumnlist"/> from C_ACCOUNT_RECORD 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CAccountRecord">
+	select <include refid="CommonColumnlist"/> from C_ACCOUNT_RECORD
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.dealType!=null ">
+			AND DEAL_TYPE=#{q.dealType}
+		</if>
+		<if test="q.type!=null ">
+			AND TYPE=#{q.type}
+		</if>
+		<if test="q.trnasactionAmount!=null ">
+			AND TRNASACTION_AMOUNT=#{q.trnasactionAmount}
+		</if>
+		<if test="q.originalAmount!=null ">
+			AND ORIGINAL_AMOUNT=#{q.originalAmount}
+		</if>
+		<if test="q.balance!=null ">
+			AND BALANCE=#{q.balance}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.payflowNo!=null and q.payflowNo!=''">
+			AND PAYFLOW_NO=#{q.payflowNo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.payType!=null ">
+			AND PAY_TYPE=#{q.payType}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+	</if>
+</sql>
+<select id="getAccountRecord" parameterType="Query" resultType="CAccountRecord">
+select m.MEMBER_NO memberNo,m.MEMBER_NAME menberName,m.MOBILE_PHONE mobilePhone,
+r.DEAL_TYPE dealType,r.TYPE type,r.TRNASACTION_AMOUNT trnasactionAmount,r.BALANCE balance,
+r.ORDER_NO orderNo,r.PAYFLOW_NO payflowNo,r.CREATE_TIME createTime,r.ID id
+,r.PAY_TYPE payType,r.PAY_STATUS payStatus
+ from t_member  m
+LEFT JOIN c_account_record r on m.MEMBER_NO=r.MEMBER_NO
+where m.MEMBER_NO=#{q.memberNo}
+<if test="q.id!=null and q.id!=''">
+            AND ID like "%"#{q.id}"%"
+        </if>
+        <if test="q.dealType!=null ">
+            AND DEAL_TYPE=#{q.dealType}
+        </if>
+        <if test="q.type!=null ">
+            AND TYPE=#{q.type}
+        </if>
+order by r.CREATE_TIME desc
+<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getAccountRecordCount" parameterType="Query" resultType="Long">
+select count(m.MEMBER_NO) 
+ from t_member  m
+LEFT JOIN c_account_record r on m.MEMBER_NO=r.MEMBER_NO
+where m.MEMBER_NO=#{q.memberNo}
+<if test="q.id!=null and q.id!=''">
+            AND ID like "%"#{q.id}"%"
+        </if>
+        <if test="q.dealType!=null ">
+            AND DEAL_TYPE=#{q.dealType}
+        </if>
+        <if test="q.type!=null ">
+            AND TYPE=#{q.type}
+        </if>
+</select>
+<select id="getAccountRecord_No" resultType="Long">
+    select count(MEMBER_NO) from c_account_record where MEMBER_NO=#{0}
+</select>
+<!-- 获取某个会员的充值记录 -->
+<select id="getAccoutRecordByMemberNo" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.AccountRecordVo">
+	SELECT
+	(CASE DEAL_TYPE
+	WHEN 1 THEN '充电'
+	ELSE '停车'
+	END) as dealType,
+	TRNASACTION_AMOUNT  as balance,
+	ID as orderNo,
+	DATE_FORMAT(CREATE_TIME,'%Y-%m-%d %H:%i') as createTime
+FROM
+	c_account_record
+WHERE
+	1=1
+	<if test="q.memberNo !=null and q.memberNo !='' ">
+		AND MEMBER_NO = #{q.memberNo}
+	</if>
+	order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+</mapper>

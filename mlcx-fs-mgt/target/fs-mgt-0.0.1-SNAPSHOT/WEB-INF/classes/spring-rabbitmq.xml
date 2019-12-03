@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+
+	<!--配置connection-factory，指定连接rabbit server参数 -->
+	<rabbit:connection-factory id="connectionFactory"
+		username="admin" password="123456" host="localhost" port="5672"  virtual-host="/" />
+		
+	<!--定义rabbit template用于数据的接收和发送 -->
+	
+	<!-- 针对车辆gps数据的exchange -->    	
+	<rabbit:template id="amqpTemplate_car_gps"  connection-factory="connectionFactory" exchange="exchange_car_gps" />
+	<!-- 针对车辆状态（启动/系统）数据的exchange -->
+	<rabbit:template id="amqpTemplate_car_useStatus"  connection-factory="connectionFactory"  exchange="exchange_car_useStatus" />
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+	<rabbit:admin connection-factory="connectionFactory" />		
+	
+	<!--车辆gps数据相关的queue定义 -->
+	<rabbit:queue name="queue_car_gps" durable="true" auto-delete="false" exclusive="false" />
+	
+	<!-- 定义车辆gps数据相关的direct exchange，绑定queue -->
+	<rabbit:direct-exchange name="exchange_car_gps" durable="true" auto-delete="false">
+		<rabbit:bindings>
+			<rabbit:binding queue="queue_car_gps" key="key_queue_car_gps"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<!--车辆非订单告警数据相关的queue定义 -->
+	<rabbit:queue name="key_queue_car_useStatus" durable="true" auto-delete="false" exclusive="false" />
+	<!-- 定义车辆非订单告警数据相关的direct exchange，绑定queue -->
+	<rabbit:direct-exchange name="device_exchange" durable="true" auto-delete="false">
+		<rabbit:bindings>
+			<rabbit:binding queue="key_queue_car_useStatus" key="key_queue_car_useStatus"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	
+	<!--  车辆GPS数据消息接收者 --> 
+	<bean id="carGpsMsgConsumerMessageReceiver" class="cn.com.shopec.mgt.mq.CarGpsMsgConsumer"></bean>
+	<!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象--> 
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+    	<rabbit:listener queues="queue_car_gps" ref="carGpsMsgConsumerMessageReceiver"/>
+    </rabbit:listener-container>	
+    
+	<!--  车辆警告数据消息接收者 --> 
+	<bean id="carWarningMsgConsumerMessageReceiver" class="cn.com.shopec.mgt.mq.CarWarningMsgConsumer"></bean>
+ 	<rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+    	<rabbit:listener queues="key_queue_car_useStatus" ref="carWarningMsgConsumerMessageReceiver"/>
+    </rabbit:listener-container>
+
+</beans>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.PricingPackageDao">
+
+<resultMap type="PricingPackage" id="PricingPackage">
+	<id column="PACKAGE_NO" property="packageNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACKAGE_NAME" property="packageName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PRICE" property="price" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MINUTES" property="minutes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PACK_AMOUNT" property="packAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="AVAILABLE_DAYS" property="availableDays" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_REASON" property="availableReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<!-- <result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_OFFICIAL" property="isOfficial" javaType="java.lang.Integer" jdbcType="TINYINT"/> -->
+	<result column="AVAILABEL_UPDATE_TIME" property="availabelUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_STATUS" property="cencorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PACKAGE_TYPE" property="packageType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DEDUCTION_CEILING" property="deductionCeiling" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_LIMIT_TIMES" property="isLimitTimes" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BUY_TIMES" property="buyTimes" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PACKAGE_NO,PACKAGE_NAME,CITY_ID,CITY_NAME,PRICE,MINUTES,AVAILABLE_DAYS,PACK_AMOUNT,
+IS_AVAILABLE,AVAILABEL_UPDATE_TIME,CENCOR_STATUS,CENCOR_MEMO,CENCOR_TIME,CENCOR_ID,IS_LIMIT_TIMES,BUY_TIMES,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,AVAILABLE_REASON,PACKAGE_TYPE,DEDUCTION_CEILING,IS_DELETED<!-- ,IS_OFFICIAL,COMPANY_ID -->
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PACKAGE_NO,PACKAGE_NAME,CITY_ID,CITY_NAME,PRICE,MINUTES,AVAILABLE_DAYS,PACK_AMOUNT,
+IS_AVAILABLE,AVAILABEL_UPDATE_TIME,CENCOR_STATUS,CENCOR_MEMO,CENCOR_TIME,CENCOR_ID,IS_LIMIT_TIMES,BUY_TIMES,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,PACKAGE_TYPE,DEDUCTION_CEILING,IS_DELETED<!-- ,IS_OFFICIAL,COMPANY_ID -->
+</sql>
+
+<insert id="add" parameterType="PricingPackage" useGeneratedKeys="true" keyProperty="packageNo">
+	insert into T_PRICING_PACKAGE(
+		<if test="packageNo!=null">
+		PACKAGE_NO,
+		</if>
+		PACKAGE_NAME,
+		CITY_ID,
+		CITY_NAME,
+		PRICE,
+		MINUTES,
+		PACK_AMOUNT,
+		AVAILABLE_DAYS,
+		IS_AVAILABLE,
+		AVAILABEL_UPDATE_TIME,
+		CENCOR_STATUS,
+		CENCOR_MEMO,
+		CENCOR_TIME,
+		CENCOR_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		PACKAGE_TYPE,
+		DEDUCTION_CEILING,
+		IS_DELETED,
+		IS_LIMIT_TIMES,
+		BUY_TIMES
+		<!-- COMPANY_ID,
+		IS_OFFICIAL -->
+	) values (
+		<if test="packageNo!=null">
+		#{packageNo,jdbcType = VARCHAR},
+		</if>
+		#{packageName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{price,jdbcType = DOUBLE},
+		#{minutes,jdbcType = INTEGER},
+		#{packAmount,jdbcType = DOUBLE},
+		#{availableDays,jdbcType = INTEGER},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availabelUpdateTime,jdbcType = TIMESTAMP},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{packageType,jdbcType = TINYINT},
+		#{deductionCeiling,jdbcType = INTEGER},
+		#{isDeleted,jdbcType = TINYINT},
+		#{isLimitTimes,jdbcType = TINYINT},
+		#{buyTimes,jdbcType = TINYINT}
+		<!-- #{companyId,jdbcType = VARCHAR},
+		#{isOfficial,jdbcType = TINYINT} -->
+	)
+</insert>
+
+<update id="update" parameterType="PricingPackage">
+	update t_pricing_package 
+	<set>
+		<if test="packageName!=null and packageName!=''">
+			PACKAGE_NAME=#{packageName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null  and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="price!=null ">
+			PRICE=#{price,jdbcType = DOUBLE},
+		</if>
+		<if test="minutes!=null ">
+			MINUTES=#{minutes,jdbcType = INTEGER},
+		</if>
+		<if test="packAmount!=null ">
+			PACK_AMOUNT=#{packAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="availableDays!=null ">
+			AVAILABLE_DAYS=#{availableDays,jdbcType = INTEGER},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+			<if test="availableReason!=null and availableReason!=''">
+			AVAILABLE_REASON=#{availableReason,jdbcType = VARCHAR},
+		</if>
+		<if test="availabelUpdateTime!=null ">
+			AVAILABEL_UPDATE_TIME=#{availabelUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorStatus!=null ">
+			CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<!-- <if test="isOfficial!=null ">
+			IS_OFFICIAL=#{isOfficial,jdbcType = TINYINT},
+		</if>
+		
+			COMPANY_ID=#{companyId,jdbcType = VARCHAR}, -->
+		
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="packageType!=null ">
+			PACKAGE_TYPE=#{packageType,jdbcType = TINYINT},
+		</if>
+		<if test="deductionCeiling!=null ">
+			DEDUCTION_CEILING=#{deductionCeiling,jdbcType = INTEGER},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="isLimitTimes!=null ">
+			IS_LIMIT_TIMES=#{isLimitTimes,jdbcType = TINYINT},
+		</if>
+		<if test="buyTimes!=null ">
+			BUY_TIMES=#{buyTimes,jdbcType = TINYINT}
+		</if>
+	</set>
+	<where>
+		AND PACKAGE_NO=#{packageNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_pricing_package 
+	<where>
+		PACKAGE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PricingPackage">
+	select <include refid="AllColumnlist"/> from t_pricing_package
+	<where>
+		PACKAGE_NO=#{0}
+	</where>
+</select>
+
+<select id="getPricingPackageByPackageName" resultMap="PricingPackage">
+	select <include refid="CommonColumnlist"/> from t_pricing_package
+	<where>
+		PACKAGE_NAME=#{0}
+	</where>
+</select>
+<select id="getByIds" resultMap="PricingPackage">
+	select <include refid="AllColumnlist"/> from t_pricing_package
+	<where>
+		PACKAGE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PACKAGE_NO) from t_pricing_package 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PricingPackage">
+	select <include refid="CommonColumnlist"/> from t_pricing_package 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>ORDER BY PRICE ASC
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PricingPackage">
+	select <include refid="CommonColumnlist"/> from t_pricing_package
+	<where>
+	 <include refid="listCommonWhere"/> 
+	</where> order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="salePackageEportMonth"  resultMap="PricingPackage">
+	SELECT count(o.PACK_ORDER_NO) AS count,round(sum(o.PACK_AMOUNT), 2) sum,o.PACKAGE_NAME FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1
+	AND p.PACKAGE_NO = #{0} AND o.CREATE_TIME LIKE CONCAT('%',#{1},'%')
+	GROUP BY o.PACKAGE_ID
+</select>
+<select id="salePackageEportWeek" resultMap="PricingPackage" >
+	SELECT count(o.PACK_ORDER_NO) AS count,round(sum(o.PACK_AMOUNT), 2) sum,o.PACKAGE_NAME FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1
+	AND p.PACKAGE_NO = #{0} AND o.PAY_STATUS = 1 
+	<![CDATA[	AND o.CREATE_TIME >= #{1} AND o.CREATE_TIME <= #{2}]]>
+	GROUP BY o.PACKAGE_ID
+</select>
+
+
+<!-- 充值套餐销售数、销售额和充值额按日统计 -->
+<select id="getPricingPackageDataDay" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1 AND
+	<![CDATA[ DATE_FORMAT(o.CREATE_TIME,'%Y-%m-%d') = #{0}  ]]>
+</select>
+<!-- 统计第一天之前包括第一天的销售数、销售额和充值额 -->
+<select id="getFirstDayPricingPackageData" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1 AND
+	<![CDATA[ DATE_FORMAT(o.CREATE_TIME,'%Y-%m-%d') <= #{0}  ]]>
+</select>
+<!-- 统计周第一天之前包括第一天的销售数、销售额和充值额 -->
+<select id="getWeekFirstDayPricingPackageData" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1 AND
+	<![CDATA[ DATE_FORMAT(o.CREATE_TIME,'%Y-%m-%d') < #{0}  ]]>
+</select>
+<!-- 按周统计充值套餐销售量、销售额和充值额 -->
+<select id="getPricingPackageWeekData" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1
+	<![CDATA[ AND DATE_FORMAT(o.CREATE_TIME,'%Y-%m-%d') >= #{0}  ]]>
+	<![CDATA[ AND DATE_FORMAT(o.CREATE_TIME,'%Y-%m-%d') <= #{1}  ]]>
+</select>
+<!-- 按月统计充值套餐销售量、销售额和充值额 -->
+<select id="getPricingPackageDataMonth" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1 AND
+	<![CDATA[ DATE_FORMAT(o.CREATE_TIME,'%Y-%m') = #{0}  ]]>
+</select>
+<!-- 按月先统计X轴第一月包括该月之前的销售量、销售额和充值额 -->
+<select id="getMonthFirstPricingPackageData" parameterType="Query"  resultType="cn.com.shopec.core.marketing.vo.PricingPackageStat">
+SELECT 
+	count(o.PACK_ORDER_NO) AS salesNumber,
+	round(sum(o.PACK_AMOUNT), 2) salesAmount,
+	round(sum(o.PACK_ORDER_AMOUNT), 2) topUpAmount
+	FROM t_pricing_pack_order o
+	LEFT JOIN t_pricing_package p
+	ON o.PACKAGE_ID = p.PACKAGE_NO
+	WHERE p.CENCOR_STATUS = 1 AND p.IS_AVAILABLE = 1 AND o.PAY_STATUS = 1 AND
+	<![CDATA[ DATE_FORMAT(o.CREATE_TIME,'%Y-%m') <= #{0}  ]]>
+</select>
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.packageNo!=null and q.packageNo!=''">
+			AND PACKAGE_NO  like  '%${q.packageNo}%'
+		</if>
+		<if test="q.packageName!=null and q.packageName!=''">
+			AND PACKAGE_NAME like '%${q.packageName}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.price!=null ">
+			AND PRICE=#{q.price}
+		</if>
+		<if test="q.minutes!=null ">
+			AND MINUTES=#{q.minutes}
+		</if>
+		<if test="q.availableDays!=null ">
+			AND AVAILABLE_DAYS=#{q.availableDays}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availabelUpdateTime!=null ">
+			AND AVAILABEL_UPDATE_TIME=#{q.availabelUpdateTime}
+		</if>
+		<if test="q.availabelUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABEL_UPDATE_TIME>=#{q.availabelUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availabelUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABEL_UPDATE_TIME<#{q.availabelUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.packageType!=null ">
+			AND PACKAGE_TYPE=#{q.packageType}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.isLimitTimes!=null ">
+			AND IS_LIMIT_TIMES=#{q.isLimitTimes}
+		</if>
+		<if test="q.buyTimes!=null ">
+			AND BUY_TIMES=#{q.buyTimes}
+		</if>
+		<if test="q.isRecharge!=null and q.isRecharge!=1">
+			AND PACKAGE_TYPE!=3
+		</if>
+		<!-- <if test="q.isOfficial!=null ">
+			AND IS_OFFICIAL=#{q.isOfficial}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if> -->
+	</if>
+</sql>
+<!-- 套餐汇总 -->
+<select id="pageListPricing" parameterType="Query" resultMap="PricingPackage">
+	select <include refid="CommonColumnlist"/> from t_pricing_package
+	<where>
+	 <include refid="listCommonWhere"/> 
+	</where> order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+
+<select id="countPricingPackageCensorStatus" resultType="Integer">
+	SELECT count(*) FROM t_pricing_package WHERE CENCOR_STATUS=0
+</select>
+
+
+
+</mapper>

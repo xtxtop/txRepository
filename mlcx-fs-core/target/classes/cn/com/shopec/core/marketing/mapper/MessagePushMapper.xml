@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.MessagePushDao">
+
+<resultMap type="MessagePush" id="MessagePush">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TITLE" property="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTENT" property="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PUSH_STATUS" property="pushStatus" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PUSH_PATTERN" property="pushPattern" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PUSH_TIME" property="pushTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,TITLE,CONTENT,MEMBER_NO,MEMBER_NAME,
+PUSH_STATUS,PUSH_PATTERN,PUSH_TIME,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,IS_DELETED
+</sql>
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,TITLE,CONTENT,MEMBER_NO,MEMBER_NAME,PUSH_STATUS,PUSH_PATTERN,PUSH_TIME
+</sql>
+
+<insert id="add" parameterType="MessagePush" useGeneratedKeys="true" keyProperty="id">
+	insert into T_MESSAGE_PUSH(
+		<if test="id!=null">
+		ID,
+		</if>
+		TITLE,
+		CONTENT,
+		MEMBER_NO,
+		MEMBER_NAME,
+		PUSH_STATUS,
+		PUSH_PATTERN,
+		PUSH_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		IS_DELETED
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{title,jdbcType = VARCHAR},
+		#{content,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{pushStatus,jdbcType = INTEGER},
+		#{pushPattern,jdbcType = TINYINT},
+		#{pushTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{isDeleted,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="MessagePush">
+	update t_message_push 
+	<set>
+		<include refid="listCommonSet"/>
+	</set>
+	
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_message_push 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MessagePush">
+	select <include refid="AllColumnlist"/> from t_message_push
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MessagePush">
+	select <include refid="AllColumnlist"/> from t_message_push
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_message_push 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MessagePush">
+	select <include refid="CommonColumnlist"/> from t_message_push 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MessagePush">
+	select <include refid="CommonColumnlist"/> from t_message_push
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonSet">
+		<if test="title!=null and  title!='' ">
+			TITLE=#{title,jdbcType = VARCHAR},
+		</if>
+		<if test="content!=null and content!='' ">
+			CONTENT=#{content,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and  memberNo!='' ">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="pushStatus!=null ">
+			PUSH_STATUS=#{pushStatus,jdbcType = INTEGER},
+		</if>
+		<!-- 推送方式为单体时，则需要维护会员相关信息 -->
+		<if test="pushPattern!=null ">
+			PUSH_PATTERN=#{pushPattern,jdbcType = TINYINT},
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="pushTime!=null ">
+			PUSH_TIME=#{pushTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and  q.id!='' ">
+			AND ID like CONCAT('%',#{q.id},'%')  
+		</if>
+		<if test="q.title!=null and  q.title!='' ">
+			AND TITLE like CONCAT('%',#{q.title},'%')
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like CONCAT('%',#{q.memberName},'%')
+		</if>
+		<if test="q.pushStatus!=null ">
+			AND PUSH_STATUS=#{q.pushStatus}
+		</if>
+		<if test="q.pushPattern!=null ">
+			AND PUSH_PATTERN=#{q.pushPattern}
+		</if>
+		<if test="q.pushTime!=null ">
+			AND PUSH_TIME=#{q.pushTime}
+		</if>
+		<if test="q.pushTimeStart!=null">
+		<![CDATA[	AND PUSH_TIME>=#{q.pushTimeStart}  ]]>
+		</if>
+		<if test="q.pushTimeEnd!=null">
+		<![CDATA[	AND PUSH_TIME<#{q.pushTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+	</if>
+</sql>
+</mapper>

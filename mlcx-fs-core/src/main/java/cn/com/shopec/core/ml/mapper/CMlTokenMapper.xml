@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CMlTokenDao">
+
+<resultMap type="CMlToken" id="CMlToken">
+	<id column="TOKEN_ID" property="tokenId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOKEN" property="token" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TIMESTAMP" property="timestamp" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TOKEN_ID,TOKEN,TIMESTAMP
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TOKEN_ID,TOKEN,TIMESTAMP
+</sql>
+
+<insert id="add" parameterType="CMlToken" useGeneratedKeys="true" keyProperty="tokenId">
+	insert into C_ML_TOKEN(
+		<if test="tokenId!=null">
+		TOKEN_ID,
+		</if>
+		TOKEN,
+		TIMESTAMP
+	) values (
+		<if test="tokenId!=null">
+		#{tokenId,jdbcType = VARCHAR},
+		</if>
+		#{token,jdbcType = VARCHAR},
+		#{timestamp,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CMlToken">
+	update C_ML_TOKEN 
+	<set>
+		<if test="token!=null and token!=''">
+			TOKEN=#{token,jdbcType = VARCHAR},
+		</if>
+		<if test="timestamp!=null and timestamp!=''">
+			TIMESTAMP=#{timestamp,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND TOKEN_ID=#{tokenId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_ML_TOKEN 
+	<where>
+		TOKEN_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CMlToken">
+	select <include refid="AllColumnlist"/> from C_ML_TOKEN
+	<where>
+		TOKEN_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CMlToken">
+	select <include refid="AllColumnlist"/> from C_ML_TOKEN
+	<where>
+		TOKEN_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(TOKEN_ID) from C_ML_TOKEN 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CMlToken">
+	select <include refid="CommonColumnlist"/> from C_ML_TOKEN 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CMlToken">
+	select <include refid="CommonColumnlist"/> from C_ML_TOKEN
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.tokenId!=null and q.tokenId!=''">
+			AND TOKEN_ID=#{q.tokenId}
+		</if>
+		<if test="q.token!=null and q.token!=''">
+			AND TOKEN=#{q.token}
+		</if>
+		<if test="q.timestamp!=null and q.timestamp!=''">
+			AND TIMESTAMP=#{q.timestamp}
+		</if>
+	</if>
+</sql>
+
+</mapper>

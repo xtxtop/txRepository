@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.COrderDao">
+
+<select id="searchOrderList" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.OrderSimpleVo">
+SELECT
+	*
+FROM
+	(
+		SELECT
+			lo.ORDER_NO AS orderNo,
+            lo.ORDER_STATUS AS orderStatus,
+			DATE_FORMAT(lo.ORDER_START_TIME,'%Y-%m-%d %H:%i') AS orderTime,
+			cs.STATION_NAME AS stationName,
+			lo.MEMBER_NO AS memberNo
+		FROM
+			lock_order lo
+		LEFT JOIN charging_station cs ON lo.STATION_NO = cs.STATION_NO
+		WHERE
+			lo.MEMBER_NO = #{q.memberNo}
+			AND  1=#{q.tp}
+		ORDER BY
+			lo.PAY_STATUS ASC,
+			lo.CREATE_TIME DESC
+	) t1
+UNION
+SELECT
+    *
+FROM
+    (
+        SELECT
+            co.ORDER_NO AS orderNo,
+            IF (
+                co.ORDER_STATUS = 4,
+                '5',
+                co.ORDER_STATUS
+            ) AS orderStatus,
+            DATE_FORMAT(co.ORDER_START_TIME,'%Y-%m-%d %H:%i') AS orderTime,
+            cs.STATION_NAME AS stationName,
+            co.MEMBER_NO AS memberNo
+        FROM
+            charge_order co
+        LEFT JOIN charging_station cs ON co.STATION_NO = cs.STATION_NO
+        WHERE
+            co.MEMBER_NO = #{q.memberNo}
+            AND  2=#{q.tp}
+        ORDER BY
+            co.PAY_STATUS ASC,
+            co.CREATE_TIME DESC
+    ) t2
+<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="searchOrderListNoCategoryNotFinished" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.OrderSimpleVo">
+  (
+		SELECT
+			lo.ORDER_NO AS orderNo,
+            lo.ORDER_STATUS AS orderStatus,
+			DATE_FORMAT(lo.ORDER_START_TIME,'%Y-%m-%d %H:%i') AS orderTime,
+			cs.STATION_NAME AS stationName,
+			lo.MEMBER_NO AS memberNo,
+            '1' AS tp
+		FROM
+			lock_order lo
+		LEFT JOIN charging_station cs ON lo.STATION_NO = cs.STATION_NO
+		WHERE
+			lo.MEMBER_NO = #{q.memberNo}
+         <![CDATA[ AND lo.PAY_STATUS <> 1 ]]>
+         <![CDATA[ AND ( lo.ORDER_STATUS < 2 OR lo.ORDER_STATUS = 4) ]]>
+	)
+UNION
+    (
+        SELECT
+            co.ORDER_NO AS orderNo,
+            IF (
+                co.ORDER_STATUS = 4,
+                '5',
+                co.ORDER_STATUS
+            ) AS orderStatus,
+            DATE_FORMAT(co.ORDER_START_TIME,'%Y-%m-%d %H:%i') AS orderTime,
+            cs.STATION_NAME AS stationName,
+            co.MEMBER_NO AS memberNo,
+            '2' AS tp
+        FROM
+            charge_order co
+        LEFT JOIN charging_station cs ON co.STATION_NO = cs.STATION_NO
+        WHERE
+            co.MEMBER_NO = #{q.memberNo}
+        <![CDATA[ AND co.PAY_STATUS <> 1 ]]>
+        <![CDATA[ AND co.ORDER_STATUS < 2 ]]>
+    )
+</select>
+
+<select id="findOrderDetailByVo" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.OrderDetailVo">
+    (
+        SELECT
+        lo.ORDER_NO AS orderNo,
+        lo.MEMBER_NO AS memberNo,
+        cs.STATION_NAME AS stationName,
+        lo.ORDER_STATUS AS orderStatus,
+        IFNULL(lo.PAY_STATUS, '0') AS payStatus,
+        DATE_FORMAT(
+        lo.ORDER_START_TIME,
+        '%Y-%m-%d %H:%i'
+        ) AS startTime,
+        DATE_FORMAT(
+        lo.ORDER_END_TIME,
+        '%Y-%m-%d %H:%i'
+        ) AS endTime,
+        IFNULL(lo.ORDER_TIME_LENGTH, '0') AS duration,
+        IFNULL(lo.ORDER_FREE_TIME, '0') AS gratisTime,
+        IFNULL(lo.ORDER_OVER_TIME, '0') AS overstepTime,
+        IFNULL(lo.NOPAY_AMOUNT, '0') AS realPayMoney,
+        IFNULL(lo.OVERTIME_AMOUNT, '0') AS overstepMoney,
+        IFNULL(lo.DISCOUNT_AMOUNT, '0') AS balanceDeductionMoney,
+        IFNULL(coe.EVALUATE_GRADE, '0') AS star,
+        '' AS chargeDegree,
+        '' AS chargeMoney,
+        '' AS serviceMoney
+        FROM
+        lock_order lo
+        LEFT JOIN charging_station cs ON lo.STATION_NO = cs.STATION_NO
+        LEFT JOIN c_order_evaluate coe ON (
+            lo.ORDER_NO = coe.ORDER_NO
+            AND coe.ORDER_TYPE = 1
+        )
+        WHERE
+        lo.ORDER_NO = #{q.orderNo}
+        AND 1=#{q.tp}
+        LIMIT 1
+    )
+    UNION
+    (
+        SELECT
+        co.ORDER_NO AS orderNo,
+        co.MEMBER_NO AS memberNo,
+        cs.STATION_NAME AS stationName,
+        IF (
+            co.ORDER_STATUS = 4,
+            '5',
+            co.ORDER_STATUS
+        ) AS orderStatus,
+        IFNULL(co.PAY_STATUS, '0') AS payStatus,
+        DATE_FORMAT(
+        co.ORDER_START_TIME,
+        '%Y-%m-%d %H:%i'
+        ) AS startTime,
+        DATE_FORMAT(
+        co.ORDER_END_TIME,
+        '%Y-%m-%d %H:%i'
+        ) AS endTime,
+        IFNULL(co.ORDER_TIME_LENGTH, '0') AS duration,
+        '' AS gratisTime,
+        '' AS overstepTime,
+        IFNULL(co.NOPAY_AMOUNT, '0') AS realPayMoney,
+        '' AS overstepMoney,
+        IFNULL(co.DISCOUNT_AMOUNT, '0') AS balanceDeductionMoney,
+        IFNULL(coe.EVALUATE_GRADE, '0') AS star,
+        IFNULL(co.CHARGE_DEGREE, '0') AS chargeDegree,
+        IFNULL(co.CHARGE_AMOUNT, '0') AS chargeMoney,
+        IFNULL(co.SERVICE_AMOUNT, '0') AS serviceMoney
+        FROM
+        charge_order co
+        LEFT JOIN charging_station cs ON co.STATION_NO = cs.STATION_NO
+        LEFT JOIN c_order_evaluate coe ON (
+            co.ORDER_NO = coe.ORDER_NO
+            AND coe.ORDER_TYPE = 0
+        )
+        WHERE
+        co.ORDER_NO = #{q.orderNo}
+        AND 2=#{q.tp}
+        LIMIT 1
+    )
+</select>
+
+<select id="getToken" resultType="String">
+    SELECT
+    cmt.TOKEN
+    FROM
+    c_ml_token cmt
+    LIMIT 1
+</select>
+
+    <update id="updateEvaluateStatus" parameterType="java.lang.Integer">
+        update ${tableName} SET ORDER_STATUS = #{status} 
+        <where>
+            <if test="tableName=='c_park_order'">
+                PARK_ORDER_NO=#{orderNo}
+            </if>
+            <if test="tableName!='c_park_order'">
+                 ORDER_NO = #{orderNo}
+            </if>
+        </where>
+    </update>
+
+</mapper>

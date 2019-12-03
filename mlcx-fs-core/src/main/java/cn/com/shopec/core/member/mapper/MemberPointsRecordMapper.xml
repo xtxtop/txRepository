@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.MemberPointsRecordDao">
+
+<resultMap type="MemberPointsRecord" id="MemberPointsRecord">
+	<id column="RECORD_ID" property="recordId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUSINESS_TYPE" property="businessType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_TYPE" property="pointsType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OP_TYPE" property="opType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_VALUE" property="pointsValue" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="BUSINESS_DATA" property="businessData" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECORD_MEMO" property="recordMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<resultMap type="MemberPointsRecord" id="MemberPointsRecord1">
+	<id column="RECORD_ID" property="recordId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUSINESS_TYPE" property="businessType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_TYPE" property="pointsType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OP_TYPE" property="opType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_VALUE" property="pointsValue" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="BUSINESS_DATA" property="businessData" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECORD_MEMO" property="recordMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RECORD_ID,BUSINESS_TYPE,POINTS_TYPE,OP_TYPE,POINTS_VALUE,BUSINESS_DATA,MEMBER_NO,
+RECORD_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RECORD_ID,BUSINESS_TYPE,POINTS_TYPE,OP_TYPE,POINTS_VALUE,MEMBER_NO,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="MemberPointsRecord" useGeneratedKeys="true" keyProperty="recordId">
+	insert into T_MEMBER_POINTS_RECORD(
+		<if test="recordId!=null">
+		RECORD_ID,
+		</if>
+		BUSINESS_TYPE,
+		POINTS_TYPE,
+		OP_TYPE,
+		POINTS_VALUE,
+		BUSINESS_DATA,
+		MEMBER_NO,
+		RECORD_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="recordId!=null">
+		#{recordId,jdbcType = VARCHAR},
+		</if>
+		#{businessType,jdbcType = TINYINT},
+		#{pointsType,jdbcType = TINYINT},
+		#{opType,jdbcType = TINYINT},
+		#{pointsValue,jdbcType = INTEGER},
+		#{businessData,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{recordMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MemberPointsRecord">
+	update t_member_points_record 
+	<set>
+		<if test="businessType!=null ">
+			BUSINESS_TYPE=#{businessType,jdbcType = TINYINT},
+		</if>
+		<if test="pointsType!=null ">
+			POINTS_TYPE=#{pointsType,jdbcType = TINYINT},
+		</if>
+		<if test="opType!=null ">
+			OP_TYPE=#{opType,jdbcType = TINYINT},
+		</if>
+		<if test="pointsValue!=null ">
+			POINTS_VALUE=#{pointsValue,jdbcType = INTEGER},
+		</if>
+		<if test="businessData!=null and businessData!=''">
+			BUSINESS_DATA=#{businessData,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="recordMemo!=null and recordMemo!=''">
+			RECORD_MEMO=#{recordMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND RECORD_ID=#{recordId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_member_points_record 
+	<where>
+		RECORD_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MemberPointsRecord">
+	select <include refid="AllColumnlist"/> from t_member_points_record
+	<where>
+		RECORD_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MemberPointsRecord">
+	select <include refid="AllColumnlist"/> from t_member_points_record
+	<where>
+		RECORD_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(tmpr.RECORD_ID) from t_member_points_record tmpr left join t_member tm on tmpr.MEMBER_NO=tm.MEMBER_NO
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MemberPointsRecord">
+	select <include refid="CommonColumnlist"/> from t_member_points_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MemberPointsRecord1">
+	select tmpr.*,tm.MEMBER_NAME from t_member_points_record tmpr left join t_member tm on tmpr.MEMBER_NO=tm.MEMBER_NO
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where>
+	order by tmpr.update_time desc,tmpr.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="getPointsByMemberNo" resultType="int">
+	SELECT b.num2-a.num1 FROM (SELECT IFNULL(SUM(POINTS_VALUE),0) AS num1  FROM t_member_points_record WHERE OP_TYPE=1 AND MEMBER_No=#{0})a,
+ (SELECT IFNULL(SUM(POINTS_VALUE),0) AS num2 FROM t_member_points_record WHERE OP_TYPE=2 AND MEMBER_No=#{0})b 
+</select>
+
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.recordId!=null and q.recordId!=''">
+			AND tmpr.RECORD_ID=#{q.recordId}
+		</if>
+		<if test="q.businessType!=null ">
+			AND tmpr.BUSINESS_TYPE=#{q.businessType}
+		</if>
+		<if test="q.pointsType!=null ">
+			AND tmpr.POINTS_TYPE=#{q.pointsType}
+		</if>
+		<if test="q.opType!=null ">
+			AND tmpr.OP_TYPE=#{q.opType}
+		</if>
+		<if test="q.pointsValue!=null ">
+			AND tmpr.POINTS_VALUE=#{q.pointsValue}
+		</if>
+		<if test="q.businessData!=null and q.businessData!=''">
+			AND tmpr.BUSINESS_DATA=#{q.businessData}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND tmpr.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.recordMemo!=null and q.recordMemo!=''">
+			AND tmpr.RECORD_MEMO=#{q.recordMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND tmpr.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tmpr.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tmpr.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND tmpr.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND tmpr.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND tmpr.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND tmpr.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND tmpr.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND tm.MEMBER_NAME like '%${q.memberName}%'
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.recordId!=null and q.recordId!=''">
+			AND RECORD_ID=#{q.recordId}
+		</if>
+		<if test="q.businessType!=null ">
+			AND BUSINESS_TYPE=#{q.businessType}
+		</if>
+		<if test="q.pointsType!=null ">
+			AND POINTS_TYPE=#{q.pointsType}
+		</if>
+		<if test="q.opType!=null ">
+			AND OP_TYPE=#{q.opType}
+		</if>
+		<if test="q.pointsValue!=null ">
+			AND POINTS_VALUE=#{q.pointsValue}
+		</if>
+		<if test="q.businessData!=null and q.businessData!=''">
+			AND BUSINESS_DATA=#{q.businessData}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.recordMemo!=null and q.recordMemo!=''">
+			AND RECORD_MEMO=#{q.recordMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

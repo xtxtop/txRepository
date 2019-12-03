@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlparking.dao.CGateMachineDao">
+
+<resultMap type="CGateMachine" id="CGateMachine">
+	<id column="GATE_NO" property="gateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_NO" property="parkingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GATE_CODE" property="gateCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GATE_NAME" property="gateName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GATE_STATUS" property="gateStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BILLING_NO" property="billingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ACTIVE_CONDITION" property="activeCondition" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ONLINE_STATUS" property="onlineStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+GATE_NO,PARKING_NO,GATE_CODE,GATE_NAME,GATE_STATUS,BILLING_NO,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,ACTIVE_CONDITION,ONLINE_STATUS
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+GATE_NO,PARKING_NO,GATE_CODE,GATE_NAME,GATE_STATUS,BILLING_NO,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,ACTIVE_CONDITION,ONLINE_STATUS
+</sql>
+
+<insert id="add" parameterType="CGateMachine" useGeneratedKeys="true" keyProperty="gateNo">
+	insert into C_GATE_MACHINE(
+		<if test="gateNo!=null">
+		GATE_NO,
+		</if>
+		PARKING_NO,
+		GATE_CODE,
+		GATE_NAME,
+		GATE_STATUS,
+		BILLING_NO,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		ACTIVE_CONDITION,
+		ONLINE_STATUS
+	) values (
+		<if test="gateNo!=null">
+		#{gateNo,jdbcType = VARCHAR},
+		</if>
+		#{parkingNo,jdbcType = VARCHAR},
+		#{gateCode,jdbcType = VARCHAR},
+		#{gateName,jdbcType = VARCHAR},
+		#{gateStatus,jdbcType = TINYINT},
+		#{billingNo,jdbcType = VARCHAR},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{activeCondition,jdbcType = TINYINT},
+		#{onlineStatus,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CGateMachine">
+	update C_GATE_MACHINE 
+	<set>
+		<if test="parkingNo!=null and parkingNo!=''">
+			PARKING_NO=#{parkingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="gateCode!=null and gateCode!=''">
+			GATE_CODE=#{gateCode,jdbcType = VARCHAR},
+		</if>
+		<if test="gateName!=null and gateName!=''">
+			GATE_NAME=#{gateName,jdbcType = VARCHAR},
+		</if>
+		<if test="gateStatus!=null ">
+			GATE_STATUS=#{gateStatus,jdbcType = TINYINT},
+		</if>
+		<if test="billingNo!=null and billingNo!=''">
+			BILLING_NO=#{billingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="activeCondition!=null ">
+			ACTIVE_CONDITION=#{activeCondition,jdbcType = TINYINT},
+		</if>
+		<if test="onlineStatus!=null ">
+			ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND GATE_NO=#{gateNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_GATE_MACHINE 
+	<where>
+		GATE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CGateMachine">
+	select <include refid="AllColumnlist"/> from C_GATE_MACHINE
+	<where>
+		GATE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CGateMachine">
+	select <include refid="AllColumnlist"/> from C_GATE_MACHINE
+	<where>
+		GATE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(GATE_NO) from C_GATE_MACHINE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CGateMachine">
+	select <include refid="CommonColumnlist"/> from C_GATE_MACHINE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CGateMachine">
+	select <include refid="CommonColumnlist"/> from C_GATE_MACHINE
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageList_Two" parameterType="Query" resultType="cn.com.shopec.core.mlparking.vo.CGateMachineVo">
+	select 
+	g.GATE_NO gateNo ,g.PARKING_NO parkingNo,p.PARKING_NAME parkingName,
+	g.GATE_CODE gateCode ,g.GATE_NAME gateName,g.CREATE_TIME createTime,g.UPDATE_TIME updateTime,
+	g.GATE_STATUS gateStatus,g.ONLINE_STATUS onlineStatus,g.ACTIVE_CONDITION activeCondition
+	from  c_gate_machine g LEFT JOIN c_parking p on g.PARKING_NO=p.PARKING_NO
+	where 1=1
+	<if test="q.gateStatus!=null">
+            AND g.GATE_STATUS = #{q.gateStatus} 
+     </if>
+     <if test="q.activeCondition!=null ">
+            AND g.ACTIVE_CONDITION=#{q.activeCondition}
+        </if>
+        <if test="q.parkingNo!=null and q.parkingNo!=''">
+            AND g.PARKING_NO=#{q.parkingNo}
+        </if>
+        <if test="q.gateName!=null and q.gateName!=''">
+            AND g.GATE_NAME like '%' #{q.gateName} '%'
+        </if>
+	order by g.UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.gateNo!=null and q.gateNo!=''">
+			AND GATE_NO=#{q.gateNo}
+		</if>
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.gateCode!=null and q.gateCode!=''">
+			AND GATE_CODE=#{q.gateCode}
+		</if>
+		<if test="q.gateName!=null and q.gateName!=''">
+			AND GATE_NAME like '%' #{q.gateName} '%'
+		</if>
+		<if test="q.gateStatus!=null ">
+			AND GATE_STATUS=#{q.gateStatus}
+		</if>
+		<if test="q.billingNo!=null and q.billingNo!=''">
+			AND BILLING_NO=#{q.billingNo}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+	</if>
+</sql>
+
+</mapper>

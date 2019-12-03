@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarDao">
+
+	<resultMap type="Car" id="Car">
+		<id column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_OWNER_ID" property="carOwnerId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_OWNER_NAME" property="carOwnerName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_BRAND_NAME" property="carBrandName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_NAME" property="carModelName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_ID_NO" property="carIdNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ENGINE_NO" property="engineNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_COLOR" property="carColor" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LEASE_TYPE" property="leaseType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="VALIDITY_DATE" property="validityDate"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEDICATED" property="isDedicated" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="DEDICATED_COMPANY_ID" property="dedicatedCompanyId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ONLINE_STATUS" property="onlineStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="ONLINE_STATUS_UPDATE_TIME" property="onlineStatusUpdateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="USED_STATUS_UPDATE_TIME" property="usedStatusUpdateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CAR_LEVEL" property="carLevel" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="DEVICE_ID" property="deviceId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="INSURANCE_COMPANY" property="insuranceCompany"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ENROLLMENT_DATE" property="enrollmentDate"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="EFFECTIVE_INSURANCE_PERIOD" property="effectiveInsurancePeriod"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CAR_PHOTO_URL1" property="carPhotoUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL2" property="carPhotoUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL3" property="carPhotoUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL4" property="carPhotoUrl4"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL1" property="carDocPhotoUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL2" property="carDocPhotoUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL3" property="carDocPhotoUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL1" property="carOnLineOrOffPicUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL2" property="carOnLineOrOffPicUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL3" property="carOnLineOrOffPicUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="ON_OFF_LINE_REASON" property="onOffLineReason"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="WORKER_NO" property="workerNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_TEST_TYPE" property="carTestType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="SEATING" property="seaTing" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORKER_NAME" property="workerName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="FRANCHISEENO" property="franchiseeNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="QRCODE_PIC_URL" property="qrcodePicUrl" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="Car" id="Car1">
+		<id column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_OWNER_ID" property="carOwnerId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_OWNER_NAME" property="carOwnerName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SIGNAL_STRENGTH_LEVEL" property="signalStrengthLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+		<result column="CAR_BRAND_NAME" property="carBrandName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_NAME" property="carModelName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_ID_NO" property="carIdNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ENGINE_NO" property="engineNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_COLOR" property="carColor" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LEASE_TYPE" property="leaseType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="VALIDITY_DATE" property="validityDate"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_DEDICATED" property="isDedicated" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="DEDICATED_COMPANY_ID" property="dedicatedCompanyId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ONLINE_STATUS" property="onlineStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="USERAGE_STATUS" property="userageStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="ONLINE_STATUS_UPDATE_TIME" property="onlineStatusUpdateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="USED_STATUS_UPDATE_TIME" property="usedStatusUpdateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CAR_LEVEL" property="carLevel" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="POWER" property="power" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="MILEAGE" property="mileage" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="DEVICE_ID" property="deviceId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="INSURANCE_COMPANY" property="insuranceCompany"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ENROLLMENT_DATE" property="enrollmentDate"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="EFFECTIVE_INSURANCE_PERIOD" property="effectiveInsurancePeriod"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CAR_PHOTO_URL1" property="carPhotoUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL2" property="carPhotoUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL3" property="carPhotoUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PHOTO_URL4" property="carPhotoUrl4"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL1" property="carDocPhotoUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL2" property="carDocPhotoUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_DOC_PHOTO_URL3" property="carDocPhotoUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL1" property="carOnLineOrOffPicUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL2" property="carOnLineOrOffPicUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_ONLINEOROFF_PIC_URL3" property="carOnLineOrOffPicUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="ON_OFF_LINE_REASON" property="onOffLineReason"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="DEVICE_STATUS" property="deviceStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="WORKER_NO" property="workerNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_TEST_TYPE" property="carTestType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="SEATING" property="seaTing" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LAST_REPORTING_TIME" property="lastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="WORKER_NAME" property="workerName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="QRCODE_PIC_URL" property="qrcodePicUrl" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		CAR_NO,CAR_PLATE_NO,CAR_OWNER_ID,CAR_OWNER_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_MODEL_ID,
+		CAR_MODEL_NAME,CITY_ID,CITY_NAME,CAR_ID_NO,ENGINE_NO,CAR_COLOR,
+		LEASE_TYPE,VALIDITY_DATE,IS_DEDICATED,DEDICATED_COMPANY_ID,ONLINE_STATUS,ONLINE_STATUS_UPDATE_TIME,
+		USED_STATUS_UPDATE_TIME,CAR_LEVEL,DEVICE_ID,INSURANCE_COMPANY,ENROLLMENT_DATE,EFFECTIVE_INSURANCE_PERIOD,
+		CAR_PHOTO_URL1,CAR_PHOTO_URL2,CAR_PHOTO_URL3,CAR_PHOTO_URL4,CAR_DOC_PHOTO_URL1,CAR_DOC_PHOTO_URL2,
+		CAR_DOC_PHOTO_URL3,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,ON_OFF_LINE_REASON,WORKER_NO,CAR_TEST_TYPE,SEATING,
+		WORKER_NAME,FRANCHISEENO,QRCODE_PIC_URL
+	</sql>
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist2">
+		CAR_NO,CAR_PLATE_NO,CAR_OWNER_ID,CAR_OWNER_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_MODEL_ID,
+		CAR_MODEL_NAME,CITY_ID,CITY_NAME,CAR_ID_NO,ENGINE_NO,CAR_COLOR,
+		LEASE_TYPE,VALIDITY_DATE,IS_DEDICATED,DEDICATED_COMPANY_ID,ONLINE_STATUS,ONLINE_STATUS_UPDATE_TIME,
+		USED_STATUS_UPDATE_TIME,DEVICE_ID,INSURANCE_COMPANY,ENROLLMENT_DATE,EFFECTIVE_INSURANCE_PERIOD,
+		CAR_PHOTO_URL1,CAR_PHOTO_URL2,CAR_PHOTO_URL3,CAR_PHOTO_URL4,CAR_DOC_PHOTO_URL1,CAR_DOC_PHOTO_URL2,
+		CAR_DOC_PHOTO_URL3,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,ON_OFF_LINE_REASON,WORKER_NO,CAR_TEST_TYPE,SEATING,
+		WORKER_NAME,FRANCHISEENO,QRCODE_PIC_URL
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		CAR_NO,CAR_PLATE_NO,CAR_OWNER_ID,CAR_OWNER_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_MODEL_ID,
+		CAR_MODEL_NAME,CITY_ID,CITY_NAME,CAR_ID_NO,ENGINE_NO,CAR_COLOR,CAR_LEVEL,
+		LEASE_TYPE,VALIDITY_DATE,IS_DEDICATED,DEDICATED_COMPANY_ID,ONLINE_STATUS,ONLINE_STATUS_UPDATE_TIME,
+		USED_STATUS_UPDATE_TIME,DEVICE_ID,INSURANCE_COMPANY,ENROLLMENT_DATE,EFFECTIVE_INSURANCE_PERIOD,
+		CAR_PHOTO_URL1,CAR_PHOTO_URL2,CAR_PHOTO_URL3,CAR_PHOTO_URL4,CAR_DOC_PHOTO_URL1,CAR_DOC_PHOTO_URL2,
+		CAR_DOC_PHOTO_URL3,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,WORKER_NO,CAR_TEST_TYPE,SEATING,
+		WORKER_NAME,FRANCHISEENO,QRCODE_PIC_URL
+	</sql>
+
+	<insert id="add" parameterType="Car" useGeneratedKeys="true"
+		keyProperty="carNo">
+		insert into T_CAR(
+		<if test="carNo!=null">
+			CAR_NO,
+		</if>
+		CAR_PLATE_NO,
+		CAR_OWNER_ID,
+		CAR_OWNER_NAME,
+		CAR_BRAND_ID,
+		CAR_BRAND_NAME,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CITY_ID,
+		CITY_NAME,
+		CAR_ID_NO,
+		ENGINE_NO,
+		CAR_COLOR,
+		LEASE_TYPE,
+		VALIDITY_DATE,
+		IS_DEDICATED,
+		DEDICATED_COMPANY_ID,
+		ONLINE_STATUS,
+		ONLINE_STATUS_UPDATE_TIME,
+		USED_STATUS_UPDATE_TIME,
+		CAR_LEVEL,
+		DEVICE_ID,
+		INSURANCE_COMPANY,
+		ENROLLMENT_DATE,
+		EFFECTIVE_INSURANCE_PERIOD,
+		CAR_PHOTO_URL1,
+		CAR_PHOTO_URL2,
+		CAR_PHOTO_URL3,
+		CAR_PHOTO_URL4,
+		CAR_DOC_PHOTO_URL1,
+		CAR_DOC_PHOTO_URL2,
+		CAR_DOC_PHOTO_URL3,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		WORKER_NO,
+		CAR_TEST_TYPE,
+		SEATING,
+		WORKER_NAME,
+		FRANCHISEENO,
+		QRCODE_PIC_URL
+		) values (
+		<if test="carNo!=null">
+			#{carNo,jdbcType = VARCHAR},
+		</if>
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carOwnerId,jdbcType = VARCHAR},
+		#{carOwnerName,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carBrandName,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{carIdNo,jdbcType = VARCHAR},
+		#{engineNo,jdbcType = VARCHAR},
+		#{carColor,jdbcType = VARCHAR},
+		#{leaseType,jdbcType = TINYINT},
+		#{validityDate,jdbcType = TIMESTAMP},
+		#{isDedicated,jdbcType = TINYINT},
+		#{dedicatedCompanyId,jdbcType =
+		VARCHAR},
+		#{onlineStatus,jdbcType = TINYINT},
+		#{onlineStatusUpdateTime,jdbcType = TIMESTAMP},
+		#{usedStatusUpdateTime,jdbcType = TIMESTAMP},
+		#{carLevel,jdbcType =
+		DOUBLE},
+		#{deviceId,jdbcType = VARCHAR},
+		#{insuranceCompany,jdbcType =
+		VARCHAR},
+		#{enrollmentDate,jdbcType = TIMESTAMP},
+		#{effectiveInsurancePeriod,jdbcType = TIMESTAMP},
+		#{carPhotoUrl1,jdbcType = VARCHAR},
+		#{carPhotoUrl2,jdbcType = VARCHAR},
+		#{carPhotoUrl3,jdbcType = VARCHAR},
+		#{carPhotoUrl4,jdbcType = VARCHAR},
+		#{carDocPhotoUrl1,jdbcType = VARCHAR},
+		#{carDocPhotoUrl2,jdbcType =
+		VARCHAR},
+		#{carDocPhotoUrl3,jdbcType = VARCHAR},
+		#{createTime,jdbcType =
+		TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType =
+		VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{workerNo,jdbcType =
+		VARCHAR},
+		#{carTestType,jdbcType = TINYINT},
+		#{seaTing,jdbcType =
+		VARCHAR},
+		#{workerName,jdbcType =
+		VARCHAR},
+		#{franchiseeNo,jdbcType =
+		VARCHAR},
+		#{qrcodePicUrl,jdbcType =
+		VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="Car">
+		update t_car
+		<set>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carOwnerId!=null and carOwnerId!=''">
+				CAR_OWNER_ID=#{carOwnerId,jdbcType = VARCHAR},
+			</if>
+			<if test="carOwnerName!=null and carOwnerName!=''">
+				CAR_OWNER_NAME=#{carOwnerName,jdbcType = VARCHAR},
+			</if>
+			<if test="carBrandId!=null and carBrandId!=''">
+				CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+			</if>
+			<if test="carBrandName!=null and carBrandName!=''">
+				CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+			</if>
+			<if test="carModelId!=null and carModelId!=''">
+				CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+			</if>
+			<if test="carModelName!=null and carModelName!=''">
+				CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+			</if>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="cityName!=null and cityName!=''">
+				CITY_NAME=#{cityName,jdbcType = VARCHAR},
+			</if>
+			<if test="carIdNo!=null and carIdNo!=''">
+				CAR_ID_NO=#{carIdNo,jdbcType = VARCHAR},
+			</if>
+			<if test="engineNo!=null and engineNo!=''">
+				ENGINE_NO=#{engineNo,jdbcType = VARCHAR},
+			</if>
+			<!-- CAR_ID_NO=#{carIdNo,jdbcType = VARCHAR}, -->
+			<!-- ENGINE_NO=#{engineNo,jdbcType = VARCHAR}, -->
+			<if test="carColor!=null and carColor!=''">
+				CAR_COLOR=#{carColor,jdbcType = VARCHAR},
+			</if>
+			<if test="leaseType!=null ">
+				LEASE_TYPE=#{leaseType,jdbcType = TINYINT},
+			</if>
+			<if test="validityDate!=null ">
+				VALIDITY_DATE=#{validityDate,jdbcType = TIMESTAMP},
+			</if>
+			<if test="isDedicated!=null ">
+				IS_DEDICATED=#{isDedicated,jdbcType = TINYINT},
+			</if>
+			<if test="dedicatedCompanyId!=null and dedicatedCompanyId!=''">
+				DEDICATED_COMPANY_ID=#{dedicatedCompanyId,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="onlineStatus!=null ">
+				ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+			</if>
+			<if test="onlineStatusUpdateTime!=null ">
+				ONLINE_STATUS_UPDATE_TIME=#{onlineStatusUpdateTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="usedStatusUpdateTime!=null ">
+				USED_STATUS_UPDATE_TIME=#{usedStatusUpdateTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="carLevel!=null ">
+				CAR_LEVEL=#{carLevel,jdbcType = DOUBLE},
+			</if>
+			<if test="deviceId!=null and deviceId!=''">
+				DEVICE_ID=#{deviceId,jdbcType = VARCHAR},
+			</if>
+			<if test="insuranceCompany!=null and insuranceCompany!=''">
+				INSURANCE_COMPANY=#{insuranceCompany,jdbcType = VARCHAR},
+			</if>
+			<if test="enrollmentDate!=null and enrollmentDate!='' ">
+				ENROLLMENT_DATE=#{enrollmentDate,jdbcType = TIMESTAMP},
+			</if>
+			<if test="effectiveInsurancePeriod!=null and effectiveInsurancePeriod!=''">
+				EFFECTIVE_INSURANCE_PERIOD=#{effectiveInsurancePeriod,jdbcType =
+				TIMESTAMP},
+			</if>
+			<!-- INSURANCE_COMPANY=#{insuranceCompany,jdbcType = VARCHAR}, -->
+			<!-- ENROLLMENT_DATE=#{enrollmentDate,jdbcType = TIMESTAMP}, -->
+			<!-- EFFECTIVE_INSURANCE_PERIOD=#{effectiveInsurancePeriod,jdbcType = 
+				TIMESTAMP}, -->
+			<if test="carPhotoUrl1!=null and carPhotoUrl1!=''">
+				CAR_PHOTO_URL1=#{carPhotoUrl1,jdbcType = VARCHAR},
+			</if>
+			<if test="carPhotoUrl2!=null and carPhotoUrl2!=''">
+				CAR_PHOTO_URL2=#{carPhotoUrl2,jdbcType = VARCHAR},
+			</if>
+			<if test="carPhotoUrl3!=null and carPhotoUrl3!=''">
+				CAR_PHOTO_URL3=#{carPhotoUrl3,jdbcType = VARCHAR},
+			</if>
+			<if test="carPhotoUrl4!=null and carPhotoUrl4!=''">
+				CAR_PHOTO_URL4=#{carPhotoUrl4,jdbcType = VARCHAR},
+			</if>
+			<if test="carDocPhotoUrl1!=null and carDocPhotoUrl1!=''">
+				CAR_DOC_PHOTO_URL1=#{carDocPhotoUrl1,jdbcType = VARCHAR},
+			</if>
+			<if test="carDocPhotoUrl2!=null and carDocPhotoUrl2!=''">
+				CAR_DOC_PHOTO_URL2=#{carDocPhotoUrl2,jdbcType = VARCHAR},
+			</if>
+			<if test="carDocPhotoUrl3!=null and carDocPhotoUrl3!=''">
+				CAR_DOC_PHOTO_URL3=#{carDocPhotoUrl3,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="onOffLineReason!=null and onOffLineReason!=''">
+				ON_OFF_LINE_REASON=#{onOffLineReason,jdbcType = VARCHAR},
+			</if>
+			<if test="carOnLineOrOffPicUrl1!=null and carOnLineOrOffPicUrl1!=''">
+				CAR_ONLINEOROFF_PIC_URL1=#{carOnLineOrOffPicUrl1,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="carOnLineOrOffPicUrl2!=null and carOnLineOrOffPicUrl2!=''">
+				CAR_ONLINEOROFF_PIC_URL2=#{carOnLineOrOffPicUrl2,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="carOnLineOrOffPicUrl3!=null and carOnLineOrOffPicUrl3!=''">
+				CAR_ONLINEOROFF_PIC_URL3=#{carOnLineOrOffPicUrl3,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="workerNo!=null and workerNo!=''">
+				WORKER_NO=#{workerNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carTestType!=null and carTestType!=''">
+				CAR_TEST_TYPE=#{carTestType,jdbcType = TINYINT},
+			</if>
+			<if test="seaTing!=null and seaTing!=''">
+				SEATING=#{seaTing,jdbcType = VARCHAR},
+			</if>
+			<if test="workerName!=null and workerName!=''">
+				WORKER_NAME=#{workerName,jdbcType = VARCHAR},
+			</if>
+			<if test="qrcodePicUrl!=null and qrcodePicUrl!=''">
+				QRCODE_PIC_URL=#{qrcodePicUrl,jdbcType = VARCHAR},
+			</if>
+			<if test="updownWhy!=null and updownWhy!=''">
+				UPDOWN_WHY=#{updownWhy,jdbcType = VARCHAR}
+			</if>
+		</set>
+		<where>
+			AND CAR_NO=#{carNo}
+		</where>
+	</update>
+	<!-- 解绑终端 -->
+	<update id="editCarDevice" parameterType="Car">
+		update t_car
+		<set>
+			<if test="deviceId!=null">
+				DEVICE_ID=#{deviceId,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND CAR_NO=#{carNo}
+		</where>
+	</update>
+	<delete id="delete">
+		delete from t_car
+		<where>
+			CAR_NO=#{0}
+		</where>
+	</delete>
+<select id="getcarups" resultType="Integer">
+	select count(CAR_NO) from t_car where ONLINE_STATUS=1
+</select>
+
+<select id="getcarDowns" resultType="Integer">
+	select count(CAR_NO) from t_car where ONLINE_STATUS=0
+</select>
+
+<select id="getcarDownsCityId" resultType="Integer">
+	select count(CAR_NO) from t_car 
+	<where>
+		 CITY_ID=#{cityId}   and  ONLINE_STATUS=0
+	</where>
+	
+</select>
+
+
+
+<select id="getIsOnline" resultType="Integer">
+	select count(c.CAR_NO) from t_car  c LEFT JOIN t_car_status s ON c.CAR_NO = s.CAR_NO
+		<where>
+		 c.CITY_ID=#{1} AND 
+			(<![CDATA[ #{0} < (TIMESTAMPDIFF(SECOND,s.LAST_REPORTING_TIME,NOW())*1000) ]]>
+			OR  s.LAST_REPORTING_TIME  IS NULL)
+		</where>
+</select>
+
+
+	<select id="get" resultMap="Car">
+		select
+		<include refid="AllColumnlist" />
+		from t_car
+		<where>
+			CAR_NO=#{0}
+		</where>
+	</select>
+	<select id="getCarByPlateNo" resultMap="Car">
+		select
+		<include refid="AllColumnlist" />
+		from t_car
+		<where>
+			CAR_PLATE_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getCarByPlateNoWk" parameterType="Query"
+		resultType="cn.com.shopec.core.car.vo.CarWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		s.POWER AS power,
+		s.CHARGE_STATE AS chargeState,
+		c.CAR_BRAND_NAME AS carBrandName,
+		s.USERAGE_STATUS AS userageStatus,
+		c.CAR_MODEL_NAME AS carModelName,
+		p.PARK_NAME AS parkName,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		AS distance
+		FROM t_car c LEFT JOIN t_car_status s ON c.CAR_NO =
+		s.CAR_NO
+		LEFT JOIN t_park p ON s.LOCATION_PARK_NO = p.PARK_NO
+		LEFT JOIN
+		t_worker w ON w.REGION_ID = p.REGION_ID
+		<where>
+			<if test="q!=null">
+				<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+					AND c.CAR_PLATE_NO like '%${q.carPlateNo}%'
+				</if>
+				<if test="q.workerNo==null and q.workerNo==''">
+					AND w.WORKER_NO = #{q.workerNo}
+				</if>
+				<if test="q.userageStatus!=null and q.userageStatus!=4">
+					AND s.USERAGE_STATUS = #{q.userageStatus}
+				</if>
+				<if test="q.regionId!=null and q.regionId!=''">
+					AND s.LOCATION_PARK_NO IN (SELECT park_no  FROM t_park WHERE region_Id = #{q.regionId})
+					<!-- AND p.REGION_ID = #{q.regionId} -->
+				</if>
+				<if test="q.wkRegionId!=null and q.wkRegionId!=''">
+					AND p.REGION_ID IN (${q.wkRegionId})
+				</if>
+				
+			</if>
+		</where>
+		GROUP BY c.CAR_NO
+		<if test="q.electricity==1">
+			ORDER BY s.power DESC
+		</if>
+		<if test="q.electricity==2">
+			ORDER BY s.power ASC
+		</if>
+		<if test="q.distanceAc==1">
+			ORDER BY distance ASC
+		</if>
+		<if test="q.distanceAc==2">
+			ORDER BY distance DESC
+		</if>
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<select id="getCarFaultWk" parameterType="Query"
+		resultType="cn.com.shopec.core.car.vo.CarWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		s.POWER AS power,
+		s.CHARGE_STATE AS chargeState,
+		c.CAR_BRAND_NAME AS carBrandName,
+		s.USERAGE_STATUS AS userageStatus,
+		c.CAR_MODEL_NAME AS carModelName,
+		s.LOCATION_PARK_NO AS locationParkNo,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		AS distance
+		FROM t_car c LEFT JOIN t_car_status s ON c.CAR_NO =
+		s.CAR_NO
+		<where>
+		<if test="q!=null">
+				<if test="q.cityId!=null and q.cityId!=''">
+					 c.CITY_ID=#{q.cityId}
+				</if>
+			</if>
+			and  c.ONLINE_STATUS=0
+		</where>
+		GROUP BY c.CAR_NO
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	
+	<select id="getIsOnlineCarStatus" parameterType="Query" resultType="cn.com.shopec.core.car.vo.CarWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		s.POWER AS power,
+		s.CHARGE_STATE AS chargeState,
+		c.CAR_BRAND_NAME AS carBrandName,
+		s.USERAGE_STATUS AS userageStatus,
+		c.CAR_MODEL_NAME AS carModelName,
+		date_format(s.LAST_REPORTING_TIME, '%Y-%c-%d %H:%i:%s' ) AS  deviceLastReportingTime,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude
+		FROM t_car c LEFT JOIN t_car_status s ON c.CAR_NO =
+		s.CAR_NO
+		<where>
+		<if test="q!=null">
+			<if test="q.cityId!=null and q.cityId!=''">
+						 c.CITY_ID=#{q.cityId}
+			</if>
+			AND (<![CDATA[
+				 #{q.onlineTimeThreshol}  < (TIMESTAMPDIFF(SECOND,s.LAST_REPORTING_TIME,NOW())*1000) ]]>
+			 	 OR  s.LAST_REPORTING_TIME  IS NULL)
+			 </if>
+			
+		</where>
+		
+		GROUP BY c.CAR_NO
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+
+	<select id="getCarByCarType" parameterType="Query"
+		resultType="cn.com.shopec.core.car.vo.CarDayVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		m.CAR_MODEL_ID AS carModelId,
+		m.CAR_MODEL_NAME AS carModelName,
+		m.CAR_BRAND_ID AS carBrandId,
+		m.CAR_BRAND_NAME AS carBrandName,
+		m.BOX_TYPE AS boxType,
+		m.DISPLACEMENT AS displacement,
+		m.SEAT_NUMBER AS
+		seatNumber,
+		m.STALL AS stall
+		FROM
+		t_car c
+		LEFT JOIN t_car_model m ON
+		c.CAR_MODEL_ID = m.CAR_MODEL_ID
+		LEFT JOIN t_car_status s ON c.CAR_NO =
+		s.CAR_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.leaseType!=null">
+					AND c.LEASE_TYPE=#{q.leaseType}
+				</if>
+				<if test="q.onlineStatus!=null">
+					AND c.ONLINE_STATUS=#{q.onlineStatus}
+				</if>
+				<if test="q.leaseType!=null">
+					AND c.LEASE_TYPE=#{q.leaseType}
+				</if>
+				<if test="q.userageStatus!=null">
+					AND s.USERAGE_STATUS=#{q.userageStatus}
+				</if>
+				<if test="q.carType!=null">
+					AND m.CAR_TYPE=#{q.carType}
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="getCarsByPlateNo" resultMap="Car">
+		select
+		<include refid="AllColumnlist" />
+		from t_car
+		<where>
+			CAR_PLATE_NO like CONCAT('%','${carPlateNo}','%' )
+		</where>
+	</select>
+
+	<select id="carWkDetail" resultType="cn.com.shopec.core.car.vo.CarDetailWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		c.ONLINE_STATUS AS
+		onlineStatus,
+		c.CAR_BRAND_NAME AS carBrandName,
+		c.CAR_MODEL_NAME AS
+		carModelName,
+		s.USERAGE_STATUS AS userageStatus,
+		s.CAR_STATUS AS
+		carStatus,
+		s.CHARGE_STATE AS chargeState,
+		s.RANGE_MILEAGE AS rangeMileage,
+		s.POWER AS power,
+		p.PARK_NAME AS parkName,
+		d.DEVICE_STATUS AS deviceStatus,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude
+
+		FROM t_car c LEFT JOIN t_car_status s ON c.CAR_NO =
+		s.CAR_NO
+		LEFT JOIN
+		t_device d ON c.DEVICE_ID = d.TERMINAL_DEVICE_NO
+		LEFT JOIN t_park p ON
+		s.LOCATION_PARK_NO = p.PARK_NO
+		<where>
+			c.CAR_NO = #{0}
+		</where>
+		GROUP BY c.CAR_NO
+	</select>
+
+	<select id="offLinerLately" resultType="cn.com.shopec.core.car.vo.CarOnlineVo">
+		SELECT 
+		c.ONLINE_STATUS AS onlineStatus,
+		l.CREATE_TIME AS createTime,
+		c.CAR_ONLINEOROFF_PIC_URL1 AS carOnLineOrOffPicUrl1,
+		c.CAR_ONLINEOROFF_PIC_URL2 AS carOnLineOrOffPicUrl2,
+		c.CAR_ONLINEOROFF_PIC_URL3 AS carOnLineOrOffPicUrl3,
+		l.UPDOWN_WHY AS updownWhy,
+		l.OPERATOR_ID AS operatorId,
+		l.MEMO AS memo
+		FROM t_car c LEFT JOIN t_car_online_log l ON c.CAR_NO =
+		l.CAR_NO
+		<where>
+			c.CAR_NO = #{0}
+		</where>
+		ORDER BY l.CREATE_TIME DESC LIMIT 1
+	</select>
+
+	<select id="getByIds" resultMap="Car">
+		select
+		<include refid="AllColumnlist" />
+		from t_car
+		<where>
+			CAR_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(CAR_NO) from t_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="Car">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+	<select id="listCar" parameterType="Query" resultMap="Car">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car where FRANCHISEENO = #{0}
+	</select>
+	
+
+	<select id="pageList" parameterType="Query" resultMap="Car">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<!-- 后台车辆列表 start -->
+	<select id="carPageList" parameterType="Query" resultMap="Car1">
+		select c.*,
+		s.USERAGE_STATUS,s.POWER,s.MILEAGE,DEVICE_SN,DEVICE_STATUS,s.LAST_REPORTING_TIME,
+		d.SIGNAL_STRENGTH_LEVEL
+		from t_car c 
+		LEFT JOIN t_car_status s ON c.CAR_NO=s.CAR_NO 
+		LEFT JOIN t_device d ON d.TERMINAL_DEVICE_NO=c.device_id
+
+		<where>
+			<include refid="listCommonWheres" />
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="carCount" parameterType="Query" resultType="Long">
+		select count(c.CAR_NO) from t_car c LEFT JOIN t_car_status s ON
+		c.CAR_NO=s.CAR_NO LEFT JOIN t_device d ON
+		d.TERMINAL_DEVICE_NO=c.device_id
+		<where>
+			<include refid="listCommonWheres" />
+		</where>
+	</select>
+
+	<!-- 车辆表（t_car）中： DEVICE_ID（终端序列编号） ONLINE_STATUS（上线状态（0、下线，1、上线，默认0）） IS_DEDICATED（是否专用车辆（只能供某些集团的客户使用，0、非专用，1、专用，默认0）） 
+		DEDICATED_COMPANY_ID(专用车辆集团公司id) 车辆状态表（t_car_status）中： USERAGE_STATUS（使用状态（0，空闲、1，已预占、2，订单中、3，调度中）） 
+		CAR_STATUS(车辆状态（1、已启动，2、已熄火）) POWER(剩余电量百分比(0%~100%)) -->
+
+	<!-- 根据场站编号查找该场站可用车辆的信息列表（车辆状态为空闲：0） -->
+	<!-- <select id="getCarListByParkId" resultMap="Car"> select tc.CAR_NO from 
+		t_car tc,t_car_status tcs where tcs.LOCATION_PARK_NO=#{0} and tc.CAR_NO=tcs.CAR_NO 
+		and tcs.USERAGE_STATUS=0 </select> -->
+	<!-- 普通会员的租车车辆列表 -->
+	<select id="getCarListByParkId" resultMap="Car">
+		SELECT DISTINCT tc.* FROM t_car tc,t_car_status tcs
+		WHERE
+		tcs.LOCATION_PARK_NO=#{0} AND tc.CAR_NO=tcs.CAR_NO AND
+		tcs.USERAGE_STATUS=0 and tc.IS_DEDICATED=0
+		AND tc.ONLINE_STATUS= 1 
+	<![CDATA[ AND tcs.POWER>=#{1} ]]>
+	</select>
+	<!-- 集团会员的租车车辆列表 -->
+	<select id="getCarListByParkId1" resultMap="Car">
+		SELECT DISTINCT tc.* FROM t_car tc,t_car_status tcs
+		WHERE
+		(tcs.LOCATION_PARK_NO=#{0} AND tc.CAR_NO=tcs.CAR_NO AND
+		tc.ONLINE_STATUS= 1 AND tcs.USERAGE_STATUS=0 and tc.IS_DEDICATED=0 )
+		or (tcs.LOCATION_PARK_NO=#{0} AND tc.CAR_NO=tcs.CAR_NO AND
+		tcs.USERAGE_STATUS=0 and tc.IS_DEDICATED=1 and
+		tc.DEDICATED_COMPANY_ID=#{1})
+	<![CDATA[ AND tcs.POWER>=#{2} ]]>
+	</select>
+	<!--（未登录和普通会员）可用车辆数（得到网点） -->
+	<select id="getCarCountByParkMember" resultType="Integer">
+		select DISTINCT count(tc.CAR_NO) from t_car tc,t_car_status tcs
+		where
+		tc.CAR_NO=tcs.CAR_NO
+		and tcs.LOCATION_PARK_NO=#{0}
+		and tc.IS_DEDICATED=0
+		and tc.ONLINE_STATUS= 1
+		and tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not
+		null AND tc.DEVICE_ID
+		!=''
+		and tcs.USERAGE_STATUS=0
+		and (tcs.CAR_STATUS
+		is null OR tcs.CAR_STATUS = 2)
+	<![CDATA[ AND tcs.POWER>=#{1} ]]>
+	</select>
+	
+	
+		<select id="getCarCountByParkMemberAndSeaTing" resultType="Integer">
+		select DISTINCT count(tc.CAR_NO) from t_car tc,t_car_status tcs
+		where
+		tc.CAR_NO=tcs.CAR_NO
+		and tcs.LOCATION_PARK_NO=#{0}
+		and tc.IS_DEDICATED=0
+		and tc.ONLINE_STATUS= 1
+		<if test="seaTing!=null and seaTing!=''">
+				and tc.SEATING=#{seaTing}
+		</if>
+		
+		and tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not
+		null AND tc.DEVICE_ID
+		!=''
+		and tcs.USERAGE_STATUS=0
+		and (tcs.CAR_STATUS
+		is null OR tcs.CAR_STATUS = 2)
+	<![CDATA[ AND tcs.POWER>=#{1} ]]>
+	</select>
+	
+	
+	
+	<!-- 调度员接口 任务选择（点击前） 场站总车辆数 -->
+	<select id="getCarCountByPark" resultType="Integer">
+		select DISTINCT
+		count(tc.CAR_NO) from t_car tc,t_car_status tcs where
+		tc.CAR_NO=tcs.CAR_NO and tcs.LOCATION_PARK_NO=#{0}
+	</select>
+
+	<!--（集团会员）可用车辆数（得到网点） -->
+	<select id="getCarCountByParkMember1" resultType="Integer">
+		select DISTINCT count(tc.CAR_NO) from t_car tc,t_car_status tcs
+		where
+		tc.CAR_NO=tcs.CAR_NO
+		and tcs.LOCATION_PARK_NO=#{0}
+		and
+		tc.DEDICATED_COMPANY_ID=#{1}
+		and tc.ONLINE_STATUS= 1
+		and
+		tc.IS_DEDICATED=1
+		and tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not null
+		AND tc.DEVICE_ID
+		!=''
+		and tcs.USERAGE_STATUS=0
+		and (tcs.CAR_STATUS is
+		null OR tcs.CAR_STATUS = 2)
+	<![CDATA[ AND tcs.POWER>=#{2} ]]>
+	</select>
+	
+	
+	
+	<select id="getCarCountByParkMember1AndSeaTing" resultType="Integer">
+		select DISTINCT count(tc.CAR_NO) from t_car tc,t_car_status tcs
+		where
+		tc.CAR_NO=tcs.CAR_NO
+		and tcs.LOCATION_PARK_NO=#{0}
+		and
+		tc.DEDICATED_COMPANY_ID=#{1}
+		<if test="seaTing!=null and seaTing!=''">
+				and tc.SEATING=#{seaTing}
+		</if>
+		and tc.ONLINE_STATUS= 1
+		and
+		tc.IS_DEDICATED=1
+		and tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not null
+		AND tc.DEVICE_ID
+		!=''
+		and tcs.USERAGE_STATUS=0
+		and (tcs.CAR_STATUS is
+		null OR tcs.CAR_STATUS = 2)
+	<![CDATA[ AND tcs.POWER>=#{2} ]]>
+	</select>
+	
+	
+	
+	<!-- 获取当前场站中的车辆列表 所有 调度员 -->
+	<select id="getCarListByParkExist" resultMap="Car">
+		SELECT DISTINCT
+		tc.* FROM t_car tc,t_car_status tcs
+		WHERE tcs.LOCATION_PARK_NO=#{0} AND
+		tc.CAR_NO=tcs.CAR_NO
+	</select>
+	
+	<select id="getCarLineCountMap" resultType="java.util.HashMap">
+		select 
+		ifnull(sum(CASE WHEN ONLINE_STATUS=1 THEN 1 ELSE 0 END),0) as onlineNum,
+		ifnull(sum(CASE WHEN ONLINE_STATUS=0 THEN 1 ELSE 0 END),0) as offlineNum
+		from t_car
+	</select>
+	
+	<select id="countCarNotLine" resultType="Integer">
+		select 
+		count(CAR_NO)
+		from t_car
+		WHERE ONLINE_STATUS=0
+	</select>
+	
+	<select id="countCarIdle" resultType="Integer">
+		select 
+		count(c.CAR_NO) 
+		from t_car c
+		LEFT JOIN t_car_status cs on c.car_no=cs.car_no
+		<where>
+			c.ONLINE_STATUS=1
+			AND cs.USERAGE_STATUS=0
+		</where>
+	</select>
+
+	<sql id="listCommonWheres">
+		<if test="q!=null">
+			<if test="q.leaseType!=null ">
+				AND c.LEASE_TYPE=#{q.leaseType}
+			</if>
+			<if test="q.onlineStatus!=null ">
+				AND c.ONLINE_STATUS=#{q.onlineStatus}
+			</if>
+			<if test="q.deviceSn!=null and q.deviceSn!=''">
+				AND d.DEVICE_SN like '%${q.deviceSn}%'
+			</if>
+			<if test="q.userageStatus!=null ">
+				AND s.USERAGE_STATUS=#{q.userageStatus}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND c.CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.isIdle!=null ">
+				<if test="q.isIdle==0 ">
+					AND c.ONLINE_STATUS=1
+					AND s.USERAGE_STATUS!=0
+				</if>
+				<if test="q.isIdle==1 ">
+					AND c.ONLINE_STATUS=1
+					AND s.USERAGE_STATUS=0
+				</if>
+			</if>
+		</if>
+	</sql>
+	<!-- end -->
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO=#{q.carPlateNo}
+			</if>
+			<if test="q.carOwnerId!=null and q.carOwnerId!=''">
+				AND CAR_OWNER_ID=#{q.carOwnerId}
+			</if>
+			<if test="q.carOwnerName!=null and q.carOwnerName!=''">
+				AND CAR_OWNER_NAME=#{q.carOwnerName}
+			</if>
+			<if test="q.carBrandId!=null and q.carBrandId!=''">
+				AND CAR_BRAND_ID=#{q.carBrandId}
+			</if>
+			<if test="q.carBrandName!=null and q.carBrandName!=''">
+				AND CAR_BRAND_NAME=#{q.carBrandName}
+			</if>
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				AND CAR_MODEL_ID=#{q.carModelId}
+			</if>
+			<if test="q.carModelName!=null and q.carModelName!=''">
+				AND CAR_MODEL_NAME=#{q.carModelName}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.carIdNo!=null and q.carIdNo!=''">
+				AND CAR_ID_NO=#{q.carIdNo}
+			</if>
+			<if test="q.engineNo!=null and q.engineNo!=''">
+				AND ENGINE_NO=#{q.engineNo}
+			</if>
+			<if test="q.carColor!=null and q.carColor!=''">
+				AND CAR_COLOR=#{q.carColor}
+			</if>
+			<if test="q.leaseType!=null ">
+				AND LEASE_TYPE=#{q.leaseType}
+			</if>
+			<if test="q.validityDate!=null ">
+				AND VALIDITY_DATE=#{q.validityDate}
+			</if>
+			<if test="q.validityDateStart!=null">
+		<![CDATA[	AND VALIDITY_DATE>=#{q.validityDateStart}  ]]>
+			</if>
+			<if test="q.validityDateEnd!=null">
+		<![CDATA[	AND VALIDITY_DATE<#{q.validityDateEnd}   ]]>
+			</if>
+			<if test="q.isDedicated!=null ">
+				AND IS_DEDICATED=#{q.isDedicated}
+			</if>
+			<if test="q.dedicatedCompanyId!=null and q.dedicatedCompanyId!=''">
+				AND DEDICATED_COMPANY_ID=#{q.dedicatedCompanyId}
+			</if>
+			<if test="q.onlineStatus!=null ">
+				AND ONLINE_STATUS=#{q.onlineStatus}
+			</if>
+			<if test="q.onlineStatusUpdateTime!=null ">
+				AND ONLINE_STATUS_UPDATE_TIME=#{q.onlineStatusUpdateTime}
+			</if>
+			<if test="q.onlineStatusUpdateTimeStart!=null">
+		<![CDATA[	AND ONLINE_STATUS_UPDATE_TIME>=#{q.onlineStatusUpdateTimeStart}  ]]>
+			</if>
+			<if test="q.onlineStatusUpdateTimeEnd!=null">
+		<![CDATA[	AND ONLINE_STATUS_UPDATE_TIME<#{q.onlineStatusUpdateTimeEnd}   ]]>
+			</if>
+			<if test="q.usedStatusUpdateTime!=null ">
+				AND USED_STATUS_UPDATE_TIME=#{q.usedStatusUpdateTime}
+			</if>
+			<if test="q.usedStatusUpdateTimeStart!=null">
+		<![CDATA[	AND USED_STATUS_UPDATE_TIME>=#{q.usedStatusUpdateTimeStart}  ]]>
+			</if>
+			<if test="q.usedStatusUpdateTimeEnd!=null">
+		<![CDATA[	AND USED_STATUS_UPDATE_TIME<#{q.usedStatusUpdateTimeEnd}   ]]>
+			</if>
+			<if test="q.carLevel!=null">
+				AND CAR_LEVEL=#{q.carLevel}
+			</if>
+			<if test="q.deviceId!=null and q.deviceId!=''">
+				AND DEVICE_ID=#{q.deviceId}
+			</if>
+			<if test="q.insuranceCompany!=null and q.insuranceCompany!=''">
+				AND INSURANCE_COMPANY=#{q.insuranceCompany}
+			</if>
+			<if test="q.enrollmentDate!=null ">
+				AND ENROLLMENT_DATE=#{q.enrollmentDate}
+			</if>
+			<if test="q.enrollmentDateStart!=null">
+		<![CDATA[	AND ENROLLMENT_DATE>=#{q.enrollmentDateStart}  ]]>
+			</if>
+			<if test="q.enrollmentDateEnd!=null">
+		<![CDATA[	AND ENROLLMENT_DATE<#{q.enrollmentDateEnd}   ]]>
+			</if>
+			<if test="q.effectiveInsurancePeriod!=null ">
+				AND
+				EFFECTIVE_INSURANCE_PERIOD=#{q.effectiveInsurancePeriod}
+			</if>
+			<if test="q.effectiveInsurancePeriodStart!=null">
+		<![CDATA[	AND EFFECTIVE_INSURANCE_PERIOD>=#{q.effectiveInsurancePeriodStart}  ]]>
+			</if>
+			<if test="q.effectiveInsurancePeriodEnd!=null">
+		<![CDATA[	AND EFFECTIVE_INSURANCE_PERIOD<#{q.effectiveInsurancePeriodEnd}   ]]>
+			</if>
+			<if test="q.carPhotoUrl1!=null and q.carPhotoUrl1!=''">
+				AND CAR_PHOTO_URL1=#{q.carPhotoUrl1}
+			</if>
+			<if test="q.carPhotoUrl2!=null and q.carPhotoUrl2!=''">
+				AND CAR_PHOTO_URL2=#{q.carPhotoUrl2}
+			</if>
+			<if test="q.carPhotoUrl3!=null and q.carPhotoUrl3!=''">
+				AND CAR_PHOTO_URL3=#{q.carPhotoUrl3}
+			</if>
+			<if test="q.carPhotoUrl4!=null and q.carPhotoUrl4!=''">
+				AND CAR_PHOTO_URL4=#{q.carPhotoUrl4}
+			</if>
+			<if test="q.carDocPhotoUrl1!=null and q.carDocPhotoUrl1!=''">
+				AND CAR_DOC_PHOTO_URL1=#{q.carDocPhotoUrl1}
+			</if>
+			<if test="q.carDocPhotoUrl2!=null and q.carDocPhotoUrl2!=''">
+				AND CAR_DOC_PHOTO_URL2=#{q.carDocPhotoUrl2}
+			</if>
+			<if test="q.carDocPhotoUrl3!=null and q.carDocPhotoUrl3!=''">
+				AND CAR_DOC_PHOTO_URL3=#{q.carDocPhotoUrl3}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.workerNo!=null ">
+				AND WORKER_NO=#{q.workerNo}
+			</if>
+			<if test="q.carTestType!=null ">
+				AND CAR_TEST_TYPE=#{q.carTestType}
+			</if>
+			<if test="q.seaTing!=null ">
+				AND SEATING=#{q.seaTing}
+			</if>
+			<if test="q.workerName!=null ">
+				AND WORKER_NAME=#{q.workerName}
+			</if>
+
+		</if>
+	</sql>
+
+
+</mapper>

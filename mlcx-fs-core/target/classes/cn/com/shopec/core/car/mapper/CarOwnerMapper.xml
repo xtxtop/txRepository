@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarOwnerDao">
+
+<resultMap type="CarOwner" id="CarOwner">
+	<id column="OWNER_ID" property="ownerId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OWNER_NAME" property="ownerName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OWNER_FULL_NAME" property="ownerFullName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OWNER_TYPE" property="ownerType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CONTACT_PERSON" property="contactPerson" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACT_TEL" property="contactTel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACT_PHONE" property="contactPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACT_EMAIL" property="contactEmail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ID_CARD_NO" property="idCardNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_LICENSE_NO" property="bizLicenseNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORGANIZATION_CODE" property="organizationCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TAX_REGISTRATION" property="taxRegistration" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_STATUS" property="cencorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+OWNER_ID,OWNER_NAME,OWNER_FULL_NAME,OWNER_TYPE,CONTACT_PERSON,CONTACT_TEL,CONTACT_PHONE,
+CONTACT_EMAIL,ID_CARD_NO,BIZ_LICENSE_NO,ORGANIZATION_CODE,TAX_REGISTRATION,IS_AVAILABLE,
+CENCOR_STATUS,CENCOR_ID,CENCOR_TIME,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+OWNER_ID,OWNER_NAME,OWNER_FULL_NAME,OWNER_TYPE,CONTACT_PERSON,CONTACT_TEL,CONTACT_PHONE,
+CONTACT_EMAIL,ID_CARD_NO,BIZ_LICENSE_NO,ORGANIZATION_CODE,TAX_REGISTRATION,IS_AVAILABLE,
+CENCOR_STATUS,CENCOR_ID,CENCOR_TIME,CREATE_TIME,UPDATE_TIME,
+OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="CarOwner" useGeneratedKeys="true" keyProperty="ownerId">
+	insert into T_CAR_OWNER(
+		<if test="ownerId!=null">
+		OWNER_ID,
+		</if>
+		OWNER_NAME,
+		OWNER_FULL_NAME,
+		OWNER_TYPE,
+		CONTACT_PERSON,
+		CONTACT_TEL,
+		CONTACT_PHONE,
+		CONTACT_EMAIL,
+		ID_CARD_NO,
+		BIZ_LICENSE_NO,
+		ORGANIZATION_CODE,
+		TAX_REGISTRATION,
+		IS_AVAILABLE,
+		CENCOR_STATUS,
+		CENCOR_ID,
+		CENCOR_TIME,
+		CENCOR_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="ownerId!=null">
+		#{ownerId,jdbcType = VARCHAR},
+		</if>
+		#{ownerName,jdbcType = VARCHAR},
+		#{ownerFullName,jdbcType = VARCHAR},
+		#{ownerType,jdbcType = TINYINT},
+		#{contactPerson,jdbcType = VARCHAR},
+		#{contactTel,jdbcType = VARCHAR},
+		#{contactPhone,jdbcType = VARCHAR},
+		#{contactEmail,jdbcType = VARCHAR},
+		#{idCardNo,jdbcType = VARCHAR},
+		#{bizLicenseNo,jdbcType = VARCHAR},
+		#{organizationCode,jdbcType = VARCHAR},
+		#{taxRegistration,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorId,jdbcType = VARCHAR},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CarOwner">
+	update t_car_owner 
+	<set>
+		<if test="ownerName!=null and ownerName!=''">
+			OWNER_NAME=#{ownerName,jdbcType = VARCHAR},
+		</if>
+		<if test="ownerFullName!=null and ownerFullName!=''">
+			OWNER_FULL_NAME=#{ownerFullName,jdbcType = VARCHAR},
+		</if>
+		<if test="ownerType!=null ">
+			OWNER_TYPE=#{ownerType,jdbcType = TINYINT},
+		</if>
+		<if test="contactPerson!=null and contactPerson!=''">
+			CONTACT_PERSON=#{contactPerson,jdbcType = VARCHAR},
+		</if>
+		<if test="contactTel!=null and contactTel!=''">
+			CONTACT_TEL=#{contactTel,jdbcType = VARCHAR},
+		</if>
+		<if test="contactPhone!=null and contactPhone!=''">
+			CONTACT_PHONE=#{contactPhone,jdbcType = VARCHAR},
+		</if>
+		<if test="contactEmail!=null and contactEmail!=''">
+			CONTACT_EMAIL=#{contactEmail,jdbcType = VARCHAR},
+		</if>
+		<if test="idCardNo!=null and idCardNo!=''">
+			ID_CARD_NO=#{idCardNo,jdbcType = VARCHAR},
+		</if>
+		<if test="bizLicenseNo!=null and bizLicenseNo!=''">
+			BIZ_LICENSE_NO=#{bizLicenseNo,jdbcType = VARCHAR},
+		</if>
+		<if test="organizationCode!=null and organizationCode!=''">
+			ORGANIZATION_CODE=#{organizationCode,jdbcType = VARCHAR},
+		</if>
+		<if test="taxRegistration!=null and taxRegistration!=''">
+			TAX_REGISTRATION=#{taxRegistration,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="cencorStatus!=null ">
+			CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND OWNER_ID=#{ownerId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_owner 
+	<where>
+		OWNER_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarOwner">
+	select <include refid="AllColumnlist"/> from t_car_owner
+	<where>
+		OWNER_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarOwner">
+	select <include refid="AllColumnlist"/> from t_car_owner
+	<where>
+		OWNER_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(OWNER_ID) from t_car_owner 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarOwner">
+	select <include refid="CommonColumnlist"/> from t_car_owner 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarOwner">
+	select <include refid="CommonColumnlist"/> from t_car_owner
+	<where>
+	 <include refid="listCommonWhereMH"/> 
+	</where> order by 
+	UPDATE_TIME desc
+	,CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.ownerId!=null and q.ownerId!=''">
+			AND OWNER_ID=#{q.ownerId}
+		</if>
+		<if test="q.ownerName!=null and q.ownerName!=''">
+			AND OWNER_NAME like concat(concat("%",#{q.ownerName}),"%")
+		</if>
+		<if test="q.ownerFullName!=null and q.ownerFullName!=''">
+			AND OWNER_FULL_NAME=#{q.ownerFullName}
+		</if>
+		<if test="q.ownerType!=null ">
+			AND OWNER_TYPE=#{q.ownerType}
+		</if>
+		<if test="q.contactPerson!=null and q.contactPerson!=''">
+			AND CONTACT_PERSON=#{q.contactPerson}
+		</if>
+		<if test="q.contactTel!=null and q.contactTel!=''">
+			AND CONTACT_TEL=#{q.contactTel}
+		</if>
+		<if test="q.contactPhone!=null and q.contactPhone!=''">
+			AND CONTACT_PHONE like concat(concat("%",#{q.contactPhone}),"%")
+		</if>
+		<if test="q.contactEmail!=null and q.contactEmail!=''">
+			AND CONTACT_EMAIL=#{q.contactEmail}
+		</if>
+		<if test="q.idCardNo!=null and q.idCardNo!=''">
+			AND ID_CARD_NO=#{q.idCardNo}
+		</if>
+		<if test="q.bizLicenseNo!=null and q.bizLicenseNo!=''">
+			AND BIZ_LICENSE_NO=#{q.bizLicenseNo}
+		</if>
+		<if test="q.organizationCode!=null and q.organizationCode!=''">
+			AND ORGANIZATION_CODE=#{q.organizationCode}
+		</if>
+		<if test="q.taxRegistration!=null and q.taxRegistration!=''">
+			AND TAX_REGISTRATION=#{q.taxRegistration}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.ownerId!=null and q.ownerId!=''">
+			AND OWNER_ID=#{q.ownerId}
+		</if>
+		<if test="q.ownerName!=null and q.ownerName!=''">
+			AND OWNER_NAME=#{q.ownerName}
+		</if>
+		<if test="q.ownerFullName!=null and q.ownerFullName!=''">
+			AND OWNER_FULL_NAME=#{q.ownerFullName}
+		</if>
+		<if test="q.ownerType!=null ">
+			AND OWNER_TYPE=#{q.ownerType}
+		</if>
+		<if test="q.contactPerson!=null and q.contactPerson!=''">
+			AND CONTACT_PERSON=#{q.contactPerson}
+		</if>
+		<if test="q.contactTel!=null and q.contactTel!=''">
+			AND CONTACT_TEL=#{q.contactTel}
+		</if>
+		<if test="q.contactPhone!=null and q.contactPhone!=''">
+			AND CONTACT_PHONE=#{q.contactPhone}
+		</if>
+		<if test="q.contactEmail!=null and q.contactEmail!=''">
+			AND CONTACT_EMAIL=#{q.contactEmail}
+		</if>
+		<if test="q.idCardNo!=null and q.idCardNo!=''">
+			AND ID_CARD_NO=#{q.idCardNo}
+		</if>
+		<if test="q.bizLicenseNo!=null and q.bizLicenseNo!=''">
+			AND BIZ_LICENSE_NO=#{q.bizLicenseNo}
+		</if>
+		<if test="q.organizationCode!=null and q.organizationCode!=''">
+			AND ORGANIZATION_CODE=#{q.organizationCode}
+		</if>
+		<if test="q.taxRegistration!=null and q.taxRegistration!=''">
+			AND TAX_REGISTRATION=#{q.taxRegistration}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

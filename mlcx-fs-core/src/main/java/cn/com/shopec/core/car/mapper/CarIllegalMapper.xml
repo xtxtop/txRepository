@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarIllegalDao">
+
+<resultMap type="CarIllegal" id="CarIllegal">
+	<id column="ILLEGAL_ID" property="illegalId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ILLEGAL_TIME" property="illegalTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ILLEGAL_LOCATION" property="illegalLocation" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ILLEGAL_TYPE" property="illegalType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PROCESSING_AGENCY" property="processingAgency" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ILLEGAL_FINES" property="illegalFines" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PROCESSING_STATUS" property="processingStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_STATUS" property="paymentStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="USE_CAR_TYPE" property="useCarType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DOCUMENT_NO" property="documentNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_ID" property="driverId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_NAME" property="driverName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="POINTS_DEDUCTION" property="pointsDeduction" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ILLEGAL_DETAIL" property="illegalDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ILLEGAL_ID,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,
+CITY_ID,CITY_NAME,ILLEGAL_TIME,ILLEGAL_LOCATION,ILLEGAL_TYPE,PROCESSING_AGENCY,
+ILLEGAL_FINES,PROCESSING_STATUS,PAYMENT_STATUS,USE_CAR_TYPE,DOCUMENT_NO,DRIVER_ID,
+DRIVER_NAME,MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,POINTS_DEDUCTION,OPERATOR_ID,ILLEGAL_DETAIL
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ILLEGAL_ID,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,
+CITY_ID,CITY_NAME,ILLEGAL_TIME,ILLEGAL_LOCATION,ILLEGAL_TYPE,PROCESSING_AGENCY,
+ILLEGAL_FINES,PROCESSING_STATUS,PAYMENT_STATUS,USE_CAR_TYPE,DOCUMENT_NO,DRIVER_ID,
+DRIVER_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,POINTS_DEDUCTION,OPERATOR_ID,ILLEGAL_DETAIL
+
+</sql>
+
+<insert id="add" parameterType="CarIllegal" useGeneratedKeys="true" keyProperty="illegalId">
+	insert into T_CAR_ILLEGAL(
+		<if test="illegalId!=null">
+		ILLEGAL_ID,
+		</if>
+		CAR_NO,
+		CAR_PLATE_NO,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CAR_BRAND_ID,
+		CAR_BRAND_NAME,
+		CITY_ID,
+		CITY_NAME,
+		ILLEGAL_TIME,
+		ILLEGAL_LOCATION,
+		ILLEGAL_TYPE,
+		PROCESSING_AGENCY,
+		ILLEGAL_FINES,
+		PROCESSING_STATUS,
+		PAYMENT_STATUS,
+		USE_CAR_TYPE,
+		DOCUMENT_NO,
+		DRIVER_ID,
+		DRIVER_NAME,
+		MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		POINTS_DEDUCTION,
+		OPERATOR_ID,
+		ILLEGAL_DETAIL
+	) values (
+		<if test="illegalId!=null">
+		#{illegalId,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carBrandName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{illegalTime,jdbcType = TIMESTAMP},
+		#{illegalLocation,jdbcType = VARCHAR},
+		#{illegalType,jdbcType = VARCHAR},
+		#{processingAgency,jdbcType = VARCHAR},
+		#{illegalFines,jdbcType = DOUBLE},
+		#{processingStatus,jdbcType = TINYINT},
+		#{paymentStatus,jdbcType = TINYINT},
+		#{useCarType,jdbcType = TINYINT},
+		#{documentNo,jdbcType = VARCHAR},
+		#{driverId,jdbcType = VARCHAR},
+		#{driverName,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{pointsDeduction,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{illegalDetail,jdbcType = VARCHAR}
+		
+	)
+</insert>
+
+<update id="update" parameterType="CarIllegal">
+	update t_car_illegal 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="illegalTime!=null ">
+			ILLEGAL_TIME=#{illegalTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="illegalLocation!=null and illegalLocation!=''">
+			ILLEGAL_LOCATION=#{illegalLocation,jdbcType = VARCHAR},
+		</if>
+		<if test="illegalType!=null and illegalType!=''">
+			ILLEGAL_TYPE=#{illegalType,jdbcType = VARCHAR},
+		</if>
+		<if test="processingAgency!=null and processingAgency!=''">
+			PROCESSING_AGENCY=#{processingAgency,jdbcType = VARCHAR},
+		</if>
+		<if test="illegalFines!=null ">
+			ILLEGAL_FINES=#{illegalFines,jdbcType = DOUBLE},
+		</if>
+		<if test="processingStatus!=null ">
+			PROCESSING_STATUS=#{processingStatus,jdbcType = TINYINT},
+		</if>
+		<if test="paymentStatus!=null ">
+			PAYMENT_STATUS=#{paymentStatus,jdbcType = TINYINT},
+		</if>
+		<if test="useCarType!=null ">
+			USE_CAR_TYPE=#{useCarType,jdbcType = TINYINT},
+		</if>
+		<if test="documentNo!=null and documentNo!=''">
+			DOCUMENT_NO=#{documentNo,jdbcType = VARCHAR},
+		</if>
+		<if test="driverId!=null and driverId!=''">
+			DRIVER_ID=#{driverId,jdbcType = VARCHAR},
+		</if>
+		<if test="driverName!=null and driverName!=''">
+			DRIVER_NAME=#{driverName,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="pointsDeduction!=null ">
+			POINTS_DEDUCTION=#{pointsDeduction,jdbcType = TINYINT},
+		</if>
+		
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="illegalDetail!=null and illegalDetail!=''">
+			ILLEGAL_DETAIL=#{illegalDetail,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND ILLEGAL_ID=#{illegalId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_illegal 
+	<where>
+		ILLEGAL_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarIllegal">
+	select <include refid="AllColumnlist"/> from t_car_illegal
+	<where>
+		ILLEGAL_ID=#{0}
+	</where>
+</select>
+
+
+<!-- 获取会员的违章记录数 -->
+<select id="getIllegalNumByMemberNo" resultType="Long">
+	select count(ILLEGAL_ID) from t_car_illegal
+	<where>
+		DRIVER_ID=#{0} and USE_CAR_TYPE=1
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarIllegal">
+	select <include refid="AllColumnlist"/> from t_car_illegal
+	<where>
+		ILLEGAL_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ILLEGAL_ID) from t_car_illegal 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarIllegal">
+	select <include refid="CommonColumnlist"/> from t_car_illegal 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by ILLEGAL_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarIllegal">
+	select <include refid="CommonColumnlist"/> from t_car_illegal
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by ILLEGAL_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.illegalId!=null and q.illegalId!=''">
+			AND ILLEGAL_ID=#{q.illegalId}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carBrandName!=null and q.carBrandName!=''">
+			AND CAR_BRAND_NAME=#{q.carBrandName}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.illegalTime!=null ">
+			AND ILLEGAL_TIME=#{q.illegalTime}
+		</if>
+		<if test="q.illegalTimeStart!=null">
+		<![CDATA[	AND ILLEGAL_TIME>=#{q.illegalTimeStart}  ]]>
+		</if>
+		<if test="q.illegalTimeEnd!=null">
+		<![CDATA[	AND ILLEGAL_TIME<#{q.illegalTimeEnd}   ]]>
+		</if>
+		<if test="q.illegalLocation!=null and q.illegalLocation!=''">
+			AND ILLEGAL_LOCATION=#{q.illegalLocation}
+		</if>
+		<if test="q.illegalType!=null and q.illegalType!=''">
+			AND ILLEGAL_TYPE=#{q.illegalType}
+		</if>
+		<if test="q.processingAgency!=null and q.processingAgency!=''">
+			AND PROCESSING_AGENCY=#{q.processingAgency}
+		</if>
+		<if test="q.illegalFines!=null ">
+			AND ILLEGAL_FINES=#{q.illegalFines}
+		</if>
+		<if test="q.processingStatus!=null ">
+			AND PROCESSING_STATUS=#{q.processingStatus}
+		</if>
+		<if test="q.paymentStatus!=null ">
+			AND PAYMENT_STATUS=#{q.paymentStatus}
+		</if>
+		<if test="q.useCarType!=null ">
+			AND USE_CAR_TYPE=#{q.useCarType}
+		</if>
+		<if test="q.documentNo!=null and q.documentNo!=''">
+			AND DOCUMENT_NO like '%${q.documentNo}%'
+		</if>
+		<if test="q.driverId!=null and q.driverId!=''">
+			AND DRIVER_ID=#{q.driverId}
+		</if>
+		<if test="q.driverName!=null and q.driverName!=''">
+			AND DRIVER_NAME like '%${q.driverName}%'
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.illegalDetail!=null and q.illegalDetail!=''">
+			AND ILLEGAL_DETAIL=#{q.illegalDetail}
+		</if>
+	</if>
+</sql>
+
+</mapper>

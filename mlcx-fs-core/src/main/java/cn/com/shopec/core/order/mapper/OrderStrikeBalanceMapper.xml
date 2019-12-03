@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.OrderStrikeBalanceDao">
+
+<resultMap type="OrderStrikeBalance" id="OrderStrikeBalance">
+	<id column="STRIKE_BALANCE_NO" property="strikeBalanceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_ID" property="memberId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_AMOUNT" property="payAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STRIKE_BALANCE_AMOUNT" property="strikeBalanceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STRIKE_BALANCE_REASON" property="strikeBalanceReason" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="STRIKE_BALANCE_MEMO" property="strikeBalanceMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SUBMIT_ID" property="submitId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SUBMIT_NAME" property="submitName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SUBMIT_TTIME" property="submitTtime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_PERSON_ID" property="censorPersonId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_PERSON_NAME" property="censorPersonName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_TIME" property="censorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+STRIKE_BALANCE_NO,ORDER_NO,MEMBER_ID,MEMBER_NAME,ORDER_AMOUNT,PAY_AMOUNT,STRIKE_BALANCE_AMOUNT,
+STRIKE_BALANCE_REASON,STRIKE_BALANCE_MEMO,SUBMIT_ID,SUBMIT_NAME,SUBMIT_TTIME,CENSOR_STATUS,
+CENSOR_PERSON_ID,CENSOR_PERSON_NAME,CENSOR_TIME,CENSOR_MEMO,OPERATOR_ID,OPERATOR_TYPE,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+STRIKE_BALANCE_NO,ORDER_NO,MEMBER_ID,MEMBER_NAME,ORDER_AMOUNT,PAY_AMOUNT,STRIKE_BALANCE_AMOUNT,
+STRIKE_BALANCE_REASON,STRIKE_BALANCE_MEMO,SUBMIT_ID,SUBMIT_NAME,SUBMIT_TTIME,CENSOR_STATUS,
+CENSOR_PERSON_ID,CENSOR_PERSON_NAME,CENSOR_TIME,CENSOR_MEMO,OPERATOR_ID,OPERATOR_TYPE,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="OrderStrikeBalance" useGeneratedKeys="true" keyProperty="strikeBalanceNo">
+	insert into T_ORDER_STRIKE_BALANCE(
+		<if test="strikeBalanceNo!=null">
+		STRIKE_BALANCE_NO,
+		</if>
+		ORDER_NO,
+		MEMBER_ID,
+		MEMBER_NAME,
+		ORDER_AMOUNT,
+		PAY_AMOUNT,
+		STRIKE_BALANCE_AMOUNT,
+		STRIKE_BALANCE_REASON,
+		STRIKE_BALANCE_MEMO,
+		SUBMIT_ID,
+		SUBMIT_NAME,
+		SUBMIT_TTIME,
+		CENSOR_STATUS,
+		CENSOR_PERSON_ID,
+		CENSOR_PERSON_NAME,
+		CENSOR_TIME,
+		CENSOR_MEMO,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="strikeBalanceNo!=null">
+		#{strikeBalanceNo,jdbcType = VARCHAR},
+		</if>
+		#{orderNo,jdbcType = VARCHAR},
+		#{memberId,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{payAmount,jdbcType = DOUBLE},
+		#{strikeBalanceAmount,jdbcType = DOUBLE},
+		#{strikeBalanceReason,jdbcType = TINYINT},
+		#{strikeBalanceMemo,jdbcType = VARCHAR},
+		#{submitId,jdbcType = VARCHAR},
+		#{submitName,jdbcType = VARCHAR},
+		#{submitTtime,jdbcType = TIMESTAMP},
+		#{censorStatus,jdbcType = TINYINT},
+		#{censorPersonId,jdbcType = VARCHAR},
+		#{censorPersonName,jdbcType = VARCHAR},
+		#{censorTime,jdbcType = TIMESTAMP},
+		#{censorMemo,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="OrderStrikeBalance">
+	update t_order_strike_balance 
+	<set>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberId!=null and memberId!=''">
+			MEMBER_ID=#{memberId,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payAmount!=null ">
+			PAY_AMOUNT=#{payAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="strikeBalanceAmount!=null ">
+			STRIKE_BALANCE_AMOUNT=#{strikeBalanceAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="strikeBalanceReason!=null ">
+			STRIKE_BALANCE_REASON=#{strikeBalanceReason,jdbcType = TINYINT},
+		</if>
+		<if test="strikeBalanceMemo!=null and strikeBalanceMemo!=''">
+			STRIKE_BALANCE_MEMO=#{strikeBalanceMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="submitId!=null and submitId!=''">
+			SUBMIT_ID=#{submitId,jdbcType = VARCHAR},
+		</if>
+		<if test="submitName!=null and submitName!=''">
+			SUBMIT_NAME=#{submitName,jdbcType = VARCHAR},
+		</if>
+		<if test="submitTtime!=null ">
+			SUBMIT_TTIME=#{submitTtime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="censorPersonId!=null and censorPersonId!=''">
+			CENSOR_PERSON_ID=#{censorPersonId,jdbcType = VARCHAR},
+		</if>
+		<if test="censorPersonName!=null and censorPersonName!=''">
+			CENSOR_PERSON_NAME=#{censorPersonName,jdbcType = VARCHAR},
+		</if>
+		<if test="censorTime!=null ">
+			CENSOR_TIME=#{censorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorMemo!=null and censorMemo!=''">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND STRIKE_BALANCE_NO=#{strikeBalanceNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_strike_balance 
+	<where>
+		STRIKE_BALANCE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderStrikeBalance">
+	select <include refid="AllColumnlist"/> from t_order_strike_balance
+	<where>
+		STRIKE_BALANCE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderStrikeBalance">
+	select <include refid="AllColumnlist"/> from t_order_strike_balance
+	<where>
+		STRIKE_BALANCE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(STRIKE_BALANCE_NO) from t_order_strike_balance 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderStrikeBalance">
+	select <include refid="CommonColumnlist"/> from t_order_strike_balance 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderStrikeBalance">
+	select <include refid="CommonColumnlist"/> from t_order_strike_balance
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where> order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.strikeBalanceNo!=null and q.strikeBalanceNo!=''">
+			AND STRIKE_BALANCE_NO like concat(concat("%",#{q.strikeBalanceNo}),"%") 
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO like concat(concat("%",#{q.orderNo}),"%") 
+		</if>
+		<if test="q.memberId!=null and q.memberId!=''">
+			AND MEMBER_ID=#{q.memberId}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like concat(concat("%",#{q.memberName}),"%")
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.payAmount!=null ">
+			AND PAY_AMOUNT=#{q.payAmount}
+		</if>
+		<if test="q.strikeBalanceAmount!=null ">
+			AND STRIKE_BALANCE_AMOUNT=#{q.strikeBalanceAmount}
+		</if>
+		<if test="q.strikeBalanceReason!=null ">
+			AND STRIKE_BALANCE_REASON=#{q.strikeBalanceReason}
+		</if>
+		<if test="q.strikeBalanceMemo!=null and q.strikeBalanceMemo!=''">
+			AND STRIKE_BALANCE_MEMO=#{q.strikeBalanceMemo}
+		</if>
+		<if test="q.submitId!=null and q.submitId!=''">
+			AND SUBMIT_ID=#{q.submitId}
+		</if>
+		<if test="q.submitName!=null and q.submitName!=''">
+			AND SUBMIT_NAME=#{q.submitName}
+		</if>
+		<if test="q.submitTtime!=null ">
+			AND SUBMIT_TTIME=#{q.submitTtime}
+		</if>
+		<if test="q.submitTtimeStart!=null">
+		<![CDATA[	AND SUBMIT_TTIME>=#{q.submitTtimeStart}  ]]>
+		</if>
+		<if test="q.submitTtimeEnd!=null">
+		<![CDATA[	AND SUBMIT_TTIME<#{q.submitTtimeEnd}   ]]>
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorPersonId!=null and q.censorPersonId!=''">
+			AND CENSOR_PERSON_ID=#{q.censorPersonId}
+		</if>
+		<if test="q.censorPersonName!=null and q.censorPersonName!=''">
+			AND CENSOR_PERSON_NAME=#{q.censorPersonName}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.censorTimeStart!=null">
+		<![CDATA[	AND CENSOR_TIME>=#{q.censorTimeStart}  ]]>
+		</if>
+		<if test="q.censorTimeEnd!=null">
+		<![CDATA[	AND CENSOR_TIME<#{q.censorTimeEnd}   ]]>
+		</if>
+		<if test="q.censorMemo!=null and q.censorMemo!=''">
+			AND CENSOR_MEMO=#{q.censorMemo}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.strikeBalanceNo!=null and q.strikeBalanceNo!=''">
+			AND STRIKE_BALANCE_NO=#{q.strikeBalanceNo}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.memberId!=null and q.memberId!=''">
+			AND MEMBER_ID=#{q.memberId}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.payAmount!=null ">
+			AND PAY_AMOUNT=#{q.payAmount}
+		</if>
+		<if test="q.strikeBalanceAmount!=null ">
+			AND STRIKE_BALANCE_AMOUNT=#{q.strikeBalanceAmount}
+		</if>
+		<if test="q.strikeBalanceReason!=null ">
+			AND STRIKE_BALANCE_REASON=#{q.strikeBalanceReason}
+		</if>
+		<if test="q.strikeBalanceMemo!=null and q.strikeBalanceMemo!=''">
+			AND STRIKE_BALANCE_MEMO=#{q.strikeBalanceMemo}
+		</if>
+		<if test="q.submitId!=null and q.submitId!=''">
+			AND SUBMIT_ID=#{q.submitId}
+		</if>
+		<if test="q.submitName!=null and q.submitName!=''">
+			AND SUBMIT_NAME=#{q.submitName}
+		</if>
+		<if test="q.submitTtime!=null ">
+			AND SUBMIT_TTIME=#{q.submitTtime}
+		</if>
+		<if test="q.submitTtimeStart!=null">
+		<![CDATA[	AND SUBMIT_TTIME>=#{q.submitTtimeStart}  ]]>
+		</if>
+		<if test="q.submitTtimeEnd!=null">
+		<![CDATA[	AND SUBMIT_TTIME<#{q.submitTtimeEnd}   ]]>
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorPersonId!=null and q.censorPersonId!=''">
+			AND CENSOR_PERSON_ID=#{q.censorPersonId}
+		</if>
+		<if test="q.censorPersonName!=null and q.censorPersonName!=''">
+			AND CENSOR_PERSON_NAME=#{q.censorPersonName}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.censorTimeStart!=null">
+		<![CDATA[	AND CENSOR_TIME>=#{q.censorTimeStart}  ]]>
+		</if>
+		<if test="q.censorTimeEnd!=null">
+		<![CDATA[	AND CENSOR_TIME<#{q.censorTimeEnd}   ]]>
+		</if>
+		<if test="q.censorMemo!=null and q.censorMemo!=''">
+			AND CENSOR_MEMO=#{q.censorMemo}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<!-- 根据请求查询出会员认证 待审核的 -->
+<select id="countOrderStrikeBalanceTodoIndexValue" resultType="Integer">
+	SELECT count(*) FROM t_order_strike_balance WHERE CENSOR_STATUS=0
+</select>
+
+
+
+</mapper>

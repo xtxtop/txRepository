@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysUserRoleRelDao">
+
+<resultMap type="SysUserRoleRel" id="SysUserRoleRel">
+	<id column="USER_ID" property="userId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="ROLE_ID" property="roleId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+<resultMap type="SysRole" id="SysRole">
+    <id column="ROLE_ID" property="roleId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="ROLE_NAME" property="roleName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<resultMap type="SysUser" id="SysUser">
+    <id column="USER_ID" property="userId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="USER_NAME" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="PASSWORD" property="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="REAL_NAME" property="realName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="EMAIL" property="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="TEL_PHONE" property="telPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<insert id="add" parameterType="SysUserRoleRel">
+	insert into T_SYS_USER_ROLE_REL(
+		USER_ID,
+		ROLE_ID,
+		CREATE_TIME
+	) values (
+		#{userId,jdbcType = VARCHAR},
+		#{roleId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="SysUserRoleRel">
+	update t_sys_user_role_rel 
+	<set>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND ROLE_ID=#{roleId}
+		AND USER_ID=#{userId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_user_role_rel 
+	<where>
+		ROLE_ID=#{0}
+		AND USER_ID=#{1}
+	</where>
+</delete>
+
+<delete id="deleteByRoleId">
+    delete from t_sys_user_role_rel 
+    <where>
+        ROLE_ID=#{0}
+    </where>
+</delete>
+
+<delete id="deleteByUserId">
+    delete from t_sys_user_role_rel 
+    <where>
+        USER_ID=#{0}
+    </where>
+</delete>
+
+<select id="get" resultMap="SysUserRoleRel">
+	select * from t_sys_user_role_rel
+	<where>
+		ROLE_ID=#{0}
+        or USER_ID=#{1}
+	</where>
+</select>
+
+<select id="getByUserId" resultMap="SysUserRoleRel">
+    select sur.* from t_sys_user_role_rel sur
+    left join t_sys_role sr on sr.ROLE_ID = sur.ROLE_ID
+    <where>
+        USER_ID=#{0}
+        and sr.IS_AVAILABLE = 1
+    </where>
+</select>
+
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_user_role_rel 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysUserRoleRel">
+	select * from t_sys_user_role_rel 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysUserRoleRel">
+	select * from  t_sys_user_role_rel
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 查询对应用户下所有角色 -->
+<select id="getAllUserRole"  resultMap="SysRole">
+    <![CDATA[
+        SELECT p.*
+        FROM t_sys_user_role_rel r, t_sys_role p  WHERE r.user_id = #{0} and 
+            p.role_id = r.role_id
+    ]]>
+</select>
+<!-- 查询对应角色下所有用户 -->
+<select id="getAllUser"  resultMap="SysUser">
+    <![CDATA[
+        SELECT u.*
+        FROM t_sys_user_role_rel r, t_sys_user u  WHERE r.role_id = #{0} and 
+            u.user_id = r.user_id and u.IS_AVAILABLE=1 and u.IS_DELETED=0
+    ]]>
+</select>
+<sql id="listCommonWhere">
+		<if test="q.userId!=null ">
+			AND USER_ID=#{q.userId}
+		</if>
+		<if test="q.roleId!=null ">
+			AND ROLE_ID=#{q.roleId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarDetailMainDataDao">
+
+<resultMap type="CarDetailMainData" id="CarDetailMainData">
+	<id column="DEVICE_SN" property="deviceSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_STA" property="carSta" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING" property="charging" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPER_MODE" property="operMode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SPEED" property="speed" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MILEAGE" property="mileage" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOTAL_VOL" property="totalVol" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CURRENT" property="current" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SOC" property="soc" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DC_STA" property="dcSta" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GEAR" property="gear" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RESISTANCE" property="resistance" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACC_PEDAL" property="accPedal" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BRAKE_PEDAL_POS" property="brakePedalPos" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ELEC_SWITCH" property="elecSwitch" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEASING_MODE" property="leasingMode" javaType="java.lang.String" jdbcType="VARCHAR"/>	
+	<result column="USB_NET" property="usbNet" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BT_STA" property="btSta" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POW_ENABLE" property="powEnable" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHY_KEY" property="phyKey" javaType="java.lang.String" jdbcType="VARCHAR"/>	
+	<result column="CAR_DOOR" property="carDoor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_WINDOW" property="carWindow" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCTRL_LOCK" property="cenctrlLock" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LIGHT" property="light" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="HANDBRAKE" property="handbrake" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="AUX_BATTERY_VOL" property="auxBatteryVol" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN" property="chargingGun" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOC_STATUS" property="locStatus" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GPS_MILEAGE" property="gpsMileage" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GPS_SPEED" property="gpsSpeed" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GPS_ANGLE" property="gpsAngle" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOC_SATE_NUM" property="locSateNum" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SIGNAL_STRENGTH" property="signalStrength" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEFT_FRONT_DOOR" property="leftFrontDoor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RIGHT_FRONT_DOOR" property="rightFrontDoor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEFT_REAR_DOOR" property="leftRearDoor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RIGHT_REAR_DOOR" property="rightRearDoor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TRUNK" property="trunk" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEFT_FRONT_WIN" property="leftFrontWin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RIGHT_FRONT_WIN" property="rightFrontWin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEFT_REAR_WIN" property="leftRearWin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RIGHT_REAR_WIN" property="rightRearWin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LON_FLAG" property="lonFlag" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LON" property="lon" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LAT_FLAG" property="latFlag" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LAT" property="lat" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LAST_REPORTING_TIME" property="lastReportingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DEVICE_SN,CAR_NO,CAR_PLATE_NO,CAR_STA,CHARGING,OPER_MODE,SPEED,
+MILEAGE,TOTAL_VOL,CURRENT,SOC,DC_STA,GEAR,
+RESISTANCE,ACC_PEDAL,BRAKE_PEDAL_POS,ELEC_SWITCH,LEASING_MODE,USB_NET,BT_STA,POW_ENABLE,PHY_KEY,CAR_DOOR,
+CAR_WINDOW,CENCTRL_LOCK,LIGHT,HANDBRAKE,AUX_BATTERY_VOL,CHARGING_GUN,
+LOC_STATUS,GPS_MILEAGE,GPS_SPEED,GPS_ANGLE,LOC_SATE_NUM,SIGNAL_STRENGTH,
+LEFT_FRONT_DOOR,RIGHT_FRONT_DOOR,LEFT_REAR_DOOR,RIGHT_REAR_DOOR,TRUNK,LEFT_FRONT_WIN,
+RIGHT_FRONT_WIN,LEFT_REAR_WIN,RIGHT_REAR_WIN,LON_FLAG,LON,LAT_FLAG,
+LAT,LAST_REPORTING_TIME,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DEVICE_SN,CAR_NO,CAR_PLATE_NO,CAR_STA,CHARGING,OPER_MODE,SPEED,
+MILEAGE,TOTAL_VOL,CURRENT,SOC,DC_STA,GEAR,
+RESISTANCE,ACC_PEDAL,BRAKE_PEDAL_POS,ELEC_SWITCH,LEASING_MODE,USB_NET,BT_STA,POW_ENABLE,PHY_KEY,CAR_DOOR,
+CAR_WINDOW,CENCTRL_LOCK,LIGHT,HANDBRAKE,AUX_BATTERY_VOL,CHARGING_GUN,
+LOC_STATUS,GPS_MILEAGE,GPS_SPEED,GPS_ANGLE,LOC_SATE_NUM,SIGNAL_STRENGTH,
+LEFT_FRONT_DOOR,RIGHT_FRONT_DOOR,LEFT_REAR_DOOR,RIGHT_REAR_DOOR,TRUNK,LEFT_FRONT_WIN,
+RIGHT_FRONT_WIN,LEFT_REAR_WIN,RIGHT_REAR_WIN,LON_FLAG,LON,LAT_FLAG,
+LAT,LAST_REPORTING_TIME,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="CarDetailMainData" useGeneratedKeys="true" keyProperty="deviceSn">
+	insert into T_CAR_DETAIL_MAIN_DATA(
+		<if test="deviceSn!=null">
+		DEVICE_SN,
+		</if>
+		CAR_NO,
+		CAR_PLATE_NO,
+		CAR_STA,
+		CHARGING,
+		OPER_MODE,
+		SPEED,
+		MILEAGE,
+		TOTAL_VOL,
+		CURRENT,
+		SOC,
+		DC_STA,
+		GEAR,
+		RESISTANCE,
+		ACC_PEDAL,
+		BRAKE_PEDAL_POS,
+		ELEC_SWITCH,
+		LEASING_MODE,
+		USB_NET,
+		BT_STA,
+		POW_ENABLE,
+		PHY_KEY,
+		CAR_DOOR,
+		CAR_WINDOW,
+		CENCTRL_LOCK,
+		LIGHT,
+		HANDBRAKE,
+		AUX_BATTERY_VOL,
+		CHARGING_GUN,
+		LOC_STATUS,
+		GPS_MILEAGE,
+		GPS_SPEED,
+		GPS_ANGLE,
+		LOC_SATE_NUM,
+		SIGNAL_STRENGTH,
+		LEFT_FRONT_DOOR,
+		RIGHT_FRONT_DOOR,
+		LEFT_REAR_DOOR,
+		RIGHT_REAR_DOOR,
+		TRUNK,
+		LEFT_FRONT_WIN,
+		RIGHT_FRONT_WIN,
+		LEFT_REAR_WIN,
+		RIGHT_REAR_WIN,
+		LON_FLAG,
+		LON,
+		LAT_FLAG,
+		LAT,
+		LAST_REPORTING_TIME,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="deviceSn!=null">
+		#{deviceSn,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carSta,jdbcType = VARCHAR},
+		#{charging,jdbcType = VARCHAR},
+		#{operMode,jdbcType = VARCHAR},
+		#{speed,jdbcType = VARCHAR},
+		#{mileage,jdbcType = VARCHAR},
+		#{totalVol,jdbcType = VARCHAR},
+		#{current,jdbcType = VARCHAR},
+		#{soc,jdbcType = VARCHAR},
+		#{dcSta,jdbcType = VARCHAR},
+		#{gear,jdbcType = VARCHAR},
+		#{resistance,jdbcType = VARCHAR},
+		#{accPedal,jdbcType = VARCHAR},
+		#{brakePedalPos,jdbcType = VARCHAR},
+		#{elecSwitch,jdbcType = VARCHAR},
+		#{leasingMode,jdbcType = VARCHAR},		
+		#{usbNet,jdbcType = VARCHAR},
+		#{btSta,jdbcType = VARCHAR},
+		#{powEnable,jdbcType = VARCHAR},
+		#{phyKey,jdbcType = VARCHAR},		
+		#{carDoor,jdbcType = VARCHAR},
+		#{carWindow,jdbcType = VARCHAR},
+		#{cenctrlLock,jdbcType = VARCHAR},
+		#{light,jdbcType = VARCHAR},
+		#{handbrake,jdbcType = VARCHAR},
+		#{auxBatteryVol,jdbcType = VARCHAR},
+		#{chargingGun,jdbcType = VARCHAR},
+		#{locStatus,jdbcType = VARCHAR},
+		#{gpsMileage,jdbcType = VARCHAR},
+		#{gpsSpeed,jdbcType = VARCHAR},
+		#{gpsAngle,jdbcType = VARCHAR},
+		#{locSateNum,jdbcType = VARCHAR},
+		#{signalStrength,jdbcType = VARCHAR},
+		#{leftFrontDoor,jdbcType = VARCHAR},
+		#{rightFrontDoor,jdbcType = VARCHAR},
+		#{leftRearDoor,jdbcType = VARCHAR},
+		#{rightRearDoor,jdbcType = VARCHAR},
+		#{trunk,jdbcType = VARCHAR},
+		#{leftFrontWin,jdbcType = VARCHAR},
+		#{rightFrontWin,jdbcType = VARCHAR},
+		#{leftRearWin,jdbcType = VARCHAR},
+		#{rightRearWin,jdbcType = VARCHAR},
+		#{lonFlag,jdbcType = VARCHAR},
+		#{lon,jdbcType = VARCHAR},
+		#{latFlag,jdbcType = VARCHAR},
+		#{lat,jdbcType = VARCHAR},
+		#{lastReportingTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="CarDetailMainData">
+	update T_CAR_DETAIL_MAIN_DATA 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carSta!=null and carSta!=''">
+			CAR_STA=#{carSta,jdbcType = VARCHAR},
+		</if>
+		<if test="charging!=null and charging!=''">
+			CHARGING=#{charging,jdbcType = VARCHAR},
+		</if>
+		<if test="operMode!=null and operMode!=''">
+			OPER_MODE=#{operMode,jdbcType = VARCHAR},
+		</if>
+		<if test="speed!=null and speed!=''">
+			SPEED=#{speed,jdbcType = VARCHAR},
+		</if>
+		<if test="mileage!=null and mileage!=''">
+			MILEAGE=#{mileage,jdbcType = VARCHAR},
+		</if>
+		<if test="totalVol!=null and totalVol!=''">
+			TOTAL_VOL=#{totalVol,jdbcType = VARCHAR},
+		</if>
+		<if test="current!=null and current!=''">
+			CURRENT=#{current,jdbcType = VARCHAR},
+		</if>
+		<if test="soc!=null and soc!=''">
+			SOC=#{soc,jdbcType = VARCHAR},
+		</if>
+		<if test="dcSta!=null and dcSta!=''">
+			DC_STA=#{dcSta,jdbcType = VARCHAR},
+		</if>
+		<if test="gear!=null and gear!=''">
+			GEAR=#{gear,jdbcType = VARCHAR},
+		</if>
+		<if test="resistance!=null and resistance!=''">
+			RESISTANCE=#{resistance,jdbcType = VARCHAR},
+		</if>
+		<if test="accPedal!=null and accPedal!=''">
+			ACC_PEDAL=#{accPedal,jdbcType = VARCHAR},
+		</if>
+		<if test="brakePedalPos!=null and brakePedalPos!=''">
+			BRAKE_PEDAL_POS=#{brakePedalPos,jdbcType = VARCHAR},
+		</if>
+		<if test="elecSwitch!=null and elecSwitch!=''">
+			ELEC_SWITCH=#{elecSwitch,jdbcType = VARCHAR},
+		</if>
+		<if test="leasingMode!=null and leasingMode!=''">
+			LEASING_MODE=#{leasingMode,jdbcType = VARCHAR},
+		</if>
+		<if test="usbNet!=null and usbNet!=''">
+			USB_NET=#{usbNet,jdbcType = VARCHAR},
+		</if>
+		<if test="btSta!=null and btSta!=''">
+			BT_STA=#{btSta,jdbcType = VARCHAR},
+		</if>
+		<if test="powEnable!=null and powEnable!=''">
+			POW_ENABLE=#{powEnable,jdbcType = VARCHAR},
+		</if>
+		<if test="phyKey!=null and phyKey!=''">
+			PHY_KEY=#{phyKey,jdbcType = VARCHAR},
+		</if>						
+		<if test="carDoor!=null and carDoor!=''">
+			CAR_DOOR=#{carDoor,jdbcType = VARCHAR},
+		</if>
+		<if test="carWindow!=null and carWindow!=''">
+			CAR_WINDOW=#{carWindow,jdbcType = VARCHAR},
+		</if>
+		<if test="cenctrlLock!=null and cenctrlLock!=''">
+			CENCTRL_LOCK=#{cenctrlLock,jdbcType = VARCHAR},
+		</if>
+		<if test="light!=null and light!=''">
+			LIGHT=#{light,jdbcType = VARCHAR},
+		</if>
+		<if test="handbrake!=null and handbrake!=''">
+			HANDBRAKE=#{handbrake,jdbcType = VARCHAR},
+		</if>
+		<if test="auxBatteryVol!=null and auxBatteryVol!=''">
+			AUX_BATTERY_VOL=#{auxBatteryVol,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingGun!=null and chargingGun!=''">
+			CHARGING_GUN=#{chargingGun,jdbcType = VARCHAR},
+		</if>
+		<if test="locStatus!=null and locStatus!=''">
+			LOC_STATUS=#{locStatus,jdbcType = VARCHAR},
+		</if>
+		<if test="gpsMileage!=null and gpsMileage!=''">
+			GPS_MILEAGE=#{gpsMileage,jdbcType = VARCHAR},
+		</if>
+		<if test="gpsSpeed!=null and gpsSpeed!=''">
+			GPS_SPEED=#{gpsSpeed,jdbcType = VARCHAR},
+		</if>
+		<if test="gpsAngle!=null and gpsAngle!=''">
+			GPS_ANGLE=#{gpsAngle,jdbcType = VARCHAR},
+		</if>
+		<if test="locSateNum!=null and locSateNum!=''">
+			LOC_SATE_NUM=#{locSateNum,jdbcType = VARCHAR},
+		</if>
+		<if test="signalStrength!=null and signalStrength!=''">
+			SIGNAL_STRENGTH=#{signalStrength,jdbcType = VARCHAR},
+		</if>
+		<if test="leftFrontDoor!=null and leftFrontDoor!=''">
+			LEFT_FRONT_DOOR=#{leftFrontDoor,jdbcType = VARCHAR},
+		</if>
+		<if test="rightFrontDoor!=null and rightFrontDoor!=''">
+			RIGHT_FRONT_DOOR=#{rightFrontDoor,jdbcType = VARCHAR},
+		</if>
+		<if test="leftRearDoor!=null and leftRearDoor!=''">
+			LEFT_REAR_DOOR=#{leftRearDoor,jdbcType = VARCHAR},
+		</if>
+		<if test="rightRearDoor!=null and rightRearDoor!=''">
+			RIGHT_REAR_DOOR=#{rightRearDoor,jdbcType = VARCHAR},
+		</if>
+		<if test="trunk!=null and trunk!=''">
+			TRUNK=#{trunk,jdbcType = VARCHAR},
+		</if>
+		<if test="leftFrontWin!=null and leftFrontWin!=''">
+			LEFT_FRONT_WIN=#{leftFrontWin,jdbcType = VARCHAR},
+		</if>
+		<if test="rightFrontWin!=null and rightFrontWin!=''">
+			RIGHT_FRONT_WIN=#{rightFrontWin,jdbcType = VARCHAR},
+		</if>
+		<if test="leftRearWin!=null and leftRearWin!=''">
+			LEFT_REAR_WIN=#{leftRearWin,jdbcType = VARCHAR},
+		</if>
+		<if test="rightRearWin!=null and rightRearWin!=''">
+			RIGHT_REAR_WIN=#{rightRearWin,jdbcType = VARCHAR},
+		</if>
+		<if test="lonFlag!=null and lonFlag!=''">
+			LON_FLAG=#{lonFlag,jdbcType = VARCHAR},
+		</if>
+		<if test="lon!=null and lon!=''">
+			LON=#{lon,jdbcType = VARCHAR},
+		</if>
+		<if test="latFlag!=null and latFlag!=''">
+			LAT_FLAG=#{latFlag,jdbcType = VARCHAR},
+		</if>
+		<if test="lat!=null and lat!=''">
+			LAT=#{lat,jdbcType = VARCHAR},
+		</if>
+		<if test="lastReportingTime!=null ">
+			LAST_REPORTING_TIME=#{lastReportingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND DEVICE_SN=#{deviceSn}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_CAR_DETAIL_MAIN_DATA 
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarDetailMainData">
+	select <include refid="AllColumnlist"/> from T_CAR_DETAIL_MAIN_DATA
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarDetailMainData">
+	select <include refid="AllColumnlist"/> from T_CAR_DETAIL_MAIN_DATA
+	<where>
+		DEVICE_SN in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DEVICE_SN) from T_CAR_DETAIL_MAIN_DATA 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarDetailMainData">
+	select <include refid="CommonColumnlist"/> from T_CAR_DETAIL_MAIN_DATA 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarDetailMainData">
+	select <include refid="CommonColumnlist"/> from T_CAR_DETAIL_MAIN_DATA
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND DEVICE_SN=#{q.deviceSn}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.carSta!=null and q.carSta!=''">
+			AND CAR_STA=#{q.carSta}
+		</if>
+		<if test="q.charging!=null and q.charging!=''">
+			AND CHARGING=#{q.charging}
+		</if>
+		<if test="q.operMode!=null and q.operMode!=''">
+			AND OPER_MODE=#{q.operMode}
+		</if>
+		<if test="q.speed!=null and q.speed!=''">
+			AND SPEED=#{q.speed}
+		</if>
+		<if test="q.mileage!=null and q.mileage!=''">
+			AND MILEAGE=#{q.mileage}
+		</if>
+		<if test="q.totalVol!=null and q.totalVol!=''">
+			AND TOTAL_VOL=#{q.totalVol}
+		</if>
+		<if test="q.current!=null and q.current!=''">
+			AND CURRENT=#{q.current}
+		</if>
+		<if test="q.soc!=null and q.soc!=''">
+			AND SOC=#{q.soc}
+		</if>
+		<if test="q.dcSta!=null and q.dcSta!=''">
+			AND DC_STA=#{q.dcSta}
+		</if>
+		<if test="q.gear!=null and q.gear!=''">
+			AND GEAR=#{q.gear}
+		</if>
+		<if test="q.resistance!=null and q.resistance!=''">
+			AND RESISTANCE=#{q.resistance}
+		</if>
+		<if test="q.accPedal!=null and q.accPedal!=''">
+			AND ACC_PEDAL=#{q.accPedal}
+		</if>
+		<if test="q.brakePedalPos!=null and q.brakePedalPos!=''">
+			AND BRAKE_PEDAL_POS=#{q.brakePedalPos}
+		</if>
+		<if test="q.elecSwitch!=null and q.elecSwitch!=''">
+			AND ELEC_SWITCH=#{q.elecSwitch}
+		</if>
+		<if test="q.leasingMode!=null and q.leasingMode!=''">
+			AND LEASING_MODE=#{q.leasingMode}
+		</if>
+		<if test="q.usbNet!=null and q.usbNet!=''">
+			AND USB_NET=#{q.usbNet}
+		</if>
+		<if test="q.btSta!=null and q.btSta!=''">
+			AND BT_STA=#{q.btSta}
+		</if>
+		<if test="q.powEnable!=null and q.powEnable!=''">
+			AND POW_ENABLE=#{q.powEnable}
+		</if>
+		<if test="q.phyKey!=null and q.phyKey!=''">
+			AND PHY_KEY=#{q.phyKey}
+		</if>								
+		<if test="q.carDoor!=null and q.carDoor!=''">
+			AND CAR_DOOR=#{q.carDoor}
+		</if>
+		<if test="q.carWindow!=null and q.carWindow!=''">
+			AND CAR_WINDOW=#{q.carWindow}
+		</if>
+		<if test="q.cenctrlLock!=null and q.cenctrlLock!=''">
+			AND CENCTRL_LOCK=#{q.cenctrlLock}
+		</if>
+		<if test="q.light!=null and q.light!=''">
+			AND LIGHT=#{q.light}
+		</if>
+		<if test="q.handbrake!=null and q.handbrake!=''">
+			AND HANDBRAKE=#{q.handbrake}
+		</if>
+		<if test="q.auxBatteryVol!=null and q.auxBatteryVol!=''">
+			AND AUX_BATTERY_VOL=#{q.auxBatteryVol}
+		</if>
+		<if test="q.chargingGun!=null and q.chargingGun!=''">
+			AND CHARGING_GUN=#{q.chargingGun}
+		</if>
+		<if test="q.locStatus!=null and q.locStatus!=''">
+			AND LOC_STATUS=#{q.locStatus}
+		</if>
+		<if test="q.gpsMileage!=null and q.gpsMileage!=''">
+			AND GPS_MILEAGE=#{q.gpsMileage}
+		</if>
+		<if test="q.gpsSpeed!=null and q.gpsSpeed!=''">
+			AND GPS_SPEED=#{q.gpsSpeed}
+		</if>
+		<if test="q.gpsAngle!=null and q.gpsAngle!=''">
+			AND GPS_ANGLE=#{q.gpsAngle}
+		</if>
+		<if test="q.locSateNum!=null and q.locSateNum!=''">
+			AND LOC_SATE_NUM=#{q.locSateNum}
+		</if>
+		<if test="q.signalStrength!=null and q.signalStrength!=''">
+			AND SIGNAL_STRENGTH=#{q.signalStrength}
+		</if>
+		<if test="q.leftFrontDoor!=null and q.leftFrontDoor!=''">
+			AND LEFT_FRONT_DOOR=#{q.leftFrontDoor}
+		</if>
+		<if test="q.rightFrontDoor!=null and q.rightFrontDoor!=''">
+			AND RIGHT_FRONT_DOOR=#{q.rightFrontDoor}
+		</if>
+		<if test="q.leftRearDoor!=null and q.leftRearDoor!=''">
+			AND LEFT_REAR_DOOR=#{q.leftRearDoor}
+		</if>
+		<if test="q.rightRearDoor!=null and q.rightRearDoor!=''">
+			AND RIGHT_REAR_DOOR=#{q.rightRearDoor}
+		</if>
+		<if test="q.trunk!=null and q.trunk!=''">
+			AND TRUNK=#{q.trunk}
+		</if>
+		<if test="q.leftFrontWin!=null and q.leftFrontWin!=''">
+			AND LEFT_FRONT_WIN=#{q.leftFrontWin}
+		</if>
+		<if test="q.rightFrontWin!=null and q.rightFrontWin!=''">
+			AND RIGHT_FRONT_WIN=#{q.rightFrontWin}
+		</if>
+		<if test="q.leftRearWin!=null and q.leftRearWin!=''">
+			AND LEFT_REAR_WIN=#{q.leftRearWin}
+		</if>
+		<if test="q.rightRearWin!=null and q.rightRearWin!=''">
+			AND RIGHT_REAR_WIN=#{q.rightRearWin}
+		</if>
+		<if test="q.lonFlag!=null and q.lonFlag!=''">
+			AND LON_FLAG=#{q.lonFlag}
+		</if>
+		<if test="q.lon!=null and q.lon!=''">
+			AND LON=#{q.lon}
+		</if>
+		<if test="q.latFlag!=null and q.latFlag!=''">
+			AND LAT_FLAG=#{q.latFlag}
+		</if>
+		<if test="q.lat!=null and q.lat!=''">
+			AND LAT=#{q.lat}
+		</if>
+		<if test="q.lastReportingTime!=null ">
+			AND LAST_REPORTING_TIME=#{q.lastReportingTime}
+		</if>
+		<if test="q.lastReportingTimeStart!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME>=#{q.lastReportingTimeStart}  ]]>
+		</if>
+		<if test="q.lastReportingTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME<#{q.lastReportingTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<select id="isExists" resultType="Long">
+	select 1 as 'c' from dual where exists (select 1 from T_CAR_DETAIL_MAIN_DATA 
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+	)
+</select>
+
+<select id="getLastReportingTimeByDeviceSn" resultMap="CarDetailMainData">
+	select DEVICE_SN,LAST_REPORTING_TIME from T_CAR_DETAIL_MAIN_DATA
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+</select>
+
+
+</mapper>

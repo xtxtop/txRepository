@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.customer.dao.OrderCommentsDao">
+
+<resultMap type="OrderComments" id="OrderComments">
+	<id column="COMMENTS_NO" property="commentsNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM1" property="scoreItem1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM2" property="scoreItem2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM3" property="scoreItem3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM4" property="scoreItem4" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM5" property="scoreItem5" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE_ITEM6" property="scoreItem6" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCORE" property="score" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTENT" property="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REMARKS" property="remarks" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+COMMENTS_NO,ORDER_NO,MEMBER_NO,SCORE_ITEM1,SCORE_ITEM2,SCORE_ITEM3,SCORE_ITEM4,SCORE_ITEM5,
+SCORE_ITEM6,SCORE,CONTENT,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,REMARKS
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+COMMENTS_NO,ORDER_NO,MEMBER_NO,SCORE_ITEM1,SCORE_ITEM2,SCORE_ITEM3,SCORE_ITEM4,SCORE_ITEM5,
+SCORE_ITEM6,SCORE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,REMARKS
+</sql>
+
+<insert id="add" parameterType="OrderComments" useGeneratedKeys="true" keyProperty="orderNo">
+	insert into T_ORDER_COMMENTS(
+		<if test="commentsNo!=null">
+		COMMENTS_NO,
+		</if>
+		ORDER_NO,
+		MEMBER_NO,
+		SCORE_ITEM1,
+		SCORE_ITEM2,
+		SCORE_ITEM3,
+		SCORE_ITEM4,
+		SCORE_ITEM5,
+		SCORE_ITEM6,
+		SCORE,
+		CONTENT,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		REMARKS
+	) values (
+		<if test="commentsNo!=null">
+		#{commentsNo,jdbcType = VARCHAR},
+		</if>
+		#{orderNo,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{scoreItem1,jdbcType = VARCHAR},
+		#{scoreItem2,jdbcType = VARCHAR},
+		#{scoreItem3,jdbcType = VARCHAR},
+		#{scoreItem4,jdbcType = VARCHAR},
+		#{scoreItem5,jdbcType = VARCHAR},
+		#{scoreItem6,jdbcType = VARCHAR},
+		#{score,jdbcType = VARCHAR},
+		#{content,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{remarks,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="OrderComments">
+	update t_order_comments 
+	<set>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem1!=null and scoreItem1 !=''  ">
+			SCORE_ITEM1=#{scoreItem1,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem2!=null and scoreItem2 !='' ">
+			SCORE_ITEM2=#{scoreItem2,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem3!=null  and scoreItem3 !='' ">
+			SCORE_ITEM3=#{scoreItem3,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem4!=null and scoreItem4 !='' ">
+			SCORE_ITEM4=#{scoreItem4,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem5!=null and scoreItem5 !=''  ">
+			SCORE_ITEM5=#{scoreItem5,jdbcType = VARCHAR},
+		</if>
+		<if test="scoreItem6!=null and scoreItem6 !='' ">
+			SCORE_ITEM6=#{scoreItem6,jdbcType = VARCHAR},
+		</if>
+		<if test="score!=null and score !=''">
+			SCORE=#{score,jdbcType = VARCHAR},
+		</if>
+		<if test="content!=null and content!=''">
+			CONTENT=#{content,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			REMARKS=#{remarks,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND COMMENTS_NO=#{commentsNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_comments 
+	<where>
+		COMMENTS_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderComments">
+	select <include refid="AllColumnlist"/> from t_order_comments
+	<where>
+		COMMENTS_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderComments">
+	select <include refid="AllColumnlist"/> from t_order_comments 
+	<where>
+		COMMENTS_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(COMMENTS_NO) from t_order_comments oc
+	LEFT JOIN t_order o on oc.ORDER_NO=o.ORDER_NO
+	LEFT JOIN t_member m on oc.MEMBER_NO=m.MEMBER_NO
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderComments">
+	select <include refid="CommonColumnlist"/> from t_order_comments oc
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderComments">
+	select 
+	oc.ORDER_NO as orderNo
+	,o.CAR_PLATE_NO as carPlateNo
+	,o.CAR_MODEL_NAME as carModelName
+	,m.MEMBER_NAME as memberName
+	,m.MOBILE_PHONE as mobilePhone
+	,oc.SCORE as score
+	,oc.CONTENT as content
+	from t_order_comments oc 
+	LEFT JOIN t_order o on oc.ORDER_NO=o.ORDER_NO
+	LEFT JOIN t_member m on oc.MEMBER_NO=m.MEMBER_NO
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.commentsNo!=null and q.commentsNo!=''">
+			AND oc.COMMENTS_NO=#{q.commentsNo}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND oc.ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND oc.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.scoreItem1!=null and q.scoreItem1 !='' ">
+			AND oc.SCORE_ITEM1=#{q.scoreItem1}
+		</if>
+		<if test="q.scoreItem2!=null and q.scoreItem2 !='' ">
+			AND oc.SCORE_ITEM2=#{q.scoreItem2}
+		</if>
+		<if test="q.scoreItem3!=null and q.scoreItem3 !='' ">
+			AND oc.SCORE_ITEM3=#{q.scoreItem3}
+		</if>
+		<if test="q.scoreItem4!=null and q.scoreItem4 !='' ">
+			AND oc.SCORE_ITEM4=#{q.scoreItem4}
+		</if>
+		<if test="q.scoreItem5!=null and q.scoreItem5 !='' ">
+			AND oc.SCORE_ITEM5=#{q.scoreItem5}
+		</if>
+		<if test="q.scoreItem6!=null and q.scoreItem6 !=''">
+			AND oc.SCORE_ITEM6=#{q.scoreItem6}
+		</if>
+		<if test="q.score!=null and q.score !='' ">
+			AND oc.SCORE=#{q.score}
+		</if>
+		<if test="q.content!=null and q.content!=''">
+			AND oc.CONTENT=#{q.content}
+		</if>
+		<if test="q.createTime!=null ">
+			AND oc.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND oc.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND oc.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND oc.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND oc.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND oc.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND oc.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND oc.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.remarks!=null and q.remarks!=''">
+			AND oc.REMARKS=#{q.remarks}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND o.CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND o.CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND m.MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+	</if>
+</sql>
+
+</mapper>

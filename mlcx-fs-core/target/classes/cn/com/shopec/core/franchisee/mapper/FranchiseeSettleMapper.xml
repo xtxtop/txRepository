@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.franchisee.dao.FranchiseeSettleDao">
+
+<resultMap type="FranchiseeSettle" id="FranchiseeSettle">
+	<id column="FRANCHISEE_SETTLE_NO" property="franchiseeSettleNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_NO" property="franchiseeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_NAME" property="franchiseeName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_COUNT" property="orderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CARSHARE_ORDER_COUNT" property="carshareOrderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CARSHARE_ORDER_AMOUNT" property="carshareOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CAR_SHARE_AMOUNT" property="carShareAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARKSHARE_ORDER_COUNT" property="parkshareOrderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARKSHARE_ORDER_AMOUNT" property="parkshareOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARK_SHARE_AMOUNT" property="parkShareAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SETTLE_DAY" property="settleDay" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SHARE_AMOUNT" property="shareAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+FRANCHISEE_SETTLE_NO,FRANCHISEE_NO,FRANCHISEE_NAME,ORDER_NO,ORDER_AMOUNT,ORDER_COUNT,CARSHARE_ORDER_COUNT,
+CARSHARE_ORDER_AMOUNT,CAR_SHARE_AMOUNT,PARKSHARE_ORDER_COUNT,PARKSHARE_ORDER_AMOUNT,PARK_SHARE_AMOUNT,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,SETTLE_DAY,SHARE_AMOUNT
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+FRANCHISEE_SETTLE_NO,FRANCHISEE_NO,FRANCHISEE_NAME,ORDER_NO,ORDER_AMOUNT,ORDER_COUNT,CARSHARE_ORDER_COUNT,
+CARSHARE_ORDER_AMOUNT,CAR_SHARE_AMOUNT,PARKSHARE_ORDER_COUNT,PARKSHARE_ORDER_AMOUNT,PARK_SHARE_AMOUNT,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,SETTLE_DAY,SHARE_AMOUNT
+</sql>
+
+<insert id="add" parameterType="FranchiseeSettle" useGeneratedKeys="true" keyProperty="franchiseeSettleNo">
+	insert into T_FRANCHISEE_SETTLE(
+		<if test="franchiseeSettleNo!=null">
+		FRANCHISEE_SETTLE_NO,
+		</if>
+		FRANCHISEE_NO,
+		FRANCHISEE_NAME,
+		ORDER_NO,
+		ORDER_AMOUNT,
+		ORDER_COUNT,
+		CARSHARE_ORDER_COUNT,
+		CARSHARE_ORDER_AMOUNT,
+		CAR_SHARE_AMOUNT,
+		PARKSHARE_ORDER_COUNT,
+		PARKSHARE_ORDER_AMOUNT,
+		PARK_SHARE_AMOUNT,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		SETTLE_DAY,
+		SHARE_AMOUNT
+	) values (
+		<if test="franchiseeSettleNo!=null">
+		#{franchiseeSettleNo,jdbcType = VARCHAR},
+		</if>
+		#{franchiseeNo,jdbcType = VARCHAR},
+		#{franchiseeName,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{orderCount,jdbcType = DOUBLE},
+		#{carshareOrderCount,jdbcType = DOUBLE},
+		#{carshareOrderAmount,jdbcType = DOUBLE},
+		#{carShareAmount,jdbcType = DOUBLE},
+		#{parkshareOrderCount,jdbcType = DOUBLE},
+		#{parkshareOrderAmount,jdbcType = DOUBLE},
+		#{parkShareAmount,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{settleDay,jdbcType = VARCHAR},
+		#{shareAmount,jdbcType = DOUBLE}
+	)
+</insert>
+
+<update id="update" parameterType="FranchiseeSettle">
+	update t_franchisee_settle 
+	<set>
+		<if test="franchiseeNo!=null and franchiseeNo!=''">
+			FRANCHISEE_NO=#{franchiseeNo,jdbcType = VARCHAR},
+		</if>
+		<if test="franchiseeName!=null and franchiseeName!=''">
+			FRANCHISEE_NAME=#{franchiseeName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="orderCount!=null ">
+			ORDER_COUNT=#{orderCount,jdbcType = DOUBLE},
+		</if>
+		<if test="shareAmount!=null ">
+			SHARE_AMOUNT=#{shareAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="carshareOrderCount!=null ">
+			CARSHARE_ORDER_COUNT=#{carshareOrderCount,jdbcType = DOUBLE},
+		</if>
+		<if test="carshareOrderAmount!=null ">
+			CARSHARE_ORDER_AMOUNT=#{carshareOrderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="carShareAmount!=null ">
+			CAR_SHARE_AMOUNT=#{carShareAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="parkshareOrderCount!=null ">
+			PARKSHARE_ORDER_COUNT=#{parkshareOrderCount,jdbcType = DOUBLE},
+		</if>
+		<if test="parkshareOrderAmount!=null ">
+			PARKSHARE_ORDER_AMOUNT=#{parkshareOrderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="parkShareAmount!=null ">
+			PARK_SHARE_AMOUNT=#{parkShareAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="settleDay!=null and settleDay!=''">
+			SETTLE_DAY=#{settleDay,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND FRANCHISEE_SETTLE_NO=#{franchiseeSettleNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_franchisee_settle 
+	<where>
+		FRANCHISEE_SETTLE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="FranchiseeSettle">
+	select <include refid="AllColumnlist"/> from t_franchisee_settle
+	<where>
+		FRANCHISEE_SETTLE_NO=#{0}
+	</where>
+</select>
+
+<select id="getFranchiseeNo" resultMap="FranchiseeSettle">
+	select <include refid="AllColumnlist"/> from t_franchisee_settle
+	<where>
+		FRANCHISEE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="FranchiseeSettle">
+	select <include refid="AllColumnlist"/> from t_franchisee_settle
+	<where>
+		FRANCHISEE_SETTLE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(FRANCHISEE_SETTLE_NO) from t_franchisee_settle 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="FranchiseeSettle">
+	select <include refid="CommonColumnlist"/> from t_franchisee_settle 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="FranchiseeSettle">
+	select <include refid="CommonColumnlist"/> from t_franchisee_settle
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.franchiseeSettleNo!=null and q.franchiseeSettleNo!=''">
+			AND FRANCHISEE_SETTLE_NO=#{q.franchiseeSettleNo}
+		</if>
+		<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+			AND FRANCHISEE_NO=#{q.franchiseeNo}
+		</if>
+		<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+			AND FRANCHISEE_NAME=#{q.franchiseeName}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.orderCount!=null ">
+			AND ORDER_COUNT=#{q.orderCount}
+		</if>
+		<if test="q.carshareOrderCount!=null ">
+			AND CARSHARE_ORDER_COUNT=#{q.carshareOrderCount}
+		</if>
+		<if test="q.carshareOrderAmount!=null ">
+			AND CARSHARE_ORDER_AMOUNT=#{q.carshareOrderAmount}
+		</if>
+		<if test="q.shareAmount!=null ">
+			AND SHARE_AMOUNT=#{q.shareAmount}
+		</if>
+		<if test="q.carShareAmount!=null ">
+			AND CAR_SHARE_AMOUNT=#{q.carShareAmount}
+		</if>
+		<if test="q.parkshareOrderCount!=null ">
+			AND PARKSHARE_ORDER_COUNT=#{q.parkshareOrderCount}
+		</if>
+		<if test="q.parkshareOrderAmount!=null ">
+			AND PARKSHARE_ORDER_AMOUNT=#{q.parkshareOrderAmount}
+		</if>
+		<if test="q.parkShareAmount!=null ">
+			AND PARK_SHARE_AMOUNT=#{q.parkShareAmount}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.settleDay!=null and q.settleDay!=''">
+			AND SETTLE_DAY=#{q.settleDay}
+		</if>
+	</if>
+</sql>
+
+</mapper>

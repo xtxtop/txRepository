@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.ChargingPileDao">
+
+<resultMap type="ChargingPile" id="ChargingPile">
+	<id column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CUSTOMER_NO" property="customerNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NAME" property="chargingPileName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ISCHARGING" property="ischarging" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BILLING_SCHEME" property="billingScheme" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATUS" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ELECTRICITY_TYPE" property="electricityType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TERMINAL_NO" property="terminalNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NAME" property="stationName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="KW" property="kw" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VOLTAGE_IN" property="voltageIn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VOLTAGE_OUT" property="voltageOut" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ISO" property="iso" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	
+</resultMap>
+
+<resultMap type="cn.com.shopec.core.ml.vo.PileVo" id="pileMap">
+		<collection property="locks" ofType="cn.com.shopec.core.ml.vo.LockVo" select="getLocks" column="lockPileNo">
+		</collection>
+</resultMap>
+
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CHARGING_PILE_NO,CUSTOMER_NO,CHARGING_PILE_NAME,ISCHARGING,BILLING_SCHEME,STATUS,ELECTRICITY_TYPE,
+TERMINAL_NO,STATION_NO,STATION_NAME,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,
+UPDATE_TIME,KW,VOLTAGE_IN,VOLTAGE_OUT,ISO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CHARGING_PILE_NO,CUSTOMER_NO,CHARGING_PILE_NAME,ISCHARGING,BILLING_SCHEME,STATUS,ELECTRICITY_TYPE,
+TERMINAL_NO,STATION_NO,STATION_NAME,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,
+UPDATE_TIME,KW,VOLTAGE_IN,VOLTAGE_OUT,ISO
+</sql>
+
+<insert id="add" parameterType="ChargingPile" useGeneratedKeys="true" keyProperty="chargingPileNo">
+	insert into CHARGING_PILE(
+		<if test="chargingPileNo!=null">
+		CHARGING_PILE_NO,
+		</if>
+		CUSTOMER_NO,
+		CHARGING_PILE_NAME,
+		ISCHARGING,
+		BILLING_SCHEME,
+		STATUS,
+		ELECTRICITY_TYPE,
+		TERMINAL_NO,
+		STATION_NO,
+		STATION_NAME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		KW,
+		VOLTAGE_IN,
+		VOLTAGE_OUT,
+		ISO
+	) values (
+		<if test="chargingPileNo!=null">
+		#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		#{customerNo,jdbcType = VARCHAR},
+		#{chargingPileName,jdbcType = VARCHAR},
+		#{ischarging,jdbcType = TINYINT},
+		#{billingScheme,jdbcType = VARCHAR},
+		#{status,jdbcType = TINYINT},
+		#{electricityType,jdbcType = TINYINT},
+		#{terminalNo,jdbcType = TINYINT},
+		#{stationNo,jdbcType = VARCHAR},
+		#{stationName,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{kw,jdbcType = VARCHAR},
+		#{voltageIn,jdbcType = VARCHAR},
+		#{voltageOut,jdbcType = VARCHAR},
+		#{iso,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="ChargingPile">
+	update CHARGING_PILE 
+	<set>
+		<if test="customerNo!=null and customerNo!=''">
+			CUSTOMER_NO=#{customerNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingPileName!=null and chargingPileName!=''">
+			CHARGING_PILE_NAME=#{chargingPileName,jdbcType = VARCHAR},
+		</if>
+		<if test="ischarging!=null ">
+			ISCHARGING=#{ischarging,jdbcType = TINYINT},
+		</if>
+		<if test="billingScheme!=null and billingScheme!=''">
+			BILLING_SCHEME=#{billingScheme,jdbcType = VARCHAR},
+		</if>
+		<if test="status!=null ">
+			STATUS=#{status,jdbcType = TINYINT},
+		</if>
+		<if test="electricityType!=null ">
+			ELECTRICITY_TYPE=#{electricityType,jdbcType = TINYINT},
+		</if>
+		<if test="terminalNo!=null and terminalNo!=''">
+			TERMINAL_NO=#{terminalNo,jdbcType = VARCHAR},
+		</if>
+		<if test="stationNo!=null and stationNo!=''">
+			STATION_NO=#{stationNo,jdbcType = VARCHAR},
+		</if>
+		<if test="stationName!=null and stationName!=''">
+			STATION_NAME=#{stationName,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="kw!=null and kw!=''">
+			KW=#{kw,jdbcType = VARCHAR},
+		</if>
+		<if test="voltageIn!=null and voltageIn!=''">
+			VOLTAGE_IN=#{voltageIn,jdbcType = VARCHAR},
+		</if>
+		<if test="voltageOut!=null and voltageOut!=''">
+			VOLTAGE_OUT=#{voltageOut,jdbcType = VARCHAR},
+		</if>
+		<if test="iso!=null and iso!=''">
+			ISO=#{iso,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CHARGING_PILE_NO=#{chargingPileNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from CHARGING_PILE 
+	<where>
+		CHARGING_PILE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ChargingPile">
+	select <include refid="AllColumnlist"/> from CHARGING_PILE
+	<where>
+		CHARGING_PILE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ChargingPile">
+	select <include refid="AllColumnlist"/> from CHARGING_PILE
+	<where>
+		CHARGING_PILE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CHARGING_PILE_NO) from CHARGING_PILE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ChargingPile">
+	select <include refid="CommonColumnlist"/> from CHARGING_PILE 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ChargingPile">
+	select <include refid="CommonColumnlist"/> from CHARGING_PILE
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pagePileQuery" parameterType="Query" resultMap="pileMap">
+	SELECT
+		cp.STATION_NO AS stationNo,
+		cp.CHARGING_PILE_NO AS chargingPileNo,
+		cp.CHARGING_PILE_NO AS lockPileNo,
+		cp.CHARGING_PILE_NAME AS chargingPileName,
+		cp.VOLTAGE_IN AS voltageIn,
+		cp.VOLTAGE_OUT AS voltageOut,
+		cp.KW AS kw,
+		cp.ELECTRICITY_TYPE AS electricityType,
+		cp.ISO AS iso,
+		IFNULL((
+				SELECT
+					pl.PARKING_LOCK_STATUS
+				FROM
+					parking_lock pl
+				WHERE
+					pl.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+				AND pl.ACTIVE_CONDITION = 0
+				AND pl.PARKING_LOCK_STATUS = 0
+				LIMIT 1
+		),'0') AS workStatus
+	FROM
+		CHARGING_PILE cp
+	WHERE
+		cp.STATION_NO=#{q.stationNo}
+		AND STATUS = 1
+		ORDER BY ELECTRICITY_TYPE DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	
+</select>
+
+<select id="getLocks" parameterType="String" resultType="cn.com.shopec.core.ml.vo.LockVo">
+	SELECT
+		pl.PARKING_LOCK_NO AS parkingLockNo,
+		pl.PARKING_LOCK_NAME AS parkingLockName,
+		pl.PARKING_LOCK_STATUS AS parkingLockStatus
+	FROM
+		parking_lock pl
+	WHERE
+		pl.CHARGING_PILE_NO = #{lockPileNo}
+	AND pl.ACTIVE_CONDITION = 0
+</select>
+
+<select id="getTerminalDetails" parameterType="String" resultType="cn.com.shopec.core.ml.vo.TerminalDetailsVo">
+SELECT
+	cgi.CHARGING_GUN_NO AS chargingGunNo,
+	cgi.CHARGING_GUN_CODE AS chargingGunCode,
+	CONCAT_WS('号',RIGHT(cgi.CHARGING_GUN_CODE,3),IF(cp.ELECTRICITY_TYPE=1,'直流','交流')) AS chargingGunName,
+	cp.ELECTRICITY_TYPE AS electricityType,
+	IF (cgi.WORK_STATUS = 2, '0', '1') AS workStatus,
+	cp.ISO AS iso,
+	cp.KW AS kw,
+	cs.ELECTRIC_PRICE AS unitPrice,
+	pl.PARKING_LOCK_NO AS parkingLockNo,
+	pl.PARKING_LOCK_STATUS AS parkingLockStatus
+FROM
+	charging_gun_info cgi
+LEFT JOIN charging_pile cp ON cgi.CHARGING_PILE_NO = cp.CHARGING_PILE_NO
+LEFT JOIN charging_station cs ON cp.STATION_NO = cs.STATION_NO
+LEFT JOIN parking_lock pl ON cp.CHARGING_PILE_NO = pl.CHARGING_PILE_NO
+WHERE
+	cp.CHARGING_PILE_NO = #{chargingPileNo}
+	<if test="parkingLockNo!=null and parkingLockNo!=''">
+		AND pl.PARKING_LOCK_NO = #{parkingLockNo}
+	</if>
+	AND cgi.WORK_STATUS = 2
+	AND pl.ACTIVE_CONDITION = 0
+	<!-- AND pl.PARKING_LOCK_STATUS = 0 --><!-- 地锁状态为0时，升起，1为将落 -->
+LIMIT 1
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.customerNo!=null and q.customerNo!=''">
+			AND CUSTOMER_NO=#{q.customerNo}
+		</if>
+		<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+			AND CHARGING_PILE_NAME=#{q.chargingPileName}
+		</if>
+		<if test="q.ischarging!=null ">
+			AND ISCHARGING=#{q.ischarging}
+		</if>
+		<if test="q.billingScheme!=null and q.billingScheme!=''">
+			AND BILLING_SCHEME=#{q.billingScheme}
+		</if>
+		<if test="q.status!=null ">
+			AND STATUS=#{q.status}
+		</if>
+		<if test="q.electricityType!=null ">
+			AND ELECTRICITY_TYPE=#{q.electricityType}
+		</if>
+		<if test="q.terminalNo!=null and q.terminalNo!=''">
+			AND TERMINAL_NO=#{q.terminalNo}
+		</if>
+		<if test="q.stationNo!=null and q.stationNo!=''">
+			AND STATION_NO=#{q.stationNo}
+		</if>
+		<if test="q.stationName!=null and q.stationName!=''">
+			AND STATION_NAME=#{q.stationName}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.kw!=null and q.kw!=''">
+			AND KW=#{q.kw}
+		</if>
+		<if test="q.voltageIn!=null and q.voltageIn!=''">
+			AND VOLTAGE_IN=#{q.voltageIn}
+		</if>
+		<if test="q.voltageOut!=null and q.voltageOut!=''">
+			AND VOLTAGE_OUT=#{q.voltageOut}
+		</if>
+		<if test="q.iso!=null and q.iso!=''">
+			AND ISO=#{q.iso}
+		</if>
+	</if>
+</sql>
+
+</mapper>

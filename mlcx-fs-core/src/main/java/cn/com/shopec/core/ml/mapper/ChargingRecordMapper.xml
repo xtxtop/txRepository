@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.ChargingRecordDao">
+
+<resultMap type="ChargingRecord" id="ChargingRecord">
+	<id column="RECORD_NO" property="recordNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN_NO" property="chargingGunNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECORD_TIME" property="recordTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="SERIAL_NUMBER" property="serialNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CARD_NUMBER" property="cardNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="START_TIME" property="startTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPINT_START" property="opintStart" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPINT_FINISH" property="opintFinish" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PEAK_START" property="peakStart" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PEAK_FINISH" property="peakFinish" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FLAT_START" property="flatStart" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FLAT_FINISH" property="flatFinish" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ALLEY_START" property="alleyStart" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VALLEY_FINISH" property="valleyFinish" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="TOTAL_START" property="totalStart" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOTAL_FINISH" property="totalFinish" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOTAL_MONEY" property="totalMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="RECHARGE_MODE" property="rechargeMode" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_FLAG" property="payFlag" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MONEY_BEFORE_PAY" property="moneyBeforePay" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MONEY_AFTER_PAY" property="moneyAfterPay" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SCHEME_NO" property="schemeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OVER_REASON" property="overReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VIN" property="vin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RECORD_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,RECORD_TIME,SERIAL_NUMBER,CARD_NUMBER,START_TIME,
+FINISH_TIME,OPINT_START,OPINT_FINISH,PEAK_START,PEAK_FINISH,FLAT_START,
+FLAT_FINISH,ALLEY_START,VALLEY_FINISH,TOTAL_START,TOTAL_FINISH,TOTAL_MONEY,
+RECHARGE_MODE,PAY_FLAG,MONEY_BEFORE_PAY,MONEY_AFTER_PAY,SCHEME_NO,OVER_REASON,
+VIN,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RECORD_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,RECORD_TIME,SERIAL_NUMBER,CARD_NUMBER,START_TIME,
+FINISH_TIME,OPINT_START,OPINT_FINISH,PEAK_START,PEAK_FINISH,FLAT_START,
+FLAT_FINISH,ALLEY_START,VALLEY_FINISH,TOTAL_START,TOTAL_FINISH,TOTAL_MONEY,
+RECHARGE_MODE,PAY_FLAG,MONEY_BEFORE_PAY,MONEY_AFTER_PAY,SCHEME_NO,OVER_REASON,
+VIN,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="ChargingRecord" useGeneratedKeys="true" keyProperty="recordNo">
+	insert into CHARGING_RECORD(
+		<if test="recordNo!=null">
+		RECORD_NO,
+		</if>
+		CHARGING_PILE_NO,
+		CHARGING_GUN_NO,
+		RECORD_TIME,
+		SERIAL_NUMBER,
+		CARD_NUMBER,
+		START_TIME,
+		FINISH_TIME,
+		OPINT_START,
+		OPINT_FINISH,
+		PEAK_START,
+		PEAK_FINISH,
+		FLAT_START,
+		FLAT_FINISH,
+		ALLEY_START,
+		VALLEY_FINISH,
+		TOTAL_START,
+		TOTAL_FINISH,
+		TOTAL_MONEY,
+		RECHARGE_MODE,
+		PAY_FLAG,
+		MONEY_BEFORE_PAY,
+		MONEY_AFTER_PAY,
+		SCHEME_NO,
+		OVER_REASON,
+		VIN,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="recordNo!=null">
+		#{recordNo,jdbcType = VARCHAR},
+		</if>
+		#{chargingPileNo,jdbcType = VARCHAR},
+		#{chargingGunNo,jdbcType = VARCHAR},
+		#{recordTime,jdbcType = TIMESTAMP},
+		#{serialNumber,jdbcType = VARCHAR},
+		#{cardNumber,jdbcType = VARCHAR},
+		#{startTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{opintStart,jdbcType = VARCHAR},
+		#{opintFinish,jdbcType = DOUBLE},
+		#{peakStart,jdbcType = VARCHAR},
+		#{peakFinish,jdbcType = DOUBLE},
+		#{flatStart,jdbcType = VARCHAR},
+		#{flatFinish,jdbcType = DOUBLE},
+		#{alleyStart,jdbcType = VARCHAR},
+		#{valleyFinish,jdbcType = DOUBLE},
+		#{totalStart,jdbcType = VARCHAR},
+		#{totalFinish,jdbcType = VARCHAR},
+		#{totalMoney,jdbcType = DOUBLE},
+		#{rechargeMode,jdbcType = TINYINT},
+		#{payFlag,jdbcType = TINYINT},
+		#{moneyBeforePay,jdbcType = DOUBLE},
+		#{moneyAfterPay,jdbcType = DOUBLE},
+		#{schemeNo,jdbcType = VARCHAR},
+		#{overReason,jdbcType = VARCHAR},
+		#{vin,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="ChargingRecord">
+	update CHARGING_RECORD 
+	<set>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingGunNo!=null and chargingGunNo!=''">
+			CHARGING_GUN_NO=#{chargingGunNo,jdbcType = VARCHAR},
+		</if>
+		<if test="recordTime!=null ">
+			RECORD_TIME=#{recordTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="serialNumber!=null and serialNumber!=''">
+			SERIAL_NUMBER=#{serialNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="cardNumber!=null and cardNumber!=''">
+			CARD_NUMBER=#{cardNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="startTime!=null ">
+			START_TIME=#{startTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="finishTime!=null ">
+			FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="opintStart!=null and opintStart!=''">
+			OPINT_START=#{opintStart,jdbcType = VARCHAR},
+		</if>
+		<if test="opintFinish!=null ">
+			OPINT_FINISH=#{opintFinish,jdbcType = DOUBLE},
+		</if>
+		<if test="peakStart!=null and peakStart!=''">
+			PEAK_START=#{peakStart,jdbcType = VARCHAR},
+		</if>
+		<if test="peakFinish!=null ">
+			PEAK_FINISH=#{peakFinish,jdbcType = DOUBLE},
+		</if>
+		<if test="flatStart!=null and flatStart!=''">
+			FLAT_START=#{flatStart,jdbcType = VARCHAR},
+		</if>
+		<if test="flatFinish!=null ">
+			FLAT_FINISH=#{flatFinish,jdbcType = DOUBLE},
+		</if>
+		<if test="alleyStart!=null and alleyStart!=''">
+			ALLEY_START=#{alleyStart,jdbcType = VARCHAR},
+		</if>
+		<if test="valleyFinish!=null ">
+			VALLEY_FINISH=#{valleyFinish,jdbcType = DOUBLE},
+		</if>
+		<if test="totalStart!=null and totalStart!=''">
+			TOTAL_START=#{totalStart,jdbcType = VARCHAR},
+		</if>
+		<if test="totalFinish!=null and totalFinish!=''">
+			TOTAL_FINISH=#{totalFinish,jdbcType = VARCHAR},
+		</if>
+		<if test="totalMoney!=null ">
+			TOTAL_MONEY=#{totalMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="rechargeMode!=null ">
+			RECHARGE_MODE=#{rechargeMode,jdbcType = TINYINT},
+		</if>
+		<if test="payFlag!=null ">
+			PAY_FLAG=#{payFlag,jdbcType = TINYINT},
+		</if>
+		<if test="moneyBeforePay!=null ">
+			MONEY_BEFORE_PAY=#{moneyBeforePay,jdbcType = DOUBLE},
+		</if>
+		<if test="moneyAfterPay!=null ">
+			MONEY_AFTER_PAY=#{moneyAfterPay,jdbcType = DOUBLE},
+		</if>
+		<if test="schemeNo!=null and schemeNo!=''">
+			SCHEME_NO=#{schemeNo,jdbcType = VARCHAR},
+		</if>
+		<if test="overReason!=null and overReason!=''">
+			OVER_REASON=#{overReason,jdbcType = VARCHAR},
+		</if>
+		<if test="vin!=null and vin!=''">
+			VIN=#{vin,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND RECORD_NO=#{recordNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from CHARGING_RECORD 
+	<where>
+		RECORD_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ChargingRecord">
+	select <include refid="AllColumnlist"/> from CHARGING_RECORD
+	<where>
+		RECORD_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ChargingRecord">
+	select <include refid="AllColumnlist"/> from CHARGING_RECORD
+	<where>
+		RECORD_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RECORD_NO) from CHARGING_RECORD 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ChargingRecord">
+	select <include refid="CommonColumnlist"/> from CHARGING_RECORD 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ChargingRecord">
+	select <include refid="CommonColumnlist"/> from CHARGING_RECORD
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.recordNo!=null and q.recordNo!=''">
+			AND RECORD_NO=#{q.recordNo}
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+			AND CHARGING_GUN_NO=#{q.chargingGunNo}
+		</if>
+		<if test="q.recordTime!=null ">
+			AND RECORD_TIME=#{q.recordTime}
+		</if>
+		<if test="q.recordTimeStart!=null">
+		<![CDATA[	AND RECORD_TIME>=#{q.recordTimeStart}  ]]>
+		</if>
+		<if test="q.recordTimeEnd!=null">
+		<![CDATA[	AND RECORD_TIME<#{q.recordTimeEnd}   ]]>
+		</if>
+		<if test="q.serialNumber!=null and q.serialNumber!=''">
+			AND SERIAL_NUMBER=#{q.serialNumber}
+		</if>
+		<if test="q.cardNumber!=null and q.cardNumber!=''">
+			AND CARD_NUMBER=#{q.cardNumber}
+		</if>
+		<if test="q.startTime!=null ">
+			AND START_TIME=#{q.startTime}
+		</if>
+		<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+		</if>
+		<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.opintStart!=null and q.opintStart!=''">
+			AND OPINT_START=#{q.opintStart}
+		</if>
+		<if test="q.opintFinish!=null ">
+			AND OPINT_FINISH=#{q.opintFinish}
+		</if>
+		<if test="q.peakStart!=null and q.peakStart!=''">
+			AND PEAK_START=#{q.peakStart}
+		</if>
+		<if test="q.peakFinish!=null ">
+			AND PEAK_FINISH=#{q.peakFinish}
+		</if>
+		<if test="q.flatStart!=null and q.flatStart!=''">
+			AND FLAT_START=#{q.flatStart}
+		</if>
+		<if test="q.flatFinish!=null ">
+			AND FLAT_FINISH=#{q.flatFinish}
+		</if>
+		<if test="q.alleyStart!=null and q.alleyStart!=''">
+			AND ALLEY_START=#{q.alleyStart}
+		</if>
+		<if test="q.valleyFinish!=null ">
+			AND VALLEY_FINISH=#{q.valleyFinish}
+		</if>
+		<if test="q.totalStart!=null and q.totalStart!=''">
+			AND TOTAL_START=#{q.totalStart}
+		</if>
+		<if test="q.totalFinish!=null and q.totalFinish!=''">
+			AND TOTAL_FINISH=#{q.totalFinish}
+		</if>
+		<if test="q.totalMoney!=null ">
+			AND TOTAL_MONEY=#{q.totalMoney}
+		</if>
+		<if test="q.rechargeMode!=null ">
+			AND RECHARGE_MODE=#{q.rechargeMode}
+		</if>
+		<if test="q.payFlag!=null ">
+			AND PAY_FLAG=#{q.payFlag}
+		</if>
+		<if test="q.moneyBeforePay!=null ">
+			AND MONEY_BEFORE_PAY=#{q.moneyBeforePay}
+		</if>
+		<if test="q.moneyAfterPay!=null ">
+			AND MONEY_AFTER_PAY=#{q.moneyAfterPay}
+		</if>
+		<if test="q.schemeNo!=null and q.schemeNo!=''">
+			AND SCHEME_NO=#{q.schemeNo}
+		</if>
+		<if test="q.overReason!=null and q.overReason!=''">
+			AND OVER_REASON=#{q.overReason}
+		</if>
+		<if test="q.vin!=null and q.vin!=''">
+			AND VIN=#{q.vin}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+	<select id="getChargingRecordVo" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingRecordVo">
+		select r.RECORD_NO recordNo, r.CHARGING_GUN_NO chargingGunNo, r.RECORD_TIME recordTime,
+		r.SERIAL_NUMBER serialNumber, r.CARD_NUMBER cardNumber, r.CREATE_TIME createTime, r.START_TIME startTime, r.FINISH_TIME finishTime, p.CHARGING_PILE_NAME chargingPileName
+		from charging_record r left join charging_pile p on r.CHARGING_PILE_NO = p.CHARGING_PILE_NO
+		<where>
+		<if test="q.recordNo!=null and q.recordNo!=''">
+			and r.RECORD_NO = #{q.recordNo}
+		</if>
+		<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+			and p.CHARGING_PILE_NAME like '%${q.chargingPileName}%'
+		</if>
+
+		<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+			and r.CHARGING_GUN_NO = #{q.chargingGunNo}
+		</if>
+		</where>
+		order by r.UPDATE_TIME desc
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="getChargingRecordVoCount" parameterType="Query" resultType="java.lang.Integer">
+		select count(1)
+		from charging_record r left join charging_pile p on r.CHARGING_PILE_NO = p.CHARGING_PILE_NO
+		<where>
+			<if test="q.recordNo!=null and q.recordNo!=''">
+				and r.RECORD_NO = #{q.recordNo}
+			</if>
+			<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+				and p.CHARGING_PILE_NAME like '%${q.chargingPileName}%'
+			</if>
+
+			<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+				and r.CHARGING_GUN_NO = #{q.chargingGunNo}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.CheckPlanDao">
+
+	<resultMap type="CheckPlan" id="CheckPlan">
+		<id column="CHECK_PLAN_NO" property="checkPlanNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PLAN_DATE" property="planDate" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="ASSIGN_WORKER_ID" property="assignWorkerId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ASSIGN_WORKER_NAME" property="assignWorkerName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ASSIGN_TIME" property="assignTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="PARK_NO" property="parkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PARK_NAME" property="parkName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CHECK_ITEM_ID" property="checkItemId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CHECK_ITEM" property="checkItem" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORKER_ID" property="workerId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORKER_NAME" property="workerName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ACTUAL_START_TIME" property="actualStartTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="ACTUAL_END_TIME" property="actualEndTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="PLAN_STATUS" property="planStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="PLAN_TYPE" property="planType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		CHECK_PLAN_NO,CITY_ID,CITY_NAME,PLAN_DATE,PARK_NO,PARK_NAME,CHECK_ITEM_ID,CHECK_ITEM,
+		WORKER_ID,WORKER_NAME,ACTUAL_START_TIME,ACTUAL_END_TIME,PLAN_STATUS,IS_DELETED,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,ASSIGN_WORKER_ID,ASSIGN_WORKER_NAME,ASSIGN_TIME,PLAN_TYPE
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		CHECK_PLAN_NO,CITY_ID,CITY_NAME,PLAN_DATE,PARK_NO,PARK_NAME,WORKER_NAME,CHECK_ITEM_ID,CHECK_ITEM,
+		ACTUAL_START_TIME,ACTUAL_END_TIME,PLAN_STATUS,IS_DELETED,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,ASSIGN_WORKER_ID,ASSIGN_WORKER_NAME,ASSIGN_TIME,PLAN_TYPE
+	</sql>
+	<sql id="CommonColumnlistL">
+		tcp.CHECK_PLAN_NO,tcp.CITY_ID,tcp.CITY_NAME,tcp.PLAN_DATE,tcp.PARK_NO,tcp.PARK_NAME,tcp.WORKER_NAME,tcp.CHECK_ITEM_ID,tcp.CHECK_ITEM,
+		tcp.ACTUAL_START_TIME,tcp.ACTUAL_END_TIME,tcp.PLAN_STATUS,tcp.IS_DELETED,
+		tcp.CREATE_TIME,tcp.UPDATE_TIME,tcp.OPERATOR_TYPE,tcp.OPERATOR_ID,ASSIGN_WORKER_ID,ASSIGN_WORKER_NAME,ASSIGN_TIME,PLAN_TYPE
+	</sql>
+	<insert id="add" parameterType="CheckPlan" useGeneratedKeys="true"
+		keyProperty="checkPlanNo">
+		insert into T_CHECK_PLAN(
+		<if test="checkPlanNo!=null">
+			CHECK_PLAN_NO,
+		</if>
+		CITY_ID,
+		CITY_NAME,
+		PLAN_DATE,
+		PARK_NO,
+		PARK_NAME,
+		CHECK_ITEM_ID,
+		CHECK_ITEM,
+		WORKER_ID,
+		WORKER_NAME,
+		ACTUAL_START_TIME,
+		ACTUAL_END_TIME,
+		PLAN_STATUS,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		ASSIGN_WORKER_ID,
+		ASSIGN_WORKER_NAME,
+		ASSIGN_TIME,
+		PLAN_TYPE
+		) values (
+		<if test="checkPlanNo!=null">
+			#{checkPlanNo,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{planDate,jdbcType = TIMESTAMP},
+		#{parkNo,jdbcType = VARCHAR},
+		#{parkName,jdbcType = VARCHAR},
+		#{checkItemId,jdbcType = VARCHAR},
+		#{checkItem,jdbcType = VARCHAR},
+		#{workerId,jdbcType = VARCHAR},
+		#{workerName,jdbcType = VARCHAR},
+		#{actualStartTime,jdbcType =
+		TIMESTAMP},
+		#{actualEndTime,jdbcType = TIMESTAMP},
+		#{planStatus,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{assignWorkerId,jdbcType = VARCHAR},
+		#{assignWorkerName,jdbcType =
+		VARCHAR},
+		#{assignTime,jdbcType = TIMESTAMP},
+		#{planType,jdbcType =
+		TINYINT}
+		)
+	</insert>
+
+	<update id="update" parameterType="CheckPlan">
+		update t_check_plan
+		<set>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="cityName!=null and cityName!=''">
+				CITY_NAME=#{cityName,jdbcType = VARCHAR},
+			</if>
+			<if test="planDate!=null ">
+				PLAN_DATE=#{planDate,jdbcType = TIMESTAMP},
+			</if>
+			<if test="parkNo!=null and parkNo!=''">
+				PARK_NO=#{parkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="parkName!=null and parkName!=''">
+				PARK_NAME=#{parkName,jdbcType = VARCHAR},
+			</if>
+			<if test="assignWorkerId!=null and assignWorkerId!=''">
+				ASSIGN_WORKER_ID=#{assignWorkerId,jdbcType = VARCHAR},
+			</if>
+			<if test="assignWorkerName!=null and assignWorkerName!=''">
+				ASSIGN_WORKER_NAME=#{assignWorkerName,jdbcType = VARCHAR},
+			</if>
+			<if test="assignTime!=null ">
+				ASSIGN_TIME=#{assignTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="checkItemId!=null and checkItemId!=''">
+				CHECK_ITEM_ID=#{checkItemId,jdbcType = VARCHAR},
+			</if>
+			<if test="checkItem!=null and checkItem!=''">
+				CHECK_ITEM=#{checkItem,jdbcType = VARCHAR},
+			</if>
+			<if test="workerId!=null and workerId!=''">
+				WORKER_ID=#{workerId,jdbcType = VARCHAR},
+			</if>
+			<if test="workerName!=null and workerName!=''">
+				WORKER_NAME=#{workerName,jdbcType = VARCHAR},
+			</if>
+			<if test="actualStartTime!=null ">
+				ACTUAL_START_TIME=#{actualStartTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="actualEndTime!=null ">
+				ACTUAL_END_TIME=#{actualEndTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="planStatus!=null ">
+				PLAN_STATUS=#{planStatus,jdbcType = TINYINT},
+			</if>
+			<if test="planType!=null ">
+				PLAN_TYPE=#{planType,jdbcType = TINYINT},
+			</if>
+			<if test="isDeleted!=null ">
+				IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND CHECK_PLAN_NO=#{checkPlanNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_check_plan
+		<where>
+			CHECK_PLAN_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="CheckPlan">
+		select
+		<include refid="AllColumnlist" />
+		from t_check_plan
+		<where>
+			CHECK_PLAN_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getCheckPlanDetails" resultType="cn.com.shopec.core.resource.vo.CheckPlanDetailVo">
+		SELECT
+		c.CHECK_PLAN_NO AS checkPlanNo,
+		c.CREATE_TIME AS sendTime,
+		c.PLAN_DATE AS planDate,
+		c.PLAN_TYPE AS planType,
+		c.PLAN_STATUS AS planStatus,
+		p.PARK_NAME AS parkName,
+		P.ADDR_STREET AS addrStreet,
+		p.PARKING_SPACE_NUMBER AS parkingSpaceNumber,
+		p.PARK_NO AS parkNo,
+		p.LONGITUDE AS longitude,
+		p.LATITUDE AS latitude,
+		c.CHECK_ITEM AS checkItem,
+		c.ACTUAL_END_TIME AS actualEndTime,
+		12756274*asin(Sqrt(power(sin((#{1}-p.LATITUDE)*0.008726646),2)+Cos(#{1}*0.0174533)*Cos(p.LATITUDE*0.0174533)*power(sin((#{0}-p.LONGITUDE)*0.008726646),2)))
+		AS distance
+		FROM t_check_plan c LEFT JOIN t_park p
+		ON c.PARK_NO = p.PARK_NO
+		<where>
+			CHECK_PLAN_NO=#{2}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="CheckPlan">
+		select
+		<include refid="AllColumnlist" />
+		from t_check_plan
+		<where>
+			CHECK_PLAN_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+	<!-- 获取调度员的巡检列表 zln -->
+	<select id="getCheckPlanListByWorkerNo" resultMap="CheckPlan">
+		select
+		<include refid="AllColumnlist" />
+		from t_check_plan
+		<where>
+			WORKER_ID LIKE concat(concat("%",#{0}),"%") and PLAN_STATUS=#{1}
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(tcp.CHECK_PLAN_NO) from t_check_plan tcp,t_park tp
+		<where>
+			tcp.PARK_NO=tp.PARK_NO
+			<include refid="listCommonWhereL" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="CheckPlan">
+		select
+		<include refid="CommonColumnlist" />
+		from t_check_plan
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAllNs" parameterType="Query"
+		resultType="cn.com.shopec.core.resource.vo.CpVo">
+		SELECT
+		c.CHECK_PLAN_NO AS checkPlanNo,
+		c.PLAN_STATUS AS planStatus,
+		P.ADDR_STREET AS parkName,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-p.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(p.LATITUDE*0.0174533)*power(sin((#{q.longitude}-p.LONGITUDE)*0.008726646),2)))
+		as distance,
+		c.CREATE_TIME AS createTime,
+		c.CHECK_ITEM AS checkItem
+		from t_check_plan c LEFT JOIN t_park p ON c.PARK_NO = p.PARK_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.workerNo!=null and q.workerNo!=''">
+					AND c.WORKER_ID=#{q.workerNo}
+				</if>
+				<if test="q.taskStatus!=null">
+					AND c.PLAN_STATUS=#{q.taskStatus}
+				</if>
+				<if test="q.isDeleted!=null ">
+					AND c.IS_DELETED=#{q.isDeleted}
+				</if>
+				<if test="q.timeOrdering==1">
+					ORDER BY c.CREATE_TIME DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY c.CREATE_TIME ASC
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="CheckPlan">
+		select
+		<include refid="CommonColumnlistL" />
+		from t_check_plan tcp,t_park tp
+		<where>
+			tcp.PARK_NO=tp.PARK_NO
+			<include refid="listCommonWhereL" />
+		</where>
+		ORDER BY tcp.CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<sql id="listCommonWhereL">
+		<if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+			AND tcp.IS_DELETED=0
+		</if>
+		<if test="q!=null">
+			<if test="q.checkPlanNo!=null and q.checkPlanNo!=''">
+				AND tcp.CHECK_PLAN_NO=#{q.checkPlanNo}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND tcp.CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND tcp.CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.planDate!=null ">
+				AND tcp.PLAN_DATE=#{q.planDate}
+			</if>
+			<if test="q.planDateStart!=null">
+		<![CDATA[	AND tcp.PLAN_DATE>=#{q.planDateStart}  ]]>
+			</if>
+			<if test="q.planDateEnd!=null">
+		<![CDATA[	AND tcp.PLAN_DATE<#{q.planDateEnd}   ]]>
+			</if>
+			<if test="q.parkNo!=null and q.parkNo!=''">
+				AND tcp.PARK_NO=#{q.parkNo}
+			</if>
+			<if test="q.checkItemId!=null and q.checkItemId!=''">
+				AND tcp.CHECK_ITEM_ID=#{q.checkItemId}
+			</if>
+			<if test="q.checkItem!=null and q.checkItem!=''">
+				AND tcp.CHECK_ITEM=#{q.checkItem}
+			</if>
+			<if test="q.workerId!=null and q.workerId!=''">
+				AND tcp.WORKER_ID=#{q.workerId}
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND tcp.WORKER_NAME=#{q.workerName}
+			</if>
+			<if test="q.actualStartTime!=null ">
+				AND tcp.ACTUAL_START_TIME=#{q.actualStartTime}
+			</if>
+			<if test="q.actualStartTimeStart!=null">
+		<![CDATA[	AND tcp.ACTUAL_START_TIME>=#{q.actualStartTimeStart}  ]]>
+			</if>
+			<if test="q.actualStartTimeEnd!=null">
+		<![CDATA[	AND tcp.ACTUAL_START_TIME<#{q.actualStartTimeEnd}   ]]>
+			</if>
+			<if test="q.actualEndTime!=null ">
+				AND tcp.ACTUAL_END_TIME=#{q.actualEndTime}
+			</if>
+			<if test="q.actualEndTimeStart!=null">
+		<![CDATA[	AND tcp.ACTUAL_END_TIME>=#{q.actualEndTimeStart}  ]]>
+			</if>
+			<if test="q.actualEndTimeEnd!=null">
+		<![CDATA[	AND tcp.ACTUAL_END_TIME<#{q.actualEndTimeEnd}   ]]>
+			</if>
+			<if test="q.planStatus!=null ">
+				AND tcp.PLAN_STATUS=#{q.planStatus}
+			</if>
+			<if test="q.isDeleted!=null ">
+				AND tcp.IS_DELETED=#{q.isDeleted}
+			</if>
+			<if test="q.createTime!=null ">
+				AND tcp.CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tcp.CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tcp.CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND tcp.UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND tcp.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND tcp.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND tcp.OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND tcp.OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.parkName!=null and q.parkName!=''">
+				AND tp.PARK_NAME like concat(concat("%",#{q.parkName}),"%")
+			</if>
+		</if>
+	</sql>
+
+	<sql id="listCommonWhere">
+		<if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+			AND IS_DELETED=0
+		</if>
+		<if test="q!=null">
+			<if test="q.checkPlanNo!=null and q.checkPlanNo!=''">
+				AND CHECK_PLAN_NO=#{q.checkPlanNo}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.assignWorkerId!=null and q.assignWorkerId!=''">
+				AND ASSIGN_WORKER_ID=#{q.assignWorkerId}
+			</if>
+			<if test="q.assignWorkerName!=null and q.assignWorkerName!=''">
+				AND ASSIGN_WORKER_NAME=#{q.assignWorkerName}
+			</if>
+			<if test="q.assignTime!=null ">
+				AND ASSIGN_TIME=#{q.assignTime}
+			</if>
+			<if test="q.planType!=null ">
+				AND PLAN_TYPE=#{q.planType}
+			</if>
+			<if test="q.planDate!=null ">
+				AND PLAN_DATE=#{q.planDate}
+			</if>
+			<if test="q.planDateStart!=null">
+		<![CDATA[	AND PLAN_DATE>=#{q.planDateStart}  ]]>
+			</if>
+			<if test="q.planDateEnd!=null">
+		<![CDATA[	AND PLAN_DATE<#{q.planDateEnd}   ]]>
+			</if>
+			<if test="q.parkNo!=null and q.parkNo!=''">
+				AND PARK_NO=#{q.parkNo}
+			</if>
+			<if test="q.checkItemId!=null and q.checkItemId!=''">
+				AND CHECK_ITEM_ID=#{q.checkItemId}
+			</if>
+			<if test="q.checkItem!=null and q.checkItem!=''">
+				AND CHECK_ITEM=#{q.checkItem}
+			</if>
+			<if test="q.workerId!=null and q.workerId!=''">
+				AND WORKER_ID=#{q.workerId}
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND WORKER_NAME=#{q.workerName}
+			</if>
+			<if test="q.actualStartTime!=null ">
+				AND ACTUAL_START_TIME=#{q.actualStartTime}
+			</if>
+			<if test="q.actualStartTimeStart!=null">
+		<![CDATA[	AND ACTUAL_START_TIME>=#{q.actualStartTimeStart}  ]]>
+			</if>
+			<if test="q.actualStartTimeEnd!=null">
+		<![CDATA[	AND ACTUAL_START_TIME<#{q.actualStartTimeEnd}   ]]>
+			</if>
+			<if test="q.actualEndTime!=null ">
+				AND ACTUAL_END_TIME=#{q.actualEndTime}
+			</if>
+			<if test="q.actualEndTimeStart!=null">
+		<![CDATA[	AND ACTUAL_END_TIME>=#{q.actualEndTimeStart}  ]]>
+			</if>
+			<if test="q.actualEndTimeEnd!=null">
+		<![CDATA[	AND ACTUAL_END_TIME<#{q.actualEndTimeEnd}   ]]>
+			</if>
+			<if test="q.planStatus!=null ">
+				AND PLAN_STATUS=#{q.planStatus}
+			</if>
+			<if test="q.isDeleted!=null ">
+				AND IS_DELETED=#{q.isDeleted}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+		</if>
+	</sql>
+
+</mapper>

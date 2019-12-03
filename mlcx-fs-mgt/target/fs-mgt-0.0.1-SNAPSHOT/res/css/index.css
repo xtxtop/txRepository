@@ -1,0 +1,138 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	margin:0;
+	padding:0;
+	font-size:12px;
+	}
+ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	}
+a{
+	text-decoration:none;
+	color:#000;
+	}
+img{
+	border:none;
+	}
+h1,h2,h3,p{
+	margin:0;
+	padding:0;
+	}
+.clear{
+	clear:both;
+	}
+.top{
+	width:1002px;
+	margin:0 auto;
+	margin-top:10px;
+	}
+.logo{
+	width:1002px;
+	height:58px;
+	}
+.nav_left{
+	width:7px;
+	height:34px;
+	float:left;
+	margin-top:5px;
+	background:url(../images/nav_bg_left.gif) no-repeat;
+	}
+.nav_center{
+	width:988px;
+	height:34px;
+	float:left;
+	margin-top:5px;
+	background:url(../images/nav_bg.gif) repeat-x;
+	}
+.nav_right{
+	width:7px;
+	height:34px;
+	float:left;
+	margin-top:5px;
+	background:url(../images/nav_bg_right.gif) no-repeat;
+	display:inline;
+	}
+.main{
+	width:1002px;
+	margin:0 auto;
+	margin-top:10px;
+	}
+.left{
+	width:200px;
+	height:560px;
+	float:left;
+	background-color:#FFF7F0;
+	border:1px solid #FD7A00;
+	}
+.left h2{
+	font-size:14px;
+	margin:10px 0 0 10px;
+	color:#333;
+	}
+.left li{
+	margin-left:20px;
+	margin-top:10px;
+	}
+.left li a{
+	color:#999;
+	}
+.left li a:hover{
+	color:#333;
+	}
+.right{
+	width:788px;
+	height:560px;
+	float:right;
+	display:inline;
+	border:1px solid #E6E6E6;
+	}
+.right_top{
+	width:768px;
+	margin:10px;
+	}
+.right_botoom{
+	width:768px;
+	margin:10px;
+	}
+.right_botoom table{
+	border-top:1px solid #E6E6E6;
+	}
+.right_botoom td{
+	border-bottom:1px solid #E6E6E6;
+	height:35px;
+	text-align:center;
+	}
+.inquiry-select-1 {
+	width: 79px;
+	height: 20px;
+	color: darkGray;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	line-height: 20px;
+}
+.inquiry-select-2 {
+	width: 160px;
+	height: 20px;
+	color: darkGray;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	line-height: 20px;
+}
+.inquiry-btn-1 {
+	width: 94px;
+	height: 25px;
+	cursor: pointer;
+	background-image:url(../images/btn01.gif);
+	border:none;
+}
+.foot{
+	width:1002px;
+	margin:0 auto;
+	margin-top:10px;
+	padding:10px;
+	border-top:1px solid #E6E6E6;
+	color:#999;
+	}

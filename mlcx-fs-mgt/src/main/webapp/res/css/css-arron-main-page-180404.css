@@ -1,0 +1,637 @@
+						/* 主页面样式	 */
+						/* 主页面头部 搜索栏和展示栏	 */
+						
+						.t_c {
+							text-align: center;
+						}
+						
+						.blList {
+							width: 100%;
+							padding: 30px;
+							background: #fff;
+						}
+						
+						.search {
+							height: 35px;
+							line-height: 35px;
+                            margin-bottom: 40px;
+                            /* margin-left:66px; */
+                            position:relative;
+						}
+						.search>h1{
+							margin:0;
+							font-size:14px;
+							font-weight:normal;
+							color:#333;
+							line-height: 35px;
+						}
+						.seach-tip{
+							transition:all .3s;
+							color:#ff0000;
+							font-size:12px;
+							position:absolute;
+							left:460px;
+							top:30px;
+							opacity:0;
+						}
+						.searchInput {
+							transition:all .2s;
+							display: block;
+							float: left;
+							width: 320px;
+							height: 35px;
+							border: 1px solid #2A63FB;
+							border-left:none;
+							padding-left:10px;
+							box-sizing:border-box;
+						}
+						
+						.sum {
+							/* display: flex;
+							justify-content: space-around;
+							flex-flow: row;
+                            */							
+                            margin-top: 40px;
+                            overflow: hidden;
+                            /* width: 90%;
+                            margin: 0 auto; */
+						}
+						
+						.searchChoose {
+							display: block;
+							float: left;
+							width: 80px;
+							height: 35px;
+							background: #4CD5FC;
+							line-height: 35px;
+							cursor: pointer;
+						}
+						
+						.btn_search i {
+							height: 35px;
+							line-height: 35px;
+							cursor: pointer;
+							background: #2A63FB;
+							font-size: 2rem;
+							padding: 0 20px;
+							color: #fff;
+						}
+						
+						.peoList {
+							width:18%;
+ 							height:100%;
+ 							color:#fff;
+ 							float:left;
+ 							margin-left:2.5%;
+ 							border-radius: 5px;
+ 							padding:6px 0 7px 10px;
+						}
+						
+						.peoList.bg1{
+							background-image:url('../img/order-count-sum.png');
+							background-size:cover;
+							background-position:center center;
+						}
+						.peoList.bg2{
+							background-image:url('../img/member-count-sum.png');
+							background-size:cover;
+							background-position:center center;
+						}
+						.peoList.bg3{
+							background-image:url('../img/member-verified.png');
+							background-size:cover;
+							background-position:center center;
+						}
+						.peoList.bg4{
+							background-image:url('../img/car-count-sum.png');
+							background-size:cover;
+							background-position:center center;
+						}
+						.peoList.bg5{
+							background-image:url('../img/park-count-sum.png');
+							background-size:cover;
+							background-position:center center;
+						}
+						
+						.peoList:first-child {
+							    margin: 0px;
+						}
+						
+						.imgBg {
+							width: 100%;
+						}
+						
+						.num {
+							font-size: 32px;
+							font-weight: bold;
+							text-align:center;
+						}
+						
+						.orderName {
+							font-size: 20px;
+							/* position: absolute;
+							top: 20px;
+							left: 16px; */
+							text-align: left;
+							padding-left:10px;
+						}
+						
+						.imgdown {
+							display: inline-block;
+							width: 10px;
+							height: 6px;
+						}
+						/* 更多 */
+						
+						.search-input-wrapper {
+							position: relative;
+							border:solid 1px #d8d8d8;
+						}
+						
+						.moreButtonNew {
+							display: flex;
+							position: absolute;
+							bottom: 0;
+							right: 0;
+							color: #3f9fff;
+							height: 28px;
+							line-height: 28px;
+							text-align: center;
+							font-size: 12px;
+						}
+						
+						.moreButtonNew .up-triangle {
+							width: 0;
+							height: 0;
+							border-width: 0px 0px 28px 28px;
+							border-style: solid;
+							border-color: #F2F2F2 transparent;
+						}
+						
+						.moreButtonNew .up-box {
+							width: 40px;
+							height: 28px;
+							background: #F2F2F2;
+							cursor: pointer;
+							color: #2A64FB;
+						}
+						.moreButtonNew .up-box i{
+							font-size:16px;
+						}
+						/* 主页面中间部分  代办、交易、车务、监控警告 */
+						.ft24 {
+							font-size: 24px;
+							color: #2A63FB;
+						}
+						
+						.mgl15 {
+							margin-left: 15px;
+						}
+						
+						.mgl20 {
+							margin-left: 10px;
+						}
+						
+						.waitList {
+							width: 100%;
+							height: 600px;
+						}
+						
+						.deal {
+							display: inline-block;
+							width: 100%;
+							height: 280px;
+							margin-top: 12px;
+						}
+						
+						.backlog {
+							width: 49.5%;
+							height: 100%;
+							background: #fff;
+							padding: 0 30px
+						}
+						.backlog:first-child{
+							margin-right:1%
+						}
+						
+						.backTitle {
+							width: 100%;
+							height: 30px;
+							margin: 15px 0;
+						}
+						
+						.back1 {
+							height: 100px;
+						}
+						
+						.b_l {
+							border-left: 1px solid #e4ecf0;
+						}
+						
+						.b_r {
+							border-right: 1px solid #e4ecf0;
+						}
+						
+						.b_t {
+							border-top: 1px solid #e4ecf0;
+						}
+						
+						.b_b {
+							border-bottom: 1px solid #e4ecf0;
+						}
+						
+						.member1 {
+							display: block;
+							width: 100%;
+							height: 40%;
+							margin-top: 5%;
+							font-size: 14px;
+							line-height: 40px;
+						}
+						
+						.iconimg {
+							display: inline-block;
+							width: 30px;
+							height: 30px;
+						}
+						
+						.color_font_db {
+							color: #43856A;
+						}
+						
+						.color_font_jy {
+							color: #2986EF;
+						}
+						
+						.color_font_cw {
+							color: #0A56A1;
+						}
+						
+						.color_font_jg {
+							color: #F62B40;
+						}
+						
+						.floatRightIconRed {
+							float: right;
+                            margin-top: 10px;
+						}
+						/* 主页面折线部分	 */
+						
+						.chartBox {
+							width: 100%;
+							height: 350px;
+							background: #fff;
+						}
+						
+						.mgt20 {
+							margin-top: 20px;
+						}
+						
+						.mgb60 {
+							margin-bottom: 60px;
+						}
+						
+						.tubiaobox {
+							background: #fff !important;
+							padding-top: 38px !important;
+							padding-left: 30px;
+						}
+						
+						.tubiao {
+							-webkit-box-shadow: none !important;
+							box-shadow: none !important;
+						}
+						
+						input::-webkit-input-placeholder {
+							/* placeholder颜色  */
+							color: #999999;
+							/* placeholder字体大小  */
+							font-size: 12px;
+							/* placeholder位置  */
+							/* text-indent: 1rem; */
+						}
+						/*tab部分的调整  */
+						
+						.user-time .time {
+							float: right;
+						}
+						
+						.dealTB {
+							width: 100%;
+							height: 300px;
+						}
+						
+						.dealTB .rightJj {
+							width: 48%;
+							margin-right: 20px;
+						}
+						/* 编辑页面  */
+						
+						.tab-table {
+							width: 910px;
+							margin-top: 30px;
+							margin-left: 30px;
+						}
+						
+						.table .tab-tbody>tr {
+							width: 100%;
+						}
+						
+						.table .tab-thead>tr {
+							width: 100%;
+						}
+						
+						.table .tab-tfoot>tr {
+							width: 100%;
+							border: none;
+						}
+						
+						.table .tab-tbody>tr>td {
+							padding: 10px 0px;
+							border-left: 1px solid #E0E0E2;
+							border-bottom: 1px solid #E0E0E2;
+						}
+						
+						.table .tab-tbody>tr>td>img {
+							min-height: 90px;
+						}
+						
+						.table .tab-tbody>tr>td:nth-child(2n) {
+							padding: 10px 60px 10px 15px;
+							text-align: left !important;
+							/* padding-top: 15px; */
+						}
+						
+						.table .tab-tbody>tr>td:nth-child(2n+1) {
+							text-align: right !important;
+						}
+						
+						.table .tab-tbody>tr>td.odd-td {
+							padding: 10px 60px 10px 15px;
+							text-align: left !important;
+							/* padding-top: 15px; */
+						}
+						
+						.table .tab-tbody>tr>td.even-td {
+							text-align: right !important;
+							padding: 10px 0px;
+						}
+						
+						.table .tab-thead>tr>th {
+							background: #E0E0E2;
+							text-align: left;
+							padding-left: 10px;
+						}
+						
+						.table-border {
+							border: 1px solid #E0E0E2;
+						}
+						
+						.table .tab-tbody>tr.add-car-last-tr>td.odd-td {
+							padding: 15px;
+						}
+						
+						.form-control {
+							border-radius: 5px;
+						}
+						
+						.table .tab-tbody td {
+							text-overflow: ellipsis;
+							max-width: 15em !important;
+							white-space: wrap !important;
+						}
+						
+						.btn-new-type-edit {
+							border: solid 1px #CFCFCF;
+							color: #2A64FB;
+							font-size: 14px;
+							height: 30px;
+							min-width: 70px;
+							border-radius: 18px;
+							outline: none;
+							line-height: 26px;
+							margin-left: 10px;
+							background: #DBF4F9;
+							margin: 20px 0;
+						}
+						label {
+                               font-size: 14px !important;
+                               font-weight: 500 !important;
+                        }
+                        .btn-btnA-con{
+                        position:relative;
+                        }
+                        .btn-btnA{
+                                   position: absolute;
+                                   top: 10px;
+                                   right: 5px;
+                        }
+                        .rightImg{
+                          text-align:left;
+                        }
+                        .checkbox-inline, .radio-inline {
+                           position: relative;
+                           display: inline-block;
+                           padding-left: 10px !important;
+                           margin-bottom: 0;
+                           font-weight: 400;
+                           vertical-align: middle;
+                           cursor: pointer;
+                           }
+                           
+                           label {
+                          margin-bottom: 0px !important; 
+                            }
+                            
+                            
+	.key {
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: #414550;
+	}
+	
+	.val {
+		font-size: 1.5rem;
+		font-weight: 500;
+		color: #a0a7af;
+	}
+	
+	.new-time-180423 input{
+		width:44%
+	}
+	.new-time-180423 span{
+		line-height:32px;
+		width:12%;
+	}
+	/* 上传图片 */
+	.img-td-upload{
+	  background:#F3F3F3;
+	    text-align: center;
+	    margin: auto;
+	    height: 180px;
+	    position:relative;
+	    background-size:cover;
+	    background-repeat:no-repeat;
+	}
+	.img-td-upload img{
+    position: absolute;
+    left: 0;
+	}
+     .img-td-upload .add-img-position {
+    	cursor:pointer;
+    	height:100%;
+    	width:100%;
+    	box-sizing:border-box;
+    	padding-top:40px;
+	}
+	.img-td-upload .add-img-position>h3{
+		text-align:center;
+		margin:0;
+		color:#2A64FB;	
+	}
+	.img-td-upload .add-img-position>h3.icon{
+		font-size:50px;
+	}
+	.img-td-upload .add-img-position>h3.text{
+		font-size:16px;
+		font-weight:700;
+	}
+	
+	.input-click-con{
+	border: none;
+    color: #3f9fff;
+    background: #fff;
+	}
+	
+	/*  */
+	.panel-body, .panel-body-noheader, .panel-body-noborder{
+	width:100% !important;
+	height:auto !important;
+	}
+	.skin-blue-light .sidebar-menu > li .up-down-icon-a{
+	 position:relative;
+	}
+	.skin-blue-light .sidebar-menu > li .up-down-icon-a .up-down-icon{
+	position:absolute;
+	right:15px;
+	top:14px;
+	}
+	.searchChoose{
+position: relative;
+	}
+	.searchChoose-select{
+		transition:all .2s;
+		appearance: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		padding-right: 15px;
+		border: solid 1px #2A63FB;
+		border-right:none;
+		position: relative;
+		width: 100%;
+		height:35px;
+		display: block;
+	    float: left;
+	    background: transparent;
+	    cursor: pointer;
+	    padding-left:10%
+	}
+	
+	.up-down-icon-select{
+	position: absolute;
+top: 13px;
+right: 10px;
+	}
+	.border-left-style{
+	
+	}
+	
+	.page-button-style{
+	border: none;
+    background: #3f9fff;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+    margin: 2px;
+    color:#fff;
+	}
+	
+
+	
+	/* 弹框样式 */
+	
+	.title-new-details{
+	   width: 100%;
+       height: 50px;
+	   background: linear-gradient(to right, #83B8F9, #D38AC2,#D38AC2);
+	   color:#fff;
+	   line-height:50px;
+	   padding-left:30px;
+	   font-size:18px;
+	}
+	.pull-down-menu-car{
+	   width:100%;
+	}
+	.parkNo-frombg{
+	    float: left;
+        padding-left: 30px;
+        padding-top: 10px;
+        color:#313131;
+	}
+	.form-control-input{
+	    padding: 5px 10px;
+        border-radius: 3px;
+        border: 1px solid #D8D8D8;
+        margin-left: 10px;
+	}
+	.box-bullet .box-footer{
+	    padding-left: 15px;
+	}
+	.btn-new-type-blue{
+	  background:#2A63FB !important;
+	  color:#fff !important;
+	}
+	.carRedPacketAddParkTool-bullet{
+	  padding:20px 0;
+	  text-align: center;
+	}
+	.border-bullet{
+	   border-top:1px solid #D8D8D8;
+	}
+	/* 运营报表模块 */
+	.pull-down-menu {
+       padding-top: 20px;
+       border-bottom: 1px solid #eee;
+       padding-bottom: 20px;
+    }
+	.box-footer-btn{
+	float:right;
+	margin-right:200px;
+	}
+	.padding-top-echarts{
+	   padding-top:20px;
+	}
+	.box-body-change-padding{
+	   padding-bottom:0;
+	}
+	
+	/* logo图片设置样式  */
+.add-car-img{
+		background-size:100%;
+		background-position:center;
+		background-repeat:no-repeat;
+		border:solid 1px #ddd;
+		width:80px;
+		height:80px;
+		border-radius:50%;
+		margin:0 auto;
+		line-height:80px;
+		text-align:center;
+	}
+	.add-img-position>.icon{
+	    font-size: 50px;
+	    color:#2A64FB;
+	}
+	
+
+	

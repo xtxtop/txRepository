@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarRecordDao">
+
+	<resultMap type="CarRecord" id="CarRecord">
+		<id column="RECORD_ID" property="recordId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_MODEL" property="carModel" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_BRAND" property="carBrand" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY" property="city" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="USE_CAR_TYPE" property="useCarType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="DOCUMENT_NO" property="documentNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="DRIVER_ID" property="driverId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="DRIVER_NAME" property="driverName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="START_PARK_NO" property="startParkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="START_PARK_NAME" property="startParkName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NO" property="terminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NAME" property="terminalParkName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="startTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="START_POWER" property="startPower" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="FINISH_POWER" property="finishPower" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="TOTAL_MILEAGE" property="totalMileage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		RECORD_ID,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL,CAR_BRAND_ID,CAR_BRAND,CITY_ID,
+		CITY,USE_CAR_TYPE,DOCUMENT_NO,DRIVER_ID,DRIVER_NAME,START_PARK_NO,
+		START_PARK_NAME,TERMINAL_PARK_NO,TERMINAL_PARK_NAME,START_TIME,FINISH_TIME,START_POWER,
+		FINISH_POWER,TOTAL_MILEAGE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		RECORD_ID,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL,CAR_BRAND_ID,CAR_BRAND,CITY_ID,
+		CITY,USE_CAR_TYPE,DOCUMENT_NO,DRIVER_ID,DRIVER_NAME,START_PARK_NO,
+		START_PARK_NAME,TERMINAL_PARK_NO,TERMINAL_PARK_NAME,START_TIME,FINISH_TIME,START_POWER,
+		FINISH_POWER,TOTAL_MILEAGE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+
+	</sql>
+
+	<insert id="add" parameterType="CarRecord" useGeneratedKeys="true"
+		keyProperty="recordId">
+		insert into T_CAR_RECORD(
+		<if test="recordId!=null">
+			RECORD_ID,
+		</if>
+		CAR_PLATE_NO,
+		CAR_MODEL_ID,
+		CAR_MODEL,
+		CAR_BRAND_ID,
+		CAR_BRAND,
+		CITY_ID,
+		CITY,
+		USE_CAR_TYPE,
+		DOCUMENT_NO,
+		DRIVER_ID,
+		DRIVER_NAME,
+		START_PARK_NO,
+		START_PARK_NAME,
+		TERMINAL_PARK_NO,
+		TERMINAL_PARK_NAME,
+		START_TIME,
+		FINISH_TIME,
+		START_POWER,
+		FINISH_POWER,
+		TOTAL_MILEAGE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+		) values (
+		<if test="recordId!=null">
+			#{recordId,jdbcType = VARCHAR},
+		</if>
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModel,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carBrand,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{city,jdbcType = VARCHAR},
+		#{useCarType,jdbcType = TINYINT},
+		#{documentNo,jdbcType = VARCHAR},
+		#{driverId,jdbcType = VARCHAR},
+		#{driverName,jdbcType = VARCHAR},
+		#{startParkNo,jdbcType = VARCHAR},
+		#{startParkName,jdbcType = VARCHAR},
+		#{terminalParkNo,jdbcType =
+		VARCHAR},
+		#{terminalParkName,jdbcType = VARCHAR},
+		#{startTime,jdbcType =
+		TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{startPower,jdbcType =
+		DOUBLE},
+		#{finishPower,jdbcType = DOUBLE},
+		#{totalMileage,jdbcType =
+		DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType =
+		TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType =
+		VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="CarRecord">
+		update t_car_record
+		<set>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carModelId!=null and carModelId!=''">
+				CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+			</if>
+			<if test="carModel!=null and carModel!=''">
+				CAR_MODEL=#{carModel,jdbcType = VARCHAR},
+			</if>
+			<if test="carBrandId!=null and carBrandId!=''">
+				CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+			</if>
+			<if test="carBrand!=null and carBrand!=''">
+				CAR_BRAND=#{carBrand,jdbcType = VARCHAR},
+			</if>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="city!=null and city!=''">
+				CITY=#{city,jdbcType = VARCHAR},
+			</if>
+			<if test="useCarType!=null ">
+				USE_CAR_TYPE=#{useCarType,jdbcType = TINYINT},
+			</if>
+			<if test="documentNo!=null and documentNo!=''">
+				DOCUMENT_NO=#{documentNo,jdbcType = VARCHAR},
+			</if>
+			<if test="driverId!=null and driverId!=''">
+				DRIVER_ID=#{driverId,jdbcType = VARCHAR},
+			</if>
+			<if test="driverName!=null and driverName!=''">
+				DRIVER_NAME=#{driverName,jdbcType = VARCHAR},
+			</if>
+			<if test="startParkNo!=null and startParkNo!=''">
+				START_PARK_NO=#{startParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="startParkName!=null and startParkName!=''">
+				START_PARK_NAME=#{startParkName,jdbcType = VARCHAR},
+			</if>
+			<if test="terminalParkNo!=null and terminalParkNo!=''">
+				TERMINAL_PARK_NO=#{terminalParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="terminalParkName!=null and terminalParkName!=''">
+				TERMINAL_PARK_NAME=#{terminalParkName,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="startTime!=null ">
+				START_TIME=#{startTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="finishTime!=null ">
+				FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="startPower!=null ">
+				START_POWER=#{startPower,jdbcType = DOUBLE},
+			</if>
+			<if test="finishPower!=null ">
+				FINISH_POWER=#{finishPower,jdbcType = DOUBLE},
+			</if>
+			<if test="totalMileage!=null ">
+				TOTAL_MILEAGE=#{totalMileage,jdbcType = DOUBLE},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND RECORD_ID=#{recordId}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_car_record
+		<where>
+			RECORD_ID=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="CarRecord">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_record
+		<where>
+			RECORD_ID=#{0}
+		</where>
+	</select>
+
+	<select id="carUsageLog" resultType="cn.com.shopec.core.car.vo.CarRecordWkVo">
+		SELECT
+		DOCUMENT_NO AS documentNo,
+		DRIVER_NAME AS driverName,
+		DRIVER_ID AS driverId,
+		START_TIME AS startTime,
+		FINISH_TIME AS finishTime,
+		FINISH_TIME AS finishTime,
+		USE_CAR_TYPE AS useCarType,
+		START_PARK_NAME AS startParkName,
+		TERMINAL_PARK_NAME AS terminalParkName
+		FROM
+		t_car_record
+		<where>
+			CAR_PLATE_NO=#{0}
+		</where>
+		ORDER BY
+		CREATE_TIME DESC
+		LIMIT 1
+	</select>
+
+	<!-- 根据订单编号查询用车记录 -->
+	<select id="getCarRecordByDocumentNo" resultMap="CarRecord">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_record
+		<where>
+			DOCUMENT_NO=#{0} and USE_CAR_TYPE=#{1}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="CarRecord">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_record
+		<where>
+			RECORD_ID in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(RECORD_ID) from t_car_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="CarRecord">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="CarRecord">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		order by update_time desc,create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.recordId!=null and q.recordId!=''">
+				AND RECORD_ID=#{q.recordId}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				AND CAR_MODEL_ID=#{q.carModelId}
+			</if>
+			<if test="q.carModel!=null and q.carModel!=''">
+				AND CAR_MODEL=#{q.carModel}
+			</if>
+			<if test="q.carBrandId!=null and q.carBrandId!=''">
+				AND CAR_BRAND_ID=#{q.carBrandId}
+			</if>
+			<if test="q.carBrand!=null and q.carBrand!=''">
+				AND CAR_BRAND=#{q.carBrand}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.city!=null and q.city!=''">
+				AND CITY=#{q.city}
+			</if>
+			<if test="q.useCarType!=null ">
+				AND USE_CAR_TYPE=#{q.useCarType}
+			</if>
+			<if test="q.documentNo!=null and q.documentNo!=''">
+				AND DOCUMENT_NO like '%${q.documentNo}%'
+			</if>
+			<if test="q.driverId!=null and q.driverId!=''">
+				AND DRIVER_ID=#{q.driverId}
+			</if>
+			<if test="q.driverName!=null and q.driverName!=''">
+				AND DRIVER_NAME=#{q.driverName}
+			</if>
+			<if test="q.startParkNo!=null and q.startParkNo!=''">
+				AND START_PARK_NO=#{q.startParkNo}
+			</if>
+			<if test="q.startParkName!=null and q.startParkName!=''">
+				AND START_PARK_NAME=#{q.startParkName}
+			</if>
+			<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+				AND TERMINAL_PARK_NO=#{q.terminalParkNo}
+			</if>
+			<if test="q.terminalParkName!=null and q.terminalParkName!=''">
+				AND TERMINAL_PARK_NAME=#{q.terminalParkName}
+			</if>
+			<if test="q.startTime!=null ">
+				AND START_TIME=#{q.startTime}
+			</if>
+			<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+			</if>
+			<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+			</if>
+			<if test="q.finishTime!=null ">
+				AND FINISH_TIME=#{q.finishTime}
+			</if>
+			<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+			</if>
+			<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+			</if>
+			<if test="q.startPower!=null ">
+				AND START_POWER=#{q.startPower}
+			</if>
+			<if test="q.finishPower!=null ">
+				AND FINISH_POWER=#{q.finishPower}
+			</if>
+			<if test="q.totalMileage!=null ">
+				AND TOTAL_MILEAGE=#{q.totalMileage}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+		</if>
+	</sql>
+
+</mapper>

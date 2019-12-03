@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarSeriesDao">
+
+<resultMap type="CarSeries" id="CarSeries">
+	<id column="CAR_SERIES_ID" property="carSeriesId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_NAME" property="carSeriesName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIRES_PIC" property="carSeriresPic" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SEATING" property="seaTing" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_SERIES_ID,CAR_SERIES_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_SERIRES_PIC,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,SEATING
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_SERIES_ID,CAR_SERIES_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_SERIRES_PIC,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,SEATING
+</sql>
+
+<insert id="add" parameterType="CarSeries" useGeneratedKeys="true" keyProperty="carSeriesId">
+	insert into T_CAR_SERIES(
+		<if test="carSeriesId!=null">
+		CAR_SERIES_ID,
+		</if>
+		CAR_SERIES_NAME,
+		CAR_BRAND_ID,
+		CAR_SERIRES_PIC,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		SEATING
+	) values (
+		<if test="carSeriesId!=null">
+		#{carSeriesId,jdbcType = VARCHAR},
+		</if>
+		#{carSeriesName,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carSeriresPic,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{seaTing,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CarSeries">
+	update t_car_series 
+	<set>
+		<if test="carSeriesName!=null and carSeriesName!=''">
+			CAR_SERIES_NAME=#{carSeriesName,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriresPic!=null and carSeriresPic!=''">
+			CAR_SERIRES_PIC=#{carSeriresPic,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="seaTing!=null and seaTing!=''">
+			SEATING=#{seaTing,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CAR_SERIES_ID=#{carSeriesId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_series 
+	<where>
+		CAR_SERIES_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarSeries">
+	select CAR_SERIES_ID,CAR_SERIES_NAME,S.CAR_BRAND_ID,S.SEATING,CAR_BRAND_NAME,CAR_SERIRES_PIC
+	from t_car_series S LEFT JOIN t_car_brand B ON S.CAR_BRAND_ID=B.CAR_BRAND_ID
+	<where>
+		CAR_SERIES_ID=#{0}
+	</where>
+</select>
+
+<select id="getSeaTing" resultMap="CarSeries">
+	SELECT SEATING FROM t_car_series WHERE SEATING IS NOT NULL  GROUP BY SEATING
+	
+</select>
+
+
+<select id="getByIds" resultMap="CarSeries">
+	select <include refid="AllColumnlist"/> from t_car_series
+	<where>
+		CAR_SERIES_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_SERIES_ID) from t_car_series 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="countForMgt" parameterType="Query" resultType="Long">
+	select count(CAR_SERIES_ID) from t_car_series S LEFT JOIN t_car_brand B ON S.CAR_BRAND_ID=B.CAR_BRAND_ID
+	<where>
+	<include refid="listCommonWhereForMgt"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarSeries">
+	select CAR_SERIES_ID,CAR_SERIES_NAME,S.CAR_BRAND_ID,S.SEATING,CAR_BRAND_NAME,CAR_SERIRES_PIC,S.CREATE_TIME,S.UPDATE_TIME
+ 	from t_car_series S LEFT JOIN t_car_brand B ON S.CAR_BRAND_ID=B.CAR_BRAND_ID
+	<where>
+	<include refid="listCommonWhereForMgt"/>
+	</where>
+</select>
+
+<select id="pageListForMgt" parameterType="Query" resultMap="CarSeries">
+	select 
+	CAR_SERIES_ID,CAR_SERIES_NAME,S.CAR_BRAND_ID,CAR_BRAND_NAME,CAR_SERIRES_PIC,S.CREATE_TIME,S.UPDATE_TIME
+ 	from t_car_series S LEFT JOIN t_car_brand B ON S.CAR_BRAND_ID=B.CAR_BRAND_ID
+	<where>
+	 <include refid="listCommonWhereForMgt"/>
+	</where>
+	order by s.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarSeries">
+	select <include refid="CommonColumnlist"/> from t_car_series
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonWhereForMgt">
+	<if test="q!=null">
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			AND CAR_SERIES_ID=#{q.carSeriesId}
+		</if>
+		<if test="q.carSeriesNameQuery!=null and q.carSeriesNameQuery!=''">
+			AND CAR_SERIES_NAME like '%${q.carSeriesNameQuery}%'
+		</if>
+		<if test="q.carSeriesName!=null and q.carSeriesName!=''">
+			AND CAR_SERIES_NAME=#{q.carSeriesName}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND S.CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carSeriresPic!=null and q.carSeriresPic!=''">
+			AND CAR_SERIRES_PIC=#{q.carSeriresPic}
+		</if>
+		<if test="q.seaTing!=null and q.seaTing!=''">
+			AND SEATING=#{q.seaTing}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			AND CAR_SERIES_ID=#{q.carSeriesId}
+		</if>
+		<if test="q.carSeriesName!=null and q.carSeriesName!=''">
+			AND CAR_SERIES_NAME=#{q.carSeriesName}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carSeriresPic!=null and q.carSeriresPic!=''">
+			AND CAR_SERIRES_PIC=#{q.carSeriresPic}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.seaTing!=null and q.seaTing!=''">
+			AND SEATING=#{q.seaTing}
+		</if>
+	</if>
+</sql>
+
+</mapper>

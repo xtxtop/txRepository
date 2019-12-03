@@ -1,0 +1,584 @@
+/*鍏叡鏍峰紡*/
+input,
+select,
+button{
+	outline:none;
+}
+button.btn-new-type{
+	padding: 3px 20px;
+	border:solid 1px #CFCFCF;
+	color:#2A64FB;
+	font-size:14px;
+	background:none;
+	border-radius:18px;
+	outline:none;
+	margin-left:10px;
+	background:#DBF4F9;
+}
+button.btn-new-type-change{
+	float:right;
+}
+button.btn-new-type:hover{
+	background:#DBF4F9;
+	color:#2A64FB;
+}
+.panel-body{
+	padding:0;
+}
+/*澶撮儴*/
+.main-header > .navbar{
+	min-height: 60px;
+}
+.main-header .logo{
+	height:60px;
+	line-height:60px;
+}
+.navbar-nav>li>a{
+	line-height:60px;
+}
+.navbar-nav > .user-menu .user-image{
+	margin-top:18px;
+}
+.skin-blue-light .main-header .logo:hover{
+	background-color: #3f9fff;
+}
+/*宸﹂儴鑿滃崟*/
+.left-nav-bg-img{
+	width:100%;
+	height:50px;
+	background-size:cover;
+	background-position:center center;
+	background-image:url('../img/MLCCX-bg.jpg');
+}
+#leftNavBar{
+	width:100%;
+	padding:0;
+	/* background:#fff; */
+	padding-top: 20px;
+}
+#leftNavBar .treeview:hover{
+}
+#leftNavBar .treeview .left-nav-span{
+	height:40px;
+	line-height:40px;
+}
+#leftNavBar .treeview.active .left-nav-span{
+	background:rgba(27,33,45,1);
+	font-size:16px;
+	color:#3F7EFF;
+}
+#leftNavBar .treeview.active .left-nav-span span{
+/* 	font-size:16px;
+	color:#3F7EFF;
+	font-weight:bold; */
+}
+.sidebar-menu > li{
+	    background: rgb(35,44,59);
+}
+.skin-blue-light .sidebar-menu > li > a > span{
+	font-size:14px;
+	color:#fff;
+}
+.skin-blue-light .sidebar-menu > li > a:hover{
+	background:#232C3A; 
+}
+.skin-blue-light .sidebar-menu > li > a:hover span{
+	/* font-size:16px;
+	color:#3F7EFF;
+	font-weight:bold; */
+}
+.skin-blue-light .sidebar-menu > li > a i{
+	color:#fff;
+	    padding-right: 6px;
+}
+.skin-blue-light .sidebar-menu > li > a i:first-child{
+	color:#7D858F;
+}
+.sidebar-menu li > a{
+	box-sizing:border-box;
+	padding-left:20px;
+	padding-right:14px;
+}
+.sidebar-menu li > a > .pull-right{
+	margin-top:16px;
+	font-weight:12px;
+}
+.main-sidebar{
+	/* padding-top:78px; */
+	/* left:16px; */
+	width:216px;
+}
+.skin-blue-light .wrapper, .skin-blue-light .left-side{
+	    background: #eff2f7;
+}
+.skin-blue-light .main-sidebar{
+	background: rgb(35,44,59);
+    color: #fff;
+    width: 200px;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding-bottom: 32px;
+    overflow-x:hidden;
+} 
+.sidebar-menu .treeview-menu > li{
+	padding:0;
+	width:216px;
+	height:34px;
+	line-height:34px;
+	box-sizing:border-box;
+	padding-left:42px;
+	cursor: pointer;
+	background:rgba(27,33,45,1);
+	color:#fff;
+}
+.sidebar-menu .treeview-menu > li a{
+	padding:0;
+	font-size:12px;
+	color:#CBCBCB;
+}
+/* .sidebar-menu .treeview-menu > li:hover{
+	background:rgba(63,126,255,1);
+} */
+.sidebar-menu .treeview-menu > li:hover a{
+	color:#00C028;
+}
+/* .sidebar-menu .treeview-menu > li.active{
+	background:rgba(63,126,255,1);
+} */
+.sidebar-menu .treeview-menu > li.active a{
+	color:#00C028;
+}
+
+/*涓昏椤甸潰*/
+.content-wrapper, .right-side {
+	margin-left:200px;
+	/* margin-top:20px; */
+}
+.content-wrapper{
+	position:relative;
+}
+.content-wrapper .close-all-tab-btn{
+	position:absolute;
+	right:0px;
+	top:0;
+	border-left:solid 1px #dedede;
+	z-index:2;
+	height:38px;
+	padding-left:0px;
+	padding-top:5px;
+	box-sizing:border-box;
+	background: #fff;
+}
+.content-wrapper .close-all-tab-btn .tab-button{
+	width:90px!important;
+	line-height:28px!important;
+	height:28px!important;
+	text-align:center;
+	padding-right:0;
+	border-left:solid 1px #E1E1E1;
+	z-index:1000000;
+	cursor:pointer;
+	font-size:12px;
+	color:#fff;
+    background:rgba(165,111,78,1);
+    border-radius: 14px; 
+}
+#mainConsoleTabs{
+	/* background:#eee; */
+}
+
+/*鎼滅储澶撮儴鎸夐挳鍏叡鏍峰紡*/
+.search-input-wrapper{
+	background:#fff;
+}
+.search-input-wrapper .search-input-header{
+    box-sizing: border-box;
+    line-height: 48px;
+    padding-top: 10px;
+    margin-left:-7px;
+}
+.search-input-wrapper .search-input-header .moreButton{
+	cursor:pointer;
+}
+.search-input-wrapper .search-input-content .seach-input-border-box{
+	
+}
+.search-input-wrapper .search-input-content .seacher-button-content{
+    box-sizing: border-box;
+    padding-top: 24px;
+    padding-bottom: 19px;
+    padding-left: 10px;
+	
+}
+.search-input-wrapper .search-input-content .seacher-button-content button{
+	
+}
+.search-input-wrapper .search-input-content .seacher-button-content button:hover{
+	
+}
+.search-input-wrapper .search-input-content .seach-input-details{
+	box-sizing:border-box;
+	/*鍏堣繖鏍峰啓灏嗘潵瀹藉害澶勭悊鎺変箣鍚庯紝鐒跺悗鍐嶄慨鏀�*/
+	padding-left:20px;
+	padding-right:45px;
+	padding-top: 12px;
+}
+.search-input-wrapper .search-input-content .seach-input-details.close-content{
+	height:47px;
+	overflow:hidden;
+}
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item{
+	width:19%;
+	/* margin-right:1.25%; */
+	margin-bottom:16px;
+}
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item:nth-child(5n){
+	margin-right:0;
+}
+
+
+/*杞﹁締鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item span{
+	/* width:40%; */
+	float:left;
+	line-height:32px;
+	text-align:right;
+	box-sizing:border-box;
+	padding-right:2%;
+	font-size:12px;
+	color:#000;
+	font-weight: 600;
+}
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item select{
+	width:60%;
+	float:left;
+	height:32px;
+	line-height:32px;
+	font-size:12px;
+	color:#202020;
+	border-radius:5px;
+	background:#fff;
+}
+
+
+/*杞﹁締鐘舵�佸垪琛�*/
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item span{
+	/* width:42%; */
+	padding-right:2%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item select{
+	width:60%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item.car-status-dian-you>div{
+	width:58%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item.car-status-dian-you>div input{
+	/* width:40%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-status .seach-input-item.car-status-dian-you>div label{
+	width:10%;
+	line-height:32px;
+	text-align:center;
+	margin-bottom:0;
+}
+
+/*杞﹁締浜嬫晠鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.car-accident .seach-input-item span{
+	/* width:43%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-accident .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.car-accident .seach-input-item select{
+	width:60%;
+}
+
+/*杞﹁締鏁呴殰鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.car-fault .seach-input-item span{
+	/* width:43%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-fault .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.car-fault .seach-input-item select{
+	width:60%;
+}
+
+
+/*杞﹁締杩濈珷鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.car-illegal .seach-input-item span{
+	/* width:43%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.car-illegal .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.car-illegal .seach-input-item select{
+	width:60%;
+}
+
+/*鐭俊妯℃澘鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.smsTemplate .seach-input-item span{
+	/* width:43%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.smsTemplate .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.smsTemplate .seach-input-item select{
+	width:60%;
+}
+
+/*鏁版嵁瀛楀吀鍒嗙被绠＄悊*/
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCat .seach-input-item span{
+	/* width:47%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCat .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCat .seach-input-item select{
+	width:60%;
+}
+
+/*鏁版嵁瀛楀吀椤圭鐞�*/
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCatItem .seach-input-item span{
+	/* width:47%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCatItem .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.dataDictCatItem .seach-input-item select{
+	width:60%;
+}
+
+/*鍔犵洘鍟嗙粨绠楀垪琛�*/
+.search-input-wrapper .search-input-content .seach-input-details.franchiseeSettlement_list .seach-input-item span{
+	/* width:47%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.franchiseeSettlement_list .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.franchiseeSettlement_list .seach-input-item select{
+	width:60%;
+}
+
+/*浼氬憳绠＄悊*/
+.search-input-wrapper .search-input-content .seach-input-details.memberlist .seach-input-item span{
+	/* width:45%; */
+	padding-right:3%;
+}
+.search-input-wrapper .search-input-content .seach-input-details.memberlist .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.memberlist .seach-input-item select{
+	width:60%;
+}
+
+/*璋冨害宸ュ崟鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.workerOrder .seach-input-item span{
+	/* width:47%; */
+	/* padding-right:3%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.workerOrder .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.workerOrder .seach-input-item select{
+	width:60%;
+}
+
+/*鍦虹珯鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.parkList .seach-input-item span{
+	/* width:45%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.parkList .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.parkList .seach-input-item select{
+	width:60%;
+}
+/*宸℃璁″垝鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.checkPlanList .seach-input-item span{
+	/* width:45%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.checkPlanList .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.checkPlanList .seach-input-item select{
+	width:60%;
+}
+
+/*绉垎瑙勫垯鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.memberPointsRuleList .seach-input-item span{
+	/* width:47%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.memberPointsRuleList .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.memberPointsRuleList .seach-input-item select{
+	width:60%;
+}
+
+/*绉垎璁板綍鍒楄〃*/
+.search-input-wrapper .search-input-content .seach-input-details.MemberPointsRecordList .seach-input-item span{
+	/* width:45%; */
+}
+.search-input-wrapper .search-input-content .seach-input-details.MemberPointsRecordList .seach-input-item input,
+.search-input-wrapper .search-input-content .seach-input-details.MemberPointsRecordList .seach-input-item select{
+	width:60%;
+}
+
+/*琛ㄦ牸鏍峰紡灞曠ず*/
+.show-table-content{
+	background:#ffffff;
+	border:solid 1px #ddd;
+	box-sizing:border-box;
+	padding-top:20px;
+	
+}
+.show-table-content.row{
+	margin:0;
+	margin-top:12px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+	padding:0;
+}
+.table-button-content{
+	display:flex;
+	flex-wrap: wrap;
+	padding-right: 15px;
+}
+.table-button-content span{
+	display:block;
+	width:50%;
+	/* text-align:left; */
+}
+.box-body{
+	box-sizing:border-box;
+	/*鍏堣繖鏍峰啓灏嗘潵瀹藉害澶勭悊鎺変箣鍚庯紝鐒跺悗鍐嶄慨鏀�*/
+	padding:0px;
+	padding-bottom:15px;
+}
+
+.search-input-wrapper .search-input-content .seach-input-details-change{
+/* 	box-sizing:border-box;
+	鍏堣繖鏍峰啓灏嗘潵瀹藉害澶勭悊鎺変箣鍚庯紝鐒跺悗鍐嶄慨鏀�
+	padding-left:15px;
+	padding-right:45px; */
+	/* margin-top:24px; */
+	height:auto;
+	position:relative;
+	margin-right:4.5%;
+	/* margin-bottom:10px; */
+}
+.search-input-wrapper .search-input-content .seach-input-details .seach-input-item-change{
+	/* width:19%;
+	margin-right:1.25%;
+	margin-bottom:16px; */
+	width:25%;
+}
+.search-input-wrapper .search-input-content .seacher-button-content-change{
+	/* text-align: right;
+	box-sizing:border-box;
+	padding-top:15px;
+	padding-bottom:15px;
+	鍏堣繖鏍峰啓灏嗘潵瀹藉害澶勭悊鎺変箣鍚庯紝鐒跺悗鍐嶄慨鏀�
+	padding-right:45px; */
+	z-index:0;
+	float:right;
+	margin-top:-15px;
+}
+
+.modal-backdrop{
+	z-index:1;
+}
+
+.main-header .navbar-custom-menu-change {
+    position:relative;
+    top:0;
+    right:0;
+    display: flex;
+    align-items: center;
+    font-size:14px;
+    font-family:MicrosoftYaHei;
+}
+.main-header .navbar-custom-menu-change img{
+    width:30px;
+    line-height:60px;
+    height:30px;
+    border-radius:30px;
+    margin-right:3%;
+}
+
+.main-header .navbar-custom-menu-change .loginOutBtn{
+     position:absolute;
+     top:0;
+     right:5%;
+     font-size:12px;
+	}
+.main-header .navbar-custom-menu-change .loginOutBtn a{
+    color: #F3F3F3;
+    display: inline-grid;
+}
+.main-header .navbar-custom-menu-change .user-time{
+     padding-top: 8px;
+}
+.navbar-style{
+	width: 100%;
+    background: #3f9fff;
+    height: 60px;
+}
+.logo-lg{
+    float: left;
+    color: #fff;
+    font-size: 16px;
+    line-height: 60px;
+    margin-left: 3%;
+    font-weight:600;
+}
+
+/* 璋冭妭table鐨勯珮搴� */
+	.table-bettween-far tr td{
+	height:72px;
+	}
+	
+.btn-new-type-change-float-right{
+float:right;
+}
+    
+    .backgroundColor{
+    background:#fff;
+    height:100%;
+    }
+    
+    .fs-manger-tab{
+      width:100%;
+      padding: 0 20px;
+      /* display:flex;
+      flex-wrap: wrap;
+	  flex-direction: row;
+	  justify-content:space-around; */
+    }
+    .fs-manger-tab .userName .user-image{
+      width:15%;
+      border-radius:50%;
+    }
+    .userName {
+     padding:10px 0;
+    }
+    .userName span{
+    color:#ffffff;
+    font-size:16px;
+    padding-left: 10px;
+    }
+    
+.border_length{
+	width:100%;
+	border-bottom: 1px solid #37404E;
+}
+.loginOutBtn{
+	padding:10px 0;
+}
+.loginOutBtn a span{
+    color: #fff;
+    font-size: 14px;
+}
+.loginOutBtn a img{
+    float:right;
+}
+
+.userName{
+	padding:16px 0;
+}
+
+	 .photo-line-height{
+	    line-height:  180px !important;
+	 }
+	 
+	 .over-width-item{
+	  width:22% !important;
+	  margin-right:2%;
+	 }

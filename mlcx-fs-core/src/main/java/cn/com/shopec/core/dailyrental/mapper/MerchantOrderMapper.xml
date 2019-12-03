@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.MerchantOrderDao">
+
+<resultMap type="MerchantOrder" id="MerchantOrder">
+	<id column="MERCHANT_ORDER_ID" property="merchantOrderId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TAKE_CAR_PARK_NO" property="takeCarParkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TAKE_CAR_PARK_NAME" property="takeCarParkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RETURN_CAR_PARK_NO" property="returnCarParkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RETURN_CAR_PARK_NAME" property="returnCarParkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_ORDER_STATUS" property="merchantOrderStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_MODEL_ID" property="replaceCarModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_MODEL_NAME" property="replaceCarModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_NO" property="replaceCarNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_PLATE_NO" property="replaceCarPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDITIONAL_AMOUNT" property="additionalAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_ONLINE" property="isOnline" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REPLACE_CAR_MEMO" property="replaceCarMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_PROOF_URL1" property="replaceCarProofUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_PROOF_URL2" property="replaceCarProofUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REPLACE_CAR_PROOF_URL3" property="replaceCarProofUrl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUSE_ORDER_TYPE" property="refuseOrderType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUSE_ORDER_DETAIL" property="refuseOrderDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONFIRM_CAR_PROOF_URL1" property="confirmCarProofUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONFIRM_CAR_PROOF_URL2" property="confirmCarProofUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONFIRM_CAR_PROOF_URL3" property="confirmCarProofUrl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONFIRM_CAR_DETAIL" property="confirmCarDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_CAR_STATUS" property="checkCarStatus" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDITIONAL_SERVICE" property="additionalService" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_CAR_DETAIL" property="checkCarDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_CAR_PROOF_URL1" property="checkCarProofUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_CAR_PROOF_URL2" property="checkCarProofUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHECK_CAR_PROOF_URL3" property="checkCarProofUrl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OVERTIME_AMOUNT" property="overtimeAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ADDITIONAL_SERVICE_FEE" property="additionalServiceFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ASSIGNEE" property="assignee" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+MERCHANT_ORDER_ID,MERCHANT_ID,ORDER_NO,MEMBER_NO,MEMBER_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,
+TAKE_CAR_PARK_NO,TAKE_CAR_PARK_NAME,RETURN_CAR_PARK_NO,RETURN_CAR_PARK_NAME,MERCHANT_ORDER_STATUS,CAR_NO,
+CAR_PLATE_NO,REPLACE_CAR_MODEL_ID,REPLACE_CAR_MODEL_NAME,REPLACE_CAR_NO,REPLACE_CAR_PLATE_NO,ADDITIONAL_AMOUNT,
+IS_ONLINE,REPLACE_CAR_MEMO,REPLACE_CAR_PROOF_URL1,REPLACE_CAR_PROOF_URL2,REPLACE_CAR_PROOF_URL3,REFUSE_ORDER_TYPE,
+REFUSE_ORDER_DETAIL,CONFIRM_CAR_PROOF_URL1,CONFIRM_CAR_PROOF_URL2,CONFIRM_CAR_PROOF_URL3,CONFIRM_CAR_DETAIL,CHECK_CAR_STATUS,
+ADDITIONAL_SERVICE,CHECK_CAR_DETAIL,CHECK_CAR_PROOF_URL1,CHECK_CAR_PROOF_URL2,CHECK_CAR_PROOF_URL3,OVERTIME_AMOUNT,
+ADDITIONAL_SERVICE_FEE,ASSIGNEE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+MERCHANT_ORDER_ID,MERCHANT_ID,ORDER_NO,MEMBER_NO,MEMBER_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,
+TAKE_CAR_PARK_NO,TAKE_CAR_PARK_NAME,RETURN_CAR_PARK_NO,RETURN_CAR_PARK_NAME,MERCHANT_ORDER_STATUS,CAR_NO,
+CAR_PLATE_NO,REPLACE_CAR_MODEL_ID,REPLACE_CAR_MODEL_NAME,REPLACE_CAR_NO,REPLACE_CAR_PLATE_NO,ADDITIONAL_AMOUNT,
+IS_ONLINE,REPLACE_CAR_PROOF_URL1,REPLACE_CAR_PROOF_URL2,REPLACE_CAR_PROOF_URL3,REFUSE_ORDER_TYPE,
+CONFIRM_CAR_PROOF_URL1,CONFIRM_CAR_PROOF_URL2,CONFIRM_CAR_PROOF_URL3,CHECK_CAR_STATUS,
+ADDITIONAL_SERVICE,CHECK_CAR_PROOF_URL1,CHECK_CAR_PROOF_URL2,CHECK_CAR_PROOF_URL3,OVERTIME_AMOUNT,
+ADDITIONAL_SERVICE_FEE,ASSIGNEE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<insert id="add" parameterType="MerchantOrder" useGeneratedKeys="true" keyProperty="merchantOrderId">
+	insert into T_MERCHANT_ORDER(
+		<if test="merchantOrderId!=null">
+		MERCHANT_ORDER_ID,
+		</if>
+		MERCHANT_ID,
+		ORDER_NO,
+		MEMBER_NO,
+		MEMBER_NAME,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		TAKE_CAR_PARK_NO,
+		TAKE_CAR_PARK_NAME,
+		RETURN_CAR_PARK_NO,
+		RETURN_CAR_PARK_NAME,
+		MERCHANT_ORDER_STATUS,
+		CAR_NO,
+		CAR_PLATE_NO,
+		REPLACE_CAR_MODEL_ID,
+		REPLACE_CAR_MODEL_NAME,
+		REPLACE_CAR_NO,
+		REPLACE_CAR_PLATE_NO,
+		ADDITIONAL_AMOUNT,
+		IS_ONLINE,
+		REPLACE_CAR_MEMO,
+		REPLACE_CAR_PROOF_URL1,
+		REPLACE_CAR_PROOF_URL2,
+		REPLACE_CAR_PROOF_URL3,
+		REFUSE_ORDER_TYPE,
+		REFUSE_ORDER_DETAIL,
+		CONFIRM_CAR_PROOF_URL1,
+		CONFIRM_CAR_PROOF_URL2,
+		CONFIRM_CAR_PROOF_URL3,
+		CONFIRM_CAR_DETAIL,
+		CHECK_CAR_STATUS,
+		ADDITIONAL_SERVICE,
+		CHECK_CAR_DETAIL,
+		CHECK_CAR_PROOF_URL1,
+		CHECK_CAR_PROOF_URL2,
+		CHECK_CAR_PROOF_URL3,
+		OVERTIME_AMOUNT,
+		ADDITIONAL_SERVICE_FEE,
+		ASSIGNEE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="merchantOrderId!=null">
+		#{merchantOrderId,jdbcType = VARCHAR},
+		</if>
+		#{merchantId,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{takeCarParkNo,jdbcType = VARCHAR},
+		#{takeCarParkName,jdbcType = VARCHAR},
+		#{returnCarParkNo,jdbcType = VARCHAR},
+		#{returnCarParkName,jdbcType = VARCHAR},
+		#{merchantOrderStatus,jdbcType = TINYINT},
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{replaceCarModelId,jdbcType = VARCHAR},
+		#{replaceCarModelName,jdbcType = VARCHAR},
+		#{replaceCarNo,jdbcType = VARCHAR},
+		#{replaceCarPlateNo,jdbcType = VARCHAR},
+		#{additionalAmount,jdbcType = DOUBLE},
+		#{isOnline,jdbcType = TINYINT},
+		#{replaceCarMemo,jdbcType = VARCHAR},
+		#{replaceCarProofUrl1,jdbcType = VARCHAR},
+		#{replaceCarProofUrl2,jdbcType = VARCHAR},
+		#{replaceCarProofUrl3,jdbcType = VARCHAR},
+		#{refuseOrderType,jdbcType = VARCHAR},
+		#{refuseOrderDetail,jdbcType = VARCHAR},
+		#{confirmCarProofUrl1,jdbcType = VARCHAR},
+		#{confirmCarProofUrl2,jdbcType = VARCHAR},
+		#{confirmCarProofUrl3,jdbcType = VARCHAR},
+		#{confirmCarDetail,jdbcType = VARCHAR},
+		#{checkCarStatus,jdbcType = VARCHAR},
+		#{additionalService,jdbcType = VARCHAR},
+		#{checkCarDetail,jdbcType = VARCHAR},
+		#{checkCarProofUrl1,jdbcType = VARCHAR},
+		#{checkCarProofUrl2,jdbcType = VARCHAR},
+		#{checkCarProofUrl3,jdbcType = VARCHAR},
+		#{overtimeAmount,jdbcType = DOUBLE},
+		#{additionalServiceFee,jdbcType = DOUBLE},
+		#{assignee,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="MerchantOrder">
+	update T_MERCHANT_ORDER 
+	<set>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="takeCarParkNo!=null and takeCarParkNo!=''">
+			TAKE_CAR_PARK_NO=#{takeCarParkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="takeCarParkName!=null and takeCarParkName!=''">
+			TAKE_CAR_PARK_NAME=#{takeCarParkName,jdbcType = VARCHAR},
+		</if>
+		<if test="returnCarParkNo!=null and returnCarParkNo!=''">
+			RETURN_CAR_PARK_NO=#{returnCarParkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="returnCarParkName!=null and returnCarParkName!=''">
+			RETURN_CAR_PARK_NAME=#{returnCarParkName,jdbcType = VARCHAR},
+		</if>
+		<if test="merchantOrderStatus!=null ">
+			MERCHANT_ORDER_STATUS=#{merchantOrderStatus,jdbcType = TINYINT},
+		</if>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarModelId!=null and replaceCarModelId!=''">
+			REPLACE_CAR_MODEL_ID=#{replaceCarModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarModelName!=null and replaceCarModelName!=''">
+			REPLACE_CAR_MODEL_NAME=#{replaceCarModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarNo!=null and replaceCarNo!=''">
+			REPLACE_CAR_NO=#{replaceCarNo,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarPlateNo!=null and replaceCarPlateNo!=''">
+			REPLACE_CAR_PLATE_NO=#{replaceCarPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="additionalAmount!=null ">
+			ADDITIONAL_AMOUNT=#{additionalAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="isOnline!=null ">
+			IS_ONLINE=#{isOnline,jdbcType = TINYINT},
+		</if>
+		<if test="replaceCarMemo!=null and replaceCarMemo!=''">
+			REPLACE_CAR_MEMO=#{replaceCarMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarProofUrl1!=null and replaceCarProofUrl1!=''">
+			REPLACE_CAR_PROOF_URL1=#{replaceCarProofUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarProofUrl2!=null and replaceCarProofUrl2!=''">
+			REPLACE_CAR_PROOF_URL2=#{replaceCarProofUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="replaceCarProofUrl3!=null and replaceCarProofUrl3!=''">
+			REPLACE_CAR_PROOF_URL3=#{replaceCarProofUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="refuseOrderType!=null and refuseOrderType!='' ">
+			REFUSE_ORDER_TYPE=#{refuseOrderType,jdbcType = VARCHAR},
+		</if>
+		<if test="refuseOrderDetail!=null and refuseOrderDetail!=''">
+			REFUSE_ORDER_DETAIL=#{refuseOrderDetail,jdbcType = VARCHAR},
+		</if>
+		<if test="confirmCarProofUrl1!=null and confirmCarProofUrl1!=''">
+			CONFIRM_CAR_PROOF_URL1=#{confirmCarProofUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="confirmCarProofUrl2!=null and confirmCarProofUrl2!=''">
+			CONFIRM_CAR_PROOF_URL2=#{confirmCarProofUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="confirmCarProofUrl3!=null and confirmCarProofUrl3!=''">
+			CONFIRM_CAR_PROOF_URL3=#{confirmCarProofUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="confirmCarDetail!=null and confirmCarDetail!=''">
+			CONFIRM_CAR_DETAIL=#{confirmCarDetail,jdbcType = VARCHAR},
+		</if>
+		<if test="checkCarStatus!=null and checkCarStatus!=''">
+			CHECK_CAR_STATUS=#{checkCarStatus,jdbcType = VARCHAR},
+		</if>
+		<if test="additionalService!=null and additionalService !=''">
+			ADDITIONAL_SERVICE=#{additionalService,jdbcType = VARCHAR},
+		</if>
+		<if test="checkCarDetail!=null and checkCarDetail!=''">
+			CHECK_CAR_DETAIL=#{checkCarDetail,jdbcType = VARCHAR},
+		</if>
+		<if test="checkCarProofUrl1!=null and checkCarProofUrl1!=''">
+			CHECK_CAR_PROOF_URL1=#{checkCarProofUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="checkCarProofUrl2!=null and checkCarProofUrl2!=''">
+			CHECK_CAR_PROOF_URL2=#{checkCarProofUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="checkCarProofUrl3!=null and checkCarProofUrl3!=''">
+			CHECK_CAR_PROOF_URL3=#{checkCarProofUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="overtimeAmount!=null ">
+			OVERTIME_AMOUNT=#{overtimeAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="additionalServiceFee!=null ">
+			ADDITIONAL_SERVICE_FEE=#{additionalServiceFee,jdbcType = DOUBLE},
+		</if>
+		<if test="assignee!=null ">
+			ASSIGNEE=#{assignee,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND MERCHANT_ORDER_ID=#{merchantOrderId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_MERCHANT_ORDER 
+	<where>
+		MERCHANT_ORDER_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MerchantOrder">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER
+	<where>
+		MERCHANT_ORDER_ID=#{0}
+	</where>
+</select>
+
+<select id="getMerhcantOrderNo" resultType="String">
+	select group_concat(ORDER_NO) from T_MERCHANT_ORDER
+	<where>
+		MERCHANT_ID=#{0}
+	</where>
+	ORDER BY CREATE_TIME ASC
+</select>
+
+<select id="getOrderDayNo" resultMap="MerchantOrder">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER
+	<where>
+		ORDER_NO=#{0}
+	</where>
+	order by update_time desc
+	limit 1
+</select>
+
+<select id="getOrderDayByOrderNo" resultMap="MerchantOrder">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER
+	<where>
+		ORDER_NO=#{0} AND MERCHANT_ORDER_STATUS=2
+	</where>
+	order by update_time desc
+	limit 1
+</select>
+
+<select id="getByIds" resultMap="MerchantOrder">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_ORDER
+	<where>
+		MERCHANT_ORDER_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(MERCHANT_ORDER_ID) from T_MERCHANT_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MerchantOrder">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MerchantOrder">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_ORDER
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.merchantOrderId!=null and q.merchantOrderId!=''">
+			AND MERCHANT_ORDER_ID=#{q.merchantOrderId}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.takeCarParkNo!=null and q.takeCarParkNo!=''">
+			AND TAKE_CAR_PARK_NO=#{q.takeCarParkNo}
+		</if>
+		<if test="q.takeCarParkName!=null and q.takeCarParkName!=''">
+			AND TAKE_CAR_PARK_NAME=#{q.takeCarParkName}
+		</if>
+		<if test="q.returnCarParkNo!=null and q.returnCarParkNo!=''">
+			AND RETURN_CAR_PARK_NO=#{q.returnCarParkNo}
+		</if>
+		<if test="q.returnCarParkName!=null and q.returnCarParkName!=''">
+			AND RETURN_CAR_PARK_NAME=#{q.returnCarParkName}
+		</if>
+		<if test="q.merchantOrderStatus!=null ">
+			AND MERCHANT_ORDER_STATUS=#{q.merchantOrderStatus}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.replaceCarModelId!=null and q.replaceCarModelId!=''">
+			AND REPLACE_CAR_MODEL_ID=#{q.replaceCarModelId}
+		</if>
+		<if test="q.replaceCarModelName!=null and q.replaceCarModelName!=''">
+			AND REPLACE_CAR_MODEL_NAME=#{q.replaceCarModelName}
+		</if>
+		<if test="q.replaceCarNo!=null and q.replaceCarNo!=''">
+			AND REPLACE_CAR_NO=#{q.replaceCarNo}
+		</if>
+		<if test="q.replaceCarPlateNo!=null and q.replaceCarPlateNo!=''">
+			AND REPLACE_CAR_PLATE_NO=#{q.replaceCarPlateNo}
+		</if>
+		<if test="q.additionalAmount!=null ">
+			AND ADDITIONAL_AMOUNT=#{q.additionalAmount}
+		</if>
+		<if test="q.isOnline!=null ">
+			AND IS_ONLINE=#{q.isOnline}
+		</if>
+		<if test="q.replaceCarMemo!=null and q.replaceCarMemo!=''">
+			AND REPLACE_CAR_MEMO=#{q.replaceCarMemo}
+		</if>
+		<if test="q.replaceCarProofUrl1!=null and q.replaceCarProofUrl1!=''">
+			AND REPLACE_CAR_PROOF_URL1=#{q.replaceCarProofUrl1}
+		</if>
+		<if test="q.replaceCarProofUrl2!=null and q.replaceCarProofUrl2!=''">
+			AND REPLACE_CAR_PROOF_URL2=#{q.replaceCarProofUrl2}
+		</if>
+		<if test="q.replaceCarProofUrl3!=null and q.replaceCarProofUrl3!=''">
+			AND REPLACE_CAR_PROOF_URL3=#{q.replaceCarProofUrl3}
+		</if>
+		<if test="q.refuseOrderType!=null and q.refuseOrderType!='' ">
+			AND REFUSE_ORDER_TYPE=#{q.refuseOrderType}
+		</if>
+		<if test="q.refuseOrderDetail!=null and q.refuseOrderDetail!=''">
+			AND REFUSE_ORDER_DETAIL=#{q.refuseOrderDetail}
+		</if>
+		<if test="q.confirmCarProofUrl1!=null and q.confirmCarProofUrl1!=''">
+			AND CONFIRM_CAR_PROOF_URL1=#{q.confirmCarProofUrl1}
+		</if>
+		<if test="q.confirmCarProofUrl2!=null and q.confirmCarProofUrl2!=''">
+			AND CONFIRM_CAR_PROOF_URL2=#{q.confirmCarProofUrl2}
+		</if>
+		<if test="q.confirmCarProofUrl3!=null and q.confirmCarProofUrl3!=''">
+			AND CONFIRM_CAR_PROOF_URL3=#{q.confirmCarProofUrl3}
+		</if>
+		<if test="q.confirmCarDetail!=null and q.confirmCarDetail!=''">
+			AND CONFIRM_CAR_DETAIL=#{q.confirmCarDetail}
+		</if>
+		<if test="q.checkCarStatus!=null and q.checkCarStatus!=''">
+			AND CHECK_CAR_STATUS=#{q.checkCarStatus}
+		</if>
+		<if test="q.additionalService!=null and q.additionalService!=''">
+			AND ADDITIONAL_SERVICE=#{q.additionalService}
+		</if>
+		<if test="q.checkCarDetail!=null and q.checkCarDetail!=''">
+			AND CHECK_CAR_DETAIL=#{q.checkCarDetail}
+		</if>
+		<if test="q.checkCarProofUrl1!=null and q.checkCarProofUrl1!=''">
+			AND CHECK_CAR_PROOF_URL1=#{q.checkCarProofUrl1}
+		</if>
+		<if test="q.checkCarProofUrl2!=null and q.checkCarProofUrl2!=''">
+			AND CHECK_CAR_PROOF_URL2=#{q.checkCarProofUrl2}
+		</if>
+		<if test="q.checkCarProofUrl3!=null and q.checkCarProofUrl3!=''">
+			AND CHECK_CAR_PROOF_URL3=#{q.checkCarProofUrl3}
+		</if>
+		<if test="q.overtimeAmount!=null ">
+			AND OVERTIME_AMOUNT=#{q.overtimeAmount}
+		</if>
+		<if test="q.additionalServiceFee!=null ">
+			AND ADDITIONAL_SERVICE_FEE=#{q.additionalServiceFee}
+		</if>
+		<if test="q.assignee!=null ">
+			AND ASSIGNEE=#{q.assignee}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+<select id="countMap" parameterType="Query" resultType="Long">
+	select count(MERCHANT_ORDER_ID) from T_MERCHANT_ORDER 
+	<where>
+		<if test="q!=null">
+			<if test="q.merchantId!=null and q.merchantId!=''">
+				AND MERCHANT_ID=#{q.merchantId}
+			</if>
+			<if test="q.queryStatus!=null and q.queryStatus==1">
+				AND MERCHANT_ORDER_STATUS in(0,1,2,4)
+			</if>
+			<if test="q.queryStatus!=null and q.queryStatus==2">
+				AND MERCHANT_ORDER_STATUS=3
+			</if>
+			<if test="q.queryStatus!=null and q.queryStatus==3">
+				AND MERCHANT_ORDER_STATUS=5
+			</if>
+		</if>
+	</where>
+</select>
+
+<select id="pageMapList" parameterType="Query" resultType="java.util.HashMap">
+	select 
+	mo.MERCHANT_ORDER_ID as merchantOrderId,
+	od.MOBILE_PHONE as mobilePhone,
+	mo.MEMBER_NAME as memberName,
+	mo.CAR_MODEL_ID as carModelId,
+	cm.CAR_MODEL_NAME as carModelName,
+	cm.CAR_PERIOD_NAME as carPeriodName,
+	cm.CAR_TYPE as carType,
+	cm.GEAR_BOX as gearBox,
+	cm.DISPLACEMENT as displacement,
+	cm.BOX_TYPE as boxType,
+	cm.SEAT_NUMBER as seatNumber,
+	cm.CAR_MODEL_URL as carModelUrl,
+	mo.MERCHANT_ORDER_STATUS as merchantOrderStatus,
+	od.PAY_STATUS as payStatus,
+	od.ORDER_DURATION as orderDuration,
+	od.PAYABLE_AMOUNT as payableAmount,
+	mo.TAKE_CAR_PARK_NAME as takeCarParkName,
+	mo.RETURN_CAR_PARK_NAME as returnCarParkName,
+	(case when mo.REPLACE_CAR_PLATE_NO is not null then mo.REPLACE_CAR_PLATE_NO else mo.CAR_PLATE_NO end)as carPlateNo,
+	IFNULL(od.ACTUAL_TAKE_TIME, od.APPOINTMENT_TAKE_TIME) as takeTime,
+	IFNULL(od.ACTUAL_RETURN_TIME, od.APPOINTMENT_RETURN_TIME) as returnTime
+	from T_MERCHANT_ORDER mo 
+	left join T_CAR_MODEL cm ON mo.CAR_MODEL_ID=cm.CAR_MODEL_ID
+	left join T_ORDER_DAY od ON mo.ORDER_NO=od.ORDER_NO
+	<where>
+		<if test="q!=null">
+			<if test="q.merchantId!=null and q.merchantId!=''">
+				AND mo.MERCHANT_ID=#{q.merchantId}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND od.CITY_ID=#{q.cityId}
+			</if>
+			/* queryStatus=1 待处理*/
+			<if test="q.queryStatus!=null and q.queryStatus==1">
+				AND mo.MERCHANT_ORDER_STATUS=0
+				AND od.PAY_STATUS=1
+			</if>
+			/* queryStatus=2 待交车 */
+			<if test="q.queryStatus!=null and q.queryStatus==2">
+				AND mo.MERCHANT_ORDER_STATUS in(1,7)
+			</if>
+			/* queryStatus=3 待验车 */
+			<if test="q.queryStatus!=null and q.queryStatus==3">
+				AND mo.MERCHANT_ORDER_STATUS in(3,4)
+			</if>
+			/* queryStatus=4 已完成 */
+			<if test="q.queryStatus!=null and q.queryStatus==4">
+				AND mo.MERCHANT_ORDER_STATUS=5
+			</if>
+		</if>
+	</where>
+	order by mo.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="getChangeMerchantOrder" resultType="java.util.HashMap">
+	select 
+	mo.MERCHANT_ORDER_ID as merchantOrderId,
+	mo.MEMBER_NAME as memberName,
+	m.MOBILE_PHONE as mobilePhone,
+	mo.CAR_MODEL_ID as carModelId,
+	cm.CAR_MODEL_NAME as carModelName,
+	cm.GEAR_BOX as gearBox,
+	cm.DISPLACEMENT as displacement,
+	cm.BOX_TYPE as boxType,
+	cm.SEAT_NUMBER as seatNumber,
+	mo.CAR_PLATE_NO as carPlateNo,
+	mo.TAKE_CAR_PARK_NAME as takeCarParkName,
+	mo.RETURN_CAR_PARK_NAME as returnCarParkName,
+	od.APPOINTMENT_TAKE_TIME as takeTime,
+	od.APPOINTMENT_RETURN_TIME as returnTime
+	from T_MERCHANT_ORDER mo 
+	left join T_CAR_MODEL cm ON mo.CAR_MODEL_ID=cm.CAR_MODEL_ID
+	left join T_ORDER_DAY od ON mo.ORDER_NO=od.ORDER_NO
+	left join T_MEMBER m ON mo.MEMBER_NO=m.MEMBER_NO
+	<where>
+		MERCHANT_ORDER_ID=#{0}
+	</where>
+</select>
+
+</mapper>

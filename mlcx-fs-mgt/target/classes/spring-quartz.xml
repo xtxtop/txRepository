@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	    
+    <!-- quartz定时任务配置  -->
+    <bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="MemberOrderCronTrigger"/>
+				<ref bean="ImportAccountsTrigger"/>
+				<ref bean="IdleCarCronTrigger"/>
+				<ref bean="CarSpaceShortageCronTrigger"/>
+				<ref bean="CarPowerCronTrigger"/>
+				<ref bean="CarStatusCronTrigger"/>
+				<ref bean="RunDailySendMsgCronTrigger"/>
+				 <ref bean="OrderStartTimeCronTrigger"/>
+				<!-- <ref bean="OrderOverTimeCronTrigger"/> -->
+				<ref bean="SendMessageTimeCronTrigger"/>
+				<ref bean="DriverLicenseTimeCronTrigger"/>
+				<ref bean="OrderMileageCronTrigger"/>
+				<ref bean="ClearDeviceUploadpkgLogCronTrigger"/>
+				<ref bean="CarOnlineCountCronTrigger"/>
+				<ref bean="SyncFranchiseeCronTrigger"/> 
+				<ref bean="MemberGrowGoldBeanCronTrigger"/>
+				<ref bean="OrderDayAutoEndCronTrigger"/>
+				<ref bean="MerchantOrderDayAccountsTrigger"/>
+				
+			</list>
+		</property> 
+	</bean>
+	 <bean id="OrderDayAutoEndJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="OrderDayAutoEndQuartz" />
+		<property name="targetMethod" value="execute" /> 
+		<property name="arguments" value="${quartz.switch}"/> 
+	</bean>
+	<bean id="MerchantOrderDayAccountsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="MerchantOrderDayAccountsQuartz" />
+		<property name="targetMethod" value="execute" /> 
+		<property name="arguments" value="${quartz.switch}"/> 
+	</bean>
+
+	<!-- quartz定时任务触发  -->
+	<bean id="OrderDayAutoEndCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="OrderDayAutoEndJobDetail"/>
+		</property>
+		<property name="key">
+			<value>OrderDayAutoEndQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="MerchantOrderDayAccountsTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="MerchantOrderDayAccountsJobDetail"/>
+		</property>
+		<property name="key">
+			<value>MerchantOrderAccountQuartParam</value>
+		</property>
+	</bean>
+	<bean id="OrderDayAutoEndQuartz" class="cn.com.shopec.core.dailyrental.quarts.OrderDayAutoEndQuartz"></bean>
+	<bean id="MerchantOrderDayAccountsQuartz" class="cn.com.shopec.core.dailyrental.quarts.MerchantOrderDayAccountsQuartz"></bean>
+	<!-- quartz定时任务触发  -->
+	<bean id="SyncFranchiseeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="SyncFranchiseeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>SyncFranchiseeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="MemberCompanCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="MemberCompanJobDetail"/>
+		</property>
+		<property name="key">
+			<value>MemberCompanQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="MemberOrderCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="MemberOrderJobDetail"/>
+		</property>
+		<property name="key">
+			<value>MemberOrderQuartzParam</value>
+		</property>
+	</bean>
+	
+	<!-- 加盟商订单结算 -->
+	<!-- <bean id="SyncFranchiseeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="SyncFranchiseeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>SyncFranchiseeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="SyncFranchiseeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="SyncFranchiseeQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<bean id="SyncFranchiseeQuartz" class="cn.com.shopec.quartz.utils.SyncFranchiseeQuartz"></bean> -->
+	
+	<bean id="IdleCarCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="IdleCarJobDetail"/>
+		</property>
+		<property name="key">
+			<value>IdleCarQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="CarSpaceShortageCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="CarSpaceShortageJobDetail"/>
+		</property>
+		<property name="key">
+			<value>CarSpaceShortageQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="CarPowerCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="CarPowerJobDetail"/>
+		</property>
+		<property name="key">
+			<value>CarPowerQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="CarStatusCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="CarStatusJobDetail"/>
+		</property>
+		<property name="key">
+			<value>CarStatusQuartzParam</value>
+		</property>
+	</bean>
+	<!-- 运行日报的定时任务 -->
+	<bean id="RunDailySendMsgCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="RunDailySendMsgJobDetail"/>
+		</property>
+		<property name="key">
+			<value>RunDailySendMsgQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="OrderMileageCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="OrderMileageJobDetail"/>
+		</property>
+		<property name="key">
+			<value>OrderMileageQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="ClearDeviceUploadpkgLogCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="ClearDeviceUploadpkgLogJobDetail"/>
+		</property>
+		<property name="key">
+			<value>ClearDeviceUploadpkgLogQuartz</value>
+		</property>
+	</bean>
+	<bean id="CarOnlineCountCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="CarOnlineCountJobDetail"/>
+		</property>
+		<property name="key">
+			<value>CarOnlineCountQuartz</value>
+		</property>
+	</bean>
+	
+	<bean id="MemberCompanQuartz" class="cn.com.shopec.quartz.utils.MemberCompanQuartz"></bean>
+	<bean id="MemberOrderQuartz" class="cn.com.shopec.quartz.utils.MemberOrderQuartz"></bean>
+	<bean id="IdleCarQuartz" class="cn.com.shopec.quartz.utils.IdleCarQuartz"></bean>
+	<bean id="CarSpaceShortageQuartz" class="cn.com.shopec.quartz.utils.CarSpaceShortageQuartz"></bean>
+	<bean id="CarPowerQuartz" class="cn.com.shopec.quartz.utils.CarPowerQuartz"></bean>
+	<bean id="CarStatusQuartz" class="cn.com.shopec.quartz.utils.CarStatusQuartz"></bean>
+	<bean id="RunDailySendMsgQuartz" class="cn.com.shopec.quartz.utils.RunDailySendMsgQuartz"></bean>
+	<bean id="OrderMileageQuartz" class="cn.com.shopec.quartz.utils.OrderMileageQuartz"></bean>
+	<bean id="ClearDeviceUploadpkgLogQuartz" class="cn.com.shopec.quartz.utils.ClearDeviceUploadpkgLogQuartz"></bean>
+	<bean id="CarOnlineCountQuartz" class="cn.com.shopec.quartz.utils.CarOnlineCountQuartz"></bean>
+	<bean id="SyncFranchiseeQuartz" class="cn.com.shopec.quartz.utils.SyncFranchiseeQuartz"></bean>
+	<!-- 加盟商 -->
+	<bean id="SyncFranchiseeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="SyncFranchiseeQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	
+    <!-- 目标类配置 -->
+    <bean id="OrderMileageJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="OrderMileageQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	<!-- 扫描已完成的订单 -->
+	<bean id="MemberCompanJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="MemberCompanQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- 扫描已完成的订单 -->
+	<bean id="MemberOrderJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="MemberOrderQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- 扫描闲置车辆 -->
+	<bean id="IdleCarJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="IdleCarQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- 扫描空闲车位-->
+	<bean id="CarSpaceShortageJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CarSpaceShortageQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- 扫描车辆电量-->
+	<bean id="CarPowerJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CarPowerQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- 扫描当前是否有订单，进而获取相应的车辆状态-->
+	<bean id="CarStatusJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CarStatusQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<bean id="RunDailySendMsgJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="RunDailySendMsgQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<!-- quartz定时任务触发  -->
+	<!-- <bean id="OrderOverTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="OrderOverTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>OrderOverTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="OrderOverTimeQuartz" class="cn.com.shopec.mgt.order.controller.OrderTimerController"></bean> -->
+		
+	<bean id="ClearDeviceUploadpkgLogJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ClearDeviceUploadpkgLogQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	
+	<bean id="CarOnlineCountJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CarOnlineCountQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	
+    <!-- 目标类配置 -->
+	<!-- 扫描已完成的订单 -->
+	<!-- <bean id="OrderOverTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="OrderOverTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean> -->
+	<!-- 消息列表定时任务触发  -->
+    <bean id="SendMessageTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="SendMessageTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>SendMessageTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="SendMessageTimeQuartz" class="cn.com.shopec.mgt.order.controller.SendMessageOrderController"></bean>
+	 <!-- 目标类配置 -->
+	<!-- 扫描已下单，未支付的订单添加到消息列表中 -->
+	<bean id="SendMessageTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="SendMessageTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	
+	
+	<!-- 驾驶证过期定时（过期修改审核状态为未审核，提前一天发消息给客户） -->
+    <bean id="DriverLicenseTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="DriverLicenseTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>DriverLicenseTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="DriverLicenseTimeQuartz" class="cn.com.shopec.mgt.order.controller.DriverLicenseController"></bean>
+	 <!-- 目标类配置 -->
+	<bean id="DriverLicenseTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="DriverLicenseTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	
+	
+	<!-- 定时自动导入账单信息 importAccountsTimeQuartzParam-->
+	<bean id="ImportAccountsTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="ImportAccountsDetail"/>
+		</property>
+		<property name="key">
+			<value>importAccountsTimeQuartzParam</value>
+		</property>
+		<!-- <property name="cronExpression">  
+        	<value>10 */1 * * * ?</value>  
+    	</property>  -->
+	</bean>
+	
+	<bean id="ImportAccountsQuartz" class="cn.com.shopec.quartz.utils.ImportAccountsQuartz"></bean>
+	
+	 <!-- 目标类配置 -->
+	<bean id="ImportAccountsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ImportAccountsQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	
+	
+		<!-- 定时扫描正在进行中的订单 超时的 OrderStartTimeQuartzParam-->
+	<bean id="OrderStartTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="OrderStartAccountsDetail"/>
+		</property>
+		<property name="key">
+			<value>OrderStartTimeQuartzParam</value>
+		</property>
+	</bean>
+	
+<bean id="OrderAccountsQuartz" class="cn.com.shopec.mgt.order.controller.OrderStartTimerController"></bean>
+	
+	 
+	<bean id="OrderStartAccountsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="OrderAccountsQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	<!-- 金豆 -->
+	<bean id="MemberGrowGoldBeanCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="MemberGrowGoldBeanJobDetail"/>
+		</property>
+		<property name="key">
+			<value>MemberGrowGoldBeanQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="MemberGrowGoldBeanJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="MemberGrowGoldBeanQuartz" />
+		<property name="targetMethod" value="execute" />  
+		<property name="arguments" value="${quartz.switch}"/>
+	</bean>
+	<bean id="MemberGrowGoldBeanQuartz" class="cn.com.shopec.quartz.utils.MemberGrowGoldBeanQuartz"></bean>
+	
+</beans>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.GoldBeansSettingDao">
+
+<resultMap type="GoldBeansSetting" id="GoldBeansSetting">
+	<id column="GOLD_BEANS_ID" property="goldBeansId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GOLD_BEANS_NUM" property="goldBeansNum" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="DAYS" property="days" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="BEANS_MONEY_RATIO" property="beansMoneyRatio" javaType="java.lang.Float" jdbcType="FLOAT"/>
+	<result column="ORDER_BEANS_RATIO" property="orderBeansRatio" javaType="java.lang.Float" jdbcType="FLOAT"/>
+	<result column="DEDUTION_MAX_AMOUNT" property="dedutionMaxAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+GOLD_BEANS_ID,GOLD_BEANS_NUM,DAYS,BEANS_MONEY_RATIO,ORDER_BEANS_RATIO,DEDUTION_MAX_AMOUNT,CREATE_TIME,
+UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+GOLD_BEANS_ID,GOLD_BEANS_NUM,DAYS,BEANS_MONEY_RATIO,ORDER_BEANS_RATIO,DEDUTION_MAX_AMOUNT,CREATE_TIME,
+UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="GoldBeansSetting" useGeneratedKeys="true" keyProperty="goldBeansId">
+	insert into T_GOLD_BEANS_SETTING(
+		<if test="goldBeansId!=null">
+		GOLD_BEANS_ID,
+		</if>
+		GOLD_BEANS_NUM,
+		DAYS,
+		BEANS_MONEY_RATIO,
+		ORDER_BEANS_RATIO,
+		DEDUTION_MAX_AMOUNT,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="goldBeansId!=null">
+		#{goldBeansId,jdbcType = VARCHAR},
+		</if>
+		#{goldBeansNum,jdbcType = INTEGER},
+		#{days,jdbcType = INTEGER},
+		#{beansMoneyRatio,jdbcType = FLOAT},
+		#{orderBeansRatio,jdbcType = FLOAT},
+		#{dedutionMaxAmount,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="GoldBeansSetting">
+	update t_gold_beans_setting 
+	<set>
+		<if test="goldBeansNum!=null ">
+			GOLD_BEANS_NUM=#{goldBeansNum,jdbcType = INTEGER},
+		</if>
+		<if test="days!=null ">
+			DAYS=#{days,jdbcType = INTEGER},
+		</if>
+		<if test="beansMoneyRatio!=null ">
+			BEANS_MONEY_RATIO=#{beansMoneyRatio,jdbcType = FLOAT},
+		</if>
+		<if test="orderBeansRatio!=null ">
+			ORDER_BEANS_RATIO=#{orderBeansRatio,jdbcType = FLOAT},
+		</if>
+		<if test="dedutionMaxAmount!=null ">
+			DEDUTION_MAX_AMOUNT=#{dedutionMaxAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND GOLD_BEANS_ID=#{goldBeansId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_gold_beans_setting 
+	<where>
+		GOLD_BEANS_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="GoldBeansSetting">
+	select <include refid="AllColumnlist"/> from t_gold_beans_setting
+	<where>
+		GOLD_BEANS_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="GoldBeansSetting">
+	select <include refid="AllColumnlist"/> from t_gold_beans_setting
+	<where>
+		GOLD_BEANS_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(GOLD_BEANS_ID) from t_gold_beans_setting 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="GoldBeansSetting">
+	select <include refid="CommonColumnlist"/> from t_gold_beans_setting 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="GoldBeansSetting">
+	select <include refid="CommonColumnlist"/> from t_gold_beans_setting
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.goldBeansId!=null and q.goldBeansId!=''">
+			AND GOLD_BEANS_ID=#{q.goldBeansId}
+		</if>
+		<if test="q.goldBeansNum!=null ">
+			AND GOLD_BEANS_NUM=#{q.goldBeansNum}
+		</if>
+		<if test="q.days!=null ">
+			AND DAYS=#{q.days}
+		</if>
+		<if test="q.beansMoneyRatio!=null ">
+			AND BEANS_MONEY_RATIO=#{q.beansMoneyRatio}
+		</if>
+		<if test="q.orderBeansRatio!=null ">
+			AND ORDER_BEANS_RATIO=#{q.orderBeansRatio}
+		</if>
+		<if test="q.dedutionMaxAmount!=null ">
+			AND DEDUTION_MAX_AMOUNT=#{q.dedutionMaxAmount}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

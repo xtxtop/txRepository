@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.MemberLevelDao">
+
+<resultMap type="MemberLevel" id="MemberLevel">
+	<id column="MEMBER_LEVEL_ID" property="memberLevelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEVEL_NAME" property="levelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEVEL_DISCOUNT" property="levelDiscount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="UPGRADE_POINT" property="upgradePoint" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+MEMBER_LEVEL_ID,LEVEL_NAME,LEVEL_DISCOUNT,UPGRADE_POINT,MEMO,IS_AVAILABLE,IS_DELETED,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+MEMBER_LEVEL_ID,LEVEL_NAME,LEVEL_DISCOUNT,UPGRADE_POINT,IS_AVAILABLE,IS_DELETED,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="MemberLevel" useGeneratedKeys="true" keyProperty="memberLevelId">
+	insert into T_MEMBER_LEVEL(
+		<if test="memberLevelId!=null">
+		MEMBER_LEVEL_ID,
+		</if>
+		LEVEL_NAME,
+		LEVEL_DISCOUNT,
+		UPGRADE_POINT,
+		MEMO,
+		IS_AVAILABLE,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="memberLevelId!=null">
+		#{memberLevelId,jdbcType = VARCHAR},
+		</if>
+		#{levelName,jdbcType = VARCHAR},
+		#{levelDiscount,jdbcType = DOUBLE},
+		#{upgradePoint,jdbcType = INTEGER},
+		#{memo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MemberLevel">
+	update t_member_level 
+	<set>
+		<if test="levelName!=null and levelName!=''">
+			LEVEL_NAME=#{levelName,jdbcType = VARCHAR},
+		</if>
+		<if test="levelDiscount!=null ">
+			LEVEL_DISCOUNT=#{levelDiscount,jdbcType = DOUBLE},
+		</if>
+		<if test="upgradePoint!=null ">
+			UPGRADE_POINT=#{upgradePoint,jdbcType = INTEGER},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND MEMBER_LEVEL_ID=#{memberLevelId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_member_level 
+	<where>
+		MEMBER_LEVEL_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MemberLevel">
+	select <include refid="AllColumnlist"/> from t_member_level
+	<where>
+		MEMBER_LEVEL_ID=#{0}
+	</where>
+</select>
+
+<select id="getMemberLevelNex" resultMap="MemberLevel">
+	select <include refid="AllColumnlist"/> from t_member_level
+	<where>
+		UPGRADE_POINT=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MemberLevel">
+	select <include refid="AllColumnlist"/> from t_member_level
+	<where>
+		MEMBER_LEVEL_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(MEMBER_LEVEL_ID) from t_member_level 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MemberLevel">
+	select <include refid="CommonColumnlist"/> from t_member_level 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>order by UPGRADE_POINT ASC
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MemberLevel">
+	select <include refid="CommonColumnlist"/> from t_member_level
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where> order by UPGRADE_POINT ASC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 查询会员当前等级的积分 -->
+<select id="getNowLevelPoints" resultType="Integer">
+	 SELECT tml.UPGRADE_POINT FROM t_member_level tml WHERE tml.IS_AVAILABLE=1 and tml.is_deleted=0 and
+	 <![CDATA[tml.UPGRADE_POINT<=#{0} ]]>
+	 ORDER BY tml.UPGRADE_POINT DESC LIMIT 0,1
+</select>
+
+<!-- 查询会员下一等级的积分 -->
+<select id="getNextLevelPoints" resultType="Integer">
+	 SELECT tml.UPGRADE_POINT FROM t_member_level tml WHERE tml.IS_AVAILABLE=1 and tml.is_deleted=0 and
+	 <![CDATA[tml.UPGRADE_POINT>#{0} ]]>
+	 ORDER BY tml.UPGRADE_POINT ASC LIMIT 0,1
+</select>
+
+<sql id="listCommonWhereMH">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.memberLevelId!=null and q.memberLevelId!=''">
+			AND MEMBER_LEVEL_ID=#{q.memberLevelId}
+		</if>
+		<if test="q.levelName!=null and q.levelName!=''">
+			AND LEVEL_NAME like'%${q.levelName}%'
+		</if>
+		<if test="q.levelDiscount!=null ">
+			AND LEVEL_DISCOUNT=#{q.levelDiscount}
+		</if>
+		<if test="q.upgradePoint!=null ">
+			AND UPGRADE_POINT=#{q.upgradePoint}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.memberLevelId!=null and q.memberLevelId!=''">
+			AND MEMBER_LEVEL_ID=#{q.memberLevelId}
+		</if>
+		<if test="q.levelName!=null and q.levelName!=''">
+			AND LEVEL_NAME=#{q.levelName}
+		</if>
+		<if test="q.levelDiscount!=null ">
+			AND LEVEL_DISCOUNT=#{q.levelDiscount}
+		</if>
+		<if test="q.upgradePoint!=null ">
+			AND UPGRADE_POINT=#{q.upgradePoint}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlparking.dao.CParkLockDao">
+
+<resultMap type="CParkLock" id="CParkLock">
+	<id column="PARK_LOCK_NO" property="parkLockNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_NO" property="parkingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_CODE" property="parkingLockCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_NAME" property="parkingLockName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_TYPE" property="parkingLockType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_LOCK_SERIAL_NUMBER" property="parkingLockSerialNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_STATUS" property="parkingLockStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ACTIVE_CONDITION" property="activeCondition" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_LOCK_CHARGING_NO" property="parkingLockChargingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ONLINE_STATUS" property="onlineStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SPACE_NO" property="spaceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PLIES_NUMBER" property="pliesNumber" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_NAME" property="parkingName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SPACE_TYPE" property="spaceType" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PLIES_NUMBER_NO" property="pliesNumberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOCK_STATUS" property="lockStatus" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARK_LOCK_NO,PARKING_NO,PARKING_LOCK_CODE,PARKING_LOCK_NAME,PARKING_LOCK_TYPE,PARKING_LOCK_SERIAL_NUMBER,PARKING_LOCK_STATUS,
+ACTIVE_CONDITION,PARKING_LOCK_CHARGING_NO,ONLINE_STATUS,SPACE_NO,PLIES_NUMBER,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,SPACE_TYPE,PLIES_NUMBER_NO,LOCK_STATUS
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARK_LOCK_NO,PARKING_NO,PARKING_LOCK_CODE,PARKING_LOCK_NAME,PARKING_LOCK_TYPE,PARKING_LOCK_SERIAL_NUMBER,PARKING_LOCK_STATUS,
+ACTIVE_CONDITION,PARKING_LOCK_CHARGING_NO,ONLINE_STATUS,SPACE_NO,PLIES_NUMBER,CREATE_TIME,
+UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,SPACE_TYPE,PLIES_NUMBER_NO,LOCK_STATUS
+</sql>
+<!-- 地锁列表查询数量 -->
+<select id="pageListCountCPL" parameterType="Query" resultType="Long">
+	select count(pl.PARK_LOCK_NO) from  c_park_lock pl LEFT JOIN c_parking p ON pl.PARKING_NO=p.PARKING_NO
+	<where>
+	 <if test="q!=null">
+		<if test="q.parkLockNo!=null and q.parkLockNo!=''">
+			AND pl.PARK_LOCK_NO=#{q.parkLockNo}
+		</if>
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND pl.PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.parkingLockCode!=null and q.parkingLockCode!=''">
+			AND pl.PARKING_LOCK_CODE=#{q.parkingLockCode}
+		</if>
+		<if test="q.parkingLockName!=null and q.parkingLockName!=''">
+			AND pl.PARKING_LOCK_NAME=#{q.parkingLockName}
+		</if>
+		<if test="q.parkingLockType!=null ">
+			AND pl.PARKING_LOCK_TYPE=#{q.parkingLockType}
+		</if>
+		<if test="q.parkingLockSerialNumber!=null and q.parkingLockSerialNumber!=''">
+			AND pl.PARKING_LOCK_SERIAL_NUMBER=#{q.parkingLockSerialNumber}
+		</if>
+		<if test="q.parkingLockStatus!=null ">
+			AND pl.PARKING_LOCK_STATUS=#{q.parkingLockStatus}
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND pl.ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.parkingLockChargingNo!=null and q.parkingLockChargingNo!=''">
+			AND pl.PARKING_LOCK_CHARGING_NO=#{q.parkingLockChargingNo}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND pl.ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+		<if test="q.spaceNo!=null and q.spaceNo!=''">
+			AND pl.SPACE_NO=#{q.spaceNo}
+		</if>
+		<if test="q.pliesNumber!=null ">
+			AND pl.PLIES_NUMBER=#{q.pliesNumber}
+		</if>
+		<if test="q.createTime!=null ">
+			AND pl.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND pl.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND pl.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND pl.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND pl.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND pl.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND pl.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND pl.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.parkingName!=null ">
+			AND p.PARKING_NAME like  CONCAT('%','${q.parkingName}','%')
+		</if>
+	</if>
+	</where>
+</select>
+<!-- 地锁列表查询 -->
+<select id="pageListForCPL" parameterType="Query" resultMap="CParkLock">
+	select 
+	pl.PARK_LOCK_NO,pl.PARKING_NO,pl.PARKING_LOCK_CODE,pl.PARKING_LOCK_NAME,pl.PARKING_LOCK_TYPE,pl.PARKING_LOCK_SERIAL_NUMBER,pl.PARKING_LOCK_STATUS,
+	pl.ACTIVE_CONDITION,pl.PARKING_LOCK_CHARGING_NO,pl.ONLINE_STATUS,pl.SPACE_NO,pl.PLIES_NUMBER,pl.CREATE_TIME,
+	pl.UPDATE_TIME,pl.OPERATOR_ID,pl.OPERATOR_TYPE,p.PARKING_NAME,pl.SPACE_TYPE spaceType,pl.PLIES_NUMBER_NO,pl.LOCK_STATUS 
+ 	from c_park_lock pl LEFT JOIN c_parking p ON pl.PARKING_NO=p.PARKING_NO
+	<where>
+	 <if test="q!=null">
+		<if test="q.parkLockNo!=null and q.parkLockNo!=''">
+			AND pl.PARK_LOCK_NO=#{q.parkLockNo}
+		</if>
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND pl.PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.parkingLockCode!=null and q.parkingLockCode!=''">
+			AND pl.PARKING_LOCK_CODE=#{q.parkingLockCode}
+		</if>
+		<if test="q.parkingLockName!=null and q.parkingLockName!=''">
+			AND pl.PARKING_LOCK_NAME=#{q.parkingLockName}
+		</if>
+		<if test="q.parkingLockType!=null ">
+			AND pl.PARKING_LOCK_TYPE=#{q.parkingLockType}
+		</if>
+		<if test="q.parkingLockSerialNumber!=null and q.parkingLockSerialNumber!=''">
+			AND pl.PARKING_LOCK_SERIAL_NUMBER=#{q.parkingLockSerialNumber}
+		</if>
+		<if test="q.parkingLockStatus!=null ">
+			AND pl.PARKING_LOCK_STATUS=#{q.parkingLockStatus}
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND pl.ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.parkingLockChargingNo!=null and q.parkingLockChargingNo!=''">
+			AND pl.PARKING_LOCK_CHARGING_NO=#{q.parkingLockChargingNo}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND pl.ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+		<if test="q.spaceNo!=null and q.spaceNo!=''">
+			AND pl.SPACE_NO=#{q.spaceNo}
+		</if>
+		<if test="q.pliesNumber!=null ">
+			AND pl.PLIES_NUMBER=#{q.pliesNumber}
+		</if>
+		<if test="q.createTime!=null ">
+			AND pl.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND pl.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND pl.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND pl.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND pl.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND pl.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND pl.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND pl.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.parkingName!=null ">
+			AND p.PARKING_NAME like  CONCAT('%','${q.parkingName}','%')
+		</if>
+	</if>
+	</where>
+	order by pl.PARKING_NO,pl.PARK_LOCK_NO
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<insert id="add" parameterType="CParkLock" useGeneratedKeys="true" keyProperty="parkLockNo">
+	insert into C_PARK_LOCK(
+		<if test="parkLockNo!=null">
+		PARK_LOCK_NO,
+		</if>
+		PARKING_NO,
+		PARKING_LOCK_CODE,
+		PARKING_LOCK_NAME,
+		PARKING_LOCK_TYPE,
+		PARKING_LOCK_SERIAL_NUMBER,
+		PARKING_LOCK_STATUS,
+		ACTIVE_CONDITION,
+		PARKING_LOCK_CHARGING_NO,
+		ONLINE_STATUS,
+		SPACE_NO,
+		PLIES_NUMBER,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		SPACE_TYPE,PLIES_NUMBER_NO,LOCK_STATUS
+	) values (
+		<if test="parkLockNo!=null">
+		#{parkLockNo,jdbcType = VARCHAR},
+		</if>
+		#{parkingNo,jdbcType = VARCHAR},
+		#{parkingLockCode,jdbcType = VARCHAR},
+		#{parkingLockName,jdbcType = VARCHAR},
+		#{parkingLockType,jdbcType = TINYINT},
+		#{parkingLockSerialNumber,jdbcType = VARCHAR},
+		#{parkingLockStatus,jdbcType = TINYINT},
+		#{activeCondition,jdbcType = TINYINT},
+		#{parkingLockChargingNo,jdbcType = VARCHAR},
+		#{onlineStatus,jdbcType = TINYINT},
+		#{spaceNo,jdbcType = VARCHAR},
+		#{pliesNumber,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{spaceType,jdbcType = INTEGER},
+		#{pliesNumberNo,jdbcType = VARCHAR},
+		#{lockStatus,jdbcType = INTEGER}
+	)
+</insert>
+
+<update id="update" parameterType="CParkLock">
+	update C_PARK_LOCK 
+	<set>
+		<if test="parkingNo!=null and parkingNo!=''">
+			PARKING_NO=#{parkingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockCode!=null and parkingLockCode!=''">
+			PARKING_LOCK_CODE=#{parkingLockCode,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockName!=null and parkingLockName!=''">
+			PARKING_LOCK_NAME=#{parkingLockName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockType!=null ">
+			PARKING_LOCK_TYPE=#{parkingLockType,jdbcType = TINYINT},
+		</if>
+		<if test="parkingLockSerialNumber!=null and parkingLockSerialNumber!=''">
+			PARKING_LOCK_SERIAL_NUMBER=#{parkingLockSerialNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockStatus!=null ">
+			PARKING_LOCK_STATUS=#{parkingLockStatus,jdbcType = TINYINT},
+		</if>
+		<if test="activeCondition!=null ">
+			ACTIVE_CONDITION=#{activeCondition,jdbcType = TINYINT},
+		</if>
+		<if test="parkingLockChargingNo!=null and parkingLockChargingNo!=''">
+			PARKING_LOCK_CHARGING_NO=#{parkingLockChargingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="onlineStatus!=null ">
+			ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+		</if>
+		<if test="spaceNo!=null">
+			SPACE_NO=#{spaceNo,jdbcType = VARCHAR},
+		</if>
+		<if test="pliesNumber!=null ">
+			PLIES_NUMBER=#{pliesNumber,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="spaceType!=null ">
+            SPACE_TYPE=#{spaceType},
+        </if>
+        <if test="pliesNumberNo!=null and pliesNumberNo!=''">
+            PLIES_NUMBER_NO =#{pliesNumberNo},
+        </if>
+        <if test="lockStatus!=null ">
+            LOCK_STATUS =#{lockStatus}
+        </if>
+	</set>
+	<where>
+		AND PARK_LOCK_NO=#{parkLockNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_PARK_LOCK 
+	<where>
+		PARK_LOCK_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CParkLock">
+	select <include refid="AllColumnlist"/> from C_PARK_LOCK
+	<where>
+		PARK_LOCK_NO=#{0}
+	</where>
+</select>
+<select id="getByIds" resultMap="CParkLock">
+	select <include refid="AllColumnlist"/> from C_PARK_LOCK
+	<where>
+		PARK_LOCK_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARK_LOCK_NO) from C_PARK_LOCK 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CParkLock">
+	select <include refid="CommonColumnlist"/> from C_PARK_LOCK 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CParkLock">
+	select <include refid="CommonColumnlist"/> from C_PARK_LOCK
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.parkLockNo!=null and q.parkLockNo!=''">
+			AND PARK_LOCK_NO=#{q.parkLockNo}
+		</if>
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.parkingLockCode!=null and q.parkingLockCode!=''">
+			AND PARKING_LOCK_CODE=#{q.parkingLockCode}
+		</if>
+		<if test="q.parkingLockName!=null and q.parkingLockName!=''">
+			AND PARKING_LOCK_NAME=#{q.parkingLockName}
+		</if>
+		<if test="q.parkingLockType!=null ">
+			AND PARKING_LOCK_TYPE=#{q.parkingLockType}
+		</if>
+		<if test="q.parkingLockSerialNumber!=null and q.parkingLockSerialNumber!=''">
+			AND PARKING_LOCK_SERIAL_NUMBER=#{q.parkingLockSerialNumber}
+		</if>
+		<if test="q.parkingLockStatus!=null ">
+			AND PARKING_LOCK_STATUS=#{q.parkingLockStatus}
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.parkingLockChargingNo!=null and q.parkingLockChargingNo!=''">
+			AND PARKING_LOCK_CHARGING_NO=#{q.parkingLockChargingNo}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+		<if test="q.spaceNo!=null and q.spaceNo!=''">
+			AND SPACE_NO=#{q.spaceNo}
+		</if>
+		<if test="q.pliesNumber!=null ">
+			AND PLIES_NUMBER=#{q.pliesNumber}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.spaceType!=null ">
+            AND SPACE_TYPE=#{q.spaceType}
+        </if>
+        <if test="q.pliesNumberNo!=null and q.pliesNumberNo!=''">
+            AND PLIES_NUMBER_NO =#{q.pliesNumberNo}
+        </if>
+         <if test="q.lockStatus!=null ">
+           and LOCK_STATUS =#{q.lockStatus}
+        </if>
+	</if>
+</sql>
+   <select id="getParkLock" resultType="cn.com.shopec.core.mlparking.vo.ParkingLockVo">
+    select 
+	l.PARK_LOCK_NO parkLockNo,l.PARKING_NO parkingNo,l.PARKING_LOCK_CODE parkingLockCode,l.PARKING_LOCK_NAME parkingLockName,l.PARKING_LOCK_TYPE parkingLockType,
+	l.PARKING_LOCK_SERIAL_NUMBER parkingLockSerialNumber, l.PARKING_LOCK_STATUS parkingLockStatus,
+	l.ACTIVE_CONDITION activeCondition,l.ONLINE_STATUS onlineStatus,l.SPACE_NO spaceNo,
+	l.SPACE_TYPE spaceType,l.PLIES_NUMBER_NO pliesNumberNo,l.LOCK_STATUS lockStatus,p.PARKING_NAME parkingName,n.PLIES_NUMBER pliesNumber
+	from c_park_lock l LEFT JOIN c_parking p on l.PARKING_NO=p.PARKING_NO
+	LEFT JOIN c_plies_number n on l.PLIES_NUMBER_NO=n.PARKING_PLIES_NO
+	where  l.PARK_LOCK_NO=#{0}
+   </select>
+   <select id="getLock" resultType="cn.com.shopec.core.mlparking.vo.ParkingLockVo">
+    select 
+	l.PARK_LOCK_NO parkLockNo,l.PARKING_NO parkingNo,l.PARKING_LOCK_CODE parkingLockCode,l.PARKING_LOCK_NAME parkingLockName,l.PARKING_LOCK_TYPE parkingLockType,
+	l.PARKING_LOCK_SERIAL_NUMBER parkingLockSerialNumber, l.PARKING_LOCK_STATUS parkingLockStatus,
+	l.ACTIVE_CONDITION activeCondition,l.ONLINE_STATUS onlineStatus,l.SPACE_NO spaceNo,
+	l.SPACE_TYPE spaceType,l.PLIES_NUMBER_NO pliesNumberNo,l.LOCK_STATUS lockStatus,p.PARKING_NAME parkingName,n.PLIES_NUMBER pliesNumber
+	from c_park_lock l LEFT JOIN c_parking p on l.PARKING_NO=p.PARKING_NO
+	LEFT JOIN c_plies_number n on l.PLIES_NUMBER_NO=n.PARKING_PLIES_NO
+	where   l.SPACE_NO=#{1} and l.PARKING_NO=#{0}
+   </select>
+</mapper>

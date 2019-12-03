@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.OrderDayDao">
+
+<resultMap type="OrderDay" id="OrderDay">
+	<id column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_STATUS" property="orderStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="TAXI_FARE" property="taxiFare" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="INSURANCE" property="insurance" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DEPOSIT" property="deposit" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STRIKE_BALANCE_AMOUNT" property="strikeBalanceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT_AMOUNT" property="discountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DEPOSIT_TYPE" property="depositType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DEPOSIT_TIME" property="depositTime" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAYABLE_AMOUNT" property="payableAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_METHOD" property="paymentMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PAYMENT_FLOW_NO" property="paymentFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEPOSIT_STATUS" property="depositStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OVERTIME_CHARGE" property="overtimeCharge" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SERVICE_CHARGE" property="serviceCharge" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ADDITION_REASON" property="additionReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_RENTAL_AMOUNT" property="carRentalAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="APPOINTMENT_TAKE_TIME" property="appointmentTakeTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="APPOINTMENT_RETURN_TIME" property="appointmentReturnTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ACTUAL_TAKE_TIME" property="actualTakeTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ACTUAL_RETURN_TIME" property="actualReturnTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AMOUNT_PAID" property="amountPaid" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="START_PARK_NO" property="startParkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACTUAL_TAKE_PAKE_NAME" property="actualTakePakeName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TERMINAL_PARK_NO" property="terminalParkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACTUAL_TERMINAL_PARK_NAME" property="actualTerminalParkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACTUAL_TERMINAL_PARK_NO" property="actualTerminalParkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SERVICE_FEE_AMOUNT" property="serviceFeeAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="APPOINTMENT_TIME" property="appointmentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="START_BILLING_TIME" property="startBillingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ORDER_DURATION" property="orderDuration" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_ILLEGAL" property="isIllegal" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_ACCIDENT" property="isAccident" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_FAULT" property="isFault" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ORDER_MEMO" property="orderMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_CANCEL" property="isCancel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CANCEL_TIME" property="cancelTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CANCEL_OPERATOR_TYPE" property="cancelOperatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CANCEL_OPERATOR_ID" property="cancelOperatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SOURCE" property="orderSource" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FINISH_TYPE" property="finshiType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FINISH_REASON" property="finishReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REGARDLESS_FRANCHISE" property="regardlessFranchise" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_NAME" property="merchantName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ASSIGNEE" property="assignee" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_TAKE_CAR_DOOR" property="isTakeCarDoor" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_BACK_CAR_DOOR" property="isBackCarDoor" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELAY_ORDER" property="isDelayOrder" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_BEFORE_ORDER" property="isBeforeOrder" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="RETURN_AMOUNT" property="returnAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="REFUND_STATUS" property="refundStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REFUND_TIME" property="refundTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CANCEL_AMOUNT" property="cancelAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="TAKE_CAR_DOOR_AMOUNT" property="takeCarDoorAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+<resultMap type="OrderDay" id="OrderDayForMgt" extends="OrderDay">
+	<result column="MERCHANT_ORDER_STATUS" property="merchantOrderStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="START_PARK_NAME" property="startParkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RETURN_PARK_NAME" property="returnParkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<resultMap type="OrderDay" id="OrderDayForRefund" extends="OrderDay">
+	<result column="REFUND_AMOUNT" property="refundAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_NO,MEMBER_NO,MOBILE_PHONE,MEMBER_NAME,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CITY_ID,
+CITY_NAME,ORDER_STATUS,ORDER_AMOUNT,TAXI_FARE,INSURANCE,DEPOSIT,FINISH_TYPE,FINISH_REASON,
+STRIKE_BALANCE_AMOUNT,DISCOUNT_AMOUNT,DEPOSIT_TYPE,DEPOSIT_TIME,PAYABLE_AMOUNT,PAY_STATUS,ADDITION_REASON,
+PAYMENT_METHOD,PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,DEPOSIT_STATUS,OVERTIME_CHARGE,SERVICE_CHARGE,
+CAR_RENTAL_AMOUNT,APPOINTMENT_TAKE_TIME,APPOINTMENT_RETURN_TIME,ACTUAL_TAKE_TIME,ACTUAL_RETURN_TIME,AMOUNT_PAID,
+START_PARK_NO,ACTUAL_TAKE_PAKE_NAME,TERMINAL_PARK_NO,ACTUAL_TERMINAL_PARK_NAME,ACTUAL_TERMINAL_PARK_NO,SERVICE_FEE_AMOUNT,
+APPOINTMENT_TIME,START_BILLING_TIME,FINISH_TIME,ORDER_DURATION,IS_ILLEGAL,IS_ACCIDENT,IS_BEFORE_ORDER,REFUND_STATUS,REFUND_TIME,
+IS_FAULT,ORDER_MEMO,IS_CANCEL,CANCEL_TIME,CANCEL_OPERATOR_TYPE,CANCEL_OPERATOR_ID,ASSIGNEE,IS_DELAY_ORDER,RETURN_AMOUNT,
+ORDER_SOURCE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,REGARDLESS_FRANCHISE,MERCHANT_ID,MERCHANT_NAME,IS_TAKE_CAR_DOOR,IS_BACK_CAR_DOOR,CANCEL_AMOUNT,TAKE_CAR_DOOR_AMOUNT
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_NO,MEMBER_NO,MOBILE_PHONE,MEMBER_NAME,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CITY_ID,ADDITION_REASON,
+CITY_NAME,ORDER_STATUS,ORDER_AMOUNT,TAXI_FARE,INSURANCE,DEPOSIT,FINISH_TYPE,FINISH_REASON,
+STRIKE_BALANCE_AMOUNT,DISCOUNT_AMOUNT,DEPOSIT_TYPE,DEPOSIT_TIME,PAYABLE_AMOUNT,PAY_STATUS,
+PAYMENT_METHOD,PAYMENT_TIME,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,DEPOSIT_STATUS,OVERTIME_CHARGE,SERVICE_CHARGE,
+CAR_RENTAL_AMOUNT,APPOINTMENT_TAKE_TIME,APPOINTMENT_RETURN_TIME,ACTUAL_TAKE_TIME,ACTUAL_RETURN_TIME,AMOUNT_PAID,
+START_PARK_NO,ACTUAL_TAKE_PAKE_NAME,TERMINAL_PARK_NO,ACTUAL_TERMINAL_PARK_NAME,ACTUAL_TERMINAL_PARK_NO,SERVICE_FEE_AMOUNT,
+APPOINTMENT_TIME,START_BILLING_TIME,FINISH_TIME,ORDER_DURATION,IS_ILLEGAL,IS_ACCIDENT,IS_BEFORE_ORDER,REFUND_STATUS,REFUND_TIME,
+IS_FAULT,ORDER_MEMO,IS_CANCEL,CANCEL_TIME,CANCEL_OPERATOR_TYPE,CANCEL_OPERATOR_ID,ASSIGNEE,IS_DELAY_ORDER,RETURN_AMOUNT,
+ORDER_SOURCE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,REGARDLESS_FRANCHISE,MERCHANT_ID,MERCHANT_NAME,IS_TAKE_CAR_DOOR,IS_BACK_CAR_DOOR,CANCEL_AMOUNT,TAKE_CAR_DOOR_AMOUNT
+
+</sql>
+<sql id="columnlistForMgt">
+ORDER_NO,MOBILE_PHONE,MEMBER_NAME,CITY_NAME,ORDER_STATUS,ORDER_AMOUNT,DEPOSIT,
+PAYABLE_AMOUNT,PAY_STATUS,APPOINTMENT_TAKE_TIME,APPOINTMENT_RETURN_TIME,ACTUAL_TAKE_TIME,
+ACTUAL_RETURN_TIME,AMOUNT_PAID,ACTUAL_TAKE_PAKE_NAME,ACTUAL_TERMINAL_PARK_NAME,IS_DELAY_ORDER,RETURN_AMOUNT,
+ACTUAL_RETURN_TIME,AMOUNT_PAID,ACTUAL_TAKE_PAKE_NAME,ACTUAL_TERMINAL_PARK_NAME,CANCEL_AMOUNT,TAKE_CAR_DOOR_AMOUNT,
+</sql>
+<insert id="add" parameterType="OrderDay" useGeneratedKeys="true" keyProperty="orderNo">
+	insert into T_ORDER_DAY(
+		<if test="orderNo!=null">
+		ORDER_NO,
+		</if>
+		MEMBER_NO,
+		MOBILE_PHONE,
+		MEMBER_NAME,
+		CAR_NO,
+		CAR_PLATE_NO,
+		CAR_MODEL_ID,
+		CITY_ID,
+		CITY_NAME,
+		ORDER_STATUS,
+		ORDER_AMOUNT,
+		TAXI_FARE,
+		INSURANCE,
+		DEPOSIT,
+		STRIKE_BALANCE_AMOUNT,
+		DISCOUNT_AMOUNT,
+		DEPOSIT_TYPE,
+		DEPOSIT_TIME,
+		PAYABLE_AMOUNT,
+		PAY_STATUS,
+		PAYMENT_METHOD,
+		PAYMENT_TIME,
+		PAYMENT_FLOW_NO,
+		PART_TRADE_FLOW_NO,
+		DEPOSIT_STATUS,
+		OVERTIME_CHARGE,
+		SERVICE_CHARGE,
+		CAR_RENTAL_AMOUNT,
+		APPOINTMENT_TAKE_TIME,
+		APPOINTMENT_RETURN_TIME,
+		ACTUAL_TAKE_TIME,
+		ACTUAL_RETURN_TIME,
+		AMOUNT_PAID,
+		START_PARK_NO,
+		ACTUAL_TAKE_PAKE_NAME,
+		TERMINAL_PARK_NO,
+		ACTUAL_TERMINAL_PARK_NAME,
+		ACTUAL_TERMINAL_PARK_NO,
+		SERVICE_FEE_AMOUNT,
+		APPOINTMENT_TIME,
+		START_BILLING_TIME,
+		FINISH_TIME,
+		ORDER_DURATION,
+		IS_ILLEGAL,
+		IS_ACCIDENT,
+		IS_FAULT,
+		ORDER_MEMO,
+		IS_CANCEL,
+		CANCEL_TIME,
+		CANCEL_OPERATOR_TYPE,
+		CANCEL_OPERATOR_ID,
+		ORDER_SOURCE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		REGARDLESS_FRANCHISE,
+		MERCHANT_ID,
+		MERCHANT_NAME,
+		ASSIGNEE,
+		IS_TAKE_CAR_DOOR,
+		IS_BACK_CAR_DOOR,
+		IS_DELAY_ORDER,
+		IS_BEFORE_ORDER,
+		CANCEL_AMOUNT,
+		TAKE_CAR_DOOR_AMOUNT
+	) values (
+		<if test="orderNo!=null">
+		#{orderNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{orderStatus,jdbcType = TINYINT},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{taxiFare,jdbcType = DOUBLE},
+		#{insurance,jdbcType = DOUBLE},
+		#{deposit,jdbcType = DOUBLE},
+		#{strikeBalanceAmount,jdbcType = DOUBLE},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{depositType,jdbcType = TINYINT},
+		#{depositTime,jdbcType = DOUBLE},
+		#{payableAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{paymentTime,jdbcType = TIMESTAMP},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{partTradeFlowNo,jdbcType = VARCHAR},
+		#{depositStatus,jdbcType = TINYINT},
+		#{overtimeCharge,jdbcType = DOUBLE},
+		#{serviceCharge,jdbcType = DOUBLE},
+		#{carRentalAmount,jdbcType = DOUBLE},
+		#{appointmentTakeTime,jdbcType = TIMESTAMP},
+		#{appointmentReturnTime,jdbcType = TIMESTAMP},
+		#{actualTakeTime,jdbcType = TIMESTAMP},
+		#{actualReturnTime,jdbcType = TIMESTAMP},
+		#{amountPaid,jdbcType = DOUBLE},
+		#{startParkNo,jdbcType = VARCHAR},
+		#{actualTakePakeName,jdbcType = VARCHAR},
+		#{terminalParkNo,jdbcType = VARCHAR},
+		#{actualTerminalParkName,jdbcType = VARCHAR},
+		#{actualTerminalParkNo,jdbcType = VARCHAR},
+		#{serviceFeeAmount,jdbcType = DOUBLE},
+		#{appointmentTime,jdbcType = TIMESTAMP},
+		#{startBillingTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{orderDuration,jdbcType = INTEGER},
+		#{isIllegal,jdbcType = TINYINT},
+		#{isAccident,jdbcType = TINYINT},
+		#{isFault,jdbcType = TINYINT},
+		#{orderMemo,jdbcType = VARCHAR},
+		#{isCancel,jdbcType = TINYINT},
+		#{cancelTime,jdbcType = TIMESTAMP},
+		#{cancelOperatorType,jdbcType = TINYINT},
+		#{cancelOperatorId,jdbcType = VARCHAR},
+		#{orderSource,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{regardlessFranchise,jdbcType = DOUBLE},
+		#{merchantId,jdbcType = VARCHAR},
+		#{merchantName,jdbcType = VARCHAR},
+		#{assignee,jdbcType = TINYINT},
+		#{isTakeCarDoor,jdbcType = TINYINT},
+		#{isBackCarDoor,jdbcType = TINYINT},
+		#{isDelayOrder,jdbcType = TINYINT},
+		#{isBeforeOrder,jdbcType = TINYINT},
+		#{cancelAmount,jdbcType = DOUBLE},
+		#{takeCarDoorAmount,jdbcType = DOUBLE}
+	)
+</insert>
+
+<update id="update" parameterType="OrderDay">
+	update T_ORDER_DAY 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderStatus!=null ">
+			ORDER_STATUS=#{orderStatus,jdbcType = TINYINT},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="taxiFare!=null ">
+			TAXI_FARE=#{taxiFare,jdbcType = DOUBLE},
+		</if>
+		<if test="insurance!=null ">
+			INSURANCE=#{insurance,jdbcType = DOUBLE},
+		</if>
+		<if test="deposit!=null ">
+			DEPOSIT=#{deposit,jdbcType = DOUBLE},
+		</if>
+		<if test="strikeBalanceAmount!=null ">
+			STRIKE_BALANCE_AMOUNT=#{strikeBalanceAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="discountAmount!=null ">
+			DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="depositType!=null ">
+			DEPOSIT_TYPE=#{depositType,jdbcType = TINYINT},
+		</if>
+		<if test="depositTime!=null ">
+			DEPOSIT_TIME=#{depositTime,jdbcType = DOUBLE},
+		</if>
+		<if test="payableAmount!=null ">
+			PAYABLE_AMOUNT=#{payableAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="paymentMethod!=null ">
+			PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+		</if>
+		<if test="paymentTime!=null ">
+			PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+			PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+			PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="depositStatus!=null ">
+			DEPOSIT_STATUS=#{depositStatus,jdbcType = TINYINT},
+		</if>
+		<if test="overtimeCharge!=null ">
+			OVERTIME_CHARGE=#{overtimeCharge,jdbcType = DOUBLE},
+		</if>
+		<if test="serviceCharge!=null ">
+			SERVICE_CHARGE=#{serviceCharge,jdbcType = DOUBLE},
+		</if>
+		<if test="carRentalAmount!=null ">
+			CAR_RENTAL_AMOUNT=#{carRentalAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="appointmentTakeTime!=null ">
+			APPOINTMENT_TAKE_TIME=#{appointmentTakeTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="appointmentReturnTime!=null ">
+			APPOINTMENT_RETURN_TIME=#{appointmentReturnTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="actualTakeTime!=null ">
+			ACTUAL_TAKE_TIME=#{actualTakeTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="actualReturnTime!=null ">
+			ACTUAL_RETURN_TIME=#{actualReturnTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="amountPaid!=null ">
+			AMOUNT_PAID=#{amountPaid,jdbcType = DOUBLE},
+		</if>
+		<if test="startParkNo!=null and startParkNo!=''">
+			START_PARK_NO=#{startParkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="actualTakePakeName!=null and actualTakePakeName!=''">
+			ACTUAL_TAKE_PAKE_NAME=#{actualTakePakeName,jdbcType = VARCHAR},
+		</if>
+		<if test="terminalParkNo!=null and terminalParkNo!=''">
+			TERMINAL_PARK_NO=#{terminalParkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="actualTerminalParkName!=null and actualTerminalParkName!=''">
+			ACTUAL_TERMINAL_PARK_NAME=#{actualTerminalParkName,jdbcType = VARCHAR},
+		</if>
+		<if test="actualTerminalParkNo!=null and actualTerminalParkNo!=''">
+			ACTUAL_TERMINAL_PARK_NO=#{actualTerminalParkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="serviceFeeAmount!=null ">
+			SERVICE_FEE_AMOUNT=#{serviceFeeAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="additionReason!=null ">
+			ADDITION_REASON=#{additionReason,jdbcType = DOUBLE},
+		</if>
+		<if test="appointmentTime!=null ">
+			APPOINTMENT_TIME=#{appointmentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="startBillingTime!=null ">
+			START_BILLING_TIME=#{startBillingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="finishTime!=null ">
+			FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="orderDuration!=null ">
+			ORDER_DURATION=#{orderDuration,jdbcType = INTEGER},
+		</if>
+		<if test="isIllegal!=null ">
+			IS_ILLEGAL=#{isIllegal,jdbcType = TINYINT},
+		</if>
+		<if test="isAccident!=null ">
+			IS_ACCIDENT=#{isAccident,jdbcType = TINYINT},
+		</if>
+		<if test="isFault!=null ">
+			IS_FAULT=#{isFault,jdbcType = TINYINT},
+		</if>
+		<if test="orderMemo!=null and orderMemo!=''">
+			ORDER_MEMO=#{orderMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="isCancel!=null ">
+			IS_CANCEL=#{isCancel,jdbcType = TINYINT},
+		</if>
+		<if test="cancelTime!=null ">
+			CANCEL_TIME=#{cancelTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cancelOperatorType!=null ">
+			CANCEL_OPERATOR_TYPE=#{cancelOperatorType,jdbcType = TINYINT},
+		</if>
+		<if test="cancelOperatorId!=null and cancelOperatorId!=''">
+			CANCEL_OPERATOR_ID=#{cancelOperatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="orderSource!=null and orderSource!=''">
+			ORDER_SOURCE=#{orderSource,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="regardlessFranchise!=null ">
+			REGARDLESS_FRANCHISE=#{regardlessFranchise,jdbcType = DOUBLE},
+		</if>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="merchantName!=null and merchantName!=''">
+			MERCHANT_NAME=#{merchantName,jdbcType = VARCHAR},
+		</if>
+		<if test="assignee!=null ">
+			ASSIGNEE=#{assignee,jdbcType = TINYINT},
+		</if>
+		<if test="finshiType!=null and finshiType!=''">
+			FINISH_TYPE=#{finshiType,jdbcType = VARCHAR},
+		</if>
+		<if test="finishReason!=null ">
+			FINISH_REASON=#{finishReason,jdbcType = TINYINT},
+		</if>
+		<if test="isTakeCarDoor!=null ">
+			IS_TAKE_CAR_DOOR=#{isTakeCarDoor,jdbcType = TINYINT},
+		</if>
+		<if test="isBackCarDoor!=null ">
+			IS_BACK_CAR_DOOR=#{isBackCarDoor,jdbcType = TINYINT},
+		</if>
+		<if test="isDelayOrder!=null ">
+			IS_DELAY_ORDER=#{isDelayOrder,jdbcType = TINYINT},
+		</if>
+		<if test="isBeforeOrder!=null ">
+			IS_BEFORE_ORDER=#{isBeforeOrder,jdbcType = TINYINT},
+		</if>
+		<if test="returnAmount!=null ">
+			RETURN_AMOUNT=#{returnAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="refundStatus!=null ">
+			REFUND_STATUS=#{refundStatus,jdbcType = TINYINT},
+		</if>
+		<if test="refundTime!=null ">
+			REFUND_TIME=#{refundTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cancelAmount != null">
+			CANCEL_AMOUNT = #{cancelAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="takeCarDoorAmount != null">
+			TAKE_CAR_DOOR_AMOUNT = #{takeCarDoorAmount,jdbcType = DOUBLE}
+		</if>
+	</set>
+	<where>
+		AND ORDER_NO=#{orderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_ORDER_DAY 
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderDay">
+	select <include refid="AllColumnlist"/> from T_ORDER_DAY
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderDay">
+	select <include refid="AllColumnlist"/> from T_ORDER_DAY
+	<where>
+		ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+	order by create_time asc
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from T_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+
+<select id="countCancelAmount" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from T_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhereCancelAmount"/>
+	and START_PARK_NO is not null
+	</where>
+</select>
+
+<select id="getOrderDayCancelAmountList" parameterType="Query" resultMap="OrderDay">
+	select <include refid="CommonColumnlist"/> from T_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhereCancelAmount"/>
+	and START_PARK_NO is not null
+	</where>
+</select>
+
+
+
+<select id="countOrderByCarModelId" resultType="Long">
+	select count(ORDER_NO) from T_ORDER_DAY 
+	<where>
+	car_model_id=#{0} and ORDER_STATUS in (1,2)
+	</where>
+</select>
+
+<select id="countOrder" resultType="Long">
+	select count(*) from t_order_day where ORDER_STATUS in (1,2) and MEMBER_NO=#{0}
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderDay">
+	select <include refid="CommonColumnlist"/> from T_ORDER_DAY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderDay">
+	select <include refid="CommonColumnlist"/> from T_ORDER_DAY
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="balanceOfAccount" resultType="java.util.HashMap">
+	select 
+	count(ORDER_NO) as num,
+	sum(ifnull(ORDER_AMOUNT,0)) as amount,
+	year(FINISH_TIME) as year,
+	month(FINISH_TIME) as month
+	from t_order_day
+	<where>
+		PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(FINISH_TIME,'%Y%m'))>=1 and ORDER_STATUS=3 and MERCHANT_ID=#{0}
+	</where>
+ 	group by year(FINISH_TIME), month(FINISH_TIME) 
+ 	order by FINISH_TIME desc
+</select>
+
+<select id="countForMgt" parameterType="Query" resultType="Long">
+	select count(o.ORDER_NO) from T_ORDER_DAY o 
+	<where>
+	<include refid="listCommonWhereForMgt"/>
+	</where>
+</select>
+
+<select id="pageListForMgt" parameterType="Query" resultMap="OrderDayForMgt">
+	select <include refid="columnlistForMgt"/>
+	(SELECT me.MERCHANT_NAME FROM t_merchant_order m LEFT JOIN t_merchant me ON m.MERCHANT_ID = me.MERCHANT_ID WHERE m.ORDER_NO = o.ORDER_NO ORDER BY m.update_time DESC LIMIT 1) AS MERCHANT_NAME,
+	(select park_name from t_park_day where park_id=o.START_PARK_NO)start_park_name,
+	(select park_name from t_park_day where park_id=o.TERMINAL_PARK_NO)return_park_name,
+	(select MERCHANT_ORDER_STATUS from t_merchant_order m where m.ORDER_NO=o.ORDER_NO order BY update_time desc limit 1)MERCHANT_ORDER_STATUS
+	from T_ORDER_DAY o
+	<where>
+	 <include refid="listCommonWhereForMgt"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageListForRefund" parameterType="Query"  resultMap="OrderDayForRefund">
+	select 
+	(
+		CASE
+		WHEN (
+			IFNULL(RETURN_AMOUNT, 0) - IFNULL(OVERTIME_CHARGE, 0) - IFNULL(SERVICE_FEE_AMOUNT, 0)
+		) > 0 THEN
+			(
+				IFNULL(RETURN_AMOUNT, 0) - IFNULL(OVERTIME_CHARGE, 0) - IFNULL(SERVICE_FEE_AMOUNT, 0)
+			) 
+		ELSE
+			(
+				CASE
+				WHEN (PAYABLE_AMOUNT-IFNULL(CANCEL_AMOUNT, 0)>0 AND IFNULL(CANCEL_AMOUNT, 0)>0)> 0 THEN
+					PAYABLE_AMOUNT-IFNULL(CANCEL_AMOUNT, 0)
+				ELSE
+					(
+						CASE
+						WHEN (
+							PAYABLE_AMOUNT - IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)>0
+						)THEN
+								PAYABLE_AMOUNT - IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)
+						ELSE
+							PAYABLE_AMOUNT
+						END
+			  	   )
+				END
+			)
+		END
+	) AS REFUND_AMOUNT,
+	PAYABLE_AMOUNT , 
+	ORDER_NO,MOBILE_PHONE,MEMBER_NAME,
+	RETURN_AMOUNT,
+	OVERTIME_CHARGE,
+	SERVICE_FEE_AMOUNT,
+	CANCEL_AMOUNT,
+	TAKE_CAR_DOOR_AMOUNT,
+	PAYMENT_METHOD,REFUND_STATUS,REFUND_TIME
+	from t_order_day 
+	<where> 
+		(IFNULL(RETURN_AMOUNT,0)-IFNULL(OVERTIME_CHARGE,0)-IFNULL(SERVICE_FEE_AMOUNT,0)>0
+		OR (PAYABLE_AMOUNT-IFNULL(CANCEL_AMOUNT, 0)>0 AND IFNULL(CANCEL_AMOUNT, 0)>0)>0
+		OR (PAYABLE_AMOUNT-IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)>0 AND IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)>0)>0
+		)OR(
+			IFNULL(RETURN_AMOUNT, 0)+IFNULL(OVERTIME_CHARGE, 0)+IFNULL(SERVICE_FEE_AMOUNT, 0)+IFNULL(CANCEL_AMOUNT, 0)+IFNULL(TAKE_CAR_DOOR_AMOUNT, 0) =0
+			AND CAR_PLATE_NO IS NULL
+		)
+		AND PAY_STATUS=1 
+		AND ORDER_STATUS=3
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.refundStatus!=null ">
+			<if test="q.refundStatus==0">
+				AND (REFUND_STATUS=0 OR REFUND_STATUS IS NULL)
+			</if>
+			<if test="q.refundStatus==1 or q.refundStatus==2">
+				AND REFUND_STATUS=#{q.refundStatus}
+			</if>
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO like '%${q.orderNo}%'
+		</if>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="countForRefund" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from T_ORDER_DAY
+	<where> 
+		(IFNULL(RETURN_AMOUNT,0)-IFNULL(OVERTIME_CHARGE,0)-IFNULL(SERVICE_FEE_AMOUNT,0)>0
+		OR (PAYABLE_AMOUNT-IFNULL(CANCEL_AMOUNT, 0)>0 AND IFNULL(CANCEL_AMOUNT, 0)>0)>0
+		OR (PAYABLE_AMOUNT-IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)>0 AND IFNULL(TAKE_CAR_DOOR_AMOUNT, 0)>0)>0
+		)
+		AND PAY_STATUS=1 
+		AND ORDER_STATUS=3
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.refundStatus!=null ">
+			<if test="q.refundStatus==0">
+				AND (REFUND_STATUS=0 OR REFUND_STATUS IS NULL)
+			</if>
+			<if test="q.refundStatus==1 or q.refundStatus==2">
+				AND REFUND_STATUS=#{q.refundStatus}
+			</if>
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO like '%${q.orderNo}%'
+		</if>
+	</where>
+</select>
+<sql id="listCommonWhereForMgt">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND o.ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND o.MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND o.MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND o.CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.orderStatus!=null ">
+			AND o.ORDER_STATUS=#{q.orderStatus}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.startBillingTimeStart!=null">
+		<![CDATA[	AND START_BILLING_TIME>=#{q.startBillingTimeStart}  ]]>
+		</if>
+		<if test="q.startBillingTimeEnd!=null">
+		<![CDATA[	AND START_BILLING_TIME<#{q.startBillingTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND o.MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.isTakeCarDoor!=null ">
+			AND IS_TAKE_CAR_DOOR=#{q.isTakeCarDoor}
+		</if>
+		<if test="q.isBackCarDoor!=null ">
+			AND IS_BACK_CAR_DOOR=#{q.isBackCarDoor}
+		</if>
+		<if test="q.isDelayOrder!=null ">
+			AND IS_DELAY_ORDER=#{q.isDelayOrder}
+		</if>
+		<if test="q.isBeforeOrder!=null ">
+			AND IS_BEFORE_ORDER=#{isBeforeOrder}
+		</if>
+	</if>
+</sql>
+
+
+<sql id="listCommonWhereCancelAmount">
+	<if test="q!=null">
+		 <if test="q.orderStatus!=null ">
+			 ORDER_STATUS=#{q.orderStatus}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+	</if>
+</sql>
+
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.orderStatus!=null ">
+			AND ORDER_STATUS=#{q.orderStatus}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.taxiFare!=null ">
+			AND TAXI_FARE=#{q.taxiFare}
+		</if>
+		<if test="q.insurance!=null ">
+			AND INSURANCE=#{q.insurance}
+		</if>
+		<if test="q.deposit!=null ">
+			AND DEPOSIT=#{q.deposit}
+		</if>
+		<if test="q.strikeBalanceAmount!=null ">
+			AND STRIKE_BALANCE_AMOUNT=#{q.strikeBalanceAmount}
+		</if>
+		<if test="q.discountAmount!=null ">
+			AND DISCOUNT_AMOUNT=#{q.discountAmount}
+		</if>
+		<if test="q.depositType!=null ">
+			AND DEPOSIT_TYPE=#{q.depositType}
+		</if>
+		<if test="q.depositTime!=null ">
+			AND DEPOSIT_TIME=#{q.depositTime}
+		</if>
+		<if test="q.payableAmount!=null ">
+			AND PAYABLE_AMOUNT=#{q.payableAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.paymentTime!=null ">
+			AND PAYMENT_TIME=#{q.paymentTime}
+		</if>
+		<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+		</if>
+		<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+		</if>
+		<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+			AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND PART_TRADE_FLOW_NO=#{q.partTradeFlowNo}
+		</if>
+		<if test="q.depositStatus!=null ">
+			AND DEPOSIT_STATUS=#{q.depositStatus}
+		</if>
+		<if test="q.overtimeCharge!=null ">
+			AND OVERTIME_CHARGE=#{q.overtimeCharge}
+		</if>
+		<if test="q.serviceCharge!=null ">
+			AND SERVICE_CHARGE=#{q.serviceCharge}
+		</if>
+		<if test="q.carRentalAmount!=null ">
+			AND CAR_RENTAL_AMOUNT=#{q.carRentalAmount}
+		</if>
+		<if test="q.appointmentTakeTime!=null ">
+			AND APPOINTMENT_TAKE_TIME=#{q.appointmentTakeTime}
+		</if>
+		<if test="q.appointmentTakeTimeStart!=null">
+		<![CDATA[	AND APPOINTMENT_TAKE_TIME>=#{q.appointmentTakeTimeStart}  ]]>
+		</if>
+		<if test="q.appointmentTakeTimeEnd!=null">
+		<![CDATA[	AND APPOINTMENT_TAKE_TIME<#{q.appointmentTakeTimeEnd}   ]]>
+		</if>
+		<if test="q.appointmentReturnTime!=null ">
+			AND APPOINTMENT_RETURN_TIME=#{q.appointmentReturnTime}
+		</if>
+		<if test="q.appointmentReturnTimeStart!=null">
+		<![CDATA[	AND APPOINTMENT_RETURN_TIME>=#{q.appointmentReturnTimeStart}  ]]>
+		</if>
+		<if test="q.appointmentReturnTimeEnd!=null">
+		<![CDATA[	AND APPOINTMENT_RETURN_TIME<#{q.appointmentReturnTimeEnd}   ]]>
+		</if>
+		<if test="q.actualTakeTime!=null ">
+			AND ACTUAL_TAKE_TIME=#{q.actualTakeTime}
+		</if>
+		<if test="q.actualTakeTimeStart!=null">
+		<![CDATA[	AND ACTUAL_TAKE_TIME>=#{q.actualTakeTimeStart}  ]]>
+		</if>
+		<if test="q.actualTakeTimeEnd!=null">
+		<![CDATA[	AND ACTUAL_TAKE_TIME<#{q.actualTakeTimeEnd}   ]]>
+		</if>
+		<if test="q.actualReturnTime!=null ">
+			AND ACTUAL_RETURN_TIME=#{q.actualReturnTime}
+		</if>
+		<if test="q.actualReturnTimeStart!=null">
+		<![CDATA[	AND ACTUAL_RETURN_TIME>=#{q.actualReturnTimeStart}  ]]>
+		</if>
+		<if test="q.actualReturnTimeEnd!=null">
+		<![CDATA[	AND ACTUAL_RETURN_TIME<#{q.actualReturnTimeEnd}   ]]>
+		</if>
+		<if test="q.amountPaid!=null ">
+			AND AMOUNT_PAID=#{q.amountPaid}
+		</if>
+		<if test="q.startParkNo!=null and q.startParkNo!=''">
+			AND START_PARK_NO=#{q.startParkNo}
+		</if>
+		<if test="q.actualTakePakeName!=null and q.actualTakePakeName!=''">
+			AND ACTUAL_TAKE_PAKE_NAME=#{q.actualTakePakeName}
+		</if>
+		<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+			AND TERMINAL_PARK_NO=#{q.terminalParkNo}
+		</if>
+		<if test="q.actualTerminalParkName!=null and q.actualTerminalParkName!=''">
+			AND ACTUAL_TERMINAL_PARK_NAME=#{q.actualTerminalParkName}
+		</if>
+		<if test="q.actualTerminalParkNo!=null and q.actualTerminalParkNo!=''">
+			AND ACTUAL_TERMINAL_PARK_NO=#{q.actualTerminalParkNo}
+		</if>
+		<if test="q.serviceFeeAmount!=null ">
+			AND SERVICE_FEE_AMOUNT=#{q.serviceFeeAmount}
+		</if>
+		<if test="q.appointmentTime!=null ">
+			AND APPOINTMENT_TIME=#{q.appointmentTime}
+		</if>
+		<if test="q.appointmentTimeStart!=null">
+		<![CDATA[	AND APPOINTMENT_TIME>=#{q.appointmentTimeStart}  ]]>
+		</if>
+		<if test="q.appointmentTimeEnd!=null">
+		<![CDATA[	AND APPOINTMENT_TIME<#{q.appointmentTimeEnd}   ]]>
+		</if>
+		<if test="q.startBillingTime!=null ">
+			AND START_BILLING_TIME=#{q.startBillingTime}
+		</if>
+		<if test="q.startBillingTimeStart!=null">
+		<![CDATA[	AND START_BILLING_TIME>=#{q.startBillingTimeStart}  ]]>
+		</if>
+		<if test="q.startBillingTimeEnd!=null">
+		<![CDATA[	AND START_BILLING_TIME<#{q.startBillingTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.orderDuration!=null ">
+			AND ORDER_DURATION=#{q.orderDuration}
+		</if>
+		<if test="q.isIllegal!=null ">
+			AND IS_ILLEGAL=#{q.isIllegal}
+		</if>
+		<if test="q.isAccident!=null ">
+			AND IS_ACCIDENT=#{q.isAccident}
+		</if>
+		<if test="q.isFault!=null ">
+			AND IS_FAULT=#{q.isFault}
+		</if>
+		<if test="q.orderMemo!=null and q.orderMemo!=''">
+			AND ORDER_MEMO=#{q.orderMemo}
+		</if>
+		<if test="q.isCancel!=null ">
+			AND IS_CANCEL=#{q.isCancel}
+		</if>
+		<if test="q.cancelTime!=null ">
+			AND CANCEL_TIME=#{q.cancelTime}
+		</if>
+		<if test="q.cancelTimeStart!=null">
+		<![CDATA[	AND CANCEL_TIME>=#{q.cancelTimeStart}  ]]>
+		</if>
+		<if test="q.cancelTimeEnd!=null">
+		<![CDATA[	AND CANCEL_TIME<#{q.cancelTimeEnd}   ]]>
+		</if>
+		<if test="q.cancelOperatorType!=null ">
+			AND CANCEL_OPERATOR_TYPE=#{q.cancelOperatorType}
+		</if>
+		<if test="q.cancelOperatorId!=null and q.cancelOperatorId!=''">
+			AND CANCEL_OPERATOR_ID=#{q.cancelOperatorId}
+		</if>
+		<if test="q.orderSource!=null and q.orderSource!=''">
+			AND ORDER_SOURCE=#{q.orderSource}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.isTakeCarDoor!=null ">
+			AND IS_TAKE_CAR_DOOR=#{q.isTakeCarDoor}
+		</if>
+		<if test="q.isBackCarDoor!=null ">
+			AND IS_BACK_CAR_DOOR=#{q.isBackCarDoor}
+		</if>
+		<if test="q.cancelAmount!=null">
+			AND CANCEL_AMOUNT=#{q.cancelAmount}
+		</if>
+		<if test="q.takeCarDoorAmount!=null">
+			AND TAKE_CAR_DOOR_AMOUNT=#{q.takeCarDoorAmount}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarOperateRecordDao">
+
+	<resultMap type="CarOperateRecord" id="CarOperateRecord">
+		<id column="RECORD_ID" property="recordId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="OPERATE_TYPE" property="operateType" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="OPERATOR_NAME" property="operatorName" javaType="java.lang.String" jdbcType="VARCHAR" />
+	
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		RECORD_ID,
+		CAR_NO,
+		CAR_PLATE_NO,
+		OPERATE_TYPE,
+		MEMO,
+		CREATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		OPERATOR_NAME
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		RECORD_ID,
+		CAR_NO,
+		CAR_PLATE_NO,
+		OPERATE_TYPE,
+		MEMO,
+		CREATE_TIME,
+		OPERATOR_NAME
+	</sql>
+
+	<insert id="add" parameterType="CarOperateRecord" useGeneratedKeys="true"
+		keyProperty="recordId">
+		insert into T_CAR_OPERATE_RECORD(
+		<if test="recordId!=null">
+			RECORD_ID,
+		</if>
+		CAR_NO,
+		CAR_PLATE_NO,
+		OPERATE_TYPE,
+		MEMO,
+		CREATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		OPERATOR_NAME
+		) values (
+		<if test="recordId!=null">
+			#{recordId,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{operateType,jdbcType = TINYINT},
+		#{memo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType =	VARCHAR},
+		#{operatorName,jdbcType = VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="CarOperateRecord">
+		update t_car_operate_record
+		<set>
+			<if test="carNo!=null and carNo!=''">
+				CAR_NO=#{carNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="operateType!=null ">
+				OPERATE_TYPE=#{operateType,jdbcType = TINYINT},
+			</if>
+			<if test="memo!=null and memo!=''">
+				MEMO=#{memo,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorName!=null and operatorName!=''">
+				OPERATOR_NAME=#{operatorName,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND RECORD_ID=#{recordId}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_car_operate_record
+		<where>
+			RECORD_ID=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="CarOperateRecord">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_operate_record
+		<where>
+			RECORD_ID=#{0}
+		</where>
+	</select>
+
+
+	<select id="getByIds" resultMap="CarOperateRecord">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_operate_record
+		<where>
+			RECORD_ID in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(RECORD_ID) from t_car_operate_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="CarOperateRecord">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_operate_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="CarOperateRecord">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_operate_record
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.recordId!=null and q.recordId!=''">
+				AND RECORD_ID=#{q.recordId}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.operatorName!=null and q.operatorName!=''">
+				AND OPERATOR_NAME like '%${q.operatorName}%'
+			</if>
+			<if test="q.operateType!=null ">
+				AND OPERATE_TYPE=#{q.operateType}
+			</if>
+			
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+				<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+				<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+		</if>
+	</sql>
+
+</mapper>

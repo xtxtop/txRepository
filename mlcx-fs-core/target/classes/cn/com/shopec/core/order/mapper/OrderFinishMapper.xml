@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.OrderFinishDao">
+
+<resultMap type="OrderFinish" id="OrderFinish">
+	<id column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FINISH_TYPE" property="finishType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FINISH_REASON" property="finishReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CURRENT_CAR_LOCATION" property="currentCarLocation" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LAST_REPORT_TIME" property="lastReportTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ADDITION_FEES" property="additionFees" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ADDITION_REASON" property="additionReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_CAR_FAULT" property="isCarFault" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_CAR_ACCIDENT" property="isCarAccident" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_NO,FINISH_TYPE,FINISH_REASON,CURRENT_CAR_LOCATION,LONGITUDE,LATITUDE,LAST_REPORT_TIME,
+ADDITION_FEES,ADDITION_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,IS_CAR_FAULT,IS_CAR_ACCIDENT
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_NO,FINISH_TYPE,CURRENT_CAR_LOCATION,LONGITUDE,LATITUDE,LAST_REPORT_TIME,
+ADDITION_FEES,ADDITION_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,IS_CAR_FAULT,IS_CAR_ACCIDENT
+
+</sql>
+
+<insert id="add" parameterType="OrderFinish" useGeneratedKeys="true" keyProperty="orderNo">
+	insert into T_ORDER_FINISH(
+		<if test="orderNo!=null">
+		ORDER_NO,
+		</if>
+		FINISH_TYPE,
+		FINISH_REASON,
+		CURRENT_CAR_LOCATION,
+		LONGITUDE,
+		LATITUDE,
+		LAST_REPORT_TIME,
+		ADDITION_FEES,
+		ADDITION_REASON,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		IS_CAR_FAULT,
+		IS_CAR_ACCIDENT
+	) values (
+		<if test="orderNo!=null">
+		#{orderNo,jdbcType = VARCHAR},
+		</if>
+		#{finishType,jdbcType = TINYINT},
+		#{finishReason,jdbcType = VARCHAR},
+		#{currentCarLocation,jdbcType = VARCHAR},
+		#{longitude,jdbcType = DOUBLE},
+		#{latitude,jdbcType = DOUBLE},
+		#{lastReportTime,jdbcType = TIMESTAMP},
+		#{additionFees,jdbcType = DOUBLE},
+		#{additionReason,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{isCarFault,jdbcType = TINYINT},
+		#{isCarAccident,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="OrderFinish">
+	update t_order_finish 
+	<set>
+		<if test="finishType!=null ">
+			FINISH_TYPE=#{finishType,jdbcType = TINYINT},
+		</if>
+		<if test="finishReason!=null and finishReason!=''">
+			FINISH_REASON=#{finishReason,jdbcType = VARCHAR},
+		</if>
+		<if test="currentCarLocation!=null and currentCarLocation!=''">
+			CURRENT_CAR_LOCATION=#{currentCarLocation,jdbcType = VARCHAR},
+		</if>
+		<if test="longitude!=null ">
+			LONGITUDE=#{longitude,jdbcType = DOUBLE},
+		</if>
+		<if test="latitude!=null ">
+			LATITUDE=#{latitude,jdbcType = DOUBLE},
+		</if>
+		<if test="lastReportTime!=null ">
+			LAST_REPORT_TIME=#{lastReportTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="additionFees!=null ">
+			ADDITION_FEES=#{additionFees,jdbcType = DOUBLE},
+		</if>
+		<if test="additionReason!=null and additionReason!=''">
+			ADDITION_REASON=#{additionReason,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="isCarFault!=null and isCarFault!=''">
+			IS_CAR_FAULT=#{isCarFault,jdbcType = TINYINT},
+		</if>
+		<if test="isCarAccident!=null and isCarAccident!=''">
+			IS_CAR_ACCIDENT=#{isCarAccident,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ORDER_NO=#{orderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_finish 
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderFinish">
+	select <include refid="AllColumnlist"/> from t_order_finish
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="OrderFinish">
+	select <include refid="AllColumnlist"/> from t_order_finish
+	<where>
+		ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from t_order_finish 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderFinish">
+	select <include refid="CommonColumnlist"/> from t_order_finish 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderFinish">
+	select <include refid="CommonColumnlist"/> from t_order_finish
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.finishType!=null ">
+			AND FINISH_TYPE=#{q.finishType}
+		</if>
+		<if test="q.finishReason!=null and q.finishReason!=''">
+			AND FINISH_REASON=#{q.finishReason}
+		</if>
+		<if test="q.currentCarLocation!=null and q.currentCarLocation!=''">
+			AND CURRENT_CAR_LOCATION=#{q.currentCarLocation}
+		</if>
+		<if test="q.longitude!=null ">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null ">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.lastReportTime!=null ">
+			AND LAST_REPORT_TIME=#{q.lastReportTime}
+		</if>
+		<if test="q.lastReportTimeStart!=null">
+		<![CDATA[	AND LAST_REPORT_TIME>=#{q.lastReportTimeStart}  ]]>
+		</if>
+		<if test="q.lastReportTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORT_TIME<#{q.lastReportTimeEnd}   ]]>
+		</if>
+		<if test="q.additionFees!=null ">
+			AND ADDITION_FEES=#{q.additionFees}
+		</if>
+		<if test="q.additionReason!=null and q.additionReason!=''">
+			AND ADDITION_REASON=#{q.additionReason}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.isCarFault!=null and q.isCarFault!=''">
+			AND IS_CAR_FAULT=#{q.isCarFault}
+		</if>
+		<if test="q.isCarAccident!=null and q.isCarAccident!=''">
+			AND IS_CAR_ACCIDENT=#{q.isCarAccident}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!--创建jdbc数据源 dbcp -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- data source configuration -->
+		<property name="initialSize" value="50" /><!-- initial connections -->
+		<property name="maxActive" value="0" /><!-- MAX connections -->
+		<property name="maxIdle" value="50" /><!-- MAX idle connections -->
+		<property name="minIdle" value="20" /><!-- MIN idle connections -->
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="validationQuery" value="select 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="20000" />
+		<property name="numTestsPerEvictionRun" value="100" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描entity目录 xml文件 -->
+		<property name="mapperLocations" value="classpath:cn/com/shopec/core/*/mapper/*.xml"></property>
+		<!-- <property name="configLocation"><value>/WEB-INF/classes/sqlMapConfig.xml</value></property> -->
+		<property name="typeAliasesPackage" value="cn.com.shopec.core.common,
+			cn.com.shopec.core.system.model,
+			cn.com.shopec.core.car.model,
+			cn.com.shopec.core.resource.model,
+			cn.com.shopec.core.member.model,
+			cn.com.shopec.core.order.model,
+			cn.com.shopec.core.device.model,
+			cn.com.shopec.core.customer.model,
+			cn.com.shopec.core.marketing.model,
+			cn.com.shopec.core.scheduling.model,
+			cn.com.shopec.core.monitor.model,
+			cn.com.shopec.core.finace.model,
+			cn.com.shopec.core.uploadpkg.model,
+			cn.com.shopec.core.franchisee.model,
+			cn.com.shopec.core.mall.model,
+			cn.com.shopec.core.dailyrental,
+			cn.com.shopec.core.ml.model,
+			cn.com.shopec.core.mlparking.model,
+			cn.com.shopec.core.mlorder.model"/>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 自动扫描 mybatis的接口 -->
+		<property name="basePackage" value="cn.com.shopec.core.*.dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!-- 事务 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 开启注解事务 只对当前配置文件有效 -->
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/> 
+
+</beans>

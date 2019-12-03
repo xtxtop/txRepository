@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.ControlPowerLogDao">
+
+<resultMap type="ControlPowerLog" id="ControlPowerLog">
+	<id column="POWER_LOG_NO" property="powerLogNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_NO" property="deviceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_STATUS" property="carStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CANTROL_TYPE" property="cantrolType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="STATUS_TYPE" property="statusType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+POWER_LOG_NO,DEVICE_NO,CAR_STATUS,CREATE_TIME,OPERATOR_ID,ORDER_NO,OPERATOR_TYPE,
+MEMBER_NO,MEMO,CANTROL_TYPE,STATUS_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+POWER_LOG_NO,DEVICE_NO,CAR_STATUS,CREATE_TIME,OPERATOR_TYPE,
+CANTROL_TYPE,STATUS_TYPE,ORDER_NO,MEMBER_NO
+</sql>
+
+<insert id="add" parameterType="ControlPowerLog" useGeneratedKeys="true" keyProperty="powerLogNo">
+	insert into T_CONTROL_POWER_LOG(
+		<if test="powerLogNo!=null">
+		POWER_LOG_NO,
+		</if>
+		DEVICE_NO,
+		CAR_STATUS,
+		CREATE_TIME,
+		OPERATOR_ID,
+		ORDER_NO,
+		OPERATOR_TYPE,
+		MEMBER_NO,
+		MEMO,
+		CANTROL_TYPE,
+		STATUS_TYPE
+	) values (
+		<if test="powerLogNo!=null">
+		#{powerLogNo,jdbcType = VARCHAR},
+		</if>
+		#{deviceNo,jdbcType = VARCHAR},
+		#{carStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{cantrolType,jdbcType = TINYINT},
+		#{statusType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="ControlPowerLog">
+	update t_control_power_log 
+	<set>
+		<if test="deviceNo!=null and deviceNo!=''">
+			DEVICE_NO=#{deviceNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carStatus!=null ">
+			CAR_STATUS=#{carStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="cantrolType!=null ">
+			CANTROL_TYPE=#{cantrolType,jdbcType = TINYINT},
+		</if>
+		<if test="statusType!=null ">
+			STATUS_TYPE=#{statusType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND POWER_LOG_NO=#{powerLogNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_control_power_log 
+	<where>
+		POWER_LOG_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ControlPowerLog">
+	select <include refid="AllColumnlist"/> from t_control_power_log
+	<where>
+		POWER_LOG_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ControlPowerLog">
+	select <include refid="AllColumnlist"/> from t_control_power_log
+	<where>
+		POWER_LOG_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(POWER_LOG_NO) from t_control_power_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ControlPowerLog">
+	select <include refid="CommonColumnlist"/> from t_control_power_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ControlPowerLog">
+	select <include refid="CommonColumnlist"/> from t_control_power_log
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.powerLogNo!=null and q.powerLogNo!=''">
+			AND POWER_LOG_NO=#{q.powerLogNo}
+		</if>
+		<if test="q.deviceNo!=null and q.deviceNo!=''">
+			AND DEVICE_NO=#{q.deviceNo}
+		</if>
+		<if test="q.carStatus!=null ">
+			AND CAR_STATUS=#{q.carStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.cantrolType!=null ">
+			AND CANTROL_TYPE=#{q.cantrolType}
+		</if>
+		<if test="q.statusType!=null ">
+			AND STATUS_TYPE=#{q.statusType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

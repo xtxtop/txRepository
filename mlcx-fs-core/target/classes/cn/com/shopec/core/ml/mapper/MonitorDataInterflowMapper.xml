@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.MonitorDataInterflowDao">
+
+<resultMap type="MonitorDataInterflow" id="MonitorDataInterflow">
+	<id column="INTERFLOW_NO" property="interflowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN_NO" property="chargingGunNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NAME" property="chargingPileName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN_CODE" property="chargingGunCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SWITCH_STATE" property="switchState" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="WORK_STATE" property="workState" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OVERVOLTAGE" property="overvoltage" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="UNDERVOLTAGE" property="undervoltage" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OVERLOAD" property="overload" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OVERCURRENT" property="overcurrent" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ABRUPT_STOP" property="abruptStop" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="LIGHTNING_PROTECTION" property="lightningProtection" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="UNUSUAL" property="unusual" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="RESERVED" property="reserved" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OUTPUT_VOLTAGE" property="outputVoltage" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OUTPUT_CURRENT" property="outputCurrent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RELAY_STATE" property="relayState" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ELECTRICITY" property="electricity" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TIME" property="time" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECORD_TIME" property="recordTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+INTERFLOW_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,SWITCH_STATE,WORK_STATE,OVERVOLTAGE,UNDERVOLTAGE,
+OVERLOAD,OVERCURRENT,ABRUPT_STOP,LIGHTNING_PROTECTION,UNUSUAL,RESERVED,
+OUTPUT_VOLTAGE,OUTPUT_CURRENT,RELAY_STATE,ELECTRICITY,TIME,RECORD_TIME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+INTERFLOW_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,SWITCH_STATE,WORK_STATE,OVERVOLTAGE,UNDERVOLTAGE,
+OVERLOAD,OVERCURRENT,ABRUPT_STOP,LIGHTNING_PROTECTION,UNUSUAL,RESERVED,
+OUTPUT_VOLTAGE,OUTPUT_CURRENT,RELAY_STATE,ELECTRICITY,TIME,RECORD_TIME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+</sql>
+
+<insert id="add" parameterType="MonitorDataInterflow" useGeneratedKeys="true" keyProperty="interflowNo">
+	insert into MONITOR_DATA_INTERFLOW(
+		<if test="interflowNo!=null">
+		INTERFLOW_NO,
+		</if>
+		CHARGING_PILE_NO,
+		CHARGING_GUN_NO,
+		SWITCH_STATE,
+		WORK_STATE,
+		OVERVOLTAGE,
+		UNDERVOLTAGE,
+		OVERLOAD,
+		OVERCURRENT,
+		ABRUPT_STOP,
+		LIGHTNING_PROTECTION,
+		UNUSUAL,
+		RESERVED,
+		OUTPUT_VOLTAGE,
+		OUTPUT_CURRENT,
+		RELAY_STATE,
+		ELECTRICITY,
+		TIME,
+		RECORD_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+	) values (
+		<if test="interflowNo!=null">
+		#{interflowNo,jdbcType = VARCHAR},
+		</if>
+		#{chargingPileNo,jdbcType = VARCHAR},
+		#{chargingGunNo,jdbcType = VARCHAR},
+		#{switchState,jdbcType = TINYINT},
+		#{workState,jdbcType = TINYINT},
+		#{overvoltage,jdbcType = TINYINT},
+		#{undervoltage,jdbcType = TINYINT},
+		#{overload,jdbcType = TINYINT},
+		#{overcurrent,jdbcType = TINYINT},
+		#{abruptStop,jdbcType = TINYINT},
+		#{lightningProtection,jdbcType = TINYINT},
+		#{unusual,jdbcType = TINYINT},
+		#{reserved,jdbcType = VARCHAR},
+		#{outputVoltage,jdbcType = VARCHAR},
+		#{outputCurrent,jdbcType = VARCHAR},
+		#{relayState,jdbcType = TINYINT},
+		#{electricity,jdbcType = VARCHAR},
+		#{time,jdbcType = VARCHAR},
+		#{recordTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{chargingPileName,jdbcType = VARCHAR},
+		#{chargingGunCode,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MonitorDataInterflow">
+	update MONITOR_DATA_INTERFLOW 
+	<set>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingGunNo!=null and chargingGunNo!=''">
+			CHARGING_GUN_NO=#{chargingGunNo,jdbcType = VARCHAR},
+		</if>
+		<if test="switchState!=null ">
+			SWITCH_STATE=#{switchState,jdbcType = TINYINT},
+		</if>
+		<if test="workState!=null ">
+			WORK_STATE=#{workState,jdbcType = TINYINT},
+		</if>
+		<if test="overvoltage!=null ">
+			OVERVOLTAGE=#{overvoltage,jdbcType = TINYINT},
+		</if>
+		<if test="undervoltage!=null ">
+			UNDERVOLTAGE=#{undervoltage,jdbcType = TINYINT},
+		</if>
+		<if test="overload!=null ">
+			OVERLOAD=#{overload,jdbcType = TINYINT},
+		</if>
+		<if test="overcurrent!=null ">
+			OVERCURRENT=#{overcurrent,jdbcType = TINYINT},
+		</if>
+		<if test="abruptStop!=null ">
+			ABRUPT_STOP=#{abruptStop,jdbcType = TINYINT},
+		</if>
+		<if test="lightningProtection!=null ">
+			LIGHTNING_PROTECTION=#{lightningProtection,jdbcType = TINYINT},
+		</if>
+		<if test="unusual!=null ">
+			UNUSUAL=#{unusual,jdbcType = TINYINT},
+		</if>
+		<if test="reserved!=null and reserved!=''">
+			RESERVED=#{reserved,jdbcType = VARCHAR},
+		</if>
+		<if test="outputVoltage!=null and outputVoltage!=''">
+			OUTPUT_VOLTAGE=#{outputVoltage,jdbcType = VARCHAR},
+		</if>
+		<if test="outputCurrent!=null and outputCurrent!=''">
+			OUTPUT_CURRENT=#{outputCurrent,jdbcType = VARCHAR},
+		</if>
+		<if test="relayState!=null ">
+			RELAY_STATE=#{relayState,jdbcType = TINYINT},
+		</if>
+		<if test="electricity!=null and electricity!=''">
+			ELECTRICITY=#{electricity,jdbcType = VARCHAR},
+		</if>
+		<if test="time!=null ">
+			TIME=#{time,jdbcType = VARCHAR},
+		</if>
+		<if test="recordTime!=null ">
+			RECORD_TIME=#{recordTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="chargingPileName!=null and chargingPileName!=''">
+            CHARGING_PILE_NAME=#{chargingPileName,jdbcType = VARCHAR},
+        </if>
+        <if test="chargingGunCode!=null and chargingGunCode!=''">
+            CHARGING_GUN_CODE=#{chargingGunCode,jdbcType = VARCHAR},
+        </if>
+	</set>
+	<where>
+		AND INTERFLOW_NO=#{interflowNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from MONITOR_DATA_INTERFLOW 
+	<where>
+		INTERFLOW_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MonitorDataInterflow">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_INTERFLOW
+	<where>
+		INTERFLOW_NO=#{0}
+	</where>
+</select>
+<select id="getTwo" resultMap="MonitorDataInterflow">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_INTERFLOW
+	<where>
+		CHARGING_GUN_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MonitorDataInterflow">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_INTERFLOW
+	<where>
+		INTERFLOW_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(INTERFLOW_NO) from MONITOR_DATA_INTERFLOW 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MonitorDataInterflow">
+	select <include refid="CommonColumnlist"/> from MONITOR_DATA_INTERFLOW 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MonitorDataInterflow">
+	select <include refid="CommonColumnlist"/> from MONITOR_DATA_INTERFLOW
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.interflowNo!=null and q.interflowNo!=''">
+			AND INTERFLOW_NO   like "%"#{q.interflowNo}"%"
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+			AND CHARGING_GUN_NO=#{q.chargingGunNo}
+		</if>
+		<if test="q.switchState!=null ">
+			AND SWITCH_STATE=#{q.switchState}
+		</if>
+		<if test="q.workState!=null ">
+			AND WORK_STATE=#{q.workState}
+		</if>
+		<if test="q.overvoltage!=null ">
+			AND OVERVOLTAGE=#{q.overvoltage}
+		</if>
+		<if test="q.undervoltage!=null ">
+			AND UNDERVOLTAGE=#{q.undervoltage}
+		</if>
+		<if test="q.overload!=null ">
+			AND OVERLOAD=#{q.overload}
+		</if>
+		<if test="q.overcurrent!=null ">
+			AND OVERCURRENT=#{q.overcurrent}
+		</if>
+		<if test="q.abruptStop!=null ">
+			AND ABRUPT_STOP=#{q.abruptStop}
+		</if>
+		<if test="q.lightningProtection!=null ">
+			AND LIGHTNING_PROTECTION=#{q.lightningProtection}
+		</if>
+		<if test="q.unusual!=null ">
+			AND UNUSUAL=#{q.unusual}
+		</if>
+		<if test="q.reserved!=null and q.reserved!=''">
+			AND RESERVED=#{q.reserved}
+		</if>
+		<if test="q.outputVoltage!=null and q.outputVoltage!=''">
+			AND OUTPUT_VOLTAGE=#{q.outputVoltage}
+		</if>
+		<if test="q.outputCurrent!=null and q.outputCurrent!=''">
+			AND OUTPUT_CURRENT=#{q.outputCurrent}
+		</if>
+		<if test="q.relayState!=null ">
+			AND RELAY_STATE=#{q.relayState}
+		</if>
+		<if test="q.electricity!=null and q.electricity!=''">
+			AND ELECTRICITY=#{q.electricity}
+		</if>
+		<if test="q.time!=null ">
+			AND TIME=#{q.time}
+		</if>
+		<if test="q.recordTime!=null ">
+			AND RECORD_TIME=#{q.recordTime}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+           AND CHARGING_PILE_NAME=#{q.chargingPileName,jdbcType = VARCHAR}
+        </if>
+        <if test="q.chargingGunCode!=null and q.chargingGunCode!=''">
+          AND  CHARGING_GUN_CODE=#{q.chargingGunCode,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+
+</mapper>

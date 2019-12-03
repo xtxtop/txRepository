@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarFaultDao">
+
+<resultMap type="CarFault" id="CarFault">
+	<id column="FAULT_ID" property="faultId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECORD_FAULT_TIME" property="recordFaultTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FAULT_LOCATION" property="faultLocation" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FAULT_LEVEL" property="faultLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PROCESSING_STATUS" property="processingStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="USE_CAR_TYPE" property="useCarType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DOCUMENT_NO" property="documentNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_ID" property="driverId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_NAME" property="driverName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+FAULT_ID,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CITY_ID,CITY_NAME,
+RECORD_FAULT_TIME,FAULT_LOCATION,FAULT_LEVEL,PROCESSING_STATUS,USE_CAR_TYPE,DOCUMENT_NO,
+DRIVER_ID,DRIVER_NAME,MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+FAULT_ID,CAR_NO,CAR_PLATE_NO,CAR_MODEL_ID,CAR_MODEL_NAME,CITY_ID,CITY_NAME,
+RECORD_FAULT_TIME,FAULT_LOCATION,FAULT_LEVEL,PROCESSING_STATUS,USE_CAR_TYPE,DOCUMENT_NO,
+DRIVER_ID,DRIVER_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="CarFault" useGeneratedKeys="true" keyProperty="faultId">
+	insert into T_CAR_FAULT(
+		<if test="faultId!=null">
+		FAULT_ID,
+		</if>
+		CAR_NO,
+		CAR_PLATE_NO,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CITY_ID,
+		CITY_NAME,
+		RECORD_FAULT_TIME,
+		FAULT_LOCATION,
+		FAULT_LEVEL,
+		PROCESSING_STATUS,
+		USE_CAR_TYPE,
+		DOCUMENT_NO,
+		DRIVER_ID,
+		DRIVER_NAME,
+		MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="faultId!=null">
+		#{faultId,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{recordFaultTime,jdbcType = TIMESTAMP},
+		#{faultLocation,jdbcType = VARCHAR},
+		#{faultLevel,jdbcType = TINYINT},
+		#{processingStatus,jdbcType = TINYINT},
+		#{useCarType,jdbcType = TINYINT},
+		#{documentNo,jdbcType = VARCHAR},
+		#{driverId,jdbcType = VARCHAR},
+		#{driverName,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CarFault">
+	update t_car_fault 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="recordFaultTime!=null ">
+			RECORD_FAULT_TIME=#{recordFaultTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="faultLocation!=null and faultLocation!=''">
+			FAULT_LOCATION=#{faultLocation,jdbcType = VARCHAR},
+		</if>
+		<if test="faultLevel!=null ">
+			FAULT_LEVEL=#{faultLevel,jdbcType = TINYINT},
+		</if>
+		<if test="processingStatus!=null ">
+			PROCESSING_STATUS=#{processingStatus,jdbcType = TINYINT},
+		</if>
+		<if test="useCarType!=null ">
+			USE_CAR_TYPE=#{useCarType,jdbcType = TINYINT},
+		</if>
+		<if test="documentNo!=null and documentNo!=''">
+			DOCUMENT_NO=#{documentNo,jdbcType = VARCHAR},
+		</if>
+		<if test="driverId!=null and driverId!=''">
+			DRIVER_ID=#{driverId,jdbcType = VARCHAR},
+		</if>
+		<if test="driverName!=null and driverName!=''">
+			DRIVER_NAME=#{driverName,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND FAULT_ID=#{faultId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_fault 
+	<where>
+		FAULT_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarFault">
+	select <include refid="AllColumnlist"/> from t_car_fault
+	<where>
+		FAULT_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarFault">
+	select <include refid="AllColumnlist"/> from t_car_fault
+	<where>
+		FAULT_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(FAULT_ID) from t_car_fault 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarFault">
+	select <include refid="CommonColumnlist"/> from t_car_fault 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarFault">
+	select <include refid="CommonColumnlist"/> from t_car_fault
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 后台查询 -->
+<select id="getCarMalfunctionList" parameterType="Query" resultMap="CarFault">
+	select <include refid="CommonColumnlist"/> from t_car_fault
+	<where>
+	 <include refid="listCommonWheres"/> 
+	</where> order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getCarMalfunctionCount" parameterType="Query" resultType="Long">
+	select count(FAULT_ID) from t_car_fault 
+	<where>
+	<include refid="listCommonWheres"/>
+	</where>
+</select>
+<sql id="listCommonWheres">
+	<if test="q!=null">
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO  like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.processingStatus!=null ">
+			AND PROCESSING_STATUS=#{q.processingStatus}
+		</if>
+		<if test="q.useCarType!=null ">
+			AND USE_CAR_TYPE=#{q.useCarType}
+		</if>
+		<if test="q.documentNo!=null and q.documentNo!=''">
+			AND DOCUMENT_NO  like '%${q.documentNo}%'
+		</if>
+		<if test="q.faultLevel!=null ">
+			AND FAULT_LEVEL=#{q.faultLevel}
+		</if>
+		<if test="q.driverName!=null and q.driverName!=''">
+			AND DRIVER_NAME like '%${q.driverName}%'
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.recordFaultTimeStart!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME>=#{q.recordFaultTimeStart}  ]]>
+		</if>
+		<if test="q.recordFaultTimeEnd!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME<#{q.recordFaultTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+<!-- end -->
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.faultId!=null and q.faultId!=''">
+			AND FAULT_ID=#{q.faultId}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.cityId!=null and q.cityId!='' ">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.recordFaultTime!=null ">
+			AND RECORD_FAULT_TIME=#{q.recordFaultTime}
+		</if>
+		<if test="q.recordFaultTimeStart!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME>=#{q.recordFaultTimeStart}  ]]>
+		</if>
+		<if test="q.recordFaultTimeEnd!=null">
+		<![CDATA[	AND RECORD_FAULT_TIME<#{q.recordFaultTimeEnd}   ]]>
+		</if>
+		<if test="q.faultLocation!=null and q.faultLocation!=''">
+			AND FAULT_LOCATION=#{q.faultLocation}
+		</if>
+		<if test="q.faultLevel!=null ">
+			AND FAULT_LEVEL=#{q.faultLevel}
+		</if>
+		<if test="q.processingStatus!=null ">
+			AND PROCESSING_STATUS=#{q.processingStatus}
+		</if>
+		<if test="q.useCarType!=null ">
+			AND USE_CAR_TYPE=#{q.useCarType}
+		</if>
+		<if test="q.documentNo!=null and q.documentNo!=''">
+			AND DOCUMENT_NO=#{q.documentNo}
+		</if>
+		<if test="q.driverId!=null and q.driverId!=''">
+			AND DRIVER_ID=#{q.driverId}
+		</if>
+		<if test="q.driverName!=null and q.driverName!=''">
+			AND DRIVER_NAME=#{q.driverName}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlparking.dao.CParkBillingDao">
+
+<resultMap type="CParkBilling" id="CParkBilling">
+	<id column="PARK_BILLING_NO" property="parkBillingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_BILLING_NAME" property="parkBillingName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BILLING_VERSION" property="billingVersion" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_TYPE" property="parkType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FREE_TIME" property="freeTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="STOP_TIME" property="stopTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="UNIT_TIME" property="unitTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="OVERTIME_PRICE" property="overtimePrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STATUS" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAPPING_PRICE" property="cappingPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="AGREEMENT" property="agreement" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARK_BILLING_NO,PARK_BILLING_NAME,BILLING_VERSION,PARK_TYPE,FREE_TIME,STOP_TIME,UNIT_TIME,
+OVERTIME_PRICE,STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,
+CAPPING_PRICE,AGREEMENT
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARK_BILLING_NO,PARK_BILLING_NAME,BILLING_VERSION,PARK_TYPE,FREE_TIME,STOP_TIME,UNIT_TIME,
+OVERTIME_PRICE,STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,
+CAPPING_PRICE,
+</sql>
+
+<insert id="add" parameterType="CParkBilling" useGeneratedKeys="true" keyProperty="parkBillingNo">
+	insert into C_PARK_BILLING(
+		<if test="parkBillingNo!=null">
+		PARK_BILLING_NO,
+		</if>
+		PARK_BILLING_NAME,
+		BILLING_VERSION,
+		PARK_TYPE,
+		FREE_TIME,
+		STOP_TIME,
+		UNIT_TIME,
+		OVERTIME_PRICE,
+		STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		CAPPING_PRICE,
+		AGREEMENT
+	) values (
+		<if test="parkBillingNo!=null">
+		#{parkBillingNo,jdbcType = VARCHAR},
+		</if>
+		#{parkBillingName,jdbcType = VARCHAR},
+		#{billingVersion,jdbcType = VARCHAR},
+		#{parkType,jdbcType = TINYINT},
+		#{freeTime,jdbcType = INTEGER},
+		#{stopTime,jdbcType = INTEGER},
+		#{unitTime,jdbcType = INTEGER},
+		#{overtimePrice,jdbcType = DOUBLE},
+		#{status,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{cappingPrice,jdbcType = DOUBLE},
+		#{agreement,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CParkBilling">
+	update C_PARK_BILLING 
+	<set>
+		<if test="parkBillingName!=null and parkBillingName!=''">
+			PARK_BILLING_NAME=#{parkBillingName,jdbcType = VARCHAR},
+		</if>
+		<if test="billingVersion!=null and billingVersion!=''">
+			BILLING_VERSION=#{billingVersion,jdbcType = VARCHAR},
+		</if>
+		<if test="parkType!=null ">
+			PARK_TYPE=#{parkType,jdbcType = TINYINT},
+		</if>
+		<if test="freeTime!=null ">
+			FREE_TIME=#{freeTime,jdbcType = INTEGER},
+		</if>
+		<if test="stopTime!=null ">
+			STOP_TIME=#{stopTime,jdbcType = INTEGER},
+		</if>
+		<if test="unitTime!=null ">
+			UNIT_TIME=#{unitTime,jdbcType = INTEGER},
+		</if>
+		<if test="overtimePrice!=null ">
+			OVERTIME_PRICE=#{overtimePrice,jdbcType = DOUBLE},
+		</if>
+		<if test="status!=null ">
+			STATUS=#{status,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="cappingPrice!=null ">
+			CAPPING_PRICE=#{cappingPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="agreement!=null and agreement!=''">
+			AGREEMENT=#{agreement,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PARK_BILLING_NO=#{parkBillingNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_PARK_BILLING 
+	<where>
+		PARK_BILLING_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CParkBilling">
+	select <include refid="AllColumnlist"/> from C_PARK_BILLING
+	<where>
+		PARK_BILLING_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CParkBilling">
+	select <include refid="AllColumnlist"/> from C_PARK_BILLING
+	<where>
+		PARK_BILLING_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARK_BILLING_NO) from C_PARK_BILLING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CParkBilling">
+	select <include refid="CommonColumnlist"/> from C_PARK_BILLING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CParkBilling">
+	select <include refid="CommonColumnlist"/> from C_PARK_BILLING
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.parkBillingNo!=null and q.parkBillingNo!=''">
+			AND PARK_BILLING_NO=#{q.parkBillingNo}
+		</if>
+		<if test="q.parkBillingName!=null and q.parkBillingName!=''">
+			AND PARK_BILLING_NAME=#{q.parkBillingName}
+		</if>
+		<if test="q.billingVersion!=null and q.billingVersion!=''">
+			AND BILLING_VERSION=#{q.billingVersion}
+		</if>
+		<if test="q.parkType!=null ">
+			AND PARK_TYPE=#{q.parkType}
+		</if>
+		<if test="q.freeTime!=null ">
+			AND FREE_TIME=#{q.freeTime}
+		</if>
+		<if test="q.stopTime!=null ">
+			AND STOP_TIME=#{q.stopTime}
+		</if>
+		<if test="q.unitTime!=null ">
+			AND UNIT_TIME=#{q.unitTime}
+		</if>
+		<if test="q.overtimePrice!=null ">
+			AND OVERTIME_PRICE=#{q.overtimePrice}
+		</if>
+		<if test="q.status!=null ">
+			AND STATUS=#{q.status}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.cappingPrice!=null ">
+			AND CAPPING_PRICE=#{q.cappingPrice}
+		</if>
+		<if test="q.agreement!=null and q.agreement!=''">
+			AND AGREEMENT=#{q.agreement}
+		</if>
+	</if>
+</sql>
+
+</mapper>

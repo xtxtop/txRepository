@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.DepositRefundDao">
+
+<resultMap type="DepositRefund" id="DepositRefund">
+	<id column="REFUND_NO" property="refundNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEPOSIT_ORDER_NO" property="depositOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_FLOW_NO" property="refundFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_METHOD" property="refundMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REFUND_TIME" property="refundTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="REFUND_AMOUNT" property="refundAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_STATUS" property="refundStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REFUND_OPERATOR_ID" property="refundOperatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="APPLY_TIME" property="applyTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_STATUS" property="cencorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_CONFIRM_ITEM" property="cencorConfirmItem" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_MEMO" property="refundMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_GROUNDS" property="refundGrounds" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_GROUNDS_MEMO" property="refundGroundsMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+REFUND_NO,DEPOSIT_ORDER_NO,REFUND_FLOW_NO,REFUND_METHOD,REFUND_TIME,REFUND_AMOUNT,MEMBER_NO,
+MEMBER_NAME,MOBILE_PHONE,REFUND_STATUS,REFUND_OPERATOR_ID,APPLY_TIME,CENCOR_ID,
+CENCOR_STATUS,CENCOR_CONFIRM_ITEM,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,REFUND_MEMO,REFUND_FAIL_INFO,REFUND_GROUNDS,REFUND_GROUNDS_MEMO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+REFUND_NO,DEPOSIT_ORDER_NO,REFUND_FLOW_NO,REFUND_METHOD,REFUND_TIME,REFUND_AMOUNT,MEMBER_NO,
+MEMBER_NAME,MOBILE_PHONE,REFUND_STATUS,REFUND_OPERATOR_ID,APPLY_TIME,CENCOR_ID,
+CENCOR_STATUS,CENCOR_CONFIRM_ITEM,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,REFUND_MEMO,REFUND_FAIL_INFO,REFUND_GROUNDS,REFUND_GROUNDS_MEMO
+</sql>
+
+<insert id="add" parameterType="DepositRefund" useGeneratedKeys="true" keyProperty="refundNo">
+	insert into T_DEPOSIT_REFUND(
+		<if test="refundNo!=null">
+		REFUND_NO,
+		</if>
+		DEPOSIT_ORDER_NO,
+		REFUND_FLOW_NO,
+		REFUND_METHOD,
+		REFUND_TIME,
+		REFUND_AMOUNT,
+		MEMBER_NO,
+		MEMBER_NAME,
+		MOBILE_PHONE,
+		REFUND_STATUS,
+		REFUND_OPERATOR_ID,
+		APPLY_TIME,
+		CENCOR_ID,
+		CENCOR_STATUS,
+		CENCOR_CONFIRM_ITEM,
+		CENCOR_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		REFUND_FAIL_INFO,
+		REFUND_GROUNDS,
+		REFUND_GROUNDS_MEMO
+	) values (
+		<if test="refundNo!=null">
+		#{refundNo,jdbcType = VARCHAR},
+		</if>
+		#{depositOrderNo,jdbcType = VARCHAR},
+		#{refundFlowNo,jdbcType = VARCHAR},
+		#{refundMethod,jdbcType = TINYINT},
+		#{refundTime,jdbcType = TIMESTAMP},
+		#{refundAmount,jdbcType = DOUBLE},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{refundStatus,jdbcType = TINYINT},
+		#{refundOperatorId,jdbcType = VARCHAR},
+		#{applyTime,jdbcType = TIMESTAMP},
+		#{cencorId,jdbcType = VARCHAR},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorConfirmItem,jdbcType = VARCHAR},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{refundFailInfo,jdbcType = VARCHAR},
+		#{refundGrounds,jdbcType = VARCHAR},
+		#{refundGroundsMemo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DepositRefund">
+	update t_deposit_refund 
+	<set>
+		<if test="depositOrderNo!=null and depositOrderNo!=''">
+			DEPOSIT_ORDER_NO=#{depositOrderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="refundFlowNo!=null and refundFlowNo!=''">
+			REFUND_FLOW_NO=#{refundFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="refundMethod!=null ">
+			REFUND_METHOD=#{refundMethod,jdbcType = TINYINT},
+		</if>
+		<if test="refundTime!=null ">
+			REFUND_TIME=#{refundTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="refundAmount!=null ">
+			REFUND_AMOUNT=#{refundAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="refundStatus!=null ">
+			REFUND_STATUS=#{refundStatus,jdbcType = TINYINT},
+		</if>
+		<if test="refundOperatorId!=null and refundOperatorId!=''">
+			REFUND_OPERATOR_ID=#{refundOperatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="applyTime!=null ">
+			APPLY_TIME=#{applyTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorStatus!=null ">
+			CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorConfirmItem!=null and cencorConfirmItem!=''">
+			CENCOR_CONFIRM_ITEM=#{cencorConfirmItem,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="refundMemo!=null and refundMemo!=''">
+			REFUND_MEMO=#{refundMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="refundFailInfo!=null and refundFailInfo!=''">
+			REFUND_FAIL_INFO=#{refundFailInfo,jdbcType = VARCHAR},
+		</if>
+		<if test="refundGrounds!=null and refundGrounds!=''">
+			REFUND_GROUNDS=#{refundGrounds,jdbcType = VARCHAR},
+		</if>
+		<if test="refundGroundsMemo!=null and refundGroundsMemo!=''">
+			REFUND_GROUNDS_MEMO=#{refundGroundsMemo,jdbcType = VARCHAR},
+		</if>
+		
+	</set>
+	<where>
+		AND REFUND_NO=#{refundNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_deposit_refund 
+	<where>
+		REFUND_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DepositRefund">
+	select <include refid="AllColumnlist"/> from t_deposit_refund
+	<where>
+		REFUND_NO=#{0}
+	</where>
+</select>
+<!-- 获取会员已经申请的退款金额总和  zln -->
+<select id="getApplyAmountByMemberNo" resultType="cn.com.shopec.core.finace.model.MemberDepositRefund">
+	select MEMBER_NO as memberNo,SUM(REFUND_AMOUNT) as applyAmount from t_deposit_refund
+	<where>
+		REFUND_STATUS=0 AND MEMBER_NO = #{0}
+	</where>
+</select>
+<!-- 会员有已经申请保证金退款并还没有退款成功的记录 -->
+<select id="getNoPayByMemberNo" resultMap="DepositRefund">
+	select <include refid="AllColumnlist"/> from t_deposit_refund
+	<where>
+		MEMBER_NO=#{0} and REFUND_STATUS=0 and CENCOR_STATUS!=3
+	</where>
+</select>
+<select id="getByIds" resultMap="DepositRefund">
+	select <include refid="AllColumnlist"/> from t_deposit_refund
+	<where>
+		REFUND_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(REFUND_NO) from t_deposit_refund 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DepositRefund">
+	select <include refid="CommonColumnlist"/> from t_deposit_refund 
+	<where>
+	<include refid="listCommonWhere"/> 
+	</where>order by CREATE_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DepositRefund">
+	select <include refid="CommonColumnlist"/> from t_deposit_refund
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where>
+	<!-- 排序方式为:1. “未审核数据” 2.“已审核未退款数据” 3.“退款失败可再次退款数据” 4.“退款完成数据” 5.“审核不通过数据” -->
+	order by FIELD(CENCOR_STATUS,1,3), FIELD(REFUND_STATUS,2,1),REFUND_TIME DESC,CREATE_TIME ASC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.refundNo!=null and q.refundNo!=''">
+			AND REFUND_NO=#{q.refundNo}
+		</if>
+		<if test="q.depositOrderNo!=null and q.depositOrderNo!=''">
+			AND DEPOSIT_ORDER_NO=#{q.depositOrderNo}
+		</if>
+		<if test="q.refundFlowNo!=null and q.refundFlowNo!=''">
+			AND REFUND_FLOW_NO like concat(concat("%",#{q.refundFlowNo}),"%")  
+		</if>
+		<if test="q.refundMethod!=null ">
+			AND REFUND_METHOD=#{q.refundMethod}
+		</if>
+		<if test="q.refundTime!=null ">
+			AND REFUND_TIME=#{q.refundTime}
+		</if>
+		<if test="q.refundTimeStart!=null">
+		<![CDATA[	AND REFUND_TIME>=#{q.refundTimeStart}  ]]>
+		</if>
+		<if test="q.refundTimeEnd!=null">
+		<![CDATA[	AND REFUND_TIME<#{q.refundTimeEnd}   ]]>
+		</if>
+		<if test="q.refundAmount!=null ">
+			AND REFUND_AMOUNT=#{q.refundAmount}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like concat(concat("%",#{q.mobilePhone}),"%") 
+		</if>
+		<if test="q.refundStatus!=null ">
+			AND REFUND_STATUS=#{q.refundStatus}
+		</if>
+		<if test="q.refundOperatorId!=null and q.refundOperatorId!=''">
+			AND REFUND_OPERATOR_ID=#{q.refundOperatorId}
+		</if>
+		<if test="q.applyTime!=null ">
+			AND APPLY_TIME=#{q.applyTime}
+		</if>
+		<if test="q.applyTimeStart!=null">
+		<![CDATA[	AND APPLY_TIME>=#{q.applyTimeStart}  ]]>
+		</if>
+		<if test="q.applyTimeEnd!=null">
+		<![CDATA[	AND APPLY_TIME<#{q.applyTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorConfirmItem!=null and q.cencorConfirmItem!=''">
+			AND CENCOR_CONFIRM_ITEM=#{q.cencorConfirmItem}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.refundFailInfo!=null and q.refundFailInfo!=''">
+			AND REFUND_FAIL_INFO=#{q.refundFailInfo}
+		</if>
+		<if test="q.refundGrounds!=null and q.refundGrounds!=''">
+			AND REFUND_GROUNDS=#{q.refundGrounds}
+		</if>
+		<if test="q.refundGroundsMemo!=null and q.refundGroundsMemo!=''">
+			AND REFUND_GROUNDS_MEMO=#{q.refundGroundsMemo}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.refundNo!=null and q.refundNo!=''">
+			AND REFUND_NO=#{q.refundNo}
+		</if>
+		<if test="q.depositOrderNo!=null and q.depositOrderNo!=''">
+			AND DEPOSIT_ORDER_NO=#{q.depositOrderNo}
+		</if>
+		<if test="q.refundFlowNo!=null and q.refundFlowNo!=''">
+			AND REFUND_FLOW_NO=#{q.refundFlowNo}
+		</if>
+		<if test="q.refundMethod!=null ">
+			AND REFUND_METHOD=#{q.refundMethod}
+		</if>
+		<if test="q.refundTime!=null ">
+			AND REFUND_TIME=#{q.refundTime}
+		</if>
+		<if test="q.refundTimeStart!=null">
+		<![CDATA[	AND REFUND_TIME>=#{q.refundTimeStart}  ]]>
+		</if>
+		<if test="q.refundTimeEnd!=null">
+		<![CDATA[	AND REFUND_TIME<#{q.refundTimeEnd}   ]]>
+		</if>
+		<if test="q.refundAmount!=null ">
+			AND REFUND_AMOUNT=#{q.refundAmount}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.refundStatus!=null ">
+			AND REFUND_STATUS=#{q.refundStatus}
+		</if>
+		<if test="q.refundOperatorId!=null and q.refundOperatorId!=''">
+			AND REFUND_OPERATOR_ID=#{q.refundOperatorId}
+		</if>
+		<if test="q.applyTime!=null ">
+			AND APPLY_TIME=#{q.applyTime}
+		</if>
+		<if test="q.applyTimeStart!=null">
+		<![CDATA[	AND APPLY_TIME>=#{q.applyTimeStart}  ]]>
+		</if>
+		<if test="q.applyTimeEnd!=null">
+		<![CDATA[	AND APPLY_TIME<#{q.applyTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorStatus!=null ">
+			AND CENCOR_STATUS=#{q.cencorStatus}
+		</if>
+		<if test="q.cencorConfirmItem!=null and q.cencorConfirmItem!=''">
+			AND CENCOR_CONFIRM_ITEM=#{q.cencorConfirmItem}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.refundFailInfo!=null and q.refundFailInfo!=''">
+			AND REFUND_FAIL_INFO=#{q.refundFailInfo}
+		</if>
+		
+		<if test="q.refundGrounds!=null and q.refundGrounds!=''">
+			AND REFUND_GROUNDS=#{q.refundGrounds}
+		</if>
+		<if test="q.refundGroundsMemo!=null and q.refundGroundsMemo!=''">
+			AND REFUND_GROUNDS_MEMO=#{q.refundGroundsMemo}
+		</if>
+	</if>
+</sql>
+<!-- 根据请求查询出退款押金 待审核的 -->
+<select id="countDepositRefundCensorStatus" resultType="Integer">
+	SELECT count(*) FROM t_deposit_refund WHERE CENCOR_STATUS=0
+</select>
+</mapper>

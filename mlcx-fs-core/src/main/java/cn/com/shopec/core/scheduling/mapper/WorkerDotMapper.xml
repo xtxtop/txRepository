@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.scheduling.dao.WorkerDotDao">
+
+<resultMap type="WorkerDot" id="WorkerDot">
+	<id column="WORKER_DOT_NO" property="workerDotNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WORKER_ID" property="workerId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NAME" property="parkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+WORKER_DOT_NO,WORKER_ID,PARK_NO,PARK_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+WORKER_DOT_NO,WORKER_ID,PARK_NO,PARK_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="WorkerDot" useGeneratedKeys="true" keyProperty="workerDotNo">
+	insert into T_WORKER_DOT(
+		<if test="workerDotNo!=null">
+		WORKER_DOT_NO,
+		</if>
+		WORKER_ID,
+		PARK_NO,
+		PARK_NAME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="workerDotNo!=null">
+		#{workerDotNo,jdbcType = VARCHAR},
+		</if>
+		#{workerId,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{parkName,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="WorkerDot">
+	update t_worker_dot 
+	<set>
+		<if test="workerId!=null and workerId!=''">
+			WORKER_ID=#{workerId,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkName!=null and parkName!=''">
+			PARK_NAME=#{parkName,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND WORKER_DOT_NO=#{workerDotNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_worker_dot 
+	<where>
+		WORKER_DOT_NO=#{0}
+	</where>
+</delete>
+<delete id="deleteByWorkerId">
+	delete from t_worker_dot 
+	<where>
+		WORKER_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="WorkerDot">
+	select <include refid="AllColumnlist"/> from t_worker_dot
+	<where>
+		WORKER_DOT_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="WorkerDot">
+	select <include refid="AllColumnlist"/> from t_worker_dot
+	<where>
+		WORKER_DOT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(WORKER_DOT_NO) from t_worker_dot 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="WorkerDot">
+	select <include refid="CommonColumnlist"/> from t_worker_dot 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="WorkerDot">
+	select <include refid="CommonColumnlist"/> from t_worker_dot
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.workerDotNo!=null and q.workerDotNo!=''">
+			AND WORKER_DOT_NO=#{q.workerDotNo}
+		</if>
+		<if test="q.workerId!=null and q.workerId!=''">
+			AND WORKER_ID=#{q.workerId}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND PARK_NAME like '%${q.parkName}%'
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

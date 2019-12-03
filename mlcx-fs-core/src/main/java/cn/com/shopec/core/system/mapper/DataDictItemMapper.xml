@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.DataDictItemDao">
+
+<resultMap type="DataDictItem" id="DataDictItem">
+	<id column="DATA_DICT_ITEM_ID" property="dataDictItemId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DATA_DICT_CAT_CODE" property="dataDictCatCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARENT_ITEM_ID" property="parentItemId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ITEM_VALUE" property="itemValue" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="INFO1" property="info1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INFO2" property="info2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DATA_DICT_ITEM_ID,DATA_DICT_CAT_CODE,PARENT_ITEM_ID,ITEM_VALUE,MEMO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,
+IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,INFO1,INFO2
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DATA_DICT_ITEM_ID,DATA_DICT_CAT_CODE,PARENT_ITEM_ID,ITEM_VALUE,MEMO,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,
+IS_DELETED,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,INFO1,INFO2
+</sql>
+
+<insert id="add" parameterType="DataDictItem" useGeneratedKeys="true" keyProperty="dataDictItemId">
+	insert into T_DATA_DICT_ITEM(
+		<if test="dataDictItemId!=null">
+		DATA_DICT_ITEM_ID,
+		</if>
+		DATA_DICT_CAT_CODE,
+		PARENT_ITEM_ID,
+		ITEM_VALUE,
+		MEMO,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		INFO1,
+		INFO2
+	) values (
+		<if test="dataDictItemId!=null">
+		#{dataDictItemId,jdbcType = VARCHAR},
+		</if>
+		#{dataDictCatCode,jdbcType = VARCHAR},
+		#{parentItemId,jdbcType = VARCHAR},
+		#{itemValue,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{info1,jdbcType = VARCHAR},
+		#{info2,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DataDictItem">
+	update t_data_dict_item 
+	<set>
+		<if test="dataDictCatCode!=null and dataDictCatCode!=''">
+			DATA_DICT_CAT_CODE=#{dataDictCatCode,jdbcType = VARCHAR},
+		</if>
+		<if test="parentItemId!=null and parentItemId!=''">
+			PARENT_ITEM_ID=#{parentItemId,jdbcType = VARCHAR},
+		</if>
+		<if test="itemValue!=null and itemValue!=''">
+			ITEM_VALUE=#{itemValue,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="info1!=null and info1!=''">
+			INFO1=#{info1,jdbcType = VARCHAR},
+		</if>
+		<if test="info2!=null and info2!=''">
+			INFO2=#{info2,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND DATA_DICT_ITEM_ID=#{dataDictItemId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_data_dict_item 
+	<where>
+		DATA_DICT_ITEM_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DataDictItem">
+	select <include refid="AllColumnlist"/> from t_data_dict_item
+	<where>
+		DATA_DICT_ITEM_ID=#{0}
+	</where>
+</select>
+<select id="getItemValue" resultMap="DataDictItem">
+	select <include refid="AllColumnlist"/> from t_data_dict_item
+	<where>
+		ITEM_VALUE=#{0} AND DATA_DICT_CAT_CODE=#{1}
+	</where>
+</select>
+
+<select id="getModleByBrand" resultMap="DataDictItem">
+	select <include refid="AllColumnlist"/> from t_data_dict_item
+	<where>
+		DATA_DICT_CAT_CODE=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DataDictItem">
+	select <include refid="AllColumnlist"/> from t_data_dict_item
+	<where>
+		DATA_DICT_ITEM_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DATA_DICT_ITEM_ID) from t_data_dict_item 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="getDataDictCatCode" resultMap="DataDictItem">
+	select DATA_DICT_ITEM_ID,DATA_DICT_CAT_CODE  from t_data_dict_item group by DATA_DICT_CAT_CODE
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DataDictItem">
+	select <include refid="CommonColumnlist"/> from t_data_dict_item 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DataDictItem">
+	select <include refid="CommonColumnlist"/> from t_data_dict_item
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.dataDictItemId!=null and q.dataDictItemId!=''">
+			AND DATA_DICT_ITEM_ID=#{q.dataDictItemId}
+		</if>
+		<if test="q.dataDictCatCode!=null and q.dataDictCatCode!=''">
+			AND DATA_DICT_CAT_CODE=#{q.dataDictCatCode}
+		</if>
+		<if test="q.parentItemId!=null and q.parentItemId!=''">
+			AND PARENT_ITEM_ID=#{q.parentItemId}
+		</if>
+		<if test="q.itemValue!=null and q.itemValue!=''">
+			AND ITEM_VALUE=#{q.itemValue}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.info1!=null ">
+			AND INFO1=#{q.info1}
+		</if>
+		<if test="q.info2!=null ">
+			AND INFO2=#{q.info2}
+		</if>
+	</if>
+</sql>
+
+</mapper>

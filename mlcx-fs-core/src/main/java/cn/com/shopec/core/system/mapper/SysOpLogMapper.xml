@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysOpLogDao">
+
+<resultMap type="SysOpLog" id="SysOpLog">
+	<id column="LOG_ID" property="logId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SYSTEM_TYPE" property="systemType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OP_TYPE" property="opType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MODULE_NAME" property="moduleName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOG_MSG" property="logMsg" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_ID" property="bizObjId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_USER_NAME" property="operatorUserName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+<insert id="add" parameterType="SysOpLog">
+	insert into T_SYS_OP_LOG(
+		LOG_ID,
+		SYSTEM_TYPE,
+		OP_TYPE,
+		MODULE_NAME,
+		LOG_MSG,
+		MEMO,
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_ID,
+		CREATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		OPERATOR_USER_NAME
+	) values (
+		#{logId,jdbcType = VARCHAR},
+		#{systemType,jdbcType = TINYINT},
+		#{opType,jdbcType = VARCHAR},
+		#{moduleName,jdbcType = VARCHAR},
+		#{logMsg,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{bizObjType,jdbcType = VARCHAR},
+		#{bizObjId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorUserName,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SysOpLog">
+	update t_sys_op_log 
+	<set>
+		<if test="systemType!=null ">
+			SYSTEM_TYPE=#{systemType,jdbcType = TINYINT},
+		</if>
+		<if test="opType!=null and opType!=''">
+			OP_TYPE=#{opType,jdbcType = VARCHAR},
+		</if>
+		<if test="moduleName!=null and moduleName!=''">
+			MODULE_NAME=#{moduleName,jdbcType = VARCHAR},
+		</if>
+		<if test="logMsg!=null and logMsg!=''">
+			LOG_MSG=#{logMsg,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjType!=null and bizObjType!=''">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjId!=null ">
+			BIZ_OBJ_ID=#{bizObjId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorUserName!=null and operatorUserName!=''">
+			OPERATOR_USER_NAME=#{operatorUserName,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND LOG_ID=#{logId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_op_log 
+	<where>
+		LOG_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SysOpLog">
+	select * from t_sys_op_log
+	<where>
+		LOG_ID=#{0}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_op_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysOpLog">
+	select * from t_sys_op_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysOpLog">
+	select * from  t_sys_op_log
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	ORDER BY CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+		<if test="q.logId!=null ">
+			AND LOG_ID=#{q.logId}
+		</if>
+		<if test="q.systemType!=null ">
+			AND SYSTEM_TYPE=#{q.systemType}
+		</if>
+		<if test="q.opType!=null and q.opType!=''">
+			AND OP_TYPE=#{q.opType}
+		</if>
+		<if test="q.moduleName!=null and q.moduleName!=''">
+			AND MODULE_NAME=#{q.moduleName}
+		</if>
+		<if test="q.logMsg!=null and q.logMsg!=''">
+			AND LOG_MSG=#{q.logMsg}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.bizObjType!=null and q.bizObjType!=''">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.bizObjId!=null ">
+			AND BIZ_OBJ_ID=#{q.bizObjId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorUserName!=null and q.operatorUserName!=''">
+			AND OPERATOR_USER_NAME=#{q.operatorUserName}
+		</if>
+		<if test="q.startCreateTime!=null ">
+            AND CREATE_TIME&gt;=#{q.startCreateTime}
+        </if>
+        <if test="q.endCreateTime!=null ">
+            AND CREATE_TIME&lt;=#{q.endCreateTime}
+        </if>
+</sql>
+
+</mapper>

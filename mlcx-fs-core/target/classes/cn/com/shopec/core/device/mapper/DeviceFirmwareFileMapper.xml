@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.device.dao.DeviceFirmwareFileDao">
+
+<resultMap type="DeviceFirmwareFile" id="DeviceFirmwareFile">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FIRMWARE_TYPE" property="firmwareType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="UP_ADDRESS" property="upAddress" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FTP_USERNAME" property="ftpUsername" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FTP_PASSWORD" property="ftpPassword" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_NAME" property="fileName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_PATH" property="filePath" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_CHECKSUM" property="fileChecksum" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FILE_VERSION" property="fileVersion" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,FIRMWARE_TYPE,CAR_MODEL_ID,UP_ADDRESS,FTP_USERNAME,FTP_PASSWORD,FILE_NAME,
+FILE_PATH,FILE_CHECKSUM,FILE_VERSION,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,FIRMWARE_TYPE,CAR_MODEL_ID,UP_ADDRESS,FTP_USERNAME,FTP_PASSWORD,FILE_NAME,
+FILE_PATH,FILE_CHECKSUM,FILE_VERSION,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="DeviceFirmwareFile" useGeneratedKeys="true" keyProperty="id">
+	insert into T_DEVICE_FIRMWARE_FILE(
+		<if test="id!=null">
+		ID,
+		</if>
+		FIRMWARE_TYPE,
+		CAR_MODEL_ID,
+		UP_ADDRESS,
+		FTP_USERNAME,
+		FTP_PASSWORD,
+		FILE_NAME,
+		FILE_PATH,
+		FILE_CHECKSUM,
+		FILE_VERSION,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{firmwareType,jdbcType = TINYINT},
+		#{carModelId,jdbcType = VARCHAR},
+		#{upAddress,jdbcType = VARCHAR},
+		#{ftpUsername,jdbcType = VARCHAR},
+		#{ftpPassword,jdbcType = VARCHAR},
+		#{fileName,jdbcType = VARCHAR},
+		#{filePath,jdbcType = VARCHAR},
+		#{fileChecksum,jdbcType = VARCHAR},
+		#{fileVersion,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DeviceFirmwareFile">
+	update t_device_firmware_file 
+	<set>
+		<if test="firmwareType!=null ">
+			FIRMWARE_TYPE=#{firmwareType,jdbcType = TINYINT},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="upAddress!=null and upAddress!=''">
+			UP_ADDRESS=#{upAddress,jdbcType = VARCHAR},
+		</if>
+		<if test="ftpUsername!=null and ftpUsername!=''">
+			FTP_USERNAME=#{ftpUsername,jdbcType = VARCHAR},
+		</if>
+		<if test="ftpPassword!=null and ftpPassword!=''">
+			FTP_PASSWORD=#{ftpPassword,jdbcType = VARCHAR},
+		</if>
+		<if test="fileName!=null and fileName!=''">
+			FILE_NAME=#{fileName,jdbcType = VARCHAR},
+		</if>
+		<if test="filePath!=null and filePath!=''">
+			FILE_PATH=#{filePath,jdbcType = VARCHAR},
+		</if>
+		<if test="fileChecksum!=null and fileChecksum!=''">
+			FILE_CHECKSUM=#{fileChecksum,jdbcType = VARCHAR},
+		</if>
+		<if test="fileVersion!=null and fileVersion!=''">
+			FILE_VERSION=#{fileVersion,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_device_firmware_file 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DeviceFirmwareFile">
+	select <include refid="AllColumnlist"/> from t_device_firmware_file
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DeviceFirmwareFile">
+	select <include refid="AllColumnlist"/> from t_device_firmware_file
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_device_firmware_file 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DeviceFirmwareFile">
+	select <include refid="CommonColumnlist"/> from t_device_firmware_file 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DeviceFirmwareFile">
+	select <include refid="CommonColumnlist"/> from t_device_firmware_file
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getByFirmwareTypeAndCarModelId" resultMap="DeviceFirmwareFile">
+	select <include refid="AllColumnlist"/> from t_device_firmware_file
+	<where>
+		FIRMWARE_TYPE=#{0} and CAR_MODEL_ID=#{1}
+	</where>
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.firmwareType!=null ">
+			AND FIRMWARE_TYPE=#{q.firmwareType}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.upAddress!=null and q.upAddress!=''">
+			AND UP_ADDRESS=#{q.upAddress}
+		</if>
+		<if test="q.ftpUsername!=null and q.ftpUsername!=''">
+			AND FTP_USERNAME=#{q.ftpUsername}
+		</if>
+		<if test="q.ftpPassword!=null and q.ftpPassword!=''">
+			AND FTP_PASSWORD=#{q.ftpPassword}
+		</if>
+		<if test="q.fileName!=null and q.fileName!=''">
+			AND FILE_NAME=#{q.fileName}
+		</if>
+		<if test="q.filePath!=null and q.filePath!=''">
+			AND FILE_PATH=#{q.filePath}
+		</if>
+		<if test="q.fileChecksum!=null and q.fileChecksum!=''">
+			AND FILE_CHECKSUM=#{q.fileChecksum}
+		</if>
+		<if test="q.fileVersion!=null and q.fileVersion!=''">
+			AND FILE_VERSION=#{q.fileVersion}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlparking.dao.CParkingDao">
+
+<resultMap type="CParking" id="CParking">
+	<id column="PARKING_NO" property="parkingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_NAME" property="parkingName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PROVINCE_ID" property="provinceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DISTRICT_ID" property="districtId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDR_STREET" property="addrStreet" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_SPACE_NUMBER" property="parkingSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="SURPLUS_SPACE_NUMBER" property="surplusSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PARKING_TYPE" property="parkingType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_STATUS" property="parkingStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SUPPORTED_SERVICES" property="supportedServices" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_PUBLIC" property="isPublic" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BUSINESS_HOURS" property="businessHours" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_BUSINESS_FESTIVAL" property="isBusinessFestival" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="LABEL" property="label" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATING_CITY_NO" property="operatingCityNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PLIES_NUMBER" property="pliesNumber" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BILLING_SCHEME_NO" property="billingSchemeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ONLINE_STATUS" property="onlineStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TYPE" property="type" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="UNDERGROUND_NUMBER" property="undergroundNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    <result column="UNDERGROUND_PARKING_SPACE_NUMBER" property="undergroundParkingSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    <result column="UNDERGROUND_SURPLUS_SPACE_NUMBER" property="undergroundSurplusSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    <result column="GROUND_NUMBER" property="groundNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    <result column="GROUND_PARKING_SPACE_NUMBER" property="groundParkingSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+    <result column="GROUND_SURPLUS_SPACE_NUMBER" property="groundSurplusSpaceNumber" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="MUCH_PLIES_NUMBER" property="muchPliesNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARKING_NO,PARKING_NAME,PROVINCE_ID,CITY_ID,DISTRICT_ID,ADDR_STREET,PARKING_SPACE_NUMBER,
+SURPLUS_SPACE_NUMBER,PARKING_TYPE,PARKING_STATUS,IS_DELETED,LONGITUDE,LATITUDE,
+SUPPORTED_SERVICES,IS_PUBLIC,BUSINESS_HOURS,IS_BUSINESS_FESTIVAL,LABEL,OPERATING_CITY_NO,
+PLIES_NUMBER,BILLING_SCHEME_NO,ONLINE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,TYPE,UNDERGROUND_NUMBER,UNDERGROUND_PARKING_SPACE_NUMBER,UNDERGROUND_SURPLUS_SPACE_NUMBER,GROUND_NUMBER,
+GROUND_PARKING_SPACE_NUMBER,GROUND_SURPLUS_SPACE_NUMBER,MUCH_PLIES_NUMBER
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARKING_NO,PARKING_NAME,PROVINCE_ID,CITY_ID,DISTRICT_ID,ADDR_STREET,PARKING_SPACE_NUMBER,
+SURPLUS_SPACE_NUMBER,PARKING_TYPE,PARKING_STATUS,IS_DELETED,LONGITUDE,LATITUDE,
+IS_PUBLIC,BUSINESS_HOURS,IS_BUSINESS_FESTIVAL,LABEL,OPERATING_CITY_NO,
+PLIES_NUMBER,BILLING_SCHEME_NO,ONLINE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,TYPE,UNDERGROUND_NUMBER,UNDERGROUND_PARKING_SPACE_NUMBER,UNDERGROUND_SURPLUS_SPACE_NUMBER,GROUND_NUMBER,
+GROUND_PARKING_SPACE_NUMBER,GROUND_SURPLUS_SPACE_NUMBER,MUCH_PLIES_NUMBER
+</sql>
+
+<insert id="add" parameterType="CParking" useGeneratedKeys="true" keyProperty="parkingNo">
+	insert into C_PARKING(
+		<if test="parkingNo!=null">
+		PARKING_NO,
+		</if>
+		PARKING_NAME,
+		PROVINCE_ID,
+		CITY_ID,
+		DISTRICT_ID,
+		ADDR_STREET,
+		PARKING_SPACE_NUMBER,
+		SURPLUS_SPACE_NUMBER,
+		PARKING_TYPE,
+		PARKING_STATUS,
+		IS_DELETED,
+		LONGITUDE,
+		LATITUDE,
+		SUPPORTED_SERVICES,
+		IS_PUBLIC,
+		BUSINESS_HOURS,
+		IS_BUSINESS_FESTIVAL,
+		LABEL,
+		OPERATING_CITY_NO,
+		PLIES_NUMBER,
+		BILLING_SCHEME_NO,
+		ONLINE_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,TYPE,
+        UNDERGROUND_NUMBER,
+        UNDERGROUND_PARKING_SPACE_NUMBER,
+        UNDERGROUND_SURPLUS_SPACE_NUMBER,
+        GROUND_NUMBER,
+        GROUND_PARKING_SPACE_NUMBER,
+        GROUND_SURPLUS_SPACE_NUMBER,MUCH_PLIES_NUMBER
+	) values (
+		<if test="parkingNo!=null">
+		#{parkingNo,jdbcType = VARCHAR},
+		</if>
+		#{parkingName,jdbcType = VARCHAR},
+		#{provinceId,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{districtId,jdbcType = VARCHAR},
+		#{addrStreet,jdbcType = VARCHAR},
+		#{parkingSpaceNumber,jdbcType = INTEGER},
+		#{surplusSpaceNumber,jdbcType = INTEGER},
+		#{parkingType,jdbcType = TINYINT},
+		#{parkingStatus,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{longitude,jdbcType = VARCHAR},
+		#{latitude,jdbcType = VARCHAR},
+		#{supportedServices,jdbcType = VARCHAR},
+		#{isPublic,jdbcType = TINYINT},
+		#{businessHours,jdbcType = VARCHAR},
+		#{isBusinessFestival,jdbcType = TINYINT},
+		#{label,jdbcType = VARCHAR},
+		#{operatingCityNo,jdbcType = VARCHAR},
+		#{pliesNumber,jdbcType = TINYINT},
+		#{billingSchemeNo,jdbcType = VARCHAR},
+		#{onlineStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{type,jdbcType = TINYINT},
+		#{undergroundNumber,jdbcType = INTEGER},
+        #{undergroundParkingSpaceNumber,jdbcType = INTEGER},
+        #{undergroundSurplusSpaceNumber,jdbcType = INTEGER},
+        #{groundNumber,jdbcType = INTEGER},
+        #{groundParkingSpaceNumber,jdbcType = INTEGER},
+        #{groundSurplusSpaceNumber,jdbcType = INTEGER},
+        #{muchPliesNumber,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CParking">
+	update C_PARKING 
+	<set>
+		<if test="parkingName!=null and parkingName!=''">
+			PARKING_NAME=#{parkingName,jdbcType = VARCHAR},
+		</if>
+		<if test="provinceId!=null and provinceId!=''">
+			PROVINCE_ID=#{provinceId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="districtId!=null and districtId!=''">
+			DISTRICT_ID=#{districtId,jdbcType = VARCHAR},
+		</if>
+		<if test="addrStreet!=null and addrStreet!=''">
+			ADDR_STREET=#{addrStreet,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingSpaceNumber!=null ">
+			PARKING_SPACE_NUMBER=#{parkingSpaceNumber,jdbcType = INTEGER},
+		</if>
+		<if test="surplusSpaceNumber!=null ">
+			SURPLUS_SPACE_NUMBER=#{surplusSpaceNumber,jdbcType = INTEGER},
+		</if>
+		<if test="parkingType!=null ">
+			PARKING_TYPE=#{parkingType,jdbcType = TINYINT},
+		</if>
+		<if test="parkingStatus!=null ">
+			PARKING_STATUS=#{parkingStatus,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="longitude!=null and longitude!=''">
+			LONGITUDE=#{longitude,jdbcType = VARCHAR},
+		</if>
+		<if test="latitude!=null and latitude!=''">
+			LATITUDE=#{latitude,jdbcType = VARCHAR},
+		</if>
+		<if test="supportedServices!=null and supportedServices!=''">
+			SUPPORTED_SERVICES=#{supportedServices,jdbcType = VARCHAR},
+		</if>
+		<if test="isPublic!=null ">
+			IS_PUBLIC=#{isPublic,jdbcType = TINYINT},
+		</if>
+		<if test="businessHours!=null and businessHours!=''">
+			BUSINESS_HOURS=#{businessHours,jdbcType = VARCHAR},
+		</if>
+		<if test="isBusinessFestival!=null ">
+			IS_BUSINESS_FESTIVAL=#{isBusinessFestival,jdbcType = TINYINT},
+		</if>
+		<if test="label!=null and label!=''">
+			LABEL=#{label,jdbcType = VARCHAR},
+		</if>
+		<if test="operatingCityNo!=null and operatingCityNo!=''">
+			OPERATING_CITY_NO=#{operatingCityNo,jdbcType = VARCHAR},
+		</if>
+		<if test="pliesNumber!=null ">
+			PLIES_NUMBER=#{pliesNumber,jdbcType = TINYINT},
+		</if>
+		<if test="billingSchemeNo!=null and billingSchemeNo!=''">
+			BILLING_SCHEME_NO=#{billingSchemeNo,jdbcType = VARCHAR},
+		</if>
+		<if test="onlineStatus!=null ">
+			ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="type!=null ">
+			TYPE=#{type,jdbcType = TINYINT},
+		</if>
+		<if test="undergroundNumber!=null ">
+            UNDERGROUND_NUMBER=#{undergroundNumber,jdbcType = INTEGER},
+        </if>
+        <if test="undergroundParkingSpaceNumber!=null ">
+            UNDERGROUND_PARKING_SPACE_NUMBER=#{undergroundParkingSpaceNumber,jdbcType = INTEGER},
+        </if>
+        <if test="undergroundSurplusSpaceNumber!=null ">
+            UNDERGROUND_SURPLUS_SPACE_NUMBER=#{undergroundSurplusSpaceNumber,jdbcType = INTEGER},
+        </if>
+        <if test="groundNumber!=null ">
+            GROUND_NUMBER=#{groundNumber,jdbcType = INTEGER},
+        </if>
+        <if test="groundParkingSpaceNumber!=null ">
+            GROUND_PARKING_SPACE_NUMBER=#{groundParkingSpaceNumber,jdbcType = INTEGER},
+        </if>
+        <if test="groundSurplusSpaceNumber!=null ">
+            GROUND_SURPLUS_SPACE_NUMBER=#{groundSurplusSpaceNumber,jdbcType = INTEGER},
+        </if>
+        <if test="muchPliesNumber!=null ">
+            MUCH_PLIES_NUMBER= #{muchPliesNumber,jdbcType = VARCHAR},
+        </if>
+	</set>
+	<where>
+		AND PARKING_NO=#{parkingNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_PARKING 
+	<where>
+		PARKING_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CParking">
+	select <include refid="AllColumnlist"/> from C_PARKING
+	<where>
+		PARKING_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CParking">
+	select <include refid="AllColumnlist"/> from C_PARKING
+	<where>
+		PARKING_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARKING_NO) from C_PARKING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CParking">
+	select <include refid="CommonColumnlist"/> from C_PARKING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CParking">
+	select <include refid="CommonColumnlist"/> from C_PARKING
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=1
+    </if>
+	<if test="q!=null">
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.parkingName!=null and q.parkingName!=''">
+			AND PARKING_NAME like '%' #{q.parkingName} '%'
+		</if>
+		<if test="q.provinceId!=null and q.provinceId!=''">
+			AND PROVINCE_ID=#{q.provinceId}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.districtId!=null and q.districtId!=''">
+			AND DISTRICT_ID=#{q.districtId}
+		</if>
+		<if test="q.addrStreet!=null and q.addrStreet!=''">
+			AND ADDR_STREET=#{q.addrStreet}
+		</if>
+		<if test="q.parkingSpaceNumber!=null ">
+			AND PARKING_SPACE_NUMBER=#{q.parkingSpaceNumber}
+		</if>
+		<if test="q.surplusSpaceNumber!=null ">
+			AND SURPLUS_SPACE_NUMBER=#{q.surplusSpaceNumber}
+		</if>
+		<if test="q.parkingType!=null ">
+			AND PARKING_TYPE=#{q.parkingType}
+		</if>
+		<if test="q.parkingStatus!=null ">
+			AND PARKING_STATUS=#{q.parkingStatus}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.longitude!=null and q.longitude!=''">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null and q.latitude!=''">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.supportedServices!=null and q.supportedServices!=''">
+			AND SUPPORTED_SERVICES=#{q.supportedServices}
+		</if>
+		<if test="q.isPublic!=null ">
+			AND IS_PUBLIC=#{q.isPublic}
+		</if>
+		<if test="q.businessHours!=null and q.businessHours!=''">
+			AND BUSINESS_HOURS=#{q.businessHours}
+		</if>
+		<if test="q.isBusinessFestival!=null ">
+			AND IS_BUSINESS_FESTIVAL=#{q.isBusinessFestival}
+		</if>
+		<if test="q.label!=null and q.label!=''">
+			AND LABEL=#{q.label}
+		</if>
+		<if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+			AND OPERATING_CITY_NO=#{q.operatingCityNo}
+		</if>
+		<if test="q.pliesNumber!=null ">
+			AND PLIES_NUMBER=#{q.pliesNumber}
+		</if>
+		<if test="q.billingSchemeNo!=null and q.billingSchemeNo!=''">
+			AND BILLING_SCHEME_NO=#{q.billingSchemeNo}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+        <![CDATA[   AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+        </if>
+        <if test="q.createTimeEnd!=null">
+        <![CDATA[   AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+        </if>
+        <if test="q.updateTimeStart!=null">
+        <![CDATA[   AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+        </if>
+        <if test="q.updateTimeEnd!=null">
+        <![CDATA[   AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+        </if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.type!=null ">
+			AND TYPE=#{q.type}
+		</if>
+		<if test="q.undergroundNumber!=null ">
+            AND UNDERGROUND_NUMBER=#{q.undergroundNumber}
+        </if>
+        <if test="q.undergroundParkingSpaceNumber!=null ">
+            AND UNDERGROUND_PARKING_SPACE_NUMBER=#{q.undergroundParkingSpaceNumber}
+        </if>
+        <if test="q.undergroundSurplusSpaceNumber!=null ">
+            AND UNDERGROUND_SURPLUS_SPACE_NUMBER=#{q.undergroundSurplusSpaceNumber}
+        </if>
+        <if test="q.groundNumber!=null ">
+            AND GROUND_NUMBER=#{q.groundNumber}
+        </if>
+        <if test="q.groundParkingSpaceNumber!=null ">
+            AND GROUND_PARKING_SPACE_NUMBER=#{q.groundParkingSpaceNumber}
+        </if>
+        <if test="q.groundSurplusSpaceNumber!=null ">
+            AND GROUND_SURPLUS_SPACE_NUMBER=#{q.groundSurplusSpaceNumber}
+        </if>
+          <if test="q.muchPliesNumber!=null ">
+            and MUCH_PLIES_NUMBER= #{q.muchPliesNumber,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+<select id="getParkList" parameterType="Query" resultType="cn.com.shopec.core.mlparking.vo.ParkingVo">
+select 
+    p.PARKING_NO parkingNo,p.PARKING_NAME parkingName,p.PROVINCE_ID provinceId,
+    p.CITY_ID cityId,p.DISTRICT_ID districtId,p.ADDR_STREET addrStreet,
+    p.PARKING_SPACE_NUMBER parkingSpaceNumber, p.SURPLUS_SPACE_NUMBER surplusSpaceNumber,
+    p.PARKING_TYPE parkingType,p.PARKING_STATUS parkingStatus,p.IS_DELETED isDeleted,
+    p.LONGITUDE longitude,p.LATITUDE latitude,
+    p.SUPPORTED_SERVICES supportedServices,
+    p.IS_PUBLIC isPublic,p.BUSINESS_HOURS businessHours,
+    p.IS_BUSINESS_FESTIVAL isBusinessFestival,p.LABEL label,
+    p.OPERATING_CITY_NO operatingCityNo, p.PLIES_NUMBER pliesNumber,
+    p.BILLING_SCHEME_NO billingSchemeNo,p.ONLINE_STATUS onlineStatus,
+    p.CREATE_TIME createTime,p.UPDATE_TIME updateTime,
+    p.TYPE type,c.OPERATING_CITY_NAME operatingCityName,
+    p.UNDERGROUND_NUMBER undergroundNumber,p.UNDERGROUND_PARKING_SPACE_NUMBER undergroundParkingSpaceNumber,
+    p.UNDERGROUND_SURPLUS_SPACE_NUMBER undergroundSurplusSpaceNumber,p.GROUND_NUMBER groundNumber,
+    p.GROUND_PARKING_SPACE_NUMBER groundParkingSpaceNumber,p.GROUND_SURPLUS_SPACE_NUMBER groundSurplusSpaceNumber,
+    p.MUCH_PLIES_NUMBER muchPliesNumber,
+    b.PARK_BILLING_NAME parkBillingName,d.FILE_URL fileUrl
+    ,t1.REGION_NAME provinceName,t2.REGION_NAME cityname,t3.REGION_NAME districtName
+    from C_PARKING p
+    LEFT JOIN c_operating_city  c on p.OPERATING_CITY_NO=c.OPERATING_CITY_NO
+    LEFT JOIN c_park_billing b on p.BILLING_SCHEME_NO=b.PARK_BILLING_NO
+    LEFT JOIN c_doc d on p.PARKING_NO=d.BIZ_ID
+        LEFT JOIN t_sys_region t1 on  p.PROVINCE_ID=t1.REGION_ID 
+        LEFT JOIN t_sys_region t2 on p.CITY_ID=t2.REGION_ID 
+        LEFT JOIN t_sys_region t3 on p.DISTRICT_ID=t3.REGION_ID
+        
+    where 1=1
+      <if test="q.parkingName!=null and q.parkingName!=''">
+            AND p.PARKING_NAME like '%' #{q.parkingName} '%'
+        </if>
+        <if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+            AND p.OPERATING_CITY_NO=#{q.operatingCityNo}
+        </if>
+        <if test="q.parkingType!=null ">
+            AND p.PARKING_TYPE=#{q.parkingType}
+        </if>
+        <if test="q.parkingStatus!=null ">
+            AND p.PARKING_STATUS=#{q.parkingStatus}
+        </if>
+      ORDER BY p.UPDATE_TIME DESC
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getParkListCount" parameterType="Query" resultType="Long">
+    select count(p.PARKING_NO)
+    from C_PARKING p
+    LEFT JOIN c_operating_city  c on p.OPERATING_CITY_NO=c.OPERATING_CITY_NO
+    LEFT JOIN c_park_billing b on p.BILLING_SCHEME_NO=b.PARK_BILLING_NO
+    LEFT JOIN c_doc d on p.PARKING_NO=d.BIZ_ID
+      LEFT JOIN t_sys_region t1 on  p.PROVINCE_ID=t1.REGION_ID 
+        LEFT JOIN t_sys_region t2 on p.CITY_ID=t2.REGION_ID 
+        LEFT JOIN t_sys_region t3 on p.DISTRICT_ID=t3.REGION_ID
+        where 1=1
+        <if test="q.parkingName!=null and q.parkingName!=''">
+            AND p.PARKING_NAME like '%' #{q.parkingName} '%'
+        </if>
+        <if test="q.operatingCityNo!=null and q.operatingCityNo!=''">
+            AND p.OPERATING_CITY_NO=#{q.operatingCityNo}
+        </if>
+        <if test="q.parkingType!=null ">
+            AND p.PARKING_TYPE=#{q.parkingType}
+        </if>
+        <if test="q.parkingStatus!=null ">
+            AND p.PARKING_STATUS=#{q.parkingStatus}
+        </if>
+    ORDER BY p.UPDATE_TIME DESC
+ </select>
+ <select id="getParkListNo"  resultType="cn.com.shopec.core.mlparking.vo.ParkingVo">
+  select 
+    p.PARKING_NO parkingNo,p.PARKING_NAME parkingName,p.PROVINCE_ID provinceId,
+    p.CITY_ID cityId,p.DISTRICT_ID districtId,p.ADDR_STREET addrStreet,
+    IFNULL(p.PARKING_SPACE_NUMBER,0) as parkingSpaceNumber, IFNULL(p.SURPLUS_SPACE_NUMBER,0) surplusSpaceNumber,
+    p.PARKING_TYPE parkingType,p.PARKING_STATUS parkingStatus,p.IS_DELETED isDeleted,
+    p.LONGITUDE longitude,p.LATITUDE latitude,
+    p.SUPPORTED_SERVICES supportedServices,
+    p.IS_PUBLIC isPublic,p.BUSINESS_HOURS businessHours,
+    p.IS_BUSINESS_FESTIVAL isBusinessFestival,p.LABEL label,
+    p.OPERATING_CITY_NO operatingCityNo, p.PLIES_NUMBER pliesNumber,
+    p.BILLING_SCHEME_NO billingSchemeNo,p.ONLINE_STATUS onlineStatus,
+    p.CREATE_TIME createTime,p.UPDATE_TIME updateTime,
+    p.TYPE type,c.OPERATING_CITY_NAME operatingCityName,
+    p.UNDERGROUND_NUMBER undergroundNumber,IFNULL(p.UNDERGROUND_PARKING_SPACE_NUMBER,0) undergroundParkingSpaceNumber,
+    IFNULL(p.UNDERGROUND_SURPLUS_SPACE_NUMBER,0) undergroundSurplusSpaceNumber,p.GROUND_NUMBER groundNumber,
+    IFNULL(p.GROUND_PARKING_SPACE_NUMBER,0) groundParkingSpaceNumber,IFNULL(p.GROUND_SURPLUS_SPACE_NUMBER,0) groundSurplusSpaceNumber,
+    p.MUCH_PLIES_NUMBER muchPliesNumber,
+    b.PARK_BILLING_NAME parkBillingName,d.FILE_URL fileUrl
+    ,t1.REGION_NAME provinceName,t2.REGION_NAME cityname,t3.REGION_NAME districtName
+    from C_PARKING p
+    LEFT JOIN c_operating_city  c on p.OPERATING_CITY_NO=c.OPERATING_CITY_NO
+    LEFT JOIN c_park_billing b on p.BILLING_SCHEME_NO=b.PARK_BILLING_NO
+    LEFT JOIN c_doc d on p.PARKING_NO=d.BIZ_ID
+        LEFT JOIN t_sys_region t1 on  p.PROVINCE_ID=t1.REGION_ID 
+        LEFT JOIN t_sys_region t2 on p.CITY_ID=t2.REGION_ID 
+        LEFT JOIN t_sys_region t3 on p.DISTRICT_ID=t3.REGION_ID
+   where p.PARKING_NO=#{0}
+</select>
+<!-- 猛龙停车场列表sql BEGIN-->
+	<select id="pageCparkingVoList" parameterType="Query" resultType="cn.com.shopec.core.mlparking.vo.CParkingVo">
+    SELECT
+        <if test="q !=null and q !='' ">
+            <if test="q.latitude!=null and q.longitude!=null" >
+                cp.distance distance,
+            </if>
+        </if>
+        p.PARKING_NO parkingNo,
+        p.PARKING_NAME parkingName,
+        p.PARKING_SPACE_NUMBER parkingTotalNumber,
+        p.SURPLUS_SPACE_NUMBER parkingSpaceNumber,
+        p.LONGITUDE longitude,
+        p.LATITUDE latitude,
+        p.BUSINESS_HOURS parkBusinessHours,
+        p.PLIES_NUMBER pliesTotalNumber,
+        p.PARKING_TYPE parkingType,
+        CONCAT_WS('/',#{q.fileUrl},d.FILE_URL) fileUrl,
+        p.OPERATING_CITY_NO operatingCityNo,
+        p.UNDERGROUND_NUMBER undergroundNumber,p.UNDERGROUND_PARKING_SPACE_NUMBER undergroundParkingSpaceNumber,
+        p.UNDERGROUND_SURPLUS_SPACE_NUMBER undergroundSurplusSpaceNumber,p.GROUND_NUMBER groundNumber,
+        p.GROUND_PARKING_SPACE_NUMBER groundParkingSpaceNumber,p.GROUND_SURPLUS_SPACE_NUMBER groundSurplusSpaceNumber,
+        c.OPERATING_CITY_NAME operatingCityName,
+        CONCAT('免费',b.FREE_TIME,'分钟') freeTime,
+        CONCAT('每小时',b.OVERTIME_PRICE * 60/b.UNIT_TIME,'元') hoursCost,
+        IFNULL(CONCAT('一天封顶',b.CAPPING_PRICE,'元'),NULL)  dayMaxCost
+    FROM
+        C_PARKING p
+    LEFT JOIN c_operating_city c ON p.OPERATING_CITY_NO = c.OPERATING_CITY_NO
+    LEFT JOIN c_doc d ON p.PARKING_NO = d.BIZ_ID
+    LEFT JOIN c_park_billing b on p.BILLING_SCHEME_NO=b.PARK_BILLING_NO
+    <if test="q !=null">
+        <if test="q.latitude!=null and q.longitude!=null" >
+        LEFT JOIN
+        (SELECT PARKING_NO, ROUND(ROUND(
+                    6378.138 * 2 * ASIN(
+                    SQRT(
+                    POW(
+                    SIN(
+                    (
+                    #{q.latitude} * PI() / 180 -  LATITUDE* PI() / 180
+                    ) / 2
+                    ),
+                    2
+                    ) + COS(#{q.latitude} * PI() / 180) * COS(LATITUDE * PI() / 180) * POW(
+                    SIN(
+                    (
+                    #{q.longitude} * PI() / 180 - LONGITUDE * PI() / 180
+                    ) / 2
+                    ),
+                    2
+                    )
+                    )
+                    ) * 1000
+                    )/1000,2) AS distance
+                    from c_parking
+                    ) cp ON cp.PARKING_NO = p.PARKING_NO
+        </if>
+    </if>
+    WHERE
+        p.ONLINE_STATUS = 0<!-- 在线的 -->
+        AND p.IS_DELETED = 1<!-- 未删除的 -->
+        <if test="q !=null and q !='' ">
+            <if test="q.parkingName!=null and q.parkingName!='' ">
+                and p.PARKING_NAME  like CONCAT('%', #{q.parkingName}, '%')
+            </if>
+            <if test="q.operatingCityNo!=null and q.operatingCityNo!='' ">
+                and p.OPERATING_CITY_NO=#{q.operatingCityNo}
+            </if>
+            <if test="q.labelList!=null and q.labelList!=''">
+                <foreach collection="q.labelList" index="index" item="item">
+                    <if test="item!='L001' and item!='L002'">
+                     and p.LABEL like CONCAT('%', #{item}, '%')
+                     </if>
+                </foreach>
+                <foreach collection="q.labelList" index="index" item="items">
+                    <if test="items=='L001'">
+                     order by cp.distance 
+                    </if>
+                      <if test="items=='L002'">
+                     order by b.OVERTIME_PRICE 
+                    </if>
+                </foreach>
+            </if>
+        </if>
+	</select>
+<!-- 猛龙停车场列表sql END -->
+
+<!-- 猛龙停车场详情sql BEGIN -->
+	<select id="getParkingDetailVo" parameterType="Query" resultType="cn.com.shopec.core.mlparking.vo.CParkingDetailVo">
+		SELECT
+			<if test="q.latitude!=null and q.latitude!='' and q.longitude!=null and q.longitude!='' " >
+				ROUND(ROUND(
+					6378.138 * 2 * ASIN(
+						SQRT(
+							POW(
+								SIN(
+									(
+										#{q.latitude} * PI() / 180 - p.LATITUDE * PI() / 180
+									) / 2
+								),
+								2
+							) + COS(#{q.latitude} * PI() / 180) * COS(p.LATITUDE * PI() / 180) * POW(
+								SIN(
+									(
+										#{q.longitude} * PI() / 180 - p.LONGITUDE * PI() / 180
+									) / 2
+								),
+								2
+							)
+						)
+					) * 1000
+				)/1000,2) AS distantce,
+			</if>
+			p.PARKING_NO parkingNo,
+			p.PARKING_NAME parkingName,
+			p.PARKING_SPACE_NUMBER parkingTotalNumber,
+			p.SURPLUS_SPACE_NUMBER parkingSpaceNumber,
+			p.PARKING_TYPE parkingType,
+			p.PARKING_STATUS parkingStatus,
+			p.LONGITUDE longitude,
+			p.LATITUDE latitude,
+			p.BUSINESS_HOURS businessHours,
+			p.PLIES_NUMBER pliesNumber,
+			p.OPERATING_CITY_NO operatingCityNo,
+			p.UNDERGROUND_NUMBER undergroundNumber,p.UNDERGROUND_PARKING_SPACE_NUMBER undergroundParkingSpaceNumber,
+	        p.UNDERGROUND_SURPLUS_SPACE_NUMBER undergroundSurplusSpaceNumber,p.GROUND_NUMBER groundNumber,
+	        p.GROUND_PARKING_SPACE_NUMBER groundParkingSpaceNumber,p.GROUND_SURPLUS_SPACE_NUMBER groundSurplusSpaceNumber,
+			c.OPERATING_CITY_NAME operatingCityName,
+			b.PARK_BILLING_NAME parkBillingName,
+			b.FREE_TIME freeTime,
+	        b.OVERTIME_PRICE * 60/b.UNIT_TIME hoursCost,
+	        IFNULL(CONCAT('一天封顶',b.CAPPING_PRICE,'元'),NULL)  dayMaxCost,
+			d.FILE_URL fileUrl,st.star
+		FROM
+			C_PARKING p
+		LEFT JOIN c_operating_city c ON p.OPERATING_CITY_NO = c.OPERATING_CITY_NO
+		LEFT JOIN c_park_billing b ON p.BILLING_SCHEME_NO = b.PARK_BILLING_NO
+		LEFT JOIN c_doc d ON p.PARKING_NO = d.BIZ_ID
+		LEFT JOIN(
+		  select  pa.PARKING_NO, IFNULL(round(AVG(x.EVALUATE_GRADE),1),0) star from c_parking pa   LEFT JOIN 
+            c_park_lock la on pa.PARKING_NO=la.PARKING_NO
+            LEFT JOIN(
+            select 
+            o.PARK_ORDER_NO,o.PARK_LOCK_NO,e.EVALUATE_GRADE
+            from c_park_order o  LEFT JOIN c_order_evaluate e on o.PARK_ORDER_NO=e.ORDER_NO
+            ) x on la.PARK_LOCK_NO=x.PARK_LOCK_NO
+            GROUP BY pa.PARKING_NO 
+		) st on p.PARKING_NO=st.PARKING_NO
+		WHERE
+			p.PARKING_NO = #{q.parkingNo}
+	</select>
+<!-- 猛龙停车场详情sql END -->
+<update id="upParkSpace">
+    update c_parking  set  
+    <if test="spaceType==1">
+        UNDERGROUND_SURPLUS_SPACE_NUMBER=UNDERGROUND_SURPLUS_SPACE_NUMBER-1
+    </if>
+    <if test="spaceType==2">
+        GROUND_SURPLUS_SPACE_NUMBER=GROUND_SURPLUS_SPACE_NUMBER-1
+    </if>
+    <if test="spaceType==3">
+        SURPLUS_SPACE_NUMBER=SURPLUS_SPACE_NUMBER-1
+    </if>
+    where PARKING_NO=#{parkingNo}
+</update>
+<update id="upParkSpaceTwo">
+    update c_parking  set  
+    <if test="spaceType==1">
+        UNDERGROUND_SURPLUS_SPACE_NUMBER=UNDERGROUND_SURPLUS_SPACE_NUMBER+1
+    </if>
+    <if test="spaceType==2">
+        GROUND_SURPLUS_SPACE_NUMBER=GROUND_SURPLUS_SPACE_NUMBER+1
+    </if>
+    <if test="spaceType==3">
+        SURPLUS_SPACE_NUMBER=SURPLUS_SPACE_NUMBER+1
+    </if>
+    where PARKING_NO=#{parkingNo}
+</update>
+</mapper>

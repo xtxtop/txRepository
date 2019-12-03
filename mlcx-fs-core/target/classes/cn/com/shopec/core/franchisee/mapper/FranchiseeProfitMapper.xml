@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.franchisee.dao.FranchiseeProfitDao">
+
+	<resultMap type="FranchiseeProfit" id="FranchiseeProfit">
+		<id column="FRANCHISEE_PROFIT_NO" property="franchiseeProfitNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="FRANCHISEE_NO" property="franchiseeNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="FRANCHISEE_NAME" property="franchiseeName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="INCOMEA_MOUNT" property="incomeAmount"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CAR_PROFIT" property="carProfit" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="PARK_PROFIT" property="parkProfit" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="PROFIT_TYPE" property="profitType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CAR_PROPORTION" property="carProportion"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="PARK_PROPORTION" property="parkProportion"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_OR_PARK_NO" property="carOrParkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		FRANCHISEE_PROFIT_NO,FRANCHISEE_NO,ORDER_NO,ORDER_AMOUNT,PROFIT_TYPE,CAR_PROPORTION,PARK_PROPORTION,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,CAR_PROFIT,PARK_PROFIT,INCOMEA_MOUNT,FRANCHISEE_NAME,CAR_OR_PARK_NO
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		FRANCHISEE_PROFIT_NO,FRANCHISEE_NO,ORDER_NO,ORDER_AMOUNT,PROFIT_TYPE,CAR_PROPORTION,PARK_PROPORTION,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,CAR_PROFIT,PARK_PROFIT,INCOMEA_MOUNT,FRANCHISEE_NAME,CAR_OR_PARK_NO
+	</sql>
+
+	<insert id="add" parameterType="FranchiseeProfit"
+		useGeneratedKeys="true" keyProperty="franchiseeProfitNo">
+		insert into T_FRANCHISEE_PROFIT(
+		<if test="franchiseeProfitNo!=null">
+			FRANCHISEE_PROFIT_NO,
+		</if>
+		FRANCHISEE_NO,
+		FRANCHISEE_NAME,
+		ORDER_NO,
+		ORDER_AMOUNT,
+		PROFIT_TYPE,
+		CAR_PROPORTION,
+		PARK_PROPORTION,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		CAR_PROFIT,
+		PARK_PROFIT,
+		INCOMEA_MOUNT,
+		CAR_OR_PARK_NO
+		) values (
+		<if test="franchiseeProfitNo!=null">
+			#{franchiseeProfitNo,jdbcType = VARCHAR},
+		</if>
+		#{franchiseeNo,jdbcType = VARCHAR},
+		#{franchiseeName,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{profitType,jdbcType = TINYINT},
+		#{carProportion,jdbcType = DOUBLE},
+		#{parkProportion,jdbcType =DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType =TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType =VARCHAR},
+		#{carProfit,jdbcType = DOUBLE},
+		#{parkProfit,jdbcType =DOUBLE},
+		#{incomeAmount,jdbcType = DOUBLE},
+		#{carOrParkNo,jdbcType = VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="FranchiseeProfit">
+		update t_franchisee_profit
+		<set>
+			<if test="franchiseeNo!=null and franchiseeNo!=''">
+				FRANCHISEE_NO=#{franchiseeNo,jdbcType = VARCHAR},
+			</if>
+			<if test="franchiseeName!=null and franchiseeName!=''">
+				FRANCHISEE_NAME=#{franchiseeName,jdbcType = VARCHAR},
+			</if>
+			<if test="orderNo!=null and orderNo!=''">
+				ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+			</if>
+			<if test="orderAmount!=null ">
+				ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="incomeAmount!=null ">
+				INCOMEA_MOUNT=#{incomeAmount,jdbcType = DOUBLE},
+			</if>
+			<if test="profitType!=null ">
+				PROFIT_TYPE=#{profitType,jdbcType = TINYINT},
+			</if>
+			<if test="carProportion!=null ">
+				CAR_PROPORTION=#{carProportion,jdbcType = DOUBLE},
+			</if>
+			<if test="carProfit!=null ">
+				CAR_PROFIT=#{carProfit,jdbcType = DOUBLE},
+			</if>
+			<if test="parkProfit!=null ">
+				PARK_PROFIT=#{parkProfit,jdbcType = DOUBLE},
+			</if>
+			<if test="parkProportion!=null ">
+				PARK_PROPORTION=#{parkProportion,jdbcType = DOUBLE},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="carOrParkNo!=null and carOrParkNo!=''">
+				CAR_OR_PARK_NO=#{carOrParkNo,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND FRANCHISEE_PROFIT_NO=#{franchiseeProfitNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_franchisee_profit
+		<where>
+			FRANCHISEE_PROFIT_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="FranchiseeProfit">
+		select
+		<include refid="AllColumnlist" />
+		from t_franchisee_profit
+		<where>
+			FRANCHISEE_PROFIT_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="FranchiseeProfit">
+		select
+		<include refid="AllColumnlist" />
+		from t_franchisee_profit
+		<where>
+			FRANCHISEE_PROFIT_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(FRANCHISEE_PROFIT_NO) from t_franchisee_profit
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="FranchiseeProfit">
+		select
+		<include refid="CommonColumnlist" />
+		from t_franchisee_profit
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="FranchiseeProfit">
+		select
+		<include refid="CommonColumnlist" />
+		from t_franchisee_profit
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<!-- 按季度统计加盟商收益数据 -->
+	<select id="pageListFranchiseeProfitByQuarter" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+  		f.FRANCHISEE_NAME AS franchiseeName,
+  		date_format(p.CREATE_TIME, '%Y') year,
+		FLOOR (date_format(p.CREATE_TIME, '%m') + 2) / 3 quarter,
+		count(ORDER_NO) AS orderNumber,
+		ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+  		ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+  		ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+  		FROM
+		t_franchisee_profit p LEFT JOIN t_franchisee f ON p.FRANCHISEE_NO = f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND P.FRANCHISEE_NAME=#{q.franchiseeName}
+				</if>
+				<if test="q.queryTime!=null and q.queryTime!=''">
+					AND DATE_FORMAT(p.CREATE_TIME, '%Y')=#{q.queryTime}
+				</if>
+			</if>
+		</where>
+		GROUP BY
+		p.FRANCHISEE_NO,
+		concat(
+		date_format(p.CREATE_TIME, '%Y'),
+		FLOOR(
+				(date_format(p.CREATE_TIME, '%m') + 2) / 3
+			)
+		)
+	</select>
+	
+	<select id="countFranchiseeProfitByQuarter" parameterType="Query" resultType="Long">
+		SELECT COUNT(*) FROM (
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		date_format(p.CREATE_TIME, '%Y') year,
+		FLOOR (date_format(p.CREATE_TIME, '%m') + 2) / 3 quarter,
+		count(ORDER_NO) AS orderNumber,
+		ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+		ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+		ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN	
+		t_franchisee f ON p.FRANCHISEE_NO =
+		f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND P.FRANCHISEE_NAME=#{q.franchiseeName}
+				</if>
+				<if test="q.queryTime!=null and q.queryTime!=''">
+					AND DATE_FORMAT(p.CREATE_TIME, '%Y')=#{q.queryTime}
+				</if>
+			</if>
+		</where>
+		GROUP BY
+		p.FRANCHISEE_NO,concat(date_format(p.CREATE_TIME, '%Y'),FLOOR((date_format(p.CREATE_TIME, '%m') + 2) / 3))
+		)
+		t_franchisee_profit
+		
+	</select>
+	
+	<!-- 按月统计加盟商收益数据 -->
+	<select id="pageListFranchiseeProfitByMonths" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+  		f.FRANCHISEE_NAME AS franchiseeName,
+		DATE_FORMAT(p.create_time, '%Y%m') months,
+		count(ORDER_NO) AS orderNumber,
+		ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+  		ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+  		ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+  		FROM
+		t_franchisee_profit p LEFT JOIN t_franchisee f ON p.FRANCHISEE_NO = f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND p.FRANCHISEE_NAME=#{q.franchiseeName}
+				</if>
+				<if test="q.queryTime!=null and q.queryTime!=''">
+					AND DATE_FORMAT(p.CREATE_TIME, '%Y%m')=#{q.queryTime}
+				</if>
+			</if>
+		</where>
+		GROUP BY
+		p.FRANCHISEE_NO,DATE_FORMAT(p.create_time, '%Y%m')
+	</select>
+	
+	<select id="countFranchiseeProfitByMonths" parameterType="Query" resultType="Long">
+		SELECT COUNT(*) FROM (
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		DATE_FORMAT(p.create_time, '%Y%m') months,
+		count(ORDER_NO) AS orderNumber,
+		ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+		ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+		ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN	
+		t_franchisee f ON p.FRANCHISEE_NO = f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND P.FRANCHISEE_NAME=#{q.franchiseeName}
+				</if>
+				<if test="q.queryTime!=null and q.queryTime!=''">
+					AND DATE_FORMAT(p.CREATE_TIME, '%Y%m')=#{q.queryTime}
+				</if>
+			</if>
+		</where>
+		GROUP BY
+		p.FRANCHISEE_NO,DATE_FORMAT(p.create_time, '%Y%m')
+		) 
+		t_franchisee_profit
+	</select>
+
+	<!-- 根据月份，查询按月统计加盟商详情 -->
+	<select id="getFranchiseeProfitVoByMonths" resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		DATE_FORMAT(p.create_time, '%Y%m') months,
+		count(ORDER_NO) AS orderNumber,
+		ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+		ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+		ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN	
+		t_franchisee f ON p.FRANCHISEE_NO = f.FRANCHISEE_NO
+		where DATE_FORMAT(p.CREATE_TIME, '%Y%m') = #{0} and p.FRANCHISEE_NO = #{1}
+	</select>
+	<!-- 根据季度，查询按季度统计加盟商收益详情 -->
+	<select id="getFranchiseeProfitVoByQuarter" resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+			f.FRANCHISEE_NO AS franchiseeNo,
+			f.FRANCHISEE_NAME AS franchiseeName,
+			date_format(p.CREATE_TIME, '%Y') YEAR,
+			FLOOR(
+				date_format(p.CREATE_TIME, '%m') + 2) / 3 QUARTER,
+			count(ORDER_NO) AS orderNumber,
+			ROUND(SUM(ORDER_AMOUNT), 2) AS orderAmount,
+			ROUND(SUM(CAR_PROFIT + PARK_PROFIT),2) AS profitAmount,
+			ROUND(SUM(CAR_PROFIT), 2) AS carProfit,
+			ROUND(SUM(PARK_PROFIT), 2) AS parkProfit
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN	
+		t_franchisee f ON p.FRANCHISEE_NO = f.FRANCHISEE_NO
+		where FLOOR((date_format(p.CREATE_TIME, '%m') + 2) / 3) = #{0}
+		AND date_format(p.CREATE_TIME, '%Y') = #{1}  and p.FRANCHISEE_NO=#{2} 
+	</select>
+
+	<!-- 加盟商车辆运营统计 -->
+	<select id="pageListFranchiseeCarStatistics" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		o.CAR_PLATE_NO AS carPlateNo,
+		COUNT(f.ORDER_NO) AS orderNumber,
+		ROUND(SUM(f.ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(f.CAR_PROFIT + f.PARK_PROFIT),2) AS profitAmount,
+		ROUND(sum(o.ORDER_MILEAGE),2) AS orderMileage,
+		ROUND(sum(o.ORDER_DURATION),2) AS orderDuration,
+		TRUNCATE(o.ORDER_MILEAGE/(COUNT(f.ORDER_NO)),2) AS avgOrderMileage,
+		TRUNCATE(o.ORDER_DURATION/(COUNT(f.ORDER_NO)),2) AS avgOrderDuration			
+		FROM
+			t_franchisee_profit f
+		LEFT JOIN t_order o ON f.ORDER_NO = o.ORDER_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND f.FRANCHISEE_NAME  like '%${q.franchiseeName}%'
+				</if>
+				<if test="q.carOrParkNo!=null and q.carOrParkNo!=''">
+					AND f.CAR_OR_PARK_NO like '%${q.carOrParkNo}%'
+				</if>
+				<if test="q.profitType != null">
+					AND f.PROFIT_TYPE = #{q.profitType}
+				</if>
+				<!-- <if test="q.createTimeStart!=null">
+					<![CDATA[AND o.CREATE_TIME>=#{q.createTimeStart}]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+					<![CDATA[AND o.CREATE_TIME<#{q.createTimeEnd}]]>
+				</if> -->
+			</if>
+			
+		</where>
+		GROUP BY f.FRANCHISEE_NO,o.CAR_PLATE_NO
+	</select>
+	
+	<select id="countFranchiseeCarStatistics" parameterType="Query" resultType="Long">
+		SELECT COUNT(*) FROM (
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		o.CAR_PLATE_NO AS carPlateNo,
+		COUNT(f.ORDER_NO) AS orderNumber,
+		ROUND(SUM(f.ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(f.CAR_PROFIT + f.PARK_PROFIT),2) AS profitAmount,
+		ROUND(sum(o.ORDER_MILEAGE),2) AS orderMileage,
+		ROUND(sum(o.ORDER_DURATION),2) AS orderDuration,
+		TRUNCATE(o.ORDER_MILEAGE/(COUNT(f.ORDER_NO)),2) AS avgOrderMileage,
+		TRUNCATE(o.ORDER_DURATION/(COUNT(f.ORDER_NO)),2) AS avgOrderDuration			
+		FROM
+			t_franchisee_profit f
+		LEFT JOIN t_order o ON f.ORDER_NO = o.ORDER_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND f.FRANCHISEE_NAME = #{q.franchiseeName}
+				</if>
+				<if test="q.carOrParkNo!=null and q.carOrParkNo!=''">
+					AND f.CAR_OR_PARK_NO = #{q.carOrParkNo}
+				</if>
+				<if test="q.profitType != null">
+					AND f.PROFIT_TYPE = #{q.profitType}
+				</if>
+			</if>
+		</where>
+		GROUP BY f.FRANCHISEE_NO,o.CAR_PLATE_NO 
+		) 
+		t_franchisee_profit
+	</select>
+	<!-- 加盟商场站运营统计 -->
+	<select id="pageListFranchiseeParkStatistics" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeProfitVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		o.ACTUAL_TAKE_LOACTON AS actualTakeLoacton,
+		f.CAR_OR_PARK_NO As carOrParkNo,
+		COUNT(f.ORDER_NO) AS orderNumber,
+		ROUND(SUM(f.ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(f.CAR_PROFIT + f.PARK_PROFIT),2) AS profitAmount,
+		ROUND(sum(o.ORDER_MILEAGE),2) AS orderMileage,
+		ROUND(sum(o.ORDER_DURATION),2) AS orderDuration,
+		TRUNCATE(o.ORDER_MILEAGE/(COUNT(f.ORDER_NO)),2) AS avgOrderMileage,
+		TRUNCATE(o.ORDER_DURATION/(COUNT(f.ORDER_NO)),2) AS avgOrderDuration			
+		FROM
+			t_franchisee_profit f
+		LEFT JOIN t_order o ON f.ORDER_NO = o.ORDER_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND f.FRANCHISEE_NAME like '%${q.franchiseeName}%'
+				</if>
+				<if test="q.carOrParkNo!=null and q.carOrParkNo!=''">
+					AND f.CAR_OR_PARK_NO like '%${q.carOrParkNo}%'
+				</if>
+				<if test="q.actualTakeLoacton!=null and q.actualTakeLoacton!=''">
+					AND o.ACTUAL_TAKE_LOACTON like '%${q.actualTakeLoacton}%'
+				</if>
+				<if test="q.profitType != null">
+					AND f.PROFIT_TYPE = #{q.profitType}
+				</if>
+				<!-- <if test="q.createTimeStart!=null">
+					<![CDATA[AND o.CREATE_TIME>=#{q.createTimeStart}]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+					<![CDATA[AND o.CREATE_TIME<#{q.createTimeEnd}]]>
+				</if> -->
+			</if>
+		</where>
+		GROUP BY f.FRANCHISEE_NO,o.ACTUAL_TAKE_LOACTON 
+	</select>
+	
+	<select id="countFranchiseeParkStatistics" parameterType="Query" resultType="Long">
+		SELECT COUNT(*) FROM (
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS franchiseeName,
+		o.ACTUAL_TAKE_LOACTON AS actualTakeLoacton,
+		f.CAR_OR_PARK_NO As carOrParkNo,
+		COUNT(f.ORDER_NO) AS orderNumber,
+		ROUND(SUM(f.ORDER_AMOUNT), 2) AS orderAmount,
+		ROUND(SUM(f.CAR_PROFIT + f.PARK_PROFIT),2) AS profitAmount,
+		ROUND(sum(o.ORDER_MILEAGE),2) AS orderMileage,
+		ROUND(sum(o.ORDER_DURATION),2) AS orderDuration,
+		TRUNCATE(o.ORDER_MILEAGE/(COUNT(f.ORDER_NO)),2) AS avgOrderMileage,
+		TRUNCATE(o.ORDER_DURATION/(COUNT(f.ORDER_NO)),2) AS avgOrderDuration			
+		FROM
+			t_franchisee_profit f
+		LEFT JOIN t_order o ON f.ORDER_NO = o.ORDER_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+					AND f.FRANCHISEE_NAME = #{q.franchiseeName}
+				</if>
+				<if test="q.carOrParkNo!=null and q.carOrParkNo!=''">
+					AND f.CAR_OR_PARK_NO = #{q.carOrParkNo}
+				</if>
+				<if test="q.profitType != null">
+					AND f.PROFIT_TYPE = #{q.profitType}
+				</if>
+				<!-- <if test="q.createTimeStart!=null">
+					<![CDATA[AND o.CREATE_TIME>=#{q.createTimeStart}]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+					<![CDATA[AND o.CREATE_TIME<#{q.createTimeEnd}]]>
+				</if> -->
+			</if>
+		</where>
+		GROUP BY f.FRANCHISEE_NO,o.ACTUAL_TAKE_LOACTON  
+		)
+		t_franchisee_profit
+	</select>
+	<!-- 统计加盟商收益 -->
+	<select id="listFranchiseeProfit" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS
+		franchiseeName,
+		COUNT(p.ORDER_NO) AS orderNumber,
+		ROUND(SUM(p.ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(
+		p.CAR_PROFIT + p.PARK_PROFIT
+		),2) AS profitAmount
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN t_franchisee f ON p.FRANCHISEE_NO =
+		f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+					AND P.FRANCHISEE_NO=#{q.franchiseeNo}
+				</if>
+				<if test="q.createTime!=null ">
+					AND P.CREATE_TIME=#{q.createTime}
+				</if>
+				<if test="q.createTimeStart!=null">
+		<![CDATA[	AND P.CREATE_TIME>=#{q.createTimeStart}  ]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND P.CREATE_TIME<#{q.createTimeEnd}   ]]>
+				</if>
+			</if>
+		</where>
+		GROUP BY p.FRANCHISEE_NO
+	</select>
+	
+	<select id="listFranchiseeProfitIseeNo" parameterType="Query" resultMap="FranchiseeProfit">
+		SELECT <include refid="AllColumnlist"/> FROM t_franchisee_profit
+		<where>
+			<include refid="listCommonWhere"/>
+		</where>
+	</select>
+
+
+	<select id="pageListSettlement" parameterType="Query"
+		resultType="cn.com.shopec.core.franchisee.model.FranchiseeVo">
+		SELECT
+		f.FRANCHISEE_NO AS franchiseeNo,
+		f.FRANCHISEE_NAME AS
+		franchiseeName,
+		COUNT(p.ORDER_NO) AS orderNumber,
+		ROUND(SUM(p.ORDER_AMOUNT),2) AS orderAmount,
+		ROUND(SUM(
+		p.CAR_PROPORTION + p.PARK_PROPORTION
+		),2) AS profitAmount
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN t_franchisee f ON p.FRANCHISEE_NO =
+		f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+					AND P.FRANCHISEE_NO=#{q.franchiseeNo}
+				</if>
+				<if test="q.createTime!=null ">
+					AND P.CREATE_TIME=#{q.createTime}
+				</if>
+				<if test="q.createTimeStart!=null">
+		<![CDATA[	AND P.CREATE_TIME>=#{q.createTimeStart}  ]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND P.CREATE_TIME<#{q.createTimeEnd}   ]]>
+				</if>
+			</if>
+		</where>
+		GROUP BY p.FRANCHISEE_NO
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="countSettlement" parameterType="Query" resultType="Long">
+		SELECT COUNT(FRANCHISEE_NO) FROM (
+		SELECT
+		p.FRANCHISEE_NO
+		FROM
+		t_franchisee_profit p
+		LEFT JOIN
+		t_franchisee f ON p.FRANCHISEE_NO =
+		f.FRANCHISEE_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+					AND P.FRANCHISEE_NO=#{q.franchiseeNo}
+				</if>
+				<if test="q.createTime!=null ">
+					AND P.CREATE_TIME=#{q.createTime}
+				</if>
+				<if test="q.createTimeStart!=null">
+		<![CDATA[	AND P.CREATE_TIME>=#{q.createTimeStart}  ]]>
+				</if>
+				<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND P.CREATE_TIME<#{q.createTimeEnd}   ]]>
+				</if>
+			</if>
+		</where>
+		GROUP BY p.FRANCHISEE_NO
+		) t_franchisee_profit
+	</select>
+
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.franchiseeProfitNo!=null and q.franchiseeProfitNo!=''">
+				AND FRANCHISEE_PROFIT_NO=#{q.franchiseeProfitNo}
+			</if>
+			<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+				AND FRANCHISEE_NO=#{q.franchiseeNo}
+			</if>
+			<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+				AND FRANCHISEE_NAME like '%${q.franchiseeName}%'
+			</if>
+			<if test="q.orderNo!=null and q.orderNo!=''">
+				AND ORDER_NO like '%${q.orderNo}%'
+			</if>
+			<if test="q.orderAmount!=null ">
+				AND ORDER_AMOUNT=#{q.orderAmount}
+			</if>
+			<if test="q.profitType!=null ">
+				AND PROFIT_TYPE=#{q.profitType}
+			</if>
+			<if test="q.carProfit!=null ">
+				AND CAR_PROFIT=#{q.carProfit}
+			</if>
+			<if test="q.parkProfit!=null ">
+				AND PARK_PROFIT=#{q.parkProfit}
+			</if>
+			<if test="q.carProportion!=null ">
+				AND CAR_PROPORTION=#{q.carProportion}
+			</if>
+			<if test="q.incomeAmount!=null ">
+				AND INCOMEA_MOUNT=#{q.incomeAmount}
+			</if>
+			<if test="q.parkProportion!=null ">
+				AND PARK_PROPORTION=#{q.parkProportion}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.carOrParkNo!=null and q.carOrParkNo!=''">
+				AND CAR_OR_PARK_NO like '%${q.carOrParkNo}%'
+			</if>
+		</if>
+	</sql>
+
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.monitor.dao.CarTrackDao">
+
+<resultMap type="CarTrack" id="CarTrack">
+	<id column="TRACK_ID" property="trackId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TRACK_ID,CITY_ID,CAR_NO,CAR_PLATE_NO,LONGITUDE,LATITUDE,CREATE_TIME
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TRACK_ID,CITY_ID,CAR_NO,CAR_PLATE_NO,LONGITUDE,LATITUDE,CREATE_TIME
+
+</sql>
+
+<insert id="add" parameterType="CarTrack" useGeneratedKeys="true" keyProperty="trackId">
+	insert into T_CAR_TRACK(
+		<if test="trackId!=null">
+		TRACK_ID,
+		</if>
+		CITY_ID,
+		CAR_NO,
+		CAR_PLATE_NO,
+		LONGITUDE,
+		LATITUDE,
+		CREATE_TIME
+	) values (
+		<if test="trackId!=null">
+		#{trackId,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{longitude,jdbcType = DOUBLE},
+		#{latitude,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="CarTrack">
+	update t_car_track 
+	<set>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="longitude!=null ">
+			LONGITUDE=#{longitude,jdbcType = DOUBLE},
+		</if>
+		<if test="latitude!=null ">
+			LATITUDE=#{latitude,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND TRACK_ID=#{trackId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_track 
+	<where>
+		TRACK_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarTrack">
+	select <include refid="AllColumnlist"/> from t_car_track
+	<where>
+		TRACK_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarTrack">
+	select <include refid="AllColumnlist"/> from t_car_track
+	<where>
+		TRACK_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(TRACK_ID) from t_car_track 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarTrack">
+	select <include refid="CommonColumnlist"/> from t_car_track 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarTrack">
+	select <include refid="CommonColumnlist"/> from t_car_track
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.trackId!=null and q.trackId!=''">
+			AND TRACK_ID=#{q.trackId}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.longitude!=null ">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null ">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

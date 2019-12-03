@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.franchisee.dao.FranchiseeDao">
+
+<resultMap type="Franchisee" id="Franchisee">
+	<id column="FRANCHISEE_NO" property="franchiseeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_NAME" property="franchiseeName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_FULL_NAME" property="franchiseeFullName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACTS" property="contacts" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CONTACTS_PHONE" property="contactsPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MAILBOX" property="mailbox" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PROPORTION" property="carProportion" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARK_PROPORTION" property="parkProportion" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FRANCHISEE_PHOTO_URL1" property="franchiseePhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_PHOTO_URL2" property="franchiseePhotoUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FRANCHISEE_PHOTO_URL3" property="franchiseePhotoUrl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+FRANCHISEE_NO,FRANCHISEE_NAME,FRANCHISEE_FULL_NAME,CONTACTS,CONTACTS_PHONE,MAILBOX,CAR_PROPORTION,
+PARK_PROPORTION,FRANCHISEE_PHOTO_URL1,FRANCHISEE_PHOTO_URL2,FRANCHISEE_PHOTO_URL3,MEMO,CENSOR_STATUS,
+CENSOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+FRANCHISEE_NO,FRANCHISEE_NAME,FRANCHISEE_FULL_NAME,CONTACTS,CONTACTS_PHONE,MAILBOX,CAR_PROPORTION,
+PARK_PROPORTION,FRANCHISEE_PHOTO_URL1,FRANCHISEE_PHOTO_URL2,FRANCHISEE_PHOTO_URL3,MEMO,CENSOR_STATUS,
+CENSOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="Franchisee" useGeneratedKeys="true" keyProperty="franchiseeNo">
+	insert into T_FRANCHISEE(
+		<if test="franchiseeNo!=null">
+		FRANCHISEE_NO,
+		</if>
+		FRANCHISEE_NAME,
+		FRANCHISEE_FULL_NAME,
+		CONTACTS,
+		CONTACTS_PHONE,
+		MAILBOX,
+		CAR_PROPORTION,
+		PARK_PROPORTION,
+		FRANCHISEE_PHOTO_URL1,
+		FRANCHISEE_PHOTO_URL2,
+		FRANCHISEE_PHOTO_URL3,
+		MEMO,
+		CENSOR_STATUS,
+		CENSOR_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="franchiseeNo!=null">
+		#{franchiseeNo,jdbcType = VARCHAR},
+		</if>
+		#{franchiseeName,jdbcType = VARCHAR},
+		#{franchiseeFullName,jdbcType = VARCHAR},
+		#{contacts,jdbcType = VARCHAR},
+		#{contactsPhone,jdbcType = VARCHAR},
+		#{mailbox,jdbcType = VARCHAR},
+		#{carProportion,jdbcType = DOUBLE},
+		#{parkProportion,jdbcType = DOUBLE},
+		#{franchiseePhotoUrl1,jdbcType = VARCHAR},
+		#{franchiseePhotoUrl2,jdbcType = VARCHAR},
+		#{franchiseePhotoUrl3,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{censorMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="Franchisee">
+	update t_franchisee 
+	<set>
+		<if test="franchiseeName!=null and franchiseeName!=''">
+			FRANCHISEE_NAME=#{franchiseeName,jdbcType = VARCHAR},
+		</if>
+		<if test="franchiseeFullName!=null and franchiseeFullName!=''">
+			FRANCHISEE_FULL_NAME=#{franchiseeFullName,jdbcType = VARCHAR},
+		</if>
+		<if test="contacts!=null and contacts!=''">
+			CONTACTS=#{contacts,jdbcType = VARCHAR},
+		</if>
+		<if test="contactsPhone!=null and contactsPhone!=''">
+			CONTACTS_PHONE=#{contactsPhone,jdbcType = VARCHAR},
+		</if>
+		<if test="mailbox!=null and mailbox!=''">
+			MAILBOX=#{mailbox,jdbcType = VARCHAR},
+		</if>
+		<if test="carProportion!=null ">
+			CAR_PROPORTION=#{carProportion,jdbcType = DOUBLE},
+		</if>
+		<if test="parkProportion!=null ">
+			PARK_PROPORTION=#{parkProportion,jdbcType = DOUBLE},
+		</if>
+		<if test="franchiseePhotoUrl1!=null and franchiseePhotoUrl1!=''">
+			FRANCHISEE_PHOTO_URL1=#{franchiseePhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="franchiseePhotoUrl2!=null and franchiseePhotoUrl2!=''">
+			FRANCHISEE_PHOTO_URL2=#{franchiseePhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="franchiseePhotoUrl3!=null and franchiseePhotoUrl3!=''">
+			FRANCHISEE_PHOTO_URL3=#{franchiseePhotoUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="censorMemo!=null and censorMemo!=''">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND FRANCHISEE_NO=#{franchiseeNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_franchisee 
+	<where>
+		FRANCHISEE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Franchisee">
+	select <include refid="AllColumnlist"/> from t_franchisee
+	<where>
+		FRANCHISEE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Franchisee">
+	select <include refid="AllColumnlist"/> from t_franchisee
+	<where>
+		FRANCHISEE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(FRANCHISEE_NO) from t_franchisee 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Franchisee">
+	select <include refid="CommonColumnlist"/> from t_franchisee 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Franchisee">
+	select <include refid="CommonColumnlist"/> from t_franchisee
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+
+</select>
+
+<!--查询已经审核的加盟商数据 无分页 -->
+<select id="auditFranchiseeList" parameterType="Query" resultMap="Franchisee">
+	select <include refid="CommonColumnlist"/> from t_franchisee
+	where CENSOR_STATUS = 1
+</select>
+
+<!-- 查询已经审核的加盟商数据 -->
+<select id="pageAuditList" parameterType="Query" resultMap="Franchisee">
+	select <include refid="CommonColumnlist"/> from t_franchisee
+	<where>
+	 <include refid="listAuditWhere"/> AND CENSOR_STATUS = 1
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="countAudit" parameterType="Query" resultType="Long">
+	select count(FRANCHISEE_NO) from t_franchisee 
+	<where>
+	<include refid="listAuditWhere"/> AND CENSOR_STATUS = 1
+	</where>
+</select>
+
+<sql id="listAuditWhere">
+	<if test="q!=null">
+		<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+			AND FRANCHISEE_NO like '%${q.franchiseeNo}%'
+		</if>
+		<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+			AND FRANCHISEE_NAME like '%${q.franchiseeName}%'
+		</if>
+	</if>
+</sql>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.franchiseeNo!=null and q.franchiseeNo!=''">
+			AND FRANCHISEE_NO like '%${q.franchiseeNo}%'
+		</if>
+		<if test="q.franchiseeName!=null and q.franchiseeName!=''">
+			AND FRANCHISEE_NAME like '%${q.franchiseeName}%'
+		</if>
+		<if test="q.franchiseeFullName!=null and q.franchiseeFullName!=''">
+			AND FRANCHISEE_FULL_NAME=#{q.franchiseeFullName}
+		</if>
+		<if test="q.contacts!=null and q.contacts!=''">
+			AND CONTACTS=#{q.contacts}
+		</if>
+		<if test="q.contactsPhone!=null and q.contactsPhone!=''">
+			AND CONTACTS_PHONE=#{q.contactsPhone}
+		</if>
+		<if test="q.mailbox!=null and q.mailbox!=''">
+			AND MAILBOX=#{q.mailbox}
+		</if>
+		<if test="q.carProportion!=null ">
+			AND CAR_PROPORTION=#{q.carProportion}
+		</if>
+		<if test="q.parkProportion!=null ">
+			AND PARK_PROPORTION=#{q.parkProportion}
+		</if>
+		<if test="q.franchiseePhotoUrl1!=null and q.franchiseePhotoUrl1!=''">
+			AND FRANCHISEE_PHOTO_URL1=#{q.franchiseePhotoUrl1}
+		</if>
+		<if test="q.franchiseePhotoUrl2!=null and q.franchiseePhotoUrl2!=''">
+			AND FRANCHISEE_PHOTO_URL2=#{q.franchiseePhotoUrl2}
+		</if>
+		<if test="q.franchiseePhotoUrl3!=null and q.franchiseePhotoUrl3!=''">
+			AND FRANCHISEE_PHOTO_URL3=#{q.franchiseePhotoUrl3}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorMemo!=null and q.censorMemo!=''">
+			AND CENSOR_MEMO=#{q.censorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

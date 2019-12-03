@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.PaymentRecordDao">
+
+<resultMap type="PaymentRecord" id="PaymentRecord">
+	<id column="PAYMEMT_ID" property="paymemtId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BIZ_OBJ_NO" property="bizObjNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAYABLE_AMOUNT" property="payableAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAID_AMOUNT" property="paidAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_TYPE" property="payType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_FLOW_NO" property="payFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAID_TIME" property="paidTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUYER_ID" property="buyerId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUYER_ACCOUNT" property="buyerAccount" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PAYMEMT_ID,BIZ_OBJ_TYPE,BIZ_OBJ_NO,PAYABLE_AMOUNT,PAID_AMOUNT,PAY_STATUS,PAY_TYPE,
+PAY_FLOW_NO,PART_TRADE_FLOW_NO,PAID_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,BUYER_ID,BUYER_ACCOUNT
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PAYMEMT_ID,BIZ_OBJ_TYPE,BIZ_OBJ_NO,PAYABLE_AMOUNT,PAID_AMOUNT,PAY_STATUS,PAY_TYPE,
+PAY_FLOW_NO,PART_TRADE_FLOW_NO,PAID_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,BUYER_ID,BUYER_ACCOUNT
+
+</sql>
+
+<insert id="add" parameterType="PaymentRecord" useGeneratedKeys="true" keyProperty="paymemtId">
+	insert into T_PAYMENT_RECORD(
+		<if test="paymemtId!=null">
+		PAYMEMT_ID,
+		</if>
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_NO,
+		PAYABLE_AMOUNT,
+		PAID_AMOUNT,
+		PAY_STATUS,
+		PAY_TYPE,
+		PAY_FLOW_NO,
+		PART_TRADE_FLOW_NO,
+		PAID_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		BUYER_ID,
+		BUYER_ACCOUNT
+	) values (
+		<if test="paymemtId!=null">
+		#{paymemtId,jdbcType = VARCHAR},
+		</if>
+		#{bizObjType,jdbcType = TINYINT},
+		#{bizObjNo,jdbcType = VARCHAR},
+		#{payableAmount,jdbcType = DOUBLE},
+		#{paidAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{payType,jdbcType = TINYINT},
+		#{payFlowNo,jdbcType = VARCHAR},
+		#{partTradeFlowNo,jdbcType = VARCHAR},
+		#{paidTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{buyerId,jdbcType = VARCHAR},
+		#{buyerAccount,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="PaymentRecord">
+	update t_payment_record 
+	<set>
+		<if test="bizObjType!=null ">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = TINYINT},
+		</if>
+		<if test="bizObjNo!=null and bizObjNo!=''">
+			BIZ_OBJ_NO=#{bizObjNo,jdbcType = VARCHAR},
+		</if>
+		<if test="payableAmount!=null ">
+			PAYABLE_AMOUNT=#{payableAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="paidAmount!=null ">
+			PAID_AMOUNT=#{paidAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="payType!=null ">
+			PAY_TYPE=#{payType,jdbcType = TINYINT},
+		</if>
+		<if test="payFlowNo!=null and payFlowNo!=''">
+			PAY_FLOW_NO=#{payFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+			PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="paidTime!=null ">
+			PAID_TIME=#{paidTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="buyerId!=null and buyerId!=''">
+			BUYER_ID=#{buyerId,jdbcType = VARCHAR},
+		</if>
+		<if test="buyerAccount!=null and buyerAccount!=''">
+			BUYER_ACCOUNT=#{buyerAccount,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PAYMEMT_ID=#{paymemtId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_payment_record 
+	<where>
+		PAYMEMT_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PaymentRecord">
+	select <include refid="AllColumnlist"/> from t_payment_record
+	<where>
+		PAYMEMT_ID=#{0}
+	</where>
+</select>
+
+<select id="getPaymentFlowNoById" resultMap="PaymentRecord">
+	select <include refid="AllColumnlist"/> from t_payment_record
+	<where>
+		PAY_FLOW_NO=#{0}
+	</where>
+</select>
+<!-- 供日租统计对账使用-按指定时间统计 -->
+<select id="getMerchantOrderPaidAmount" parameterType="PaymentRecord" resultType="java.util.HashMap">
+	SELECT
+		GROUP_CONCAT(BIZ_OBJ_NO) AS BIZ_OBJ_NO,
+		COUNT(*)AS NUM,
+		SUM(PAID_AMOUNT) AS PAID_AMOUNT,
+		SUM(PAYABLE_AMOUNT)AS PAYABLE_AMOUNT
+	FROM
+		(
+			SELECT
+				BIZ_OBJ_NO,
+				SUM(PAID_AMOUNT) AS PAID_AMOUNT,
+				SUM(PAYABLE_AMOUNT) AS PAYABLE_AMOUNT
+			FROM
+				t_payment_record
+			WHERE
+				BIZ_OBJ_NO IN (${bizObjNo})
+			AND BIZ_OBJ_TYPE = 2
+			<![CDATA[ AND PAID_TIME>=#{paidTimeStart} ]]>
+			<![CDATA[ AND PAID_TIME<=#{paidTimeEnd} ]]>
+			GROUP BY
+				BIZ_OBJ_NO
+		) temp
+</select>
+<!-- 供日租统计对账使用-按月统计-->
+<select id="getMerchantOrderPaidAmountByMonth" parameterType="PaymentRecord" resultType="java.util.HashMap">
+select 
+	GROUP_CONCAT(BIZ_OBJ_NO) AS BIZ_OBJ_NO,
+	COUNT(*)AS NUM,
+	SUM(PAID_AMOUNT) AS PAID_AMOUNT,
+	SUM(PAYABLE_AMOUNT)AS PAYABLE_AMOUNT,
+	year(PAID_TIME) as YEAR,
+	month(PAID_TIME) as MONTH
+	from t_payment_record
+	where
+		PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(PAID_TIME,'%Y%m'))>=1 AND
+		BIZ_OBJ_TYPE = 2 AND BIZ_OBJ_NO IN (${bizObjNo})
+ 	group by year(PAID_TIME), month(PAID_TIME) 
+ 	order by PAID_TIME desc
+</select>
+
+<select id="getByDRefundNo" resultMap="PaymentRecord">
+	SELECT * FROM t_payment_record WHERE PAY_FLOW_NO = 
+	(SELECT PAYMENT_FLOW_NO from t_deposit_order O where DEPOSIT_ORDER_NO = 
+	(SELECT DEPOSIT_ORDER_NO from t_deposit_refund where REFUND_NO = #{0})) AND BUYER_ID IS NOT NULL
+</select>
+
+<!-- 根据保证金支付记录查询是否存在支付记录 -->
+<select id="getByDOrder" resultMap="PaymentRecord">
+	select <include refid="AllColumnlist"/> from t_payment_record
+	<where>
+		BIZ_OBJ_TYPE=#{0} and BIZ_OBJ_NO=#{1} and PAY_TYPE=#{2}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="PaymentRecord">
+	select <include refid="AllColumnlist"/> from t_payment_record
+	<where>
+		PAYMEMT_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PAYMEMT_ID) from t_payment_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PaymentRecord">
+	select <include refid="CommonColumnlist"/> from t_payment_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PaymentRecord">
+	select <include refid="CommonColumnlist"/> from t_payment_record
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.paymemtId!=null and q.paymemtId!=''">
+			AND PAYMEMT_ID=#{q.paymemtId}
+		</if>
+		<if test="q.bizObjType!=null ">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.bizObjNo!=null and q.bizObjNo!=''">
+			AND BIZ_OBJ_NO=#{q.bizObjNo}
+		</if>
+		<if test="q.payableAmount!=null ">
+			AND PAYABLE_AMOUNT=#{q.payableAmount}
+		</if>
+		<if test="q.paidAmount!=null ">
+			AND PAID_AMOUNT=#{q.paidAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.payType!=null ">
+			AND PAY_TYPE=#{q.payType}
+		</if>
+		<if test="q.payFlowNo!=null and q.payFlowNo!=''">
+			AND PAY_FLOW_NO=#{q.payFlowNo}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND PART_TRADE_FLOW_NO=#{q.partTradeFlowNo}
+		</if>
+		<if test="q.paidTime!=null ">
+			AND PAID_TIME=#{q.paidTime}
+		</if>
+		<if test="q.paidTimeStart!=null">
+		<![CDATA[	AND PAID_TIME>=#{q.paidTimeStart}  ]]>
+		</if>
+		<if test="q.paidTimeEnd!=null">
+		<![CDATA[	AND PAID_TIME<#{q.paidTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.buyerId!=null and q.buyerId!=''">
+			AND BUYER_ID=#{q.buyerId}
+		</if>
+		<if test="q.buyerAccount!=null and q.buyerAccount!=''">
+			AND BUYER_ACCOUNT=#{q.buyerAccount}
+		</if>
+	</if>
+</sql>
+<select id="getDepositAlipayAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=3 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getDepositWxAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=3 and PAY_STATUS=1 and PAY_TYPE=2 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getOrderAlipayAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=2 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+
+<select id="getOrderWxAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=2 and PAY_STATUS=1 and PAY_TYPE=2 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getPriceAlipayAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=1 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+
+<select id="getPriceWxAmount" resultType="Double">
+	select round(sum(PAID_AMOUNT),2) from t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=1 and PAY_STATUS=1 and PAY_TYPE=2 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getDepositAlipayCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS depositAlipayCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=3 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getOrderAlipayCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS orderAlipayCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=2 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getPriceAlipayCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS priceAlipayCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=1 and PAY_STATUS=1 and PAY_TYPE=1 
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getDepositWxCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS depositWxCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=3 and PAY_STATUS=1 and PAY_TYPE=2
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getOrderWxCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS depositWxCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=2 and PAY_STATUS=1 and PAY_TYPE=2
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getPriceWxCharge" resultType="Double">
+	 SELECT SUM( ROUND( CAST(paid_amount AS DECIMAL(15, 2)) * 0.006,2) )AS depositWxCharge FROM t_payment_record 
+	<where>
+	BIZ_OBJ_TYPE=1 and PAY_STATUS=1 and PAY_TYPE=2
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getAlipayIncomeMap" resultType="java.util.HashMap">
+	select round(sum(case when BIZ_OBJ_TYPE=2 then PAID_AMOUNT else 0 end),2) as orderAlipayAmount,
+	round(sum(case when BIZ_OBJ_TYPE=1 then PAID_AMOUNT else 0 end),2) as priceAlipayAmount,
+	round(sum(case when BIZ_OBJ_TYPE=3 then PAID_AMOUNT else 0 end),2) as depositAlipayAmount
+	from t_payment_record
+    <where>
+	PAY_STATUS=1 and PAY_TYPE=1
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+<select id="getWxIncomeMap" resultType="java.util.HashMap">
+	select round(sum(case when BIZ_OBJ_TYPE=2 then PAID_AMOUNT else 0 end),2) as orderWxAmount,
+	round(sum(case when BIZ_OBJ_TYPE=1 then PAID_AMOUNT else 0 end),2) as priceWxAmount,
+	round(sum(case when BIZ_OBJ_TYPE=3 then PAID_AMOUNT else 0 end),2) as depositWxAmount
+	from t_payment_record
+    <where>
+	PAY_STATUS=1 and PAY_TYPE=2
+	<![CDATA[	AND PAID_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND PAID_TIME<=#{money.endTime}   ]]>
+	</where>
+</select>
+
+</mapper>

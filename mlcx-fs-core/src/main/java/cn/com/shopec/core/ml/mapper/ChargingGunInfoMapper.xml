@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.ChargingGunInfoDao">
+
+<resultMap type="ChargingGunInfo" id="ChargingGunInfo">
+	<id column="CHARGING_GUN_NO" property="chargingGunNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN_CODE" property="chargingGunCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WORK_STATUS" property="workStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="REGISTRANT" property="registrant" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REGISTRANT_TIME" property="registrantTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CHARGING_GUN_NO,CHARGING_GUN_CODE,WORK_STATUS,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,
+REGISTRANT,REGISTRANT_TIME,CHARGING_PILE_NO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CHARGING_GUN_NO,CHARGING_GUN_CODE,WORK_STATUS,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,
+REGISTRANT,REGISTRANT_TIME,CHARGING_PILE_NO
+</sql>
+
+<insert id="add" parameterType="ChargingGunInfo" useGeneratedKeys="true" keyProperty="chargingGunNo">
+	insert into CHARGING_GUN_INFO(
+		<if test="chargingGunNo!=null">
+		CHARGING_GUN_NO,
+		</if>
+		CHARGING_GUN_CODE,
+		WORK_STATUS,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		REGISTRANT,
+		REGISTRANT_TIME,
+		CHARGING_PILE_NO
+	) values (
+		<if test="chargingGunNo!=null">
+		#{chargingGunNo,jdbcType = VARCHAR},
+		</if>
+		#{chargingGunCode,jdbcType = VARCHAR},
+		#{workStatus,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{registrant,jdbcType = VARCHAR},
+		#{registrantTime,jdbcType = TIMESTAMP},
+		#{chargingPileNo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="ChargingGunInfo">
+	update CHARGING_GUN_INFO 
+	<set>
+		<if test="chargingGunCode!=null and chargingGunCode!=''">
+			CHARGING_GUN_CODE=#{chargingGunCode,jdbcType = VARCHAR},
+		</if>
+		<if test="workStatus!=null ">
+			WORK_STATUS=#{workStatus,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="registrant!=null and registrant!=''">
+			REGISTRANT=#{registrant,jdbcType = VARCHAR},
+		</if>
+		<if test="registrantTime!=null ">
+			REGISTRANT_TIME=#{registrantTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CHARGING_GUN_NO=#{chargingGunNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from CHARGING_GUN_INFO 
+	<where>
+		CHARGING_GUN_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ChargingGunInfo">
+	select <include refid="AllColumnlist"/> from CHARGING_GUN_INFO
+	<where>
+		CHARGING_GUN_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ChargingGunInfo">
+	select <include refid="AllColumnlist"/> from CHARGING_GUN_INFO
+	<where>
+		CHARGING_GUN_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CHARGING_GUN_NO) from CHARGING_GUN_INFO 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ChargingGunInfo">
+	select <include refid="CommonColumnlist"/> from CHARGING_GUN_INFO 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ChargingGunInfo">
+	select <include refid="CommonColumnlist"/> from CHARGING_GUN_INFO
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+			AND CHARGING_GUN_NO=#{q.chargingGunNo}
+		</if>
+		<if test="q.chargingGunCode!=null and q.chargingGunCode!=''">
+			AND CHARGING_GUN_CODE=#{q.chargingGunCode}
+		</if>
+		<if test="q.workStatus!=null ">
+			AND WORK_STATUS=#{q.workStatus}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.registrant!=null and q.registrant!=''">
+			AND REGISTRANT=#{q.registrant}
+		</if>
+		<if test="q.registrantTime!=null ">
+			AND REGISTRANT_TIME=#{q.registrantTime}
+		</if>
+		<if test="q.registrantTimeStart!=null">
+		<![CDATA[	AND REGISTRANT_TIME>=#{q.registrantTimeStart}  ]]>
+		</if>
+		<if test="q.registrantTimeEnd!=null">
+		<![CDATA[	AND REGISTRANT_TIME<#{q.registrantTimeEnd}   ]]>
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+	</if>
+</sql>
+<select id="getGunList" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingGunInfoVo">
+    select 
+	g.CHARGING_GUN_NO chargingGunNo,g.CHARGING_GUN_CODE chargingGunCode,g.CREATE_TIME createTime
+	,g.UPDATE_TIME updateTime,g.WORK_STATUS workStatus,p.CHARGING_PILE_NO chargingPileNo, 
+	p.CHARGING_PILE_NAME chargingPileName,s.STATION_NAME chargingStationName,s.STATION_NO chargingStationNo
+	 from charging_gun_info g
+	left JOIN charging_pile p on g.CHARGING_PILE_NO=p.CHARGING_PILE_NO
+	LEFT JOIN charging_station s on p.STATION_NO=s.STATION_NO
+	where 1=1
+	   <if test="q.chargingGunCode!=null and q.chargingGunCode!=''">
+            AND g.CHARGING_GUN_CODE like "%"#{q.chargingGunCode}"%"
+        </if>
+        <if test="q.workStatus!=null ">
+            AND g.WORK_STATUS=#{q.workStatus}
+        </if>
+        <if test="q.chargingStationNo!=null and q.chargingStationNo!=''">
+            AND s.STATION_NO =#{q.chargingStationNo}
+        </if>
+        order by g.UPDATE_TIME desc
+           <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getGunListCount" parameterType="Query" resultType="Long">
+    select count(g.CHARGING_GUN_NO)
+     from charging_gun_info g
+    left JOIN charging_pile p on g.CHARGING_PILE_NO=p.CHARGING_PILE_NO
+    LEFT JOIN charging_station s on p.STATION_NO=s.STATION_NO
+    where 1=1
+       <if test="q.chargingGunCode!=null and q.chargingGunCode!=''">
+            AND g.CHARGING_GUN_CODE like "%"#{q.chargingGunCode}"%"
+        </if>
+        <if test="q.workStatus!=null ">
+            AND g.WORK_STATUS=#{q.workStatus}
+        </if>
+        <if test="q.chargingStationNo!=null and q.chargingStationNo!=''">
+            AND s.STATION_NO =#{q.chargingStationNo}
+        </if>
+        order by g.UPDATE_TIME desc
+</select>
+<select id="getGunListNo"  resultType="cn.com.shopec.core.ml.vo.ChargingGunInfoVo">
+    select g.CHARGING_GUN_NO chargingGunNo,g.CHARGING_GUN_CODE chargingGunCode,g.CREATE_TIME createTime
+    ,g.UPDATE_TIME updateTime,g.WORK_STATUS workStatus,p.CHARGING_PILE_NO chargingPileNo, 
+    p.CHARGING_PILE_NAME chargingPileName,s.STATION_NAME chargingStationName,s.STATION_NO chargingStationNo
+     from charging_gun_info g
+    left JOIN charging_pile p on g.CHARGING_PILE_NO=p.CHARGING_PILE_NO
+    LEFT JOIN charging_station s on p.STATION_NO=s.STATION_NO
+    where g.CHARGING_GUN_NO=#{0}
+</select>
+</mapper>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.CompanyPersonDao">
+
+<resultMap type="CompanyPerson" id="CompanyPerson">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="NAME" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_NAME" property="companyName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PERSON_TYPE" property="personType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ID_CARD_NO" property="idCardNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IMPORT_TIME" property="importTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="REGISTER_STATUS" property="registerStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,NAME,CITY_ID,CITY_NAME,COMPANY_ID,COMPANY_NAME,PERSON_TYPE,MEMBER_NO,
+MOBILE_PHONE,ID_CARD_NO,IMPORT_TIME,REGISTER_STATUS,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,NAME,CITY_ID,CITY_NAME,COMPANY_ID,COMPANY_NAME,PERSON_TYPE,MEMBER_NO,
+MOBILE_PHONE,ID_CARD_NO,IMPORT_TIME,REGISTER_STATUS,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="CompanyPerson" useGeneratedKeys="true" keyProperty="id">
+	insert into T_COMPANY_PERSON(
+		<if test="id!=null">
+		ID,
+		</if>
+		NAME,
+		CITY_ID,
+		CITY_NAME,
+		COMPANY_ID,
+		COMPANY_NAME,
+		PERSON_TYPE,
+		MEMBER_NO,
+		MOBILE_PHONE,
+		ID_CARD_NO,
+		IMPORT_TIME,
+		REGISTER_STATUS,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{name,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{companyId,jdbcType = VARCHAR},
+		#{companyName,jdbcType = VARCHAR},
+		#{personType,jdbcType = TINYINT},
+		#{memberNo,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{idCardNo,jdbcType = VARCHAR},
+		#{importTime,jdbcType = TIMESTAMP},
+		#{registerStatus,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CompanyPerson">
+	update t_company_person 
+	<set>
+		<if test="name!=null and name!=''">
+			NAME=#{name,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="companyId!=null and companyId!=''">
+			COMPANY_ID=#{companyId,jdbcType = VARCHAR},
+		</if>
+		<if test="companyName!=null and companyName!=''">
+			COMPANY_NAME=#{companyName,jdbcType = VARCHAR},
+		</if>
+		<if test="personType!=null ">
+			PERSON_TYPE=#{personType,jdbcType = TINYINT},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="idCardNo!=null and idCardNo!=''">
+			ID_CARD_NO=#{idCardNo,jdbcType = VARCHAR},
+		</if>
+		<if test="importTime!=null ">
+			IMPORT_TIME=#{importTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="registerStatus!=null ">
+			REGISTER_STATUS=#{registerStatus,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_company_person 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CompanyPerson">
+	select <include refid="AllColumnlist"/> from t_company_person
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<!-- 根据手机号查询集团会员 -->
+<select id="getCompanyPerson" resultMap="CompanyPerson">
+	select <include refid="AllColumnlist"/> from t_company_person
+	<where>
+		MOBILE_PHONE=#{0} and IS_DELETED = '0' 
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CompanyPerson">
+	select <include refid="AllColumnlist"/> from t_company_person
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_company_person 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CompanyPerson">
+	select <include refid="CommonColumnlist"/> from t_company_person 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CompanyPerson">
+	select <include refid="CommonColumnlist"/> from t_company_person
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.name!=null and q.name!=''">
+			AND NAME like '%${q.name}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.companyName!=null and q.companyName!=''">
+			AND COMPANY_NAME like '%${q.companyName}%'
+		</if>
+		<if test="q.personType!=null ">
+			AND PERSON_TYPE=#{q.personType}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.idCardNo!=null and q.idCardNo!=''">
+			AND ID_CARD_NO=#{q.idCardNo}
+		</if>
+		<if test="q.importTime!=null ">
+			AND IMPORT_TIME=#{q.importTime}
+		</if>
+		<if test="q.importTimeStart!=null">
+		<![CDATA[	AND IMPORT_TIME>=#{q.importTimeStart}  ]]>
+		</if>
+		<if test="q.importTimeEnd!=null">
+		<![CDATA[	AND IMPORT_TIME<#{q.importTimeEnd}   ]]>
+		</if>
+		<if test="q.registerStatus!=null ">
+			AND REGISTER_STATUS=#{q.registerStatus}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

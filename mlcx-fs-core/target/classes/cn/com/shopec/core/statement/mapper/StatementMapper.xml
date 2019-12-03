@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.statement.dao.StatementDao">
+
+<resultMap type="cn.com.shopec.core.statement.model.MemberCount" id="MemberCount">
+	<result column="memberName" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="mobilePhone" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="orderDuration" property="orderDuration" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="orderAmount" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="paidAmount" property="paidAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="paidDuration" property="paidDuration" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="packDiscountAmount" property="packDiscountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="packMinuteAmount" property="packMinuteAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="packMinuteDuration" property="packMinuteDuration" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="strikeDiscountAmount" property="strikeDiscountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="strikeBalanceAmount" property="strikeBalanceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wxOrderCount" property="wxOrderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wxOrderAmount" property="wxOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wxpayAmount" property="wxpayAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wxproFee" property="wxproFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfbOrderCount" property="zfbOrderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfbOrderAmount" property="zfbOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfbpayAmount" property="zfbpayAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfbproFee" property="zfbproFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+<resultMap type="cn.com.shopec.core.statement.model.PackageCount" id="PackageCount">
+	<result column="PACKAGE_NO" property="packageNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACKAGE_NAME" property="packageName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="price" property="price" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MINUTES" property="minutes" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PACKAGE_TYPE" property="packageType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="pack_order_count" property="packOrderCount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="pack_amount" property="packAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="pack_order_total_amount" property="packRealAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wx_amount" property="wxAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="wx_agent_fee" property="wxAgentFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfb_amount" property="zfbAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="zfb_agent_fee" property="zfbAgentFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+<resultMap type="cn.com.shopec.core.statement.model.MoreBusinessSummary" id="MoreBusinessSummary">
+	<result column="orderNum" property="orderNum" javaType="java.lang.Integer" jdbcType="TINYINT" />
+	<result column="alreadyAmount" property="alreadyAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="packageRechargeNum" property="packageRechargeNum" javaType="java.lang.Integer" jdbcType="TINYINT" />
+	<result column="packageAlreadyAmount" property="packageAlreadyAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="payDepositNum" property="payDepositNum" javaType="java.lang.Integer" jdbcType="TINYINT" />
+	<result column="payDepositAmount" property="payDepositAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="refundDepositNum" property="refundDepositNum" javaType="java.lang.Integer" jdbcType="TINYINT" />
+	<result column="refundDepositAmount" property="refundDepositAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+<select id="pageListpackageCount" parameterType="Query" resultMap="PackageCount">
+	SELECT 
+	pp.PACKAGE_NO,pp.PACKAGE_NAME,pp.PRICE,pp.MINUTES,
+	(CASE WHEN pp.PACKAGE_TYPE=2 THEN "销售套餐" ELSE "赠送类套餐" END) AS PACKAGE_TYPE,
+	ROUND(COUNT(t.pack_order_no),2) pack_order_count,
+	ROUND(COUNT(t.pack_order_no) * pp.price,2) pack_amount,
+	ROUND(SUM(t.payable_amount),2) pack_order_total_amount,
+	ROUND(SUM(CASE WHEN t.pay_type=2 THEN t.paid_amount ELSE 0 END),2) wx_amount,
+	ROUND(SUM(CASE WHEN t.pay_type=2 THEN t.paid_amount*0.006 ELSE 0 END),2) wx_agent_fee,
+	ROUND(SUM(CASE WHEN t.pay_type=1 THEN t.paid_amount ELSE 0 END),2) zfb_amount,
+	ROUND(SUM(CASE WHEN t.pay_type=1 THEN t.paid_amount*#{q.zfbAgentFee} ELSE 0 END),2) zfb_agent_fee
+	 FROM (
+	SELECT ppo.package_id,ppo.PACK_ORDER_NO,ppo.payable_amount,pr.PAID_AMOUNT,pr.PAY_FLOW_NO,pr.pay_type 
+	FROM t_pricing_pack_order ppo,t_payment_record pr 
+	<where>
+	    and ppo.pay_status=1 
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ and pr.PAID_TIME>= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ and pr.PAID_TIME<= #{q.endTime}  ]]>
+			</if>
+			AND pr.BIZ_OBJ_TYPE=1 AND pr.BIZ_OBJ_NO=ppo.pack_order_no
+		</if>
+	</where>
+	) t LEFT JOIN t_pricing_package pp ON t.package_id=pp.package_no
+	GROUP BY package_no
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageListpackageCountCount" parameterType="Query" resultType="Long">
+SELECT COUNT(a.PACKAGE_NO) FROM(
+	SELECT 
+	pp.PACKAGE_NO,pp.PACKAGE_NAME,pp.PRICE,pp.MINUTES,
+	(CASE WHEN pp.PACKAGE_TYPE=2 THEN "销售套餐" ELSE "赠送类套餐" END) AS PACKAGE_TYPE,
+	COUNT(t.pack_order_no) pack_order_count,
+	(COUNT(t.pack_order_no) * pp.price ) pack_amount,
+	ROUND(SUM(t.payable_amount),2) pack_order_total_amount,
+	ROUND(SUM(CASE WHEN t.pay_type=2 THEN t.paid_amount ELSE 0 END),2) wx_amount,
+	SUM(CASE WHEN t.pay_type=2 THEN ROUND(t.paid_amount*0.006,2) ELSE 0 END) wx_agent_fee,
+	SUM(CASE WHEN t.pay_type=1 THEN t.paid_amount ELSE 0 END) zfb_amount,
+	SUM(CASE WHEN t.pay_type=1 THEN ROUND(t.paid_amount*#{q.zfbAgentFee},2) ELSE 0 END) zfb_agent_fee
+	 FROM (
+	SELECT ppo.package_id,ppo.PACK_ORDER_NO,ppo.payable_amount,pr.PAID_AMOUNT,pr.PAY_FLOW_NO,pr.pay_type 
+	FROM t_pricing_pack_order ppo,t_payment_record pr 
+	<where>
+	    and ppo.pay_status=1 
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ and pr.PAID_TIME>= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ and pr.PAID_TIME<= #{q.endTime}  ]]>
+			</if>
+			AND pr.BIZ_OBJ_TYPE=1 AND pr.BIZ_OBJ_NO=ppo.pack_order_no
+		</if>
+	</where>
+	) t LEFT JOIN t_pricing_package pp ON t.package_id=pp.package_no
+	GROUP BY package_no
+) as a
+</select>
+<select id="pageListmemberCount" parameterType="Query" resultMap="MemberCount">
+	SELECT m.member_name as memberName,m.MOBILE_PHONE as mobilePhone,t.* FROM (
+	SELECT 
+	  o.member_no,
+	  COUNT(o.order_no) AS orderCount,
+	  ROUND(SUM(o.order_duration),2) AS orderDuration,
+	  ROUND(SUM(o.order_amount),2) AS orderAmount,
+	  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id IS NOT NULL THEN pr.paid_amount ELSE 0 END),2) AS paidAmount,
+	  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id IS NOT NULL THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS paidDuration,
+	  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packDiscountAmount,
+	  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packMinuteAmount,
+	  ROUND(SUM(o.pack_minutes_discount),2) AS packMinuteDuration,
+	  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeDiscountAmount,
+	  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderCount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxOrderAmount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxpayAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN ROUND(CAST(pr.paid_amount AS DECIMAL(15,2))*0.006,2) ELSE 0 END) AS wxproFee,
+	  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS zfbOrderCount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS zfbOrderAmount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS zfbpayAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN ROUND(CAST(pr.paid_amount AS DECIMAL(15,2))*0.006,2) ELSE 0 END) AS zfbproFee
+	FROM t_order o 
+	LEFT JOIN t_payment_record pr ON pr.biz_obj_type=2 AND pr.BIZ_OBJ_NO=o.ORDER_NO
+	<where>
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ and pr.PAID_TIME>= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ and pr.PAID_TIME<= #{q.endTime}  ]]>
+			</if>
+			AND o.ORDER_STATUS IN(3,4)
+		</if>
+	</where>
+	GROUP BY o.member_no
+	) t,t_member m WHERE t.member_no=m.member_no 
+
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageListmemberCountCount" parameterType="Query" resultType="Long">
+SELECT COUNT(a.memberName) FROM(
+	SELECT m.member_name as memberName,m.MOBILE_PHONE as mobilePhone,t.* FROM (
+	SELECT 
+	  o.member_no,
+	  COUNT(o.order_no) AS orderCount,
+	  ROUND(SUM(o.order_duration),2) AS orderDuration,
+	  ROUND(SUM(o.order_amount),2) AS orderAmount,
+	  ROUND(SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id IS NOT NULL THEN pr.paid_amount ELSE 0 END),2) AS paidAmount,
+	  SUM(CASE WHEN pr.pay_status=1 AND pr.paymemt_id IS NOT NULL THEN (o.order_duration - o.pack_minutes_discount) ELSE 0 END) AS paidDuration,
+	  SUM(CASE WHEN o.PACK_MINUTES_DISCOUNT_amount>0 THEN 1 ELSE 0 END) AS packDiscountAmount,
+	  ROUND(SUM(o.PACK_MINUTES_DISCOUNT_amount),2) AS packMinuteAmount,
+	  ROUND(SUM(o.pack_minutes_discount),2) AS packMinuteDuration,
+	  SUM(CASE WHEN o.STRIKE_BALANCE_AMOUNT>0 THEN 1 ELSE 0 END) AS strikeDiscountAmount,
+	  ROUND(SUM(o.STRIKE_BALANCE_AMOUNT),2) AS strikeBalanceAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END)  AS wxOrderCount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS wxOrderAmount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=2 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS wxpayAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=2 AND o.PAY_STATUS=1 THEN ROUND(CAST(pr.paid_amount AS DECIMAL(15,2))*0.006,2) ELSE 0 END) AS wxproFee,
+	  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN 1 ELSE 0 END) AS zfbOrderCount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN o.order_amount ELSE 0 END),2) AS zfbOrderAmount,
+	  ROUND(SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN pr.paid_amount ELSE 0 END),2) AS zfbpayAmount,
+	  SUM(CASE WHEN pr.PAY_TYPE=1 AND pr.PAY_STATUS=1 THEN ROUND(CAST(pr.paid_amount AS DECIMAL(15,2))*0.006,2) ELSE 0 END) AS zfbproFee
+	FROM t_order o 
+	LEFT JOIN t_payment_record pr ON pr.biz_obj_type=2 AND pr.BIZ_OBJ_NO=o.ORDER_NO
+	<where>
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ and pr.PAID_TIME>= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ and pr.PAID_TIME<= #{q.endTime}  ]]>
+			</if>
+			AND o.ORDER_STATUS IN(3,4)
+		</if>
+	</where>
+	GROUP BY o.member_no
+	) t,t_member m WHERE t.member_no=m.member_no 
+	
+) as a
+</select>
+<select id="refund" parameterType="Query" resultType="java.util.HashMap">
+	select count(*) cnt,
+  ROUND(sum(refund_amount),2) amount,
+  sum(case when refund_method=1 then 1 else 0 end) zfb_cnt,
+  ROUND(sum(case when refund_method=1 then refund_amount else 0 end),2) zfb_amount,
+  round(sum(case when refund_method=1 then refund_amount else 0 end)*#{q.zfbAgentFee},2) zfb_agent_fee,
+  sum(case when refund_method=2 then 1 else 0 end) wx_cnt,
+  ROUND(sum(case when refund_method=2 then refund_amount else 0 end),2) wx_amount,
+  round(sum(case when refund_method=2 then refund_amount else 0 end)*0.006,2) wx_agent_fee,
+  sum(case when refund_method=3 then 1 else 0 end) other_cnt,
+  ROUND(sum(case when refund_method=3 then refund_amount else 0 end),2) other_amount,
+  0 other_agent_fee
+ from t_deposit_refund dpr 
+ <where>
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ and refund_time>= #{q.startTime}  ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ and refund_time<= #{q.endTime}  ]]>
+			</if>
+			AND dpr.refund_status=1
+		</if>
+	</where>
+</select>
+<select id="income" parameterType="Query" resultType="java.util.HashMap">
+	select 
+	count(*) cnt,
+	ROUND(sum(paid_amount),2) AS paidAmount,
+	sum(case when payment_method=1 then 1 else 0 end) zfb_cnt,
+	ROUND(sum(case when payment_method=1 then paid_amount else 0 end),2) zfb_amount,
+	round(sum(case when payment_method=1 then paid_amount else 0 end)*#{q.zfbAgentFee},2) zfb_agent_fee,
+	sum(case when payment_method=2 then 1 else 0 end) wx_cnt,
+	ROUND(sum(case when payment_method=2 then paid_amount else 0 end),2) wx_amount,
+	round(sum(case when payment_method=2 then paid_amount else 0 end)*0.006,2) wx_agent_fee,
+	sum(case when payment_method=3 then 1 else 0 end) other_cnt,
+	ROUND(sum(case when payment_method=3 then paid_amount else 0 end),2) other_amount
+	 from (
+	select dpo.deposit_order_no,dpo.member_no,dpo.deposit_amount,dpo.payable_amount,
+	dpo.pay_status,dpo.payment_method,dpo.payment_flow_no,pr.paymemt_id,pr.paid_amount,pr.pay_flow_no
+	 from t_deposit_order dpo inner join t_payment_record pr on pr.biz_obj_type=3 and dpo.deposit_order_no=pr.biz_obj_no
+	and pr.pay_status=1 
+	<if test="q != null">
+		<if test="q.startTime!=null">
+			<![CDATA[ and pr.paid_time>= #{q.startTime}  ]]>
+		</if>
+		<if test="q.endTime!=null">
+			<![CDATA[ and pr.paid_time<= #{q.endTime}  ]]>
+		</if>
+	</if>
+	) t;
+	</select>
+	
+	<!-- 套餐汇总修改 -->
+	<select id="pageListPackageCount" parameterType="Query" resultMap="PackageCount">
+	SELECT  pp.PACKAGE_NO,pp.PACKAGE_NAME,pp.PRICE,
+	(CASE WHEN pp.PACKAGE_TYPE=2 THEN "销售套餐" ELSE "赠送类套餐" END) AS PACKAGE_TYPE,
+	ROUND(COUNT(t.pack_order_no),2) packOrderCount,
+	ROUND(SUM(t.payable_amount),2) packRealAmount,
+	ROUND(CASE WHEN pp.PACK_AMOUNT>0 THEN pp.pack_amount ELSE 0 END,2) AS packAmount,
+	ROUND(CASE WHEN pp.PACK_AMOUNT>0 THEN COUNT(t.pack_order_no) * pp.PACK_AMOUNT ELSE 0 END,2) totalPackAmount,
+	(SELECT count(*) from t_pricing_deduction_record pdr where pdr.PACKAGE_ID=t.package_id  GROUP BY PACKAGE_Id)as dicountOrderNum,
+	(SELECT SUM(ROUND(CASE WHEN DEDUCTION_AMOUNT>0 THEN DEDUCTION_AMOUNT ELSE 0 END,2)) FROM t_pricing_deduction_record pdr WHERE pdr.PACKAGE_ID=t.package_id GROUP BY PACKAGE_Id) as dicountOrderCount
+	FROM (
+		select * FROM t_pricing_pack_order where pack_order_no in
+		(select BIZ_OBJ_NO from t_payment_record  
+		<where>  BIZ_OBJ_TYPE=1 
+			<if test="q != null">
+				<if test="q.startTime!=null">
+					<![CDATA[ and PAID_TIME>= #{q.startTime} ]]>
+				</if>
+				<if test="q.endTime!=null">
+					<![CDATA[ and PAID_TIME<= #{q.endTime}  ]]>
+				</if>
+			</if>
+		</where> )	
+		) t LEFT JOIN t_pricing_package pp ON t.package_id=pp.package_no  GROUP BY package_no
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="countPackageCount" parameterType="Query" resultType="Long">
+select count(*) from(
+SELECT  pp.PACKAGE_NO,pp.PACKAGE_NAME,pp.PRICE,
+	(CASE WHEN pp.PACKAGE_TYPE=2 THEN "销售套餐" ELSE "赠送类套餐" END) AS PACKAGE_TYPE,
+	ROUND(COUNT(t.pack_order_no),2) packOrderCount,
+	ROUND(SUM(t.payable_amount),2) packRealAmount,
+	ROUND(CASE WHEN pp.PACK_AMOUNT>0 THEN pp.pack_amount ELSE 0 END,2) AS packAmount,
+	ROUND(CASE WHEN pp.PACK_AMOUNT>0 THEN COUNT(t.pack_order_no) * pp.PACK_AMOUNT ELSE 0 END,2) totalPackAmount,
+	(SELECT count(*) from t_pricing_deduction_record pdr where pdr.PACKAGE_ID=t.package_id  GROUP BY PACKAGE_Id)as dicountOrderNum,
+	(SELECT SUM(ROUND(CASE WHEN DEDUCTION_AMOUNT>0 THEN DEDUCTION_AMOUNT ELSE 0 END,2)) FROM t_pricing_deduction_record pdr WHERE pdr.PACKAGE_ID=t.package_id GROUP BY PACKAGE_Id) as dicountOrderCount
+	FROM (
+		select * FROM t_pricing_pack_order where pack_order_no in
+		(select BIZ_OBJ_NO from t_payment_record 
+		<where>  BIZ_OBJ_TYPE=1 
+			<if test="q != null">
+				<if test="q.startTime!=null">
+					<![CDATA[ and PAID_TIME>= #{q.startTime} ]]>
+				</if>
+				<if test="q.endTime!=null">
+					<![CDATA[ and PAID_TIME<= #{q.endTime}  ]]>
+				</if>
+			</if>
+		</where> )
+		) t LEFT JOIN t_pricing_package pp ON t.package_id=pp.package_no 
+	GROUP BY package_no
+
+	) as a
+</select>
+
+<!-- 资金汇总 默认显示当前月的数据查询-->
+<select id="listMoneySummary" parameterType="Query" resultMap="MoreBusinessSummary">
+		SELECT * FROM
+			 (
+			SELECT 
+				COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS orderNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+			FROM
+				t_order o
+				LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+				<where>  o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+					<if test="q != null">
+						<if test="q.startTime!=null">
+							<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{q.startTime} ]]>
+						</if>
+						<if test="q.endTime!=null">
+							<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{q.endTime} ]]>
+						</if>
+					</if>
+				</where>
+			) AS a, 
+			(
+			SELECT
+					COUNT(t.PACK_ORDER_NO) AS packageRechargeNum,
+					ROUND(SUM(pr.PAID_AMOUNT), 2) AS packageAlreadyAmount
+			FROM
+				t_pricing_pack_order t LEFT JOIN t_payment_record pr ON t.PACK_ORDER_NO = pr.BIZ_OBJ_NO
+				<where>  pr.BIZ_OBJ_TYPE=1 AND t.PAY_STATUS = 1 
+					<if test="q != null">
+					<if test="q.startTime!=null">
+						<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{q.startTime} ]]>
+					</if>
+					<if test="q.endTime!=null">
+						<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{q.endTime} ]]>
+					</if>
+				</if>
+				</where>
+			) AS c,
+				 (
+			SELECT
+					COUNT(CASE WHEN dpo.DEPOSIT_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS depositNum,
+					ROUND(SUM(CASE WHEN dpo.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+				FROM
+					t_deposit_order dpo LEFT JOIN  t_payment_record pr ON pr.BIZ_OBJ_NO = dpo.DEPOSIT_ORDER_NO
+					<where>   dpo.PAY_STATUS = 1  AND pr.BIZ_OBJ_TYPE=3
+						<if test="q != null">
+							<if test="q.startTime!=null">
+								<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{q.startTime} ]]>
+							</if>
+							<if test="q.endTime!=null">
+								<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{q.endTime} ]]>
+							</if>
+						</if>
+					</where> 
+			) AS b,
+				(
+			SELECT
+					COUNT(dpr.REFUND_NO) AS refundDepositNum,
+					ROUND(SUM(dpr.REFUND_AMOUNT),2) AS refundDepositAmount
+				FROM
+					t_deposit_refund dpr
+					<where>   dpr.REFUND_STATUS =1  
+						<if test="q != null">
+							<if test="q.startTime!=null">
+								<![CDATA[ AND DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') >=#{q.startTime} ]]>
+							</if>
+							<if test="q.endTime!=null">
+								<![CDATA[ AND DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') <=#{q.endTime} ]]>
+							</if>
+						</if>
+					</where> 
+			) AS d 
+			<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 资金汇总 导出 -->
+<select id="listMoneySummaryDefault" parameterType="Query" resultMap="MoreBusinessSummary">
+		SELECT * FROM
+			 (
+			SELECT 
+				COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS orderNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+			FROM
+				t_order o
+				LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+				<where>  o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+					<if test="mbs != null">
+						<if test="mbs.startTime!=null">
+							<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{mbs.startTime} ]]>
+						</if>
+						<if test="mbs.endTime!=null">
+							<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{mbs.endTime} ]]>
+						</if>
+					</if>
+				</where>
+			) AS a, 
+			(
+			SELECT
+					COUNT(t.PACK_ORDER_NO) AS packageRechargeNum,
+					ROUND(SUM(pr.PAID_AMOUNT), 2) AS packageAlreadyAmount
+			FROM
+				t_pricing_pack_order t LEFT JOIN t_payment_record pr ON t.PACK_ORDER_NO = pr.BIZ_OBJ_NO
+				<where>  pr.BIZ_OBJ_TYPE=1 AND t.PAY_STATUS = 1 
+					<if test="mbs != null">
+					<if test="mbs.startTime!=null">
+						<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{mbs.startTime} ]]>
+					</if>
+					<if test="mbs.endTime!=null">
+						<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{mbs.endTime} ]]>
+					</if>
+				</if>
+				</where>
+			) AS c,
+				 (
+			SELECT
+					COUNT(CASE WHEN dpo.DEPOSIT_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS depositNum,
+					ROUND(SUM(CASE WHEN dpo.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+				FROM
+					t_deposit_order dpo LEFT JOIN  t_payment_record pr ON pr.BIZ_OBJ_NO = dpo.DEPOSIT_ORDER_NO
+					<where>   dpo.PAY_STATUS = 1  AND pr.BIZ_OBJ_TYPE=3
+						<if test="mbs != null">
+							<if test="mbs.startTime!=null">
+								<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') >=#{mbs.startTime} ]]>
+							</if>
+							<if test="mbs.endTime!=null">
+								<![CDATA[ AND DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') <=#{mbs.endTime} ]]>
+							</if>
+						</if>
+					</where> 
+			) AS b,
+				(
+			SELECT
+					COUNT(dpr.REFUND_NO) AS refundDepositNum,
+					ROUND(SUM(dpr.REFUND_AMOUNT),2) AS refundDepositAmount
+				FROM
+					t_deposit_refund dpr
+					<where>   dpr.REFUND_STATUS =1  
+						<if test="mbs != null">
+							<if test="mbs.startTime!=null">
+								<![CDATA[ AND DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') >=#{mbs.startTime} ]]>
+							</if>
+							<if test="mbs.endTime!=null">
+								<![CDATA[ AND DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') <=#{mbs.endTime} ]]>
+							</if>
+						</if>
+					</where> 
+			) AS d 
+</select>
+<!-- 资金汇总 默认查询最近12个月的数据 按月份倒排 -->
+<select id="listMoneySummaryMonth" parameterType="Query" resultMap="MoreBusinessSummary">
+	SELECT * FROM
+			(SELECT DATE_FORMAT(datelist,'%Y-%m') As months FROM calendar
+			<where>
+				<if test="q != null">
+					<if test="q.startMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') >=#{q.startMonth} ]]>
+					</if>
+					<if test="q.endMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') <=#{q.endMonth} ]]>
+					</if>
+				</if>
+			</where> 
+			group by months order by months desc
+		) m LEFT JOIN
+			(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month1,
+				COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+			FROM
+				t_order o
+			LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+			WHERE  o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+			group by month1 order by month1 desc ) a ON a.month1 = m.months
+		LEFT JOIN 
+			(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month2,
+				COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+				ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+			FROM
+				t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+				WHERE  d.PAY_STATUS = 1  AND pr.BIZ_OBJ_TYPE=3
+				group by month2 order by month2 desc ) b on m.months = b.month2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m') As month3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+				WHERE dpr.REFUND_STATUS =1  
+				group by month3 order by month3 desc ) c on m.months = c.month3
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month4,
+				COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+			FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				 WHERE ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				 group by month4 order by month4 desc ) d on m.months = d.month4
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 资金汇总 导出 -->
+<select id="listMoneySummaryMonthExport" parameterType="Query" resultMap="MoreBusinessSummary">
+	SELECT * FROM
+			(SELECT DATE_FORMAT(datelist,'%Y-%m') As months FROM calendar
+			<where>
+				<if test="mbs != null">
+					<if test="mbs.startMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') >=#{mbs.startMonth} ]]>
+					</if>
+					<if test="mbs.endMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') <=#{mbs.endMonth} ]]>
+					</if>
+				</if>
+			</where> 
+			group by months order by months desc
+		) m LEFT JOIN
+			(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month1,
+				COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+			FROM
+				t_order o
+			LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+			WHERE  o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+			group by month1 order by month1 desc ) a ON a.month1 = m.months
+		LEFT JOIN 
+			(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month2,
+				COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+				ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+			FROM
+				t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+				WHERE  d.PAY_STATUS = 1  AND pr.BIZ_OBJ_TYPE=3
+				group by month2 order by month2 desc ) b on m.months = b.month2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m') As month3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+				WHERE dpr.REFUND_STATUS =1  
+				group by month3 order by month3 desc ) c on m.months = c.month3
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month4,
+				COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+			FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				 WHERE ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				 group by month4 order by month4 desc ) d on m.months = d.month4
+</select>
+
+ <select id="countMoneySummaryMonth" parameterType="Query" resultType="Long">
+	SELECT count(*) FROM
+		(SELECT DATE_FORMAT(datelist,'%Y-%m') As months FROM calendar
+			<where>
+				<if test="q != null">
+					<if test="q.startMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') >=#{q.startMonth} ]]>
+					</if>
+					<if test="q.endMonth!=null">
+						<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m') <=#{q.endMonth} ]]>
+					</if>
+				</if>
+			</where> 
+			group by months order by months desc
+		) m LEFT JOIN
+		(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month1,
+				COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+			FROM
+				t_order o
+			LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+			WHERE  o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+			group by month1 order by month1 desc ) a ON a.month1 = m.months
+		LEFT JOIN 
+		(SELECT 
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month2,
+				COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+				ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+			FROM
+				t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+				WHERE  d.PAY_STATUS = 1  AND pr.BIZ_OBJ_TYPE=3
+				group by month2 order by month2 desc ) b on m.months = b.month2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m') As month3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+				WHERE dpr.REFUND_STATUS =1  
+				group by month3 order by month3 desc ) c on m.months = c.month3
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(pr.PAID_TIME,'%Y-%m') As month4,
+				COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+				ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+			FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				 WHERE ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				 group by month4 order by month4 desc ) d on m.months = d.month4
+</select> 
+
+<!-- 资金汇总 按日分组后列出；默认查询最近30天数据；按日期倒排 -->
+<select id="listMoneySummaryDay" parameterType="Query" resultMap="MoreBusinessSummary">
+	SELECT * FROM
+	(
+	SELECT DATE_FORMAT(datelist,'%Y-%m-%d') As days
+	FROM calendar 
+	<where>  
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') >=#{q.startTime} ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') <=#{q.endTime} ]]>
+			</if>
+		</if>
+	</where>
+		group by days order by days desc
+	) da LEFT JOIN
+	(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days1,
+			COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+			ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+		FROM
+			t_order o
+		LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+		WHERE
+			o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+		group by days1 order by days1 desc ) a ON a.days1 = da.days 
+		LEFT JOIN
+		(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days2,
+			COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+			ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+		FROM
+			t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+		WHERE
+			d.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=3 
+		group by days2 order by days2 desc ) b on da.days=b.days2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') As days3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+			WHERE
+				dpr.REFUND_STATUS =1 
+			group by days3 order by days3 desc ) c on da.days=c.days3
+		LEFT JOIN
+			(SELECT
+					DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days4,
+					COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+					ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+				FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				WHERE
+					ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				group by days4 order by days4 desc ) d on da.days=d.days4
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 资金汇总导出 -->
+<select id="listMoneySummaryDayExport" parameterType="Query" resultMap="MoreBusinessSummary">
+	SELECT * FROM
+	(
+	SELECT DATE_FORMAT(datelist,'%Y-%m-%d') As days
+	FROM calendar 
+	<where>  
+		<if test="mbs != null">
+			<if test="mbs.startTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') >=#{mbs.startTime} ]]>
+			</if>
+			<if test="mbs.endTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') <=#{mbs.endTime} ]]>
+			</if>
+		</if>
+	</where>
+		group by days order by days desc
+	) da LEFT JOIN
+	(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days1,
+			COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+			ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+		FROM
+			t_order o
+		LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+		WHERE
+			o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+		group by days1 order by days1 desc ) a ON a.days1 = da.days 
+		LEFT JOIN
+		(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days2,
+			COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+			ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+		FROM
+			t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+		WHERE
+			d.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=3 
+		group by days2 order by days2 desc ) b on da.days=b.days2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') As days3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+			WHERE
+				dpr.REFUND_STATUS =1 
+			group by days3 order by days3 desc ) c on da.days=c.days3
+		LEFT JOIN
+			(SELECT
+					DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days4,
+					COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+					ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+				FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				WHERE
+					ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				group by days4 order by days4 desc ) d on da.days=d.days4
+</select>
+
+ <select id="countMoneySummaryDay" parameterType="Query" resultType="Long">
+	SELECT COUNT(*) FROM
+	(
+	SELECT DATE_FORMAT(datelist,'%Y-%m-%d') As days
+	FROM calendar 
+	<where>  
+		<if test="q != null">
+			<if test="q.startTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') >=#{q.startTime} ]]>
+			</if>
+			<if test="q.endTime!=null">
+				<![CDATA[ AND DATE_FORMAT(datelist,'%Y-%m-%d') <=#{q.endTime} ]]>
+			</if>
+		</if>
+	</where>
+		group by days order by days desc
+	) da LEFT JOIN
+	(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days1,
+			COUNT(CASE WHEN o.ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END ) AS orderNum,
+			ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS alreadyAmount
+		FROM
+			t_order o
+		LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = o.ORDER_NO
+		WHERE
+			o.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=2 
+		group by days1 order by days1 desc ) a ON a.days1 = da.days 
+		LEFT JOIN
+		(SELECT 
+			DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days2,
+			COUNT(CASE WHEN d.DEPOSIT_ORDER_NO IS NOT NULL 	THEN 1 ELSE 0 END) AS payDepositNum,
+			ROUND(SUM(CASE WHEN d.PAYABLE_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS payDepositAmount
+		FROM
+			t_deposit_order d LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = d.DEPOSIT_ORDER_NO
+		WHERE
+			d.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=3 
+		group by days2 order by days2 desc ) b on da.days=b.days2 
+		LEFT JOIN
+			(SELECT
+				DATE_FORMAT(dpr.REFUND_TIME,'%Y-%m-%d') As days3,
+				COUNT(CASE WHEN dpr.REFUND_NO IS NOT NULL THEN 1 ELSE 0 END) AS refundDepositNum,
+				ROUND(SUM(CASE WHEN dpr.REFUND_AMOUNT > 0 THEN 1 ELSE 0 END),2) AS refundDepositAmount
+			FROM
+				t_deposit_refund dpr
+			WHERE
+				dpr.REFUND_STATUS =1 
+			group by days3 order by days3 desc ) c on da.days=c.days3
+		LEFT JOIN
+			(SELECT
+					DATE_FORMAT(pr.PAID_TIME,'%Y-%m-%d') As days4,
+					COUNT(CASE WHEN ppo.PACK_ORDER_NO IS NOT NULL THEN 1 ELSE 0 END) AS packageRechargeNum,
+					ROUND(SUM(CASE WHEN pr.PAID_AMOUNT > 0 THEN 1 ELSE 0 END), 2) AS packageAlreadyAmount
+				FROM
+				 t_pricing_pack_order ppo LEFT JOIN t_payment_record pr ON pr.BIZ_OBJ_NO = ppo.PACK_ORDER_NO
+				WHERE
+					ppo.PAY_STATUS = 1 AND pr.BIZ_OBJ_TYPE=1 
+				group by days4 order by days4 desc ) d on da.days=d.days4
+</select> 
+</mapper>

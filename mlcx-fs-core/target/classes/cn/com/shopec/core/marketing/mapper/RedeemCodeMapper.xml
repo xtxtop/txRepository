@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.RedeemCodeDao">
+
+<resultMap type="RedeemCode" id="RedeemCode">
+	<id column="RED_CODE" property="redCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RED_NAME" property="redName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="AVAILABLE_TIMES" property="availableTimes" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_TIME1" property="availableTime1" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AVAILABLE_TIME2" property="availableTime2" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="REMARK" property="remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENSOR_ID" property="censorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_TIME" property="censorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENSOR_MEMO" property="censorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RED_CODE,RED_NAME,AVAILABLE_TIMES,AVAILABLE_TIME1,AVAILABLE_TIME2,
+REMARK,CENSOR_STATUS,CENSOR_TIME,CENSOR_ID,CENSOR_MEMO,
+IS_AVAILABLE,AVAILABLE_UPDATE_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE,IS_DELETED
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RED_CODE,RED_NAME,AVAILABLE_TIMES,AVAILABLE_TIME1,AVAILABLE_TIME2,
+CENSOR_STATUS,CENSOR_TIME,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,OPERATOR_TYPE,
+IS_DELETED
+</sql>
+
+<insert id="add" parameterType="RedeemCode" useGeneratedKeys="true" keyProperty="redCode">
+	insert into T_REDEEM_CODE(
+		<if test="redCode!=null">
+		RED_CODE,
+		</if>
+		RED_NAME,
+		AVAILABLE_TIMES,
+		AVAILABLE_TIME1,
+		AVAILABLE_TIME2,
+		REMARK,
+		CENSOR_STATUS,
+		CENSOR_TIME,
+		CENSOR_ID,
+		CENSOR_MEMO,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		IS_DELETED,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="redCode!=null">
+		#{redCode,jdbcType = VARCHAR},
+		</if>
+		#{redName,jdbcType = VARCHAR},
+		#{availableTimes,jdbcType = INTEGER},
+		#{availableTime1,jdbcType = TIMESTAMP},
+		#{availableTime2,jdbcType = TIMESTAMP},
+		#{remark,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{censorId,jdbcType = VARCHAR},
+		#{censorTime,jdbcType = TIMESTAMP},
+		#{censorMemo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{isDeleted,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<!-- 通用update -->
+<update id="update" parameterType="RedeemCode">
+	update t_redeem_code 
+	<set>
+		<include refid="listCommonSet"/>
+	</set>
+	<where>
+		AND RED_CODE=#{redCode}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_redeem_code 
+	<where>
+		RED_CODE=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="RedeemCode">
+	select <include refid="AllColumnlist"/> from t_redeem_code
+	<where>
+		RED_CODE=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="RedeemCode">
+	select <include refid="AllColumnlist"/> from t_redeem_code
+	<where>
+		RED_CODE in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RED_CODE) from t_redeem_code 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="RedeemCode">
+	select <include refid="CommonColumnlist"/> from t_redeem_code 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="RedeemCode">
+	select <include refid="CommonColumnlist"/> from t_redeem_code
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonSet">
+		<if test="redName!=null and  redName!='' ">
+			RED_NAME=#{redName,jdbcType = VARCHAR},
+		</if>
+		
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="censorId!=null and censorId!=''">
+			CENSOR_ID=#{censorId,jdbcType = VARCHAR},
+		</if>
+		<if test="censorTime!=null ">
+			CENSOR_TIME=#{censorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="censorMemo!=null and censorMemo!=''">
+			CENSOR_MEMO=#{censorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="availableTime1!=null ">
+			AVAILABLE_TIME1=#{availableTime1,jdbcType = TIMESTAMP},
+		</if>
+		<if test="availableTime2!=null ">
+			AVAILABLE_TIME2=#{availableTime2,jdbcType = TIMESTAMP},
+		</if>
+		<if test="remark!=null and remark!=''">
+			REMARK=#{remark,jdbcType = VARCHAR},
+		</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.redCode!=null and  q.redCode!='' ">
+			AND RED_CODE = #{q.redCode}
+		</if>
+		<if test="q.redName!=null and  q.redName!='' ">
+			AND RED_NAME like CONCAT('%',#{q.redName},'%')
+		</if>
+		<if test="q.availableTime1!=null ">
+			AND AVAILABLE_TIME1 = #{q.availableTime1}
+		</if>
+		<if test="q.availableTime2!=null ">
+			AND AVAILABLE_TIME2 = #{q.availableTime2}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND AVAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND AVAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND AVAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.availableTimes!=null ">
+			AND AVAILABLE_TIMES=#{q.availableTimes}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.censorId!=null and q.censorId!=''">
+			AND CENSOR_ID=#{q.censorId}
+		</if>
+		<if test="q.censorTime!=null ">
+			AND CENSOR_TIME=#{q.censorTime}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+</mapper>

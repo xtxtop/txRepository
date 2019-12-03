@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.AccountsDao">
+
+<resultMap type="Accounts" id="Accounts">
+	<id column="ACCOUNT_NO" property="accountNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUSINESS_NO" property="businessNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BUSINESS_TYPE" property="businessType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ACCOUNT_TYPE" property="accountType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ACCOUNT_MONEY" property="accountMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ACCOUNT_BEFORE_MONEY" property="accountBeforeMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ACCOUNT_OVER_MONEY" property="accountOverMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ACCOUNT_TIME" property="accountTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ACCOUNT_NO,MEMBER_NO,BUSINESS_NO,BUSINESS_TYPE,ACCOUNT_TYPE,ACCOUNT_MONEY,ACCOUNT_BEFORE_MONEY,
+ACCOUNT_OVER_MONEY,ACCOUNT_TIME,MEMO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ACCOUNT_NO,MEMBER_NO,BUSINESS_NO,BUSINESS_TYPE,ACCOUNT_TYPE,ACCOUNT_MONEY,ACCOUNT_BEFORE_MONEY,
+ACCOUNT_OVER_MONEY,ACCOUNT_TIME
+</sql>
+
+<insert id="add" parameterType="Accounts" useGeneratedKeys="true" keyProperty="accountNo">
+	insert into T_ACCOUNTS(
+		<if test="accountNo!=null">
+		ACCOUNT_NO,
+		</if>
+		MEMBER_NO,
+		BUSINESS_NO,
+		BUSINESS_TYPE,
+		ACCOUNT_TYPE,
+		ACCOUNT_MONEY,
+		ACCOUNT_BEFORE_MONEY,
+		ACCOUNT_OVER_MONEY,
+		ACCOUNT_TIME,
+		MEMO
+	) values (
+		<if test="accountNo!=null">
+		#{accountNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{businessNo,jdbcType = VARCHAR},
+		#{businessType,jdbcType = TINYINT},
+		#{accountType,jdbcType = TINYINT},
+		#{accountMoney,jdbcType = DOUBLE},
+		#{accountBeforeMoney,jdbcType = DOUBLE},
+		#{accountOverMoney,jdbcType = DOUBLE},
+		#{accountTime,jdbcType = TIMESTAMP},
+		#{memo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="Accounts">
+	update t_accounts 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="businessNo!=null and businessNo!=''">
+			BUSINESS_NO=#{businessNo,jdbcType = VARCHAR},
+		</if>
+		<if test="businessNo!=null and businessNo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="businessType!=null ">
+			BUSINESS_TYPE=#{businessType,jdbcType = TINYINT},
+		</if>
+		<if test="accountType!=null ">
+			ACCOUNT_TYPE=#{accountType,jdbcType = TINYINT},
+		</if>
+		<if test="accountMoney!=null ">
+			ACCOUNT_MONEY=#{accountMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="accountBeforeMoney!=null ">
+			ACCOUNT_BEFORE_MONEY=#{accountBeforeMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="accountOverMoney!=null ">
+			ACCOUNT_OVER_MONEY=#{accountOverMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="accountTime!=null ">
+			ACCOUNT_TIME=#{accountTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND ACCOUNT_NO=#{accountNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_accounts 
+	<where>
+		ACCOUNT_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Accounts">
+	select <include refid="AllColumnlist"/> from t_accounts
+	<where>
+		ACCOUNT_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Accounts">
+	select <include refid="AllColumnlist"/> from t_accounts
+	<where>
+		ACCOUNT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ACCOUNT_NO) from t_accounts 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Accounts">
+	select <include refid="CommonColumnlist"/> from t_accounts 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Accounts">
+	select <include refid="CommonColumnlist"/> from t_accounts
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by account_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.accountNo!=null and q.accountNo!=''">
+			AND ACCOUNT_NO=#{q.accountNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.businessNo!=null and q.businessNo!=''">
+			AND BUSINESS_NO=#{q.businessNo}
+		</if>
+		<if test="q.businessType!=null ">
+			AND BUSINESS_TYPE=#{q.businessType}
+		</if>
+		<if test="q.accountType!=null ">
+			AND ACCOUNT_TYPE=#{q.accountType}
+		</if>
+		<if test="q.accountMoney!=null ">
+			AND ACCOUNT_MONEY=#{q.accountMoney}
+		</if>
+		<if test="q.accountBeforeMoney!=null ">
+			AND ACCOUNT_BEFORE_MONEY=#{q.accountBeforeMoney}
+		</if>
+		<if test="q.accountOverMoney!=null ">
+			AND ACCOUNT_OVER_MONEY=#{q.accountOverMoney}
+		</if>
+		<if test="q.accountTime!=null ">
+			AND ACCOUNT_TIME=#{q.accountTime}
+		</if>
+		<if test="q.accountTimeStart!=null">
+		<![CDATA[	AND ACCOUNT_TIME>=#{q.accountTimeStart}  ]]>
+		</if>
+		<if test="q.accountTimeEnd!=null">
+		<![CDATA[	AND ACCOUNT_TIME<#{q.accountTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

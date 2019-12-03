@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.OrderMileageDao">
+
+<resultMap type="OrderMileage" id="OrderMileage">
+	<id column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="ORDER_MILEAGE_DATE" property="orderMileageDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ORDER_START_MILEAGE" property="orderStartMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_FINISH_MILEAGE" property="orderFinishMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MILEAGE" property="mileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MILEAGE_AMOUNT" property="mileageAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_START_MINUTE" property="orderStartMinute" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ORDER_END_MINUTE" property="orderEndMinute" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MINUTES" property="minutes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="MINUTES_AMOUNT" property="minutesAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_AMOUNT_OF_DAY" property="orderAmountOfDay" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FREE_MILEAGE" property="freeMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PEAR_TIME_COST" property="pearTimeCost" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PEAR_TIME_NEXTDAY_COST" property="pearTimeNextDayCost" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_NO,ORDER_MILEAGE_DATE,ORDER_START_MILEAGE,ORDER_FINISH_MILEAGE,MILEAGE,MILEAGE_AMOUNT,MINUTES,ORDER_START_MINUTE,ORDER_END_MINUTE,
+MINUTES_AMOUNT,ORDER_AMOUNT_OF_DAY,FREE_MILEAGE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,PEAR_TIME_COST,PEAR_TIME_NEXTDAY_COST
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_NO,ORDER_MILEAGE_DATE,ORDER_START_MILEAGE,ORDER_FINISH_MILEAGE,MILEAGE,MILEAGE_AMOUNT,MINUTES,ORDER_START_MINUTE,ORDER_END_MINUTE,
+MINUTES_AMOUNT,ORDER_AMOUNT_OF_DAY,FREE_MILEAGE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,PEAR_TIME_COST,PEAR_TIME_NEXTDAY_COST
+
+</sql>
+
+<insert id="add" parameterType="OrderMileage" useGeneratedKeys="true" keyProperty="mileageDate">
+	insert into T_ORDER_MILEAGE(
+		<if test="orderNo!=null">
+		ORDER_NO,
+		</if>
+		<if test="orderMileageDate!=null">
+		ORDER_MILEAGE_DATE,
+		</if>
+		ORDER_START_MILEAGE,
+		ORDER_FINISH_MILEAGE,
+		MILEAGE,
+		MILEAGE_AMOUNT,
+		MINUTES,
+		ORDER_START_MINUTE,
+		ORDER_END_MINUTE,
+		MINUTES_AMOUNT,
+		ORDER_AMOUNT_OF_DAY,
+		FREE_MILEAGE,
+		PEAR_TIME_COST,
+		PEAR_TIME_NEXTDAY_COST,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="orderNo!=null">
+		#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderMileageDate!=null">
+		#{orderMileageDate,jdbcType = TIMESTAMP},
+		</if>
+		#{orderStartMileage,jdbcType = DOUBLE},
+		#{orderFinishMileage,jdbcType = DOUBLE},
+		#{mileage,jdbcType = DOUBLE},
+		#{mileageAmount,jdbcType = DOUBLE},
+		#{minutes,jdbcType = INTEGER},
+		#{orderStartMinute,jdbcType = TIMESTAMP},
+		#{orderEndMinute,jdbcType = TIMESTAMP},
+		#{minutesAmount,jdbcType = DOUBLE},
+		#{orderAmountOfDay,jdbcType = DOUBLE},
+		#{freeMileage,jdbcType = DOUBLE},
+		#{pearTimeCost,jdbcType = VARCHAR},
+		#{pearTimeNextDayCost,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="OrderMileage">
+	update t_order_mileage 
+	<set>
+		<if test="orderStartMileage!=null ">
+			ORDER_START_MILEAGE=#{orderStartMileage,jdbcType = DOUBLE},
+		</if>
+		<if test="orderFinishMileage!=null ">
+			ORDER_FINISH_MILEAGE=#{orderFinishMileage,jdbcType = DOUBLE},
+		</if>
+		<if test="mileage!=null ">
+			MILEAGE=#{mileage,jdbcType = DOUBLE},
+		</if>
+		<if test="mileageAmount!=null ">
+			MILEAGE_AMOUNT=#{mileageAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="minutes!=null ">
+			MINUTES=#{minutes,jdbcType = INTEGER},
+		</if>
+		<if test="orderStartMinute!=null ">
+			ORDER_START_MINUTE=#{orderStartMinute,jdbcType = TIMESTAMP},
+		</if>
+		<if test="orderEndMinute!=null ">
+			ORDER_End_MINUTE=#{orderEndMinute,jdbcType = TIMESTAMP},
+		</if>
+		<if test="minutesAmount!=null ">
+			MINUTES_AMOUNT=#{minutesAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="orderAmountOfDay!=null">
+			ORDER_AMOUNT_OF_DAY=#{orderAmountOfDay,jdbcType = DOUBLE},
+		</if>
+		<if test="freeMileage!=null">
+			FREE_MILEAGE=#{freeMileage,jdbcType = DOUBLE},
+		</if>
+		<if test="pearTimeCost!=null and pearTimeCost!=''">
+			PEAR_TIME_COST=#{pearTimeCost,jdbcType = VARCHAR},
+		</if>
+		<if test="pearTimeNextDayCost!=null and pearTimeNextDayCost!=''">
+			PEAR_TIME_NEXTDAY_COST=#{pearTimeNextDayCost,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ORDER_MILEAGE_DATE=#{orderMileageDate}
+		AND ORDER_NO=#{orderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_order_mileage 
+	<where>
+		ORDER_MILEAGE_DATE=#{0}
+		AND ORDER_NO=#{1}
+	</where>
+</delete>
+
+<select id="get" resultMap="OrderMileage">
+	select <include refid="AllColumnlist"/> from t_order_mileage
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</select>
+<select id="getOrderMileage" resultMap="OrderMileage">
+	select <include refid="AllColumnlist"/> from t_order_mileage
+	<where>
+		ORDER_MILEAGE_DATE=#{0}
+		AND ORDER_NO=#{1}
+	</where>
+</select>
+
+<select id="getNewestOrderMileage" resultMap="OrderMileage">
+	select <include refid="AllColumnlist"/> from t_order_mileage
+	<where>
+		ORDER_NO=#{0}
+	</where>
+	order by ORDER_MILEAGE_DATE DESC limit 1
+</select>
+<select id="getByIds" resultMap="OrderMileage">
+	select <include refid="AllColumnlist"/> from t_order_mileage
+	<where>
+		ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from t_order_mileage 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="OrderMileage">
+	select <include refid="CommonColumnlist"/> from t_order_mileage 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="OrderMileage">
+	select <include refid="CommonColumnlist"/> from t_order_mileage
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.orderMileageDate!=null ">
+			AND ORDER_MILEAGE_DATE=#{q.orderMileageDate}
+		</if>
+		<if test="q.orderMileageDateStart!=null">
+		<![CDATA[	AND ORDER_MILEAGE_DATE>=#{q.orderMileageDateStart}  ]]>
+		</if>
+		<if test="q.orderMileageDateEnd!=null">
+		<![CDATA[	AND ORDER_MILEAGE_DATE<#{q.orderMileageDateEnd}   ]]>
+		</if>
+		<if test="q.orderStartMileage!=null ">
+			AND ORDER_START_MILEAGE=#{q.orderStartMileage}
+		</if>
+		<if test="q.orderFinishMileage!=null ">
+			AND ORDER_FINISH_MILEAGE=#{q.orderFinishMileage}
+		</if>
+		<if test="q.mileage!=null ">
+			AND MILEAGE=#{q.mileage}
+		</if>
+		<if test="q.mileageAmount!=null ">
+			AND MILEAGE_AMOUNT=#{q.mileageAmount}
+		</if>
+		<if test="q.minutes!=null ">
+			AND MINUTES=#{q.minutes}
+		</if>
+		<if test="q.minutesAmount!=null ">
+			AND MINUTES_AMOUNT=#{q.minutesAmount}
+		</if>
+		<if test="q.orderAmountOfDay!=null and q.orderAmountOfDay!=''">
+			AND ORDER_AMOUNT_OF_DAY=#{q.orderAmountOfDay}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

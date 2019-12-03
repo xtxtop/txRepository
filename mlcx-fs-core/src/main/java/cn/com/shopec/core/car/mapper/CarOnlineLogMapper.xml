@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarOnlineLogDao">
+
+<resultMap type="CarOnlineLog" id="CarOnlineLog">
+	<id column="LOG_ID" property="logId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OP_TYPE" property="opType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDOWN_WHY" property="updownWhy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+LOG_ID,CAR_NO,CAR_PLATE_NO,OP_TYPE,MEMO,OPERATOR_TYPE,OPERATOR_ID,
+CREATE_TIME,UPDATE_TIME,UPDOWN_WHY
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+LOG_ID,OP_TYPE,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="CarOnlineLog" useGeneratedKeys="true" keyProperty="logId">
+	insert into T_CAR_ONLINE_LOG(
+		<if test="logId!=null">
+		LOG_ID,
+		</if>
+		CAR_NO,
+		CAR_PLATE_NO,
+		OP_TYPE,
+		MEMO,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		UPDOWN_WHY
+	) values (
+		<if test="logId!=null">
+		#{logId,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{opType,jdbcType = TINYINT},
+		#{memo,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{updownWhy,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="CarOnlineLog">
+	update t_car_online_log 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="opType!=null ">
+			OP_TYPE=#{opType,jdbcType = TINYINT},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updownWhy!=null and updownWhy!=''">
+			UPDOWN_WHY=#{updownWhy,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND LOG_ID=#{logId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_online_log 
+	<where>
+		LOG_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarOnlineLog">
+	select <include refid="AllColumnlist"/> from t_car_online_log
+	<where>
+		LOG_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarOnlineLog">
+	select <include refid="AllColumnlist"/> from t_car_online_log
+	<where>
+		LOG_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(LOG_ID) from t_car_online_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarOnlineLog">
+	select <include refid="CommonColumnlist"/> from t_car_online_log 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarOnlineLog">
+	select <include refid="CommonColumnlist"/> from t_car_online_log
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="pageLists" parameterType="Query" resultMap="CarOnlineLog">
+	select co.*,u.USER_name AS userName FROM t_car_online_log co LEFT JOIN t_sys_user u
+    ON u.user_ID = co.operator_Id 
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>	
+
+<select id="getCarLineDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(CREATE_TIME,'%m-%d') as date,
+	sum(case when OP_TYPE=1 then 1 else 0 end) as onlineNum,
+	sum(case when OP_TYPE=0 then -1 else 0 end) as offlineNum
+	from t_car_online_log 
+	where 
+	<![CDATA[ CREATE_TIME>=date_format(date_add(now(), interval -100 day),'%Y-%m-%d') ]]>
+	group by date_format(CREATE_TIME,'%m-%d');
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.logId!=null and q.logId!=''">
+			AND LOG_ID=#{q.logId}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO  LIKE '%${q.carPlateNo}%'
+		</if>
+		<if test="q.opType!=null ">
+			AND OP_TYPE   LIKE '%${q.opType}%'
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND DATE_FORMAT(co.CREATE_TIME,'%Y-%m-%d')>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND DATE_FORMAT(co.CREATE_TIME,'%Y-%m-%d')<=#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.userName!=null and q.userName!=''">
+            AND USER_NAME like CONCAT('%',#{q.userName},'%')
+        </if>
+        <if test="q.updownWhy!=null ">
+			AND UPDOWN_WHY   LIKE '%${q.updownWhy}%'
+		</if>
+	</if>
+</sql>
+
+</mapper>

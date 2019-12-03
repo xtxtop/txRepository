@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarBrandDao">
+
+<resultMap type="CarBrand" id="CarBrand">
+	<id column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BRAND_SHORT_NAME" property="brandShortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOGO_PIC" property="logoPic" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENG_NAME" property="engName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WEB_SITE" property="webSite" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OWER_COMPANY" property="owerCompany" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_ADDR" property="companyAddr" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BRAND_INFO" property="brandInfo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_BRAND_ID,CAR_BRAND_NAME,BRAND_SHORT_NAME,LOGO_PIC,ENG_NAME,WEB_SITE,OWER_COMPANY,
+COMPANY_ADDR,BRAND_INFO,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_BRAND_ID,CAR_BRAND_NAME,BRAND_SHORT_NAME,LOGO_PIC,ENG_NAME,WEB_SITE,OWER_COMPANY,
+COMPANY_ADDR,BRAND_INFO,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<insert id="add" parameterType="CarBrand" useGeneratedKeys="true" keyProperty="carBrandId">
+	insert into T_CAR_BRAND(
+		<if test="carBrandId!=null">
+		CAR_BRAND_ID,
+		</if>
+		CAR_BRAND_NAME,
+		BRAND_SHORT_NAME,
+		LOGO_PIC,
+		ENG_NAME,
+		WEB_SITE,
+		OWER_COMPANY,
+		COMPANY_ADDR,
+		BRAND_INFO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="carBrandId!=null">
+		#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		#{carBrandName,jdbcType = VARCHAR},
+		#{brandShortName,jdbcType = VARCHAR},
+		#{logoPic,jdbcType = VARCHAR},
+		#{engName,jdbcType = VARCHAR},
+		#{webSite,jdbcType = VARCHAR},
+		#{owerCompany,jdbcType = VARCHAR},
+		#{companyAddr,jdbcType = VARCHAR},
+		#{brandInfo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CarBrand">
+	update t_car_brand 
+	<set>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="brandShortName!=null and brandShortName!=''">
+			BRAND_SHORT_NAME=#{brandShortName,jdbcType = VARCHAR},
+		</if>
+		<if test="logoPic!=null and logoPic!=''">
+			LOGO_PIC=#{logoPic,jdbcType = VARCHAR},
+		</if>
+		<if test="engName!=null and engName!=''">
+			ENG_NAME=#{engName,jdbcType = VARCHAR},
+		</if>
+		<if test="webSite!=null and webSite!=''">
+			WEB_SITE=#{webSite,jdbcType = VARCHAR},
+		</if>
+		<if test="owerCompany!=null and owerCompany!=''">
+			OWER_COMPANY=#{owerCompany,jdbcType = VARCHAR},
+		</if>
+		<if test="companyAddr!=null and companyAddr!=''">
+			COMPANY_ADDR=#{companyAddr,jdbcType = VARCHAR},
+		</if>
+		<if test="brandInfo!=null and brandInfo!=''">
+			BRAND_INFO=#{brandInfo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND CAR_BRAND_ID=#{carBrandId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_brand 
+	<where>
+		CAR_BRAND_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarBrand">
+	select <include refid="AllColumnlist"/> from t_car_brand
+	<where>
+		CAR_BRAND_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarBrand">
+	select <include refid="AllColumnlist"/> from t_car_brand
+	<where>
+		CAR_BRAND_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_BRAND_ID) from t_car_brand 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarBrand">
+	select <include refid="CommonColumnlist"/> from t_car_brand 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarBrand">
+	select <include refid="CommonColumnlist"/> from t_car_brand
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carBrandName!=null and q.carBrandName!=''">
+			AND CAR_BRAND_NAME like '%${q.carBrandName}%'
+		</if>
+		<if test="q.brandShortName!=null and q.brandShortName!=''">
+			AND BRAND_SHORT_NAME=#{q.brandShortName}
+		</if>
+		<if test="q.logoPic!=null and q.logoPic!=''">
+			AND LOGO_PIC=#{q.logoPic}
+		</if>
+		<if test="q.engName!=null and q.engName!=''">
+			AND ENG_NAME=#{q.engName}
+		</if>
+		<if test="q.webSite!=null and q.webSite!=''">
+			AND WEB_SITE=#{q.webSite}
+		</if>
+		<if test="q.owerCompany!=null and q.owerCompany!=''">
+			AND OWER_COMPANY=#{q.owerCompany}
+		</if>
+		<if test="q.companyAddr!=null and q.companyAddr!=''">
+			AND COMPANY_ADDR=#{q.companyAddr}
+		</if>
+		<if test="q.brandInfo!=null and q.brandInfo!=''">
+			AND BRAND_INFO=#{q.brandInfo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

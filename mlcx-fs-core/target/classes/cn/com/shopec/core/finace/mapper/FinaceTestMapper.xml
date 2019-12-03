@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.FinaceTestDao">
+
+<resultMap type="FinaceTest" id="FinaceTest">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAYFLOW_NO" property="payflowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_NO" property="bizObjNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PRODUCT_NAME" property="productName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PAY_MEMBER_DETAIL" property="payMemberDetail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SALE_REAL_AMOUNT" property="saleRealAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="REFUND_PAY_NO" property="refundPayNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SERVICE_FEE" property="serviceFee" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAY_METHOD" property="payMethod" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,PAYFLOW_NO,BIZ_OBJ_NO,BIZ_OBJ_TYPE,PRODUCT_NAME,CREATE_TIME,FINISH_TIME,
+PAY_MEMBER_DETAIL,ORDER_AMOUNT,SALE_REAL_AMOUNT,REFUND_PAY_NO,SERVICE_FEE,MEMO,PAY_METHOD
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,PAYFLOW_NO,BIZ_OBJ_NO,BIZ_OBJ_TYPE,PRODUCT_NAME,CREATE_TIME,FINISH_TIME,
+PAY_MEMBER_DETAIL,ORDER_AMOUNT,SALE_REAL_AMOUNT,REFUND_PAY_NO,SERVICE_FEE,MEMO,PAY_METHOD
+
+</sql>
+
+<insert id="add" parameterType="FinaceTest" useGeneratedKeys="true" keyProperty="id">
+	insert into T_FINACE_TEST(
+		<if test="id!=null">
+		ID,
+		</if>
+		PAYFLOW_NO,
+		BIZ_OBJ_NO,
+		BIZ_OBJ_TYPE,
+		PRODUCT_NAME,
+		CREATE_TIME,
+		FINISH_TIME,
+		PAY_MEMBER_DETAIL,
+		ORDER_AMOUNT,
+		SALE_REAL_AMOUNT,
+		REFUND_PAY_NO,
+		SERVICE_FEE,
+		MEMO,
+		PAY_METHOD
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{payflowNo,jdbcType = VARCHAR},
+		#{bizObjNo,jdbcType = VARCHAR},
+		#{bizObjType,jdbcType = VARCHAR},
+		#{productName,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{payMemberDetail,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{saleRealAmount,jdbcType = DOUBLE},
+		#{refundPayNo,jdbcType = VARCHAR},
+		#{serviceFee,jdbcType = DOUBLE},
+		#{memo,jdbcType = VARCHAR},
+		#{payMethod,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="FinaceTest">
+	update t_finace_test 
+	<set>
+		<if test="payflowNo!=null and payflowNo!=''">
+			PAYFLOW_NO=#{payflowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjNo!=null and bizObjNo!=''">
+			BIZ_OBJ_NO=#{bizObjNo,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjType!=null and bizObjType!=''">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = VARCHAR},
+		</if>
+		<if test="productName!=null and productName!=''">
+			PRODUCT_NAME=#{productName,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="finishTime!=null ">
+			FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="payMemberDetail!=null and payMemberDetail!=''">
+			PAY_MEMBER_DETAIL=#{payMemberDetail,jdbcType = VARCHAR},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="saleRealAmount!=null ">
+			SALE_REAL_AMOUNT=#{saleRealAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="refundPayNo!=null and refundPayNo!=''">
+			REFUND_PAY_NO=#{refundPayNo,jdbcType = VARCHAR},
+		</if>
+		<if test="serviceFee!=null ">
+			SERVICE_FEE=#{serviceFee,jdbcType = DOUBLE},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="payMethod!=null and payMethod!=''">
+			PAY_METHOD=#{payMethod,jdbcType = VARCHAR},
+		</if>		
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_finace_test 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="FinaceTest">
+	select <include refid="AllColumnlist"/> from t_finace_test
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByFlowNo" resultMap="FinaceTest">
+	select <include refid="AllColumnlist"/> from t_finace_test
+	<where>
+		PAYFLOW_NO=#{0}
+	</where>
+</select>
+
+<select id="getDepositWxChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'D%' AND BIZ_OBJ_TYPE='交易'  AND PAY_METHOD='weixin' 
+	</where>
+</select>
+
+<select id="getOrderWxChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'O%' AND BIZ_OBJ_TYPE='交易'  AND PAY_METHOD='weixin' 
+	</where>
+</select>
+
+<select id="getPriceWxChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'P%' AND BIZ_OBJ_TYPE='交易'  AND PAY_METHOD='weixin' 
+	</where>
+</select>
+
+
+<select id="getDepositAlipayChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'D%' AND BIZ_OBJ_TYPE='交易'  AND PAY_METHOD='alipay' 
+	</where>
+</select>
+
+<select id="getOrderAlipayChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'O%'  AND PAY_METHOD='alipay' 
+	</where>
+</select>
+
+
+<select id="getPriceAlipayChargeWhole" resultType="Double">
+SELECT ROUND(SUM(SERVICE_FEE),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+AND BIZ_OBJ_NO LIKE 'P%'  AND PAY_METHOD='alipay' 
+	</where>
+</select>
+
+
+<select id="getDepositAlipayAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'D%' AND  PAY_METHOD='alipay' AND BIZ_OBJ_TYPE='交易' 
+	</where>
+</select>
+
+<select id="getDepositWxAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'D%' AND  PAY_METHOD='weixin' AND BIZ_OBJ_TYPE='交易' 
+	</where>
+</select>
+
+
+
+
+<select id="getDepositAlipayRefundWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'D%' AND  PAY_METHOD='alipay' AND BIZ_OBJ_TYPE='退款'
+	</where>
+</select>
+
+<select id="getDepositWxRefundWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'D%' AND  PAY_METHOD='weixin' AND BIZ_OBJ_TYPE='退款'
+	</where>
+</select>
+
+
+<select id="getOrderAlipayAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'O%' AND  PAY_METHOD='alipay' 
+	</where> 
+</select>
+
+
+<select id="getOrderWxAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'O%' AND  PAY_METHOD='weixin' 
+	</where> 
+</select>
+
+
+<select id="getPriceAlipayAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'P%' AND  PAY_METHOD='alipay' 
+	</where>
+</select>
+
+<select id="getPriceWxAmountWhole" resultType="Double">
+	SELECT ROUND(SUM(ORDER_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  BIZ_OBJ_NO LIKE 'P%' AND  PAY_METHOD='weixin' 
+	</where>
+</select>
+
+
+
+<select id="getByIds" resultMap="FinaceTest">
+	select <include refid="AllColumnlist"/> from t_finace_test
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_finace_test 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="FinaceTest">
+	select <include refid="CommonColumnlist"/> from t_finace_test 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="FinaceTest">
+	select <include refid="CommonColumnlist"/> from t_finace_test
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.payflowNo!=null and q.payflowNo!=''">
+			AND PAYFLOW_NO=#{q.payflowNo}
+		</if>
+		<if test="q.bizObjNo!=null and q.bizObjNo!=''">
+			AND BIZ_OBJ_NO=#{q.bizObjNo}
+		</if>
+		<if test="q.bizObjType!=null and q.bizObjType!=''">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.productName!=null and q.productName!=''">
+			AND PRODUCT_NAME=#{q.productName}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.payMemberDetail!=null and q.payMemberDetail!=''">
+			AND PAY_MEMBER_DETAIL=#{q.payMemberDetail}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.saleRealAmount!=null ">
+			AND SALE_REAL_AMOUNT=#{q.saleRealAmount}
+		</if>
+		<if test="q.refundPayNo!=null and q.refundPayNo!=''">
+			AND REFUND_PAY_NO=#{q.refundPayNo}
+		</if>
+		<if test="q.serviceFee!=null ">
+			AND SERVICE_FEE=#{q.serviceFee}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.payMethod!=null and q.payMethod!=''">
+			AND PAY_METHOD=#{q.payMethod}
+		</if>		
+	</if>
+</sql>
+
+<select id="getCountByTime" parameterType="Query" resultType="Long">
+	select count(ID) from t_finace_test 
+	<where>
+		PAY_METHOD=#{0} <![CDATA[	AND FINISH_TIME>=#{1}  ]]> <![CDATA[	AND FINISH_TIME<#{2}  ]]>
+	</where>
+</select>
+
+<select id="getAlipayTransRefundWhole" resultType="Double">
+	SELECT ROUND(SUM(SALE_REAL_AMOUNT),2) FROM t_finace_test  
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND BIZ_OBJ_NO LIKE 'TKZZ%' AND PAY_METHOD='alipay' AND BIZ_OBJ_TYPE='转账'
+	</where>
+</select>
+
+<select id="getAlipayIncomeWholeMap" resultType="java.util.HashMap">
+	select round(sum(case when BIZ_OBJ_NO LIKE 'O%' then ORDER_AMOUNT else 0 end),2) as orderAlipayAmountWhole,
+	round(sum(case when BIZ_OBJ_NO LIKE 'P%' then ORDER_AMOUNT else 0 end),2) as priceAlipayAmountWhole,
+	round(sum(case when BIZ_OBJ_NO LIKE 'D%' then ORDER_AMOUNT else 0 end),2) as depositAlipayAmountWhole
+	from t_finace_test
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  PAY_METHOD='alipay' 
+	</where> 
+</select>
+
+<select id="getWxIncomeWholeMap" resultType="java.util.HashMap">
+	select round(sum(case when BIZ_OBJ_NO LIKE 'O%' then ORDER_AMOUNT else 0 end),2) as orderWxAmountWhole,
+	round(sum(case when BIZ_OBJ_NO LIKE 'P%' then ORDER_AMOUNT else 0 end),2) as priceWxAmountWhole,
+	round(sum(case when BIZ_OBJ_NO LIKE 'D%' then ORDER_AMOUNT else 0 end),2) as depositWxAmountWhole
+	from t_finace_test
+	<where>
+	<![CDATA[	AND FINISH_TIME>=#{money.startTime}   ]]>
+	<![CDATA[	AND FINISH_TIME<=#{money.endTime}   ]]>
+	AND  PAY_METHOD='weixin' 
+	</where> 
+</select>
+
+</mapper>

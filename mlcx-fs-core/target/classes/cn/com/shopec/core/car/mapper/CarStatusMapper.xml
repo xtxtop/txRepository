@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarStatusDao">
+
+	<resultMap type="CarStatus" id="CarStatus">
+		<id column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LOCATION_PARK_NO" property="locationParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="USERAGE_STATUS" property="userageStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="SPEED" property="speed" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="POWER" property="power" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="MILEAGE" property="mileage" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="AUX_BATTERY_VOLTAGE" property="auxBatteryVoltage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CHARGE_STATE" property="chargeState" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CHARGING_FAULT_STATUS" property="chargingFaultStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CAR_STATUS" property="carStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LONGITUDE" property="longitude" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="LATITUDE" property="latitude" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="RANGE_MILEAGE" property="rangeMileage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="LEFT_FRONT_DOOR" property="leftFrontDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_DOOR" property="rightFrontDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_DOOR" property="leftRearDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_DOOR" property="rightRearDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="TRUNK" property="trunk" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LEFT_FRONT_WINDOW" property="leftFrontWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_WINDOW" property="rightFrontWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_WINDOW" property="leftRearWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_WINDOW" property="rightRearWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="SUNROOF" property="sunroof" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LEFT_FRONT_DOOR_LOCK" property="leftFrontDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_DOOR_LOCK" property="rightFrontDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_DOOR_LOCK" property="leftRearDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_DOOR_LOCK" property="rightRearDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="KEY_STATUS" property="keyStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="KEY_ONLINE_STATUS" property="keyOnlineStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="DEVICE_NO" property="deviceNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LAST_REPORTING_TIME" property="lastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="GPS_LAST_REPORTING_TIME" property="gpsLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="BMS_LAST_REPORTING_TIME" property="bmsLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CS_LAST_REPORTING_TIME" property="csLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="APP_LAST_REPORTING_TIME" property="appLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_POWER" property="isPower" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="carSpaceShortage" property="carSpaceShortage" />
+		<result column="VEHICLE_TYPE" property="vehicleType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_FINISH_TIME" property="orderFinishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+		<result column="LOCATION_TYPE" property="locationType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+	</resultMap>
+	<resultMap type="CarStatus" id="CarStatus1">
+		<id column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LOCATION_PARK_NO" property="locationParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="USERAGE_STATUS" property="userageStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="SPEED" property="speed" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="POWER" property="power" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="MILEAGE" property="mileage" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="AUX_BATTERY_VOLTAGE" property="auxBatteryVoltage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="CHARGE_STATE" property="chargeState" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CHARGING_FAULT_STATUS" property="chargingFaultStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CAR_STATUS" property="carStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LONGITUDE" property="longitude" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="LATITUDE" property="latitude" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="RANGE_MILEAGE" property="rangeMileage"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="LEFT_FRONT_DOOR" property="leftFrontDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_DOOR" property="rightFrontDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_DOOR" property="leftRearDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_DOOR" property="rightRearDoor"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="TRUNK" property="trunk" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LEFT_FRONT_WINDOW" property="leftFrontWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_WINDOW" property="rightFrontWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_WINDOW" property="leftRearWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_WINDOW" property="rightRearWindow"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="SUNROOF" property="sunroof" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="LEFT_FRONT_DOOR_LOCK" property="leftFrontDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_FRONT_DOOR_LOCK" property="rightFrontDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEFT_REAR_DOOR_LOCK" property="leftRearDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="RIGHT_REAR_DOOR_LOCK" property="rightRearDoorLock"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="KEY_STATUS" property="keyStatus" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="KEY_ONLINE_STATUS" property="keyOnlineStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="DEVICE_NO" property="deviceNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LAST_REPORTING_TIME" property="lastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="GPS_LAST_REPORTING_TIME" property="gpsLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="BMS_LAST_REPORTING_TIME" property="bmsLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CS_LAST_REPORTING_TIME" property="csLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="APP_LAST_REPORTING_TIME" property="appLastReportingTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="DEVICE_STATUS" property="deviceStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="ONLINE_STATUS" property="onlineStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="LEASE_TYPE" property="leaseType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CAR_OWNER_NAME" property="carOwnerName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="IS_POWER" property="isPower" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+				<result column="VEHICLE_TYPE" property="vehicleType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="ORDER_FINISH_TIME" property="orderFinishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>	
+		<result column="idleTime" property="idleTime" javaType="java.lang.String" jdbcType="INTEGER"/>
+			<result column="LOCATION_TYPE" property="locationType" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+	</resultMap>
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		CAR_NO,CAR_PLATE_NO,CITY_ID,LOCATION_PARK_NO,USERAGE_STATUS,SPEED,POWER,
+		MILEAGE,AUX_BATTERY_VOLTAGE,CHARGE_STATE,CHARGING_FAULT_STATUS,CAR_STATUS,LONGITUDE,
+		LATITUDE,RANGE_MILEAGE,LEFT_FRONT_DOOR,RIGHT_FRONT_DOOR,LEFT_REAR_DOOR,RIGHT_REAR_DOOR,
+		TRUNK,LEFT_FRONT_WINDOW,RIGHT_FRONT_WINDOW,LEFT_REAR_WINDOW,RIGHT_REAR_WINDOW,SUNROOF,IS_POWER,
+		LEFT_FRONT_DOOR_LOCK,RIGHT_FRONT_DOOR_LOCK,LEFT_REAR_DOOR_LOCK,RIGHT_REAR_DOOR_LOCK,KEY_STATUS,KEY_ONLINE_STATUS,DEVICE_NO,
+		LAST_REPORTING_TIME,GPS_LAST_REPORTING_TIME,BMS_LAST_REPORTING_TIME,CS_LAST_REPORTING_TIME,APP_LAST_REPORTING_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,VEHICLE_TYPE,ORDER_FINISH_TIME,LOCATION_TYPE
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		CAR_NO,CAR_PLATE_NO,CITY_ID,LOCATION_PARK_NO,USERAGE_STATUS,SPEED,POWER,
+		MILEAGE,AUX_BATTERY_VOLTAGE,CHARGE_STATE,CHARGING_FAULT_STATUS,CAR_STATUS,LONGITUDE,
+		LATITUDE,RANGE_MILEAGE,LEFT_FRONT_DOOR,RIGHT_FRONT_DOOR,LEFT_REAR_DOOR,RIGHT_REAR_DOOR,
+		TRUNK,LEFT_FRONT_WINDOW,RIGHT_FRONT_WINDOW,LEFT_REAR_WINDOW,RIGHT_REAR_WINDOW,SUNROOF,IS_POWER,
+		LEFT_FRONT_DOOR_LOCK,RIGHT_FRONT_DOOR_LOCK,LEFT_REAR_DOOR_LOCK,RIGHT_REAR_DOOR_LOCK,KEY_STATUS,KEY_ONLINE_STATUS,DEVICE_NO,
+		LAST_REPORTING_TIME,GPS_LAST_REPORTING_TIME,BMS_LAST_REPORTING_TIME,CS_LAST_REPORTING_TIME,APP_LAST_REPORTING_TIME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE,VEHICLE_TYPE,ORDER_FINISH_TIME,LOCATION_TYPE
+	</sql>
+
+	<insert id="add" parameterType="CarStatus" useGeneratedKeys="true"
+		keyProperty="carNo">
+		insert into T_CAR_STATUS(
+		<if test="carNo!=null">
+			CAR_NO,
+		</if>
+		CAR_PLATE_NO,
+		CITY_ID,
+		LOCATION_PARK_NO,
+		USERAGE_STATUS,
+		SPEED,
+		POWER,
+		MILEAGE,
+		AUX_BATTERY_VOLTAGE,
+		CHARGE_STATE,
+		CHARGING_FAULT_STATUS,
+		CAR_STATUS,
+		LONGITUDE,
+		LATITUDE,
+		RANGE_MILEAGE,
+		LEFT_FRONT_DOOR,
+		RIGHT_FRONT_DOOR,
+		LEFT_REAR_DOOR,
+		RIGHT_REAR_DOOR,
+		TRUNK,
+		LEFT_FRONT_WINDOW,
+		RIGHT_FRONT_WINDOW,
+		LEFT_REAR_WINDOW,
+		RIGHT_REAR_WINDOW,
+		SUNROOF,
+		LEFT_FRONT_DOOR_LOCK,
+		RIGHT_FRONT_DOOR_LOCK,
+		LEFT_REAR_DOOR_LOCK,
+		RIGHT_REAR_DOOR_LOCK,
+		KEY_STATUS,
+		KEY_ONLINE_STATUS,
+		DEVICE_NO,
+		LAST_REPORTING_TIME,
+		GPS_LAST_REPORTING_TIME,
+		BMS_LAST_REPORTING_TIME,
+		CS_LAST_REPORTING_TIME,
+		APP_LAST_REPORTING_TIME,
+		IS_POWER,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		VEHICLE_TYPE,
+		ORDER_FINISH_TIME,
+		LOCATION_TYPE
+		) values (
+		<if test="carNo!=null">
+			#{carNo,jdbcType = VARCHAR},
+		</if>
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{locationParkNo,jdbcType = VARCHAR},
+		#{userageStatus,jdbcType =
+		TINYINT},
+		#{speed,jdbcType = TINYINT},
+		#{power,jdbcType = DOUBLE},
+		#{mileage,jdbcType = DOUBLE},
+		#{auxBatteryVoltage,jdbcType = DOUBLE},
+		#{chargeState,jdbcType = TINYINT},
+		#{chargingFaultStatus,jdbcType =
+		TINYINT},
+		#{carStatus,jdbcType = TINYINT},
+		#{longitude,jdbcType =
+		DOUBLE},
+		#{latitude,jdbcType = DOUBLE},
+		#{rangeMileage,jdbcType =
+		DOUBLE},
+		#{leftFrontDoor,jdbcType = TINYINT},
+		#{rightFrontDoor,jdbcType
+		= TINYINT},
+		#{leftRearDoor,jdbcType = TINYINT},
+		#{rightRearDoor,jdbcType = TINYINT},
+		#{trunk,jdbcType = TINYINT},
+		#{leftFrontWindow,jdbcType = TINYINT},
+		#{rightFrontWindow,jdbcType =
+		TINYINT},
+		#{leftRearWindow,jdbcType = TINYINT},
+		#{rightRearWindow,jdbcType = TINYINT},
+		#{sunroof,jdbcType = TINYINT},
+		#{leftFrontDoorLock,jdbcType = TINYINT},
+		#{rightFrontDoorLock,jdbcType
+		= TINYINT},
+		#{leftRearDoorLock,jdbcType = TINYINT},
+		#{rightRearDoorLock,jdbcType = TINYINT},
+		#{keyStatus,jdbcType =
+		TINYINT},
+		#{keyOnlineStatus,jdbcType = TINYINT},
+		#{deviceNo,jdbcType =
+		VARCHAR},
+		#{lastReportingTime,jdbcType = TIMESTAMP},
+		#{gpsLastReportingTime,jdbcType = TIMESTAMP},
+		#{bmsLastReportingTime,jdbcType = TIMESTAMP},
+		#{csLastReportingTime,jdbcType = TIMESTAMP},
+		#{appLastReportingTime,jdbcType = TIMESTAMP},
+		#{isPower,jdbcType =
+		TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType =
+		TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType =
+		TINYINT},
+		#{vehicleType,jdbcType =
+		TINYINT},
+		#{orderFinishTime,jdbcType = TIMESTAMP},
+		#{locationType,jdbcType = TINYINT}
+		)
+	</insert>
+	<!-- 后台 -->
+	<select id="carStatusPageList" parameterType="Query" resultMap="CarStatus1">
+		SELECT
+		tcs.*,DEVICE_SN,DEVICE_STATUS,tc.CITY_NAME,ONLINE_STATUS,CAR_OWNER_NAME,LEASE_TYPE,LEASE_TYPE,
+		d.LAST_REPORTING_TIME as deviceLastReportingTime,
+		d.SIGNAL_STRENGTH_LEVEL as signalStrengthLevel,d.DEVICE_MODEL as deviceModel
+		FROM t_car_status tcs LEFT JOIN t_car tc ON tcs.CAR_NO=tc.CAR_NO LEFT
+		JOIN t_device d ON d.TERMINAL_DEVICE_NO=tcs.device_no
+		<where>
+			<include refid="listCommonWheres" />
+		</where>
+		order by tcs.update_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<select id="carStatusCount" parameterType="Query" resultType="Long">
+		SELECT count(tcs.CAR_NO) FROM t_car_status tcs LEFT JOIN t_car tc ON
+		tcs.CAR_NO=tc.CAR_NO LEFT JOIN t_device d ON
+		d.TERMINAL_DEVICE_NO=tcs.device_no
+		<where>
+			<include refid="listCommonWheres" />
+		</where>
+	</select>
+	<!-- 空闲车辆列表 -->
+	<select id="carIdleStatusPageList" parameterType="Query" resultMap="CarStatus1">
+		SELECT
+		tcs.*,TIMESTAMPDIFF(MINUTE,ORDER_FINISH_TIME,NOW()) AS idleTime
+		FROM t_car_status tcs LEFT JOIN t_car tc ON tcs.CAR_NO=tc.CAR_NO
+		<where>
+			ONLINE_STATUS = 1
+			<include refid="listCommonWheres" />
+		</where>
+		order by idleTime desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<!-- 空闲车辆列表 -->
+	<select id="carIdleStatusCount" parameterType="Query" resultType="Long">
+		SELECT count(tcs.CAR_NO) FROM t_car_status tcs LEFT JOIN t_car tc ON
+		tcs.CAR_NO=tc.CAR_NO
+		<where>
+			ONLINE_STATUS = 1
+			<include refid="listCommonWheres" />
+		</where>
+	</select>
+	
+	<select id="stopCar" parameterType="Query" resultType="cn.com.shopec.core.car.vo.CarWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		s.USERAGE_STATUS AS userageStatus,
+		s.POWER AS power,
+		c.CAR_BRAND_NAME AS carBrandName,
+		c.CAR_MODEL_NAME AS carModelName,
+		s.CHARGE_STATE As chargeState,
+		p.PARK_NAME AS parkName,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude,
+		c.ONLINE_STATUS AS onlineStatus,
+		<if test="q.getCarType==3">
+		o.TYPE AS type,
+		o.WORKER_ORDER_NO AS workerOrderNo,
+		</if>
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		AS distance
+		
+		FROM
+		t_car_status s
+		LEFT JOIN t_car c ON s.CAR_NO = c.CAR_NO
+		LEFT JOIN t_park p ON s.LOCATION_PARK_NO = p.PARK_NO
+		<if test="q.getCarType==3">
+		LEFT JOIN t_worker_order o ON o.CAR_NO = s.CAR_NO
+		</if>
+		
+		
+		<where>
+			<if test="q!=null">
+			<if test="q.parkNo!=null and q.parkNo!=''">
+				AND s.LOCATION_PARK_NO =#{q.parkNo}
+			</if>
+			<if test="q.getCarType==2">
+			 <![CDATA[ AND s.POWER<=#{q.powerBig} ]]>
+			</if>
+			<if test="q.getCarType==3">
+			 AND o.WORK_ORDER_STATUS=2 AND s.USERAGE_STATUS=3
+			</if>
+			
+			</if>
+		</where>
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<select id="nearbyCar" parameterType="Query" resultType="cn.com.shopec.core.car.vo.CarWkVo">
+		SELECT
+		c.CAR_NO AS carNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		s.POWER AS power,
+		s.USERAGE_STATUS AS userageStatus,
+		c.CAR_BRAND_NAME AS carBrandName,
+		c.CAR_MODEL_NAME AS carModelName,
+		p.PARK_NAME AS parkName,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		AS distance
+		FROM t_car c LEFT JOIN t_car_status s ON c.CAR_NO = s.CAR_NO
+		LEFT JOIN t_park p ON s.LOCATION_PARK_NO = p.PARK_NO
+		<where>
+			<![CDATA[	AND 12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))<=#{q.distance}  ]]>
+		</where>
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<!-- 后台 -->
+	<select id="carStatusPageListForExport" parameterType="Query"
+		resultMap="CarStatus1">
+		SELECT
+		tcs.*,DEVICE_SN,DEVICE_STATUS,tc.CITY_NAME,ONLINE_STATUS,CAR_OWNER_NAME,LEASE_TYPE
+		FROM t_car_status tcs LEFT JOIN t_car tc ON tcs.CAR_NO=tc.CAR_NO LEFT
+		JOIN t_device d ON d.TERMINAL_DEVICE_NO=tcs.device_no
+		<where>
+			<include refid="listCommonWheres" />
+		</where>
+		order by tcs.update_time desc
+	</select>
+	<sql id="listCommonWheres">
+		<if test="q!=null">
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND tcs.CAR_NO like '%${q.carNo}%'
+			</if>
+			<if test="q.deviceSn!=null and q.deviceSn!=''">
+				AND d.DEVICE_SN like '%${q.deviceSn}%'
+			</if>
+			<if test="q.rangeMileage!=null ">
+				AND RANGE_MILEAGE=#{q.rangeMileage}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND tcs.CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.powerSmall!=null ">
+			<![CDATA[ AND POWER>=#{q.powerSmall}  ]]>
+			</if>
+			<if test="q.powerBig!=null ">
+			 <![CDATA[ AND POWER<=#{q.powerBig} ]]>
+			</if>
+			<!-- <if test="q.power!=null "> AND tcs.POWER &gt; #{q.powerSmall} AND 
+				tcs.POWER &lt; #{q.powerBig} </if> <if test="q.mileage!=null "> AND tcs.MILEAGE 
+				&gt; #{q.mileage} AND tcs.MILEAGE &lt; #{q.mileageBig} </if> -->
+			<if test="q.mileageSmall!=null ">
+			<![CDATA[ AND MILEAGE>=#{q.mileageSmall}  ]]>
+			</if>
+
+			<if test="q.mileageBig!=null ">
+			 <![CDATA[ AND MILEAGE<=#{q.mileageBig} ]]>
+			</if>
+			<if test="q.userageStatus!=null ">
+				AND tcs.USERAGE_STATUS=#{q.userageStatus}
+			</if>
+			<if test="q.onlineStatus!=null ">
+				AND tc.ONLINE_STATUS=#{q.onlineStatus}
+			</if>
+			<if test="q.carStatus!=null ">
+				AND tcs.CAR_STATUS=#{q.carStatus}
+			</if>
+			<if test="q.locationType!=null ">
+				AND tcs.LOCATION_TYPE=#{q.locationType}
+			</if>
+			<if test="q.isMinLowPower!=null ">
+				<if test="q.isMinLowPower==0 ">
+					<![CDATA[ AND tcs.AUX_BATTERY_VOLTAGE >= #{q.minLowPowerValue} ]]>
+				</if>
+				<if test="q.isMinLowPower==1 ">
+					<![CDATA[ AND tcs.AUX_BATTERY_VOLTAGE < #{q.minLowPowerValue} ]]>
+				</if>
+			</if>
+			<if test="q.isLowPower!=null ">
+				<if test="q.isLowPower==0 ">
+					<![CDATA[ AND tcs.POWER >= #{q.lowPowerValue} ]]>
+				</if>
+				<if test="q.isLowPower==1 ">
+					<![CDATA[ AND tcs.POWER < #{q.lowPowerValue} ]]>
+				</if>
+			</if>
+			<if test="q.isBrokenLine!=null ">
+				<if test="q.isBrokenLine==0 ">
+					<![CDATA[ AND tcs.LAST_REPORTING_TIME >= date_format(date_add(now(), interval -2 MINUTE),'%Y-%m-%d %T') ]]>
+				</if>
+				<if test="q.isBrokenLine==1 ">
+					<![CDATA[ AND (tcs.LAST_REPORTING_TIME is null OR tcs.LAST_REPORTING_TIME < date_format(date_add(now(), interval -2 MINUTE),'%Y-%m-%d %T')) ]]>
+				</if>
+				<if test="q.orderFinishTime!=null ">
+					AND tcs.ORDER_FINISH_TIME=#{orderFinishTime,jdbcType = TIMESTAMP},
+		</if>
+			</if>
+		</if>
+	</sql>
+	<!-- end -->
+	<update id="update" parameterType="CarStatus">
+		update t_car_status
+		<set>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="locationParkNo!=null">
+				LOCATION_PARK_NO=#{locationParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="userageStatus!=null ">
+				USERAGE_STATUS=#{userageStatus,jdbcType = TINYINT},
+			</if>
+			<if test="speed!=null ">
+				SPEED=#{speed,jdbcType = TINYINT},
+			</if>
+			<if test="power!=null ">
+				POWER=#{power,jdbcType = DOUBLE},
+			</if>
+			<if test="mileage!=null ">
+				MILEAGE=#{mileage,jdbcType = DOUBLE},
+			</if>
+			<if test="auxBatteryVoltage!=null ">
+				AUX_BATTERY_VOLTAGE=#{auxBatteryVoltage,jdbcType = DOUBLE},
+			</if>
+			<if test="chargeState!=null ">
+				CHARGE_STATE=#{chargeState,jdbcType = TINYINT},
+			</if>
+			<if test="chargingFaultStatus!=null ">
+				CHARGING_FAULT_STATUS=#{chargingFaultStatus,jdbcType = TINYINT},
+			</if>
+			<if test="carStatus!=null ">
+				CAR_STATUS=#{carStatus,jdbcType = TINYINT},
+			</if>
+			<if test="longitude!=null ">
+				LONGITUDE=#{longitude,jdbcType = DOUBLE},
+			</if>
+			<if test="latitude!=null ">
+				LATITUDE=#{latitude,jdbcType = DOUBLE},
+			</if>
+			<if test="rangeMileage!=null ">
+				RANGE_MILEAGE=#{rangeMileage,jdbcType = DOUBLE},
+			</if>
+			<if test="leftFrontDoor!=null ">
+				LEFT_FRONT_DOOR=#{leftFrontDoor,jdbcType = TINYINT},
+			</if>
+			<if test="rightFrontDoor!=null ">
+				RIGHT_FRONT_DOOR=#{rightFrontDoor,jdbcType = TINYINT},
+			</if>
+			<if test="leftRearDoor!=null ">
+				LEFT_REAR_DOOR=#{leftRearDoor,jdbcType = TINYINT},
+			</if>
+			<if test="rightRearDoor!=null ">
+				RIGHT_REAR_DOOR=#{rightRearDoor,jdbcType = TINYINT},
+			</if>
+			<if test="trunk!=null ">
+				TRUNK=#{trunk,jdbcType = TINYINT},
+			</if>
+			<if test="leftFrontWindow!=null ">
+				LEFT_FRONT_WINDOW=#{leftFrontWindow,jdbcType = TINYINT},
+			</if>
+			<if test="rightFrontWindow!=null ">
+				RIGHT_FRONT_WINDOW=#{rightFrontWindow,jdbcType = TINYINT},
+			</if>
+			<if test="leftRearWindow!=null ">
+				LEFT_REAR_WINDOW=#{leftRearWindow,jdbcType = TINYINT},
+			</if>
+			<if test="rightRearWindow!=null ">
+				RIGHT_REAR_WINDOW=#{rightRearWindow,jdbcType = TINYINT},
+			</if>
+			<if test="sunroof!=null ">
+				SUNROOF=#{sunroof,jdbcType = TINYINT},
+			</if>
+			<if test="leftFrontDoorLock!=null ">
+				LEFT_FRONT_DOOR_LOCK=#{leftFrontDoorLock,jdbcType = TINYINT},
+			</if>
+			<if test="rightFrontDoorLock!=null ">
+				RIGHT_FRONT_DOOR_LOCK=#{rightFrontDoorLock,jdbcType = TINYINT},
+			</if>
+			<if test="leftRearDoorLock!=null ">
+				LEFT_REAR_DOOR_LOCK=#{leftRearDoorLock,jdbcType = TINYINT},
+			</if>
+			<if test="rightRearDoorLock!=null ">
+				RIGHT_REAR_DOOR_LOCK=#{rightRearDoorLock,jdbcType = TINYINT},
+			</if>
+			<if test="keyStatus!=null ">
+				KEY_STATUS=#{keyStatus,jdbcType = TINYINT},
+			</if>
+			<if test="keyOnlineStatus!=null ">
+				KEY_ONLINE_STATUS=#{keyOnlineStatus,jdbcType = TINYINT},
+			</if>
+			<if test="deviceNo!=null and deviceNo!=''">
+				DEVICE_NO=#{deviceNo,jdbcType = VARCHAR},
+			</if>
+			<if test="lastReportingTime!=null ">
+				LAST_REPORTING_TIME=#{lastReportingTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="gpsLastReportingTime!=null ">
+				GPS_LAST_REPORTING_TIME=#{gpsLastReportingTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="bmsLastReportingTime!=null ">
+				BMS_LAST_REPORTING_TIME=#{bmsLastReportingTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="csLastReportingTime!=null ">
+				CS_LAST_REPORTING_TIME=#{csLastReportingTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="appLastReportingTime!=null ">
+				APP_LAST_REPORTING_TIME=#{appLastReportingTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="isPower!=null ">
+				IS_POWER=#{isPower,jdbcType = TINYINT},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="vehicleType!=null ">
+				VEHICLE_TYPE=#{vehicleType,jdbcType = TINYINT},
+			</if>
+			<if test="locationType!=null ">
+				LOCATION_TYPE=#{locationType,jdbcType = TINYINT},
+			</if>
+			<if test="orderFinishTime!=null ">
+			ORDER_FINISH_TIME=#{orderFinishTime,jdbcType = TIMESTAMP},
+		</if>
+		</set>
+		<where>
+			AND CAR_NO=#{carNo}
+		</where>
+	</update>
+	<!-- 根据车辆编号，修改车辆时使用状态 -->
+	<update id="updateCarUseStatusByCarNo" parameterType="CarStatus">
+		update t_car_status
+		set USERAGE_STATUS = #{userageStatus},UPDATE_TIME=#{updateTime} where
+		CAR_NO = #{carNo} and USERAGE_STATUS=0
+	</update>
+	<delete id="delete">
+		delete from t_car_status
+		<where>
+			CAR_NO=#{0}
+		</where>
+	</delete>
+<select id="getDownpowers" resultType="Integer">
+	select count(CAR_NO) from t_car_status 
+	<where>
+			<![CDATA[ POWER < #{0} ]]>
+		</where>
+</select>
+	<select id="get" resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status
+		<where>
+			CAR_NO=#{0}
+		</where>
+	</select>
+	
+	<select id="getLlocationParkNo" resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status
+		<where>
+			LOCATION_PARK_NO="" or LOCATION_PARK_NO is null
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status
+		<where>
+			CAR_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+	<!-- 查询订单中调度中的车辆开始 -->
+	<select id="getCarStatusByUseStatus" parameterType="Query"
+		resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+	<!-- 查询订单中调度中的车辆结束 -->
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(CAR_NO) from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+	<!-- 根据终端设备id查找车辆 (车辆状态是已预约) -->
+	<select id="getByDeviceId" resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status
+		<where>
+			DEVICE_NO=#{0} and USERAGE_STATUS=1
+		</where>
+	</select>
+	<!-- 查询场站状态数 start -->
+	<select id="countParkStatus" parameterType="Query" resultType="Long">
+		select count(CAR_NO) from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+	<!-- 查询场站状态数 (车辆状态是已预约)end -->
+	<select id="countParkStatusUserage" parameterType="Query"
+		resultType="Long">
+		select count(CAR_NO) from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+			and USERAGE_STATUS=1
+		</where>
+	</select>
+	<!-- 查询场站已占空位数 -->
+	<select id="getCarSpaceShortage" resultMap="CarStatus"
+		parameterType="Query">
+		select
+		<include refid="AllColumnlist" />
+		,count(*) as carSpaceShortage from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+		GROUP BY LOCATION_PARK_NO
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="CarStatus">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="CarStatus">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_status
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<!-- 查询不在场站的车辆开始 <include refid="listCommonWhere"/> and -->
+	<select id="getCarNoPark" resultMap="CarStatus">
+		select
+		<include refid="AllColumnlist" />
+		from t_car_status t
+		<where>
+
+			LOCATION_PARK_NO = '' 
+		<![CDATA[	AND 12756274*asin(Sqrt(power(sin((#{1}-t.LATITUDE)*0.008726646),2)+Cos(#{1}*0.0174533)*Cos(t.LATITUDE*0.0174533)*power(sin((#{0}-t.LONGITUDE)*0.008726646),2)))<=#{2}  ]]>
+		</where>
+	</select>
+	<!-- 查询不在场站的车辆结束 -->
+
+	<!-- 查询超过24小时没上报信息的车辆开始 <select id="getCarNoPark123" resultMap="CarStatus"> 
+		select <include refid="AllColumnlist"/> from t_car_status <where> LAST_REPORTING_TIME 
+		< #{0} or GPS_LAST_REPORTING_TIME < #{1} or BMS_LAST_REPORTING_TIME < #{2} 
+		</where> </select> 查询超过24小时没上报信息的车辆结束 -->
+	<!-- 查询非订单车辆异常信息 -->
+	<select id="getCarStatusListOutOrder" resultMap="CarStatus">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_status
+		<where>
+			USERAGE_STATUS in(0,1) and CAR_STATUS=1
+		</where>
+	</select>
+
+	<!-- 查询非订单车辆异常信息 -->
+	<!-- <select id="getCarStatusListOutOrderW" resultMap="CarStatus"> SELECT 
+		w.WARNING_NO AS warningNo,ts.* FROM t_warning w LEFT JOIN t_car_status ts 
+		ON ts.CAR_PLATE_NO = w.CAR_PLATE_NO <where> w.WARNING_TYPE = '车辆' AND w.WARNING_SUB_TYPE 
+		= '车辆状态信息异常' AND w.IS_NEED_MANUAL_CLOSED='1' AND IS_CLOSED='0' ORDER BY WARNING_TIME 
+		</where> </select> -->
+	<select id="getCarStatusListOutOrderW" resultMap="CarStatus">
+		SELECT w.WARNING_NO AS warningNo,w.WARNING_TIME,ts.* FROM t_warning w
+		LEFT JOIN t_car_status ts
+		ON ts.CAR_PLATE_NO = w.CAR_PLATE_NO
+		where
+		w.WARNING_TYPE = '车辆'
+		AND w.WARNING_SUB_TYPE = '车辆状态信息异常' AND w.IS_NEED_MANUAL_CLOSED='1' AND
+		IS_CLOSED='0' GROUP BY CAR_NO ORDER BY WARNING_TIME desc
+	</select>
+	<!-- 查询车辆闲置超过24小时不到48小时的车辆信息 -->
+	<select id="getCarStatusListfree24" resultMap="CarStatus">
+		select
+		<include refid="CommonColumnlist" />
+		from t_car_status
+		<where>
+			USERAGE_STATUS in(0,1) and CAR_STATUS=1
+		</where>
+	</select>
+		
+	<select id="countCarLowPower" resultType="Integer">
+		select 
+		count(CAR_NO) as lowPowerNum
+		from t_car_status
+		<where>
+			<![CDATA[ POWER < #{0} ]]>
+		</where>
+	</select>
+	
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO=#{q.carPlateNo}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.locationParkNo!=null and q.locationParkNo!=''">
+				AND LOCATION_PARK_NO=#{q.locationParkNo}
+			</if>
+			<if test="q.userageStatus!=null ">
+				AND USERAGE_STATUS=#{q.userageStatus}
+			</if>
+			<if test="q.speed!=null ">
+				AND SPEED=#{q.speed}
+			</if>
+			<if test="q.power!=null ">
+				AND POWER=#{q.power}
+			</if>
+			<if test="q.powerSmall!=null ">
+			<![CDATA[ AND POWER>=#{q.powerSmall}  ]]>
+			</if>
+			<if test="q.powerBig!=null ">
+			 <![CDATA[ AND POWER<=#{q.powerBig} ]]>
+			</if>
+			<if test="q.mileage!=null ">
+				AND MILEAGE=#{q.mileage}
+			</if>
+			<if test="q.mileageSmall!=null ">
+			<![CDATA[ AND MILEAGE>=#{q.mileageSmall}  ]]>
+			</if>
+
+			<if test="q.mileageBig!=null ">
+			 <![CDATA[ AND MILEAGE<=#{q.mileageBig} ]]>
+			</if>
+			<if test="q.auxBatteryVoltage!=null ">
+				AND AUX_BATTERY_VOLTAGE=#{q.auxBatteryVoltage}
+			</if>
+			<if test="q.chargeState!=null ">
+				AND CHARGE_STATE=#{q.chargeState}
+			</if>
+			<if test="q.chargingFaultStatus!=null ">
+				AND CHARGING_FAULT_STATUS=#{q.chargingFaultStatus}
+			</if>
+			<if test="q.carStatus!=null ">
+				AND CAR_STATUS=#{q.carStatus}
+			</if>
+			<if test="q.longitude!=null ">
+				AND LONGITUDE=#{q.longitude}
+			</if>
+			<if test="q.latitude!=null ">
+				AND LATITUDE=#{q.latitude}
+			</if>
+			<if test="q.rangeMileage!=null ">
+				AND RANGE_MILEAGE=#{q.rangeMileage}
+			</if>
+			<if test="q.leftFrontDoor!=null ">
+				AND LEFT_FRONT_DOOR=#{q.leftFrontDoor}
+			</if>
+			<if test="q.rightFrontDoor!=null ">
+				AND RIGHT_FRONT_DOOR=#{q.rightFrontDoor}
+			</if>
+			<if test="q.leftRearDoor!=null ">
+				AND LEFT_REAR_DOOR=#{q.leftRearDoor}
+			</if>
+			<if test="q.rightRearDoor!=null ">
+				AND RIGHT_REAR_DOOR=#{q.rightRearDoor}
+			</if>
+			<if test="q.trunk!=null ">
+				AND TRUNK=#{q.trunk}
+			</if>
+			<if test="q.leftFrontWindow!=null ">
+				AND LEFT_FRONT_WINDOW=#{q.leftFrontWindow}
+			</if>
+			<if test="q.rightFrontWindow!=null ">
+				AND RIGHT_FRONT_WINDOW=#{q.rightFrontWindow}
+			</if>
+			<if test="q.leftRearWindow!=null ">
+				AND LEFT_REAR_WINDOW=#{q.leftRearWindow}
+			</if>
+			<if test="q.rightRearWindow!=null ">
+				AND RIGHT_REAR_WINDOW=#{q.rightRearWindow}
+			</if>
+			<if test="q.sunroof!=null ">
+				AND SUNROOF=#{q.sunroof}
+			</if>
+			<if test="q.leftFrontDoorLock!=null ">
+				AND LEFT_FRONT_DOOR_LOCK=#{q.leftFrontDoorLock}
+			</if>
+			<if test="q.rightFrontDoorLock!=null ">
+				AND RIGHT_FRONT_DOOR_LOCK=#{q.rightFrontDoorLock}
+			</if>
+			<if test="q.leftRearDoorLock!=null ">
+				AND LEFT_REAR_DOOR_LOCK=#{q.leftRearDoorLock}
+			</if>
+			<if test="q.rightRearDoorLock!=null ">
+				AND RIGHT_REAR_DOOR_LOCK=#{q.rightRearDoorLock}
+			</if>
+			<if test="q.keyStatus!=null ">
+				AND KEY_STATUS=#{q.keyStatus}
+			</if>
+			<if test="q.keyOnlineStatus!=null ">
+				AND KEY_ONLINE_STATUS=#{q.keyOnlineStatus}
+			</if>
+			<if test="q.deviceNo!=null and q.deviceNo!=''">
+				AND DEVICE_NO=#{q.deviceNo}
+			</if>
+			<if test="q.lastReportingTime!=null ">
+				AND LAST_REPORTING_TIME=#{q.lastReportingTime}
+			</if>
+			<if test="q.lastReportingTimeStart!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME>=#{q.lastReportingTimeStart}  ]]>
+			</if>
+			<if test="q.lastReportingTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME<#{q.lastReportingTimeEnd}   ]]>
+			</if>
+			<if test="q.gpsLastReportingTime!=null ">
+				AND GPS_LAST_REPORTING_TIME=#{q.gpsLastReportingTime}
+			</if>
+			<if test="q.gpsLastReportingTimeStart!=null">
+		<![CDATA[	AND GPS_LAST_REPORTING_TIME>=#{q.gpsLastReportingTimeStart}  ]]>
+			</if>
+			<if test="q.gpsLastReportingTimeEnd!=null">
+		<![CDATA[	AND GPS_LAST_REPORTING_TIME<#{q.gpsLastReportingTimeEnd}   ]]>
+			</if>
+			<if test="q.bmsLastReportingTime!=null ">
+				AND BMS_LAST_REPORTING_TIME=#{q.bmsLastReportingTime}
+			</if>
+			<if test="q.bmsLastReportingTimeStart!=null">
+		<![CDATA[	AND BMS_LAST_REPORTING_TIME>=#{q.bmsLastReportingTimeStart}  ]]>
+			</if>
+			<if test="q.bmsLastReportingTimeEnd!=null">
+		<![CDATA[	AND BMS_LAST_REPORTING_TIME<#{q.bmsLastReportingTimeEnd}   ]]>
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.vehicleType!=null ">
+				AND VEHICLE_TYPE=#{q.vehicleType}
+			</if>
+			<if test="q.orderFinishTime!=null ">
+			AND ORDER_FINISH_TIME=#{q.orderFinishTime}
+		</if>
+		</if>
+	</sql>
+
+	<!-- 根据车辆号，取得车辆状态表中，各上报时间字段的值 -->
+	<select id="getCarStatusReportingTime" resultMap="CarStatus">
+		select
+		cs.car_no,cs.car_plate_no,cs.GPS_LAST_REPORTING_TIME,cs.BMS_LAST_REPORTING_TIME,cs.CS_LAST_REPORTING_TIME,
+		cs.LAST_REPORTING_TIME,cs.APP_LAST_REPORTING_TIME,cs.USERAGE_STATUS
+		from t_car_status cs where cs.CAR_NO=#{0}
+	</select>
+		
+	<select id="countCarBrokenLine" resultType="Integer">
+		select 
+		count(CAR_NO)
+		from t_car_status
+		<where>
+			<![CDATA[ LAST_REPORTING_TIME is null OR LAST_REPORTING_TIME < date_format(date_add(now(), interval -2 MINUTE),'%Y-%m-%d %T') ]]>
+		</where>
+	</select>
+		
+	<select id="countNoOrderUseCar" resultType="Integer">
+		select 
+		count(CAR_NO)
+		from t_car_status
+		<where>
+			USERAGE_STATUS=0 AND CAR_STATUS=1
+		</where>
+	</select>
+		
+	<select id="countCarMinLowPower" resultType="Integer">
+		select 
+		count(CAR_NO)
+		from t_car_status
+		<where>
+			<![CDATA[ AUX_BATTERY_VOLTAGE < #{0} ]]>
+		</where>
+	</select>
+		
+	<select id="getCarBrokenLineByCarNo" resultType="Integer">
+		select 
+		count(CAR_NO)
+		from t_car_status
+		<where>
+			<![CDATA[ (LAST_REPORTING_TIME is null OR LAST_REPORTING_TIME < date_format(date_add(now(), interval -2 MINUTE),'%Y-%m-%d %T')) ]]>
+			AND CAR_NO=#{0}
+		</where>
+	</select>
+		
+	<select id="getCarMonitorList" parameterType="Query"
+		resultMap="CarStatus1">
+		select
+		cs.CAR_PLATE_NO as carPlateNo,
+		cs.CAR_STATUS as carStatus,
+		cs.LONGITUDE as longitude,
+		cs.LATITUDE as latitude,
+		c.ONLINE_STATUS as onlineStatus,
+		d.DEVICE_STATUS as deviceStatus,
+		cs.USERAGE_STATUS as userageStatus,
+		cs.POWER as power,
+		cs.CITY_ID as cityId,
+		ddt.ITEM_VALUE as cityName
+		from t_car_status cs
+		LEFT JOIN t_car c
+		ON cs.CAR_NO = c.CAR_NO
+		LEFT JOIN t_device d
+		ON cs.CAR_NO = d.CAR_NO
+		LEFT JOIN t_data_dict_item ddt
+		ON cs.CITY_ID = ddt.DATA_DICT_ITEM_ID
+		<where>
+			<if test="q!=null">
+				<if test="q.carNo!=null and q.carNo!=''">
+					AND cs.CAR_NO=#{q.carNo}
+				</if>
+				<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+					AND cs.CAR_PLATE_NO=#{q.carPlateNo}
+				</if>
+				<if test="q.cityId!=null and q.cityId!=''">
+					AND cs.CITY_ID=#{q.cityId}
+				</if>
+			</if>
+		</where>
+	</select>
+
+</mapper>

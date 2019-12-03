@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.PricingDeductionRecordDao">
+
+<resultMap type="PricingDeductionRecord" id="PricingDeductionRecord">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACK_ORDER_NO" property="packOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PACKAGE_ID" property="packageId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEDUCTION_CEILING" property="deductionCeiling" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="DEDUCTION_AMOUNT" property="deductionAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DEDUCTION_TIME" property="deductionTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,MEMBER_NO,ORDER_NO,PACK_ORDER_NO,PACKAGE_ID,DEDUCTION_CEILING,DEDUCTION_AMOUNT,DEDUCTION_TIME,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,MEMBER_NO,ORDER_NO,PACK_ORDER_NO,PACKAGE_ID,DEDUCTION_CEILING,DEDUCTION_AMOUNT,DEDUCTION_TIME,
+CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="PricingDeductionRecord" useGeneratedKeys="true" keyProperty="id">
+	insert into T_PRICING_DEDUCTION_RECORD(
+		<if test="id!=null">
+		ID,
+		</if>
+		MEMBER_NO,
+		ORDER_NO,
+		PACK_ORDER_NO,
+		PACKAGE_ID,
+		DEDUCTION_CEILING,
+		DEDUCTION_AMOUNT,
+		DEDUCTION_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{packOrderNo,jdbcType = VARCHAR},
+		#{packageId,jdbcType = VARCHAR},
+		#{deductionCeiling,jdbcType = INTEGER},
+		#{deductionAmount,jdbcType = DOUBLE},
+		#{deductionTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="PricingDeductionRecord">
+	update t_pricing_deduction_record 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="packOrderNo!=null and packOrderNo!=''">
+			PACK_ORDER_NO=#{packOrderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="packageId!=null and packageId!=''">
+			PACKAGE_ID=#{packageId,jdbcType = VARCHAR},
+		</if>
+		<if test="deductionCeiling!=null ">
+			DEDUCTION_CEILING=#{deductionCeiling,jdbcType = INTEGER},
+		</if>
+		<if test="deductionAmount!=null ">
+			DEDUCTION_AMOUNT=#{deductionAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="deductionTime!=null ">
+			DEDUCTION_TIME=#{deductionTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_pricing_deduction_record 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PricingDeductionRecord">
+	select <include refid="AllColumnlist"/> from t_pricing_deduction_record
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="PricingDeductionRecord">
+	select <include refid="AllColumnlist"/> from t_pricing_deduction_record
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_pricing_deduction_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PricingDeductionRecord">
+	select <include refid="CommonColumnlist"/> from t_pricing_deduction_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PricingDeductionRecord">
+	select <include refid="CommonColumnlist"/> from t_pricing_deduction_record
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="eportFormPackageDeductibleAll" resultMap="PricingDeductionRecord">
+		SELECT
+		distinct count(r.id) count,
+		round(sum(o.PACK_MINUTES_DISCOUNT_AMOUNT), 2) sum
+		FROM
+			t_pricing_deduction_record r
+		LEFT JOIN t_order o ON r.ORDER_NO = o.ORDER_NO
+</select>
+<select id="eportFormPackageDeductibleList" resultMap="PricingDeductionRecord">
+			SELECT
+		distinct count(r.id) count,
+		round(sum(o.PACK_MINUTES_DISCOUNT_AMOUNT), 2) sum,
+		DATE_FORMAT(r.create_time, '%Y年') weeks
+		FROM
+			t_pricing_deduction_record r
+		LEFT JOIN t_order o ON r.ORDER_NO = o.ORDER_NO
+	<where>
+		<include refid="listCommonWhereNs"/>
+	</where> GROUP BY weeks
+</select>
+<select id="eportFormPackageDeductibleMonth" resultMap="PricingDeductionRecord">
+			SELECT
+		distinct count(r.id) count,
+		round(sum(o.PACK_MINUTES_DISCOUNT_AMOUNT), 2) sum,
+		DATE_FORMAT(r.create_time, '%Y年%m月') weeks
+		FROM
+			t_pricing_deduction_record r
+		LEFT JOIN t_order o ON r.ORDER_NO = o.ORDER_NO
+	<where>
+		<include refid="listCommonWhereNs"/>
+	</where> GROUP BY weeks
+</select>
+<select id="eportFormPackageDeductibleDay" resultMap="PricingDeductionRecord">
+			SELECT
+		distinct count(r.id) count,
+		round(sum(o.PACK_MINUTES_DISCOUNT_AMOUNT), 2) sum,
+		DATE_FORMAT(r.create_time, '%m月%d日') weeks
+		FROM
+			t_pricing_deduction_record r
+		LEFT JOIN t_order o ON r.ORDER_NO = o.ORDER_NO
+	<where>
+		<include refid="listCommonWhereNs"/>
+	</where> GROUP BY weeks
+</select>
+<sql id="listCommonWhereNs">
+	<if test="q!=null">
+		<if test="q.timeMonth!=null and q.timeMonth!=''">
+		date_format(r.create_time,'%Y') = #{q.timeMonth}
+		</if>
+		<if test="q.timeDay!=null and q.timeDay!=''">
+		date_format(r.create_time,'%Y%m') = #{q.timeDay}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND r.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND r.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.packOrderNo!=null and q.packOrderNo!=''">
+			AND PACK_ORDER_NO=#{q.packOrderNo}
+		</if>
+		<if test="q.packageId!=null and q.packageId!=''">
+			AND PACKAGE_ID=#{q.packageId}
+		</if>
+		<if test="q.deductionCeiling!=null ">
+			AND DEDUCTION_CEILING=#{q.deductionCeiling}
+		</if>
+		<if test="q.deductionTime!=null ">
+			AND DEDUCTION_TIME=#{q.deductionTime}
+		</if>
+		<if test="q.deductionTimeStart!=null">
+		<![CDATA[	AND DEDUCTION_TIME>=#{q.deductionTimeStart}  ]]>
+		</if>
+		<if test="q.deductionTimeEnd!=null">
+		<![CDATA[	AND DEDUCTION_TIME<#{q.deductionTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

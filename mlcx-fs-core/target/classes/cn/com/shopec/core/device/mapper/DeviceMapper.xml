@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.device.dao.DeviceDao">
+
+<resultMap type="Device" id="Device">
+	<id column="TERMINAL_DEVICE_NO" property="terminalDeviceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_SN" property="deviceSn" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BRAND_ID" property="brandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BRAND_NAME" property="brandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_MODEL_ID" property="deviceModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_MODEL" property="deviceModel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MAC_ADDR" property="macAddr" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BLUETOOTH_NAME" property="bluetoothName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SIM_CARD_NO" property="simCardNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BINDING_TIME" property="bindingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="DEVICE_STATUS" property="deviceStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SIGNAL_STRENGTH" property="signalStrength" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SIGNAL_STRENGTH_LEVEL" property="signalStrengthLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="LAST_REPORTING_TIME" property="lastReportingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="VERSION_NUMBER" property="versionNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VERSION_TYPE" property="versionType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_MEMO" property="availableMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WX_DEVICE_ID" property="wxDeviceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_REGIST" property="isRegist" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REGIST_TIME" property="registTime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VIN" property="vin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ICCID" property="iccid" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REAL_TIME_DATA" property="realTimeData" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_PARAM" property="deviceParam" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TERMINAL_DEVICE_NO,DEVICE_SN,BRAND_ID,BRAND_NAME,DEVICE_MODEL_ID,DEVICE_MODEL,MAC_ADDR,BLUETOOTH_NAME,SIM_CARD_NO,
+CITY_ID,CITY_NAME,CAR_NO,CAR_PLATE_NO,BINDING_TIME,DEVICE_STATUS,
+SIGNAL_STRENGTH,SIGNAL_STRENGTH_LEVEL,LAST_REPORTING_TIME,VERSION_NUMBER,VERSION_TYPE,IS_AVAILABLE,AVAILABLE_MEMO,AVAILABLE_UPDATE_TIME,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,WX_DEVICE_ID,IS_REGIST,REGIST_TIME,VIN,ICCID,REAL_TIME_DATA,DEVICE_PARAM
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TERMINAL_DEVICE_NO,DEVICE_SN,BRAND_ID,BRAND_NAME,DEVICE_MODEL_ID,DEVICE_MODEL,MAC_ADDR,BLUETOOTH_NAME,SIM_CARD_NO,
+CITY_ID,CITY_NAME,CAR_NO,CAR_PLATE_NO,BINDING_TIME,DEVICE_STATUS,
+SIGNAL_STRENGTH,SIGNAL_STRENGTH_LEVEL,LAST_REPORTING_TIME,VERSION_NUMBER,VERSION_TYPE,IS_AVAILABLE,AVAILABLE_MEMO,AVAILABLE_UPDATE_TIME,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,WX_DEVICE_ID,IS_REGIST,REGIST_TIME,VIN,ICCID,REAL_TIME_DATA,DEVICE_PARAM
+</sql>
+
+<insert id="add" parameterType="Device" useGeneratedKeys="true" keyProperty="terminalDeviceNo">
+	insert into T_DEVICE(
+		<if test="terminalDeviceNo!=null">
+		TERMINAL_DEVICE_NO,
+		</if>
+		DEVICE_SN,
+		BRAND_ID,
+		BRAND_NAME,
+		DEVICE_MODEL_ID,
+		DEVICE_MODEL,
+		MAC_ADDR,
+		BLUETOOTH_NAME,
+		SIM_CARD_NO,
+		CITY_ID,
+		CITY_NAME,
+		CAR_NO,
+		CAR_PLATE_NO,
+		BINDING_TIME,
+		DEVICE_STATUS,
+		SIGNAL_STRENGTH,
+		SIGNAL_STRENGTH_LEVEL,
+		LAST_REPORTING_TIME,
+		VERSION_NUMBER,
+		VERSION_TYPE,
+		IS_AVAILABLE,
+		AVAILABLE_MEMO,
+		AVAILABLE_UPDATE_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		WX_DEVICE_ID,
+		IS_REGIST,
+		REGIST_TIME,
+		VIN,
+		ICCID,
+		DEVICE_PARAM
+	) values (
+		<if test="terminalDeviceNo!=null">
+		#{terminalDeviceNo,jdbcType = VARCHAR},
+		</if>
+		#{deviceSn,jdbcType = VARCHAR},
+		#{brandId,jdbcType = VARCHAR},
+		#{brandName,jdbcType = VARCHAR},
+		#{deviceModelId,jdbcType = VARCHAR},
+		#{deviceModel,jdbcType = VARCHAR},
+		#{macAddr,jdbcType = VARCHAR},
+		#{bluetoothName,jdbcType = VARCHAR},
+		#{simCardNo,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{carNo,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{bindingTime,jdbcType = TIMESTAMP},
+		#{deviceStatus,jdbcType = TINYINT},
+		#{signalStrength,jdbcType = TINYINT},
+		#{signalStrengthLevel,jdbcType = TINYINT},
+		#{lastReportingTime,jdbcType = TIMESTAMP},
+		#{versionNumber,jdbcType = VARCHAR},
+		#{versionType,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableMemo,jdbcType = VARCHAR},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{wxDeviceId,jdbcType = VARCHAR},
+		#{isRegist,jdbcType = VARCHAR},
+		#{registTime,jdbcType = VARCHAR},
+		#{vin,jdbcType = VARCHAR},
+		#{iccid,jdbcType = VARCHAR},
+		#{deviceParam,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="Device">
+	update t_device 
+	<set>
+		<if test="deviceSn!=null and deviceSn!=''">
+			DEVICE_SN=#{deviceSn,jdbcType = VARCHAR},
+		</if>
+		<if test="brandId!=null and brandId!=''">
+			BRAND_ID=#{brandId,jdbcType = VARCHAR},
+		</if>
+		<if test="brandName!=null and brandName!=''">
+			BRAND_NAME=#{brandName,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceModelId!=null and deviceModelId!=''">
+			DEVICE_MODEL_ID=#{deviceModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceModel!=null and deviceModel!=''">
+			DEVICE_MODEL=#{deviceModel,jdbcType = VARCHAR},
+		</if>
+		<if test="macAddr!=null and macAddr!=''">
+			MAC_ADDR=#{macAddr,jdbcType = VARCHAR},
+		</if>
+		<if test="bluetoothName!=null and bluetoothName!=''">
+			BLUETOOTH_NAME=#{bluetoothName,jdbcType = VARCHAR},
+		</if>
+		<if test="simCardNo!=null and simCardNo!=''">
+			SIM_CARD_NO=#{simCardNo,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="bindingTime!=null ">
+			BINDING_TIME=#{bindingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="deviceStatus!=null ">
+			DEVICE_STATUS=#{deviceStatus,jdbcType = TINYINT},
+		</if>
+		<if test="signalStrength!=null ">
+			SIGNAL_STRENGTH=#{signalStrength,jdbcType = TINYINT},
+		</if>
+		<if test="signalStrengthLevel!=null ">
+			SIGNAL_STRENGTH_LEVEL=#{signalStrengthLevel,jdbcType = TINYINT},
+		</if>
+		<if test="lastReportingTime!=null ">
+			LAST_REPORTING_TIME=#{lastReportingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="versionNumber!=null and versionNumber!=''">
+			VERSION_NUMBER=#{versionNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="versionType!=null and versionType!=''">
+			VERSION_TYPE=#{versionType,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="availableMemo!=null and availableMemo!=''">
+			AVAILABLE_MEMO=#{availableMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="wxDeviceId!=null and wxDeviceId!=''">
+			WX_DEVICE_ID=#{wxDeviceId,jdbcType = VARCHAR},
+		</if>
+		<if test="isRegist!=null and isRegist!=''">
+			IS_REGIST=#{isRegist,jdbcType = VARCHAR},
+		</if>
+		<if test="registTime!=null and registTime!=''">
+			REGIST_TIME=#{registTime,jdbcType = VARCHAR},
+		</if>
+		<if test="vin!=null and vin!=''">
+			VIN=#{vin,jdbcType = VARCHAR},
+		</if>
+		<if test="iccid!=null and iccid!=''">
+			ICCID=#{iccid,jdbcType = VARCHAR},
+		</if>
+		<if test="realTimeData!=null and realTimeData!=''">
+			REAL_TIME_DATA=#{realTimeData,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceParam!=null and deviceParam!=''">
+			DEVICE_PARAM=#{deviceParam,jdbcType = VARCHAR}
+		</if>
+		
+	</set>
+	<where>
+		AND TERMINAL_DEVICE_NO=#{terminalDeviceNo}
+	</where>
+</update>
+<!-- 解绑终端 -->
+<update id="updateDeviceCar" parameterType="Device">
+	update t_device 
+	<set>
+		<if test="carNo!=null">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			BINDING_TIME=#{bindingTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND TERMINAL_DEVICE_NO=#{terminalDeviceNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_device 
+	<where>
+		TERMINAL_DEVICE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		TERMINAL_DEVICE_NO=#{0}
+	</where>
+</select>
+<select id="getDeviceMac" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		MAC_ADDR=#{0}
+	</where>
+</select>
+<select id="getDeviceSim" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		SIM_CARD_NO=#{0}
+	</where>
+</select>
+
+<select id="getDeviceCarPlateNo" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		CAR_PLATE_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		TERMINAL_DEVICE_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(TERMINAL_DEVICE_NO) from t_device 
+	<where>
+	 <include refid="listCommonWhereDate"/> 
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Device">
+	select <include refid="CommonColumnlist"/> from t_device 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Device">
+	select <include refid="CommonColumnlist"/> from t_device
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="pageListDate" parameterType="Query" resultMap="Device">
+	select <include refid="CommonColumnlist"/> from t_device
+	<where>
+	 <include refid="listCommonWhereDate"/> 
+	</where>
+	 order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="pageListDeviceByCar" parameterType="Query" resultMap="Device">
+	select <include refid="CommonColumnlist"/> from t_device  where (CAR_NO  is  null) or (BINDING_TIME  is  null)
+	 order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="countByCar" parameterType="Query" resultType="Long">
+	select count(TERMINAL_DEVICE_NO) from t_device  where (CAR_NO  is  null) or (BINDING_TIME  is  null)
+</select>
+
+
+<!-- 根据设备序列号查询到设备 -->
+<select id="getByDeviceSn" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		DEVICE_SN=#{0}
+	</where>
+</select>
+<!-- 根据车辆编号查询到设备 -->
+<select id="getDeviceByCarNo" resultMap="Device">
+	select <include refid="AllColumnlist"/> from t_device
+	<where>
+		CAR_NO=#{0}
+	</where>
+</select>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.terminalDeviceNo!=null and q.terminalDeviceNo!=''">
+			AND TERMINAL_DEVICE_NO=#{q.terminalDeviceNo}
+		</if>
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND DEVICE_SN like '%${q.deviceSn}%'
+		</if>		
+		<if test="q.brandId!=null and q.brandId!=''">
+			AND BRAND_ID=#{q.brandId}
+		</if>
+		<if test="q.brandName!=null and q.brandName!=''">
+			AND BRAND_NAME=#{q.brandName}
+		</if>
+		<if test="q.deviceModelId!=null and q.deviceModelId!=''">
+			AND DEVICE_MODEL_ID=#{q.deviceModelId}
+		</if>
+		<if test="q.deviceModel!=null and q.deviceModel!=''">
+			AND DEVICE_MODEL=#{q.deviceModel}
+		</if>
+		<if test="q.macAddr!=null and q.macAddr!=''">
+			AND MAC_ADDR=#{q.macAddr}
+		</if>
+		<if test="q.bluetoothName!=null and q.bluetoothName!=''">
+			AND BLUETOOTH_NAME=#{q.bluetoothName}
+		</if>
+		<if test="q.simCardNo!=null and q.simCardNo!=''">
+			AND SIM_CARD_NO like '%${q.simCardNo}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.bindingTime!=null ">
+			AND BINDING_TIME=#{q.bindingTime}
+		</if>
+		<if test="q.bindingTimeStart!=null">
+		<![CDATA[	AND BINDING_TIME>=#{q.bindingTimeStart}  ]]>
+		</if>
+		<if test="q.bindingTimeEnd!=null">
+		<![CDATA[	AND BINDING_TIME<#{q.bindingTimeEnd}   ]]>
+		</if>
+		<if test="q.deviceStatus!=null ">
+			AND DEVICE_STATUS=#{q.deviceStatus}
+		</if>
+		<if test="q.signalStrength!=null ">
+			AND SIGNAL_STRENGTH=#{q.signalStrength}
+		</if>
+		<if test="q.signalStrengthLevel!=null ">
+			AND SIGNAL_STRENGTH_LEVEL=#{q.signalStrengthLevel}
+		</if>
+		<if test="q.lastReportingTime!=null ">
+			AND LAST_REPORTING_TIME=#{q.lastReportingTime}
+		</if>
+		<if test="q.lastReportingTimeStart!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME>=#{q.lastReportingTimeStart}  ]]>
+		</if>
+		<if test="q.lastReportingTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME<#{q.lastReportingTimeEnd}   ]]>
+		</if>
+		<if test="q.versionNumber!=null and q.versionNumber!=''">
+			AND VERSION_NUMBER=#{q.versionNumber}
+		</if>
+		<if test="q.versionType!=null and q.versionType!=''">
+			AND VERSION_TYPE=#{q.versionType}
+		</if>		
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableMemo!=null and q.availableMemo!=''">
+			AND AVAILABLE_MEMO=#{q.availableMemo}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.wxDeviceId!=null and q.wxDeviceId!=''">
+			AND WX_DEVICE_ID = '%${q.wxDeviceId}%'
+		</if>	
+		<if test="q.deviceParam!=null and q.deviceParam!=''">
+			AND DEVICE_PARAM=#{q.deviceParam}
+		</if>	
+	</if>
+</sql>
+
+
+<sql id="listCommonWhereDate">
+	<if test="q!=null">
+		<if test="q.terminalDeviceNo!=null and q.terminalDeviceNo!=''">
+			AND TERMINAL_DEVICE_NO=#{q.terminalDeviceNo}
+		</if>
+		<if test="q.deviceSn!=null and q.deviceSn!=''">
+			AND DEVICE_SN like '%${q.deviceSn}%'
+		</if>		
+		<if test="q.brandId!=null and q.brandId!=''">
+			AND BRAND_ID=#{q.brandId}
+		</if>
+		<if test="q.brandName!=null and q.brandName!=''">
+			AND BRAND_NAME=#{q.brandName}
+		</if>
+		<if test="q.deviceModelId!=null and q.deviceModelId!=''">
+			AND DEVICE_MODEL_ID=#{q.deviceModelId}
+		</if>
+		<if test="q.deviceModel!=null and q.deviceModel!=''">
+			AND DEVICE_MODEL=#{q.deviceModel}
+		</if>
+		<if test="q.macAddr!=null and q.macAddr!=''">
+			AND MAC_ADDR=#{q.macAddr}
+		</if>
+		<if test="q.simCardNo!=null and q.simCardNo!=''">
+			AND SIM_CARD_NO like '%${q.simCardNo}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<!-- <if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if> -->
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+		</if>
+		<if test="q.bindingTime!=null ">
+			AND BINDING_TIME=#{q.bindingTime}
+		</if>
+		<if test="q.bindingTimeStart!=null">
+		<![CDATA[	AND BINDING_TIME>=#{q.bindingTimeStart}  ]]>
+		</if>
+		<if test="q.bindingTimeEnd!=null">
+		<![CDATA[	AND BINDING_TIME<#{q.bindingTimeEnd}   ]]>
+		</if>
+		<if test="q.deviceStatus!=null ">
+			AND DEVICE_STATUS=#{q.deviceStatus}
+		</if>
+		<if test="q.signalStrength!=null ">
+			AND SIGNAL_STRENGTH=#{q.signalStrength}
+		</if>
+		<if test="q.signalStrengthLevel!=null ">
+			AND SIGNAL_STRENGTH_LEVEL=#{q.signalStrengthLevel}
+		</if>
+		<if test="q.lastReportingTime!=null ">
+			AND LAST_REPORTING_TIME=#{q.lastReportingTime}
+		</if>
+		<if test="q.lastReportingTimeStart!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME>#{q.lastReportingTimeStart}  ]]>
+		</if>
+		<if test="q.lastReportingTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME<=#{q.lastReportingTimeEnd}   ]]>
+		</if>
+		<if test="q.versionNumber!=null and q.versionNumber!=''">
+			AND VERSION_NUMBER=#{q.versionNumber}
+		</if>
+		<if test="q.versionType!=null and q.versionType!=''">
+			AND VERSION_TYPE=#{q.versionType}
+		</if>		
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.availableMemo!=null and q.availableMemo!=''">
+			AND AVAILABLE_MEMO=#{q.availableMemo}
+		</if>
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME=#{q.availableUpdateTime}
+		</if>
+		<if test="q.availableUpdateTimeStart!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME>=#{q.availableUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.availableUpdateTimeEnd!=null">
+		<![CDATA[	AND AVAILABLE_UPDATE_TIME<#{q.availableUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.wxDeviceId!=null and q.wxDeviceId!=''">
+			AND WX_DEVICE_ID = '%${q.wxDeviceId}%'
+		</if>
+		<if test="q.deviceParam!=null and q.deviceParam!=''">
+			AND DEVICE_PARAM=#{q.deviceParam}
+		</if>		
+	</if>
+</sql>
+</mapper>

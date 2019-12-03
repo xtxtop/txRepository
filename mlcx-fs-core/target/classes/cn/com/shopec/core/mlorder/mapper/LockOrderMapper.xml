@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlorder.dao.LockOrderDao">
+
+<resultMap type="LockOrder" id="LockOrder">
+	<id column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NAME" property="stationName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_NO" property="parkingLockNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_NAME" property="parkingLockName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_START_TIME" property="orderStartTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ORDER_END_TIME" property="orderEndTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ORDER_TIME_LENGTH" property="orderTimeLength" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="ORDER_FREE_TIME" property="orderFreeTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="ORDER_OVER_TIME" property="orderOverTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="OVERTIME_AMOUNT" property="overtimeAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT_AMOUNT" property="discountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="NOPAY_AMOUNT" property="nopayAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_STATUS" property="orderStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_TYPE" property="payType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_METHOD" property="paymentMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PAYMENT_FLOW_NO" property="paymentFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_MEMO" property="orderMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SOURCE" property="orderSource" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FINISH_TYPE" property="finishType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FINISH_REASON" property="finishReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOCK_BILLING_SCHEME_NO" property="lockBillingSchemeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LOCK_TYPE" property="lockType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CHARGE_ORDER_NO" property="chargeOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ORDER_NO,STATION_NO,STATION_NAME,PARKING_LOCK_NO,PARKING_LOCK_NAME,MEMBER_NO,MOBILE_PHONE,
+MEMBER_NAME,ORDER_START_TIME,ORDER_END_TIME,ORDER_TIME_LENGTH,ORDER_FREE_TIME,ORDER_OVER_TIME,
+ORDER_AMOUNT,OVERTIME_AMOUNT,DISCOUNT_AMOUNT,NOPAY_AMOUNT,ORDER_STATUS,PAY_STATUS,
+PAY_TYPE,PAYMENT_METHOD,PAYMENT_TIME,PAYMENT_FLOW_NO,ORDER_MEMO,ORDER_SOURCE,
+FINISH_TYPE,FINISH_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,LOCK_BILLING_SCHEME_NO
+,LOCK_TYPE,CHARGE_ORDER_NO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ORDER_NO,STATION_NO,STATION_NAME,PARKING_LOCK_NO,PARKING_LOCK_NAME,MEMBER_NO,MOBILE_PHONE,
+MEMBER_NAME,ORDER_START_TIME,ORDER_END_TIME,ORDER_TIME_LENGTH,ORDER_FREE_TIME,ORDER_OVER_TIME,
+ORDER_AMOUNT,OVERTIME_AMOUNT,DISCOUNT_AMOUNT,NOPAY_AMOUNT,ORDER_STATUS,PAY_STATUS,
+PAY_TYPE,PAYMENT_METHOD,PAYMENT_TIME,PAYMENT_FLOW_NO,ORDER_MEMO,ORDER_SOURCE,
+FINISH_TYPE,FINISH_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,LOCK_BILLING_SCHEME_NO
+,LOCK_TYPE,CHARGE_ORDER_NO
+</sql>
+
+<insert id="add" parameterType="LockOrder" useGeneratedKeys="true" keyProperty="orderNo">
+	insert into LOCK_ORDER(
+		<if test="orderNo!=null">
+		ORDER_NO,
+		</if>
+		STATION_NO,
+		STATION_NAME,
+		PARKING_LOCK_NO,
+		PARKING_LOCK_NAME,
+		MEMBER_NO,
+		MOBILE_PHONE,
+		MEMBER_NAME,
+		ORDER_START_TIME,
+		ORDER_END_TIME,
+		ORDER_TIME_LENGTH,
+		ORDER_FREE_TIME,
+		ORDER_OVER_TIME,
+		ORDER_AMOUNT,
+		OVERTIME_AMOUNT,
+		DISCOUNT_AMOUNT,
+		NOPAY_AMOUNT,
+		ORDER_STATUS,
+		PAY_STATUS,
+		PAY_TYPE,
+		PAYMENT_METHOD,
+		PAYMENT_TIME,
+		PAYMENT_FLOW_NO,
+		ORDER_MEMO,
+		ORDER_SOURCE,
+		FINISH_TYPE,
+		FINISH_REASON,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		LOCK_BILLING_SCHEME_NO,LOCK_TYPE,CHARGE_ORDER_NO
+	) values (
+		<if test="orderNo!=null">
+		#{orderNo,jdbcType = VARCHAR},
+		</if>
+		#{stationNo,jdbcType = VARCHAR},
+		#{stationName,jdbcType = VARCHAR},
+		#{parkingLockNo,jdbcType = VARCHAR},
+		#{parkingLockName,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{orderStartTime,jdbcType = TIMESTAMP},
+		#{orderEndTime,jdbcType = TIMESTAMP},
+		#{orderTimeLength,jdbcType = INTEGER},
+		#{orderFreeTime,jdbcType = INTEGER},
+		#{orderOverTime,jdbcType = INTEGER},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{overtimeAmount,jdbcType = DOUBLE},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{nopayAmount,jdbcType = DOUBLE},
+		#{orderStatus,jdbcType = TINYINT},
+		#{payStatus,jdbcType = TINYINT},
+		#{payType,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{paymentTime,jdbcType = TIMESTAMP},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{orderMemo,jdbcType = VARCHAR},
+		#{orderSource,jdbcType = VARCHAR},
+		#{finishType,jdbcType = TINYINT},
+		#{finishReason,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{lockBillingSchemeNo,jdbcType = VARCHAR},
+		#{lockType,jdbcType = TINYINT},
+		#{chargeOrderNo,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="LockOrder">
+	update LOCK_ORDER 
+	<set>
+		<if test="stationNo!=null and stationNo!=''">
+			STATION_NO=#{stationNo,jdbcType = VARCHAR},
+		</if>
+		<if test="stationName!=null and stationName!=''">
+			STATION_NAME=#{stationName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockNo!=null and parkingLockNo!=''">
+			PARKING_LOCK_NO=#{parkingLockNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockName!=null and parkingLockName!=''">
+			PARKING_LOCK_NAME=#{parkingLockName,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderStartTime!=null ">
+			ORDER_START_TIME=#{orderStartTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="orderEndTime!=null ">
+			ORDER_END_TIME=#{orderEndTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="orderTimeLength!=null">
+			ORDER_TIME_LENGTH=#{orderTimeLength,jdbcType = INTEGER},
+		</if>
+		<if test="orderFreeTime!=null">
+			ORDER_FREE_TIME=#{orderFreeTime,jdbcType = INTEGER},
+		</if>
+		<if test="orderOverTime!=null">
+			ORDER_OVER_TIME=#{orderOverTime,jdbcType = INTEGER},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="overtimeAmount!=null ">
+			OVERTIME_AMOUNT=#{overtimeAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="discountAmount!=null ">
+			DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="nopayAmount!=null ">
+			NOPAY_AMOUNT=#{nopayAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="orderStatus!=null ">
+			ORDER_STATUS=#{orderStatus,jdbcType = TINYINT},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="payType!=null ">
+			PAY_TYPE=#{payType,jdbcType = TINYINT},
+		</if>
+		<if test="paymentMethod!=null ">
+			PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+		</if>
+		<if test="paymentTime!=null ">
+			PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+			PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderMemo!=null and orderMemo!=''">
+			ORDER_MEMO=#{orderMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderSource!=null and orderSource!=''">
+			ORDER_SOURCE=#{orderSource,jdbcType = VARCHAR},
+		</if>
+		<if test="finishType!=null ">
+			FINISH_TYPE=#{finishType,jdbcType = TINYINT},
+		</if>
+		<if test="finishReason!=null and finishReason!=''">
+			FINISH_REASON=#{finishReason,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="lockBillingSchemeNo!=null and lockBillingSchemeNo!=''">
+			LOCK_BILLING_SCHEME_NO=#{lockBillingSchemeNo,jdbcType = VARCHAR},
+		</if>
+		<if test="lockType!=null">
+			LOCK_TYPE=#{lockType,jdbcType = TINYINT},
+		</if>
+		<if test="chargeOrderNo!=null and chargeOrderNo!=''">
+			CHARGE_ORDER_NO=#{chargeOrderNo,jdbcType = VARCHAR}
+		</if>
+	</set>
+	<where>
+		AND ORDER_NO=#{orderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from LOCK_ORDER 
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="LockOrder">
+	select <include refid="AllColumnlist"/> from LOCK_ORDER
+	<where>
+		ORDER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="LockOrder">
+	select <include refid="AllColumnlist"/> from LOCK_ORDER
+	<where>
+		ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ORDER_NO) from LOCK_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="LockOrder">
+	select <include refid="CommonColumnlist"/> from LOCK_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="LockOrder">
+	select <include refid="CommonColumnlist"/> from LOCK_ORDER
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO like "%"#{q.orderNo}"%"
+		</if>
+		<if test="q.stationNo!=null and q.stationNo!=''">
+			AND STATION_NO=#{q.stationNo}
+		</if>
+		<if test="q.stationName!=null and q.stationName!=''">
+			AND STATION_NAME=#{q.stationName}
+		</if>
+		<if test="q.parkingLockNo!=null and q.parkingLockNo!=''">
+			AND PARKING_LOCK_NO=#{q.parkingLockNo}
+		</if>
+		<if test="q.parkingLockName!=null and q.parkingLockName!=''">
+			AND PARKING_LOCK_NAME=#{q.parkingLockName}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like "%"#{q.memberName}"%" 
+		</if>
+		<if test="q.orderStartTime!=null ">
+			AND ORDER_START_TIME=#{q.orderStartTime}
+		</if>
+		<if test="q.orderStartTimeStart!=null">
+		<![CDATA[	AND ORDER_START_TIME>=#{q.orderStartTimeStart}  ]]>
+		</if>
+		<if test="q.orderStartTimeEnd!=null">
+		<![CDATA[	AND ORDER_START_TIME<#{q.orderStartTimeEnd}   ]]>
+		</if>
+		<if test="q.orderEndTime!=null ">
+			AND ORDER_END_TIME=#{q.orderEndTime}
+		</if>
+		<if test="q.orderEndTimeStart!=null">
+		<![CDATA[	AND ORDER_END_TIME>=#{q.orderEndTimeStart}  ]]>
+		</if>
+		<if test="q.orderEndTimeEnd!=null">
+		<![CDATA[	AND ORDER_END_TIME<#{q.orderEndTimeEnd}   ]]>
+		</if>
+		<if test="q.orderTimeLength!=null">
+			AND ORDER_TIME_LENGTH=#{q.orderTimeLength}
+		</if>
+		<if test="q.orderFreeTime!=null">
+			AND ORDER_FREE_TIME=#{q.orderFreeTime}
+		</if>
+		<if test="q.orderOverTime!=null">
+			AND ORDER_OVER_TIME=#{q.orderOverTime}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.overtimeAmount!=null ">
+			AND OVERTIME_AMOUNT=#{q.overtimeAmount}
+		</if>
+		<if test="q.discountAmount!=null ">
+			AND DISCOUNT_AMOUNT=#{q.discountAmount}
+		</if>
+		<if test="q.nopayAmount!=null ">
+			AND NOPAY_AMOUNT=#{q.nopayAmount}
+		</if>
+		<if test="q.orderStatus!=null ">
+			AND ORDER_STATUS=#{q.orderStatus}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.payType!=null ">
+			AND PAY_TYPE=#{q.payType}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.paymentTime!=null ">
+			AND PAYMENT_TIME=#{q.paymentTime}
+		</if>
+		<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+		</if>
+		<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+		</if>
+		<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+			AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+		</if>
+		<if test="q.orderMemo!=null and q.orderMemo!=''">
+			AND ORDER_MEMO=#{q.orderMemo}
+		</if>
+		<if test="q.orderSource!=null and q.orderSource!=''">
+			AND ORDER_SOURCE=#{q.orderSource}
+		</if>
+		<if test="q.finishType!=null ">
+			AND FINISH_TYPE=#{q.finishType}
+		</if>
+		<if test="q.finishReason!=null and q.finishReason!=''">
+			AND FINISH_REASON=#{q.finishReason}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.lockBillingSchemeNo!=null and q.lockBillingSchemeNo!=''">
+            and LOCK_BILLING_SCHEME_NO=#{q.lockBillingSchemeNo,jdbcType = VARCHAR}
+        </if>
+        <if test="q.lockType!=null">
+            and LOCK_TYPE=#{lockType,jdbcType = TINYINT}
+        </if>
+        <if test="q.chargeOrderNo!=null and q.chargeOrderNo!=''">
+           and  CHARGE_ORDER_NO=#{chargeOrderNo,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+<select id="getOrderMember" resultMap="LockOrder">
+    select ORDER_NO from lock_order where MEMBER_NO=#{0}
+    and ORDER_STATUS=0 and PARKING_LOCK_NO=#{1}
+</select>
+</mapper>

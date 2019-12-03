@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.MerchantInventoryDao">
+
+<resultMap type="MerchantInventory" id="MerchantInventory">
+	<id column="MER_INVENTORY_ID" property="merInventoryId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_ID" property="carSeriesId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_NAME" property="carSeriesName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PERIOD_ID" property="carPeriodId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PERIOD_NAME" property="carPeriodName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_TYPE" property="carType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_URL" property="carModelUrl" javaType="java.lang.String" jdbcType="CHAR"/>
+	<result column="DISPLACEMENT" property="displacement" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GEAR_BOX" property="gearBox" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BOX_TYPE" property="boxType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="SEAT_NUMBER" property="seatNumber" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_NAME" property="merchantName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVENTORY_DAY" property="inventoryDay" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_PUBLISH" property="isPublish" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+MER_INVENTORY_ID,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_SERIES_ID,CAR_SERIES_NAME,
+CAR_TYPE,CITY_ID,CITY_NAME,CAR_MODEL_URL,DISPLACEMENT,GEAR_BOX,
+BOX_TYPE,SEAT_NUMBER,MERCHANT_ID,INVENTORY_DAY,IS_PUBLISH,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+MER_INVENTORY_ID,CAR_BRAND_ID,CAR_BRAND_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_SERIES_ID,CAR_SERIES_NAME,
+CAR_TYPE,CITY_ID,CITY_NAME,CAR_MODEL_URL,DISPLACEMENT,GEAR_BOX,
+BOX_TYPE,SEAT_NUMBER,MERCHANT_ID,INVENTORY_DAY,IS_PUBLISH,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="MerchantInventory" useGeneratedKeys="true" keyProperty="merInventoryId">
+	insert into T_MERCHANT_INVENTORY(
+		<if test="merInventoryId!=null">
+		MER_INVENTORY_ID,
+		</if>
+		CAR_BRAND_ID,
+		CAR_BRAND_NAME,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CAR_SERIES_ID,
+		CAR_SERIES_NAME,
+		CAR_TYPE,
+		CITY_ID,
+		CITY_NAME,
+		CAR_MODEL_URL,
+		DISPLACEMENT,
+		GEAR_BOX,
+		BOX_TYPE,
+		SEAT_NUMBER,
+		MERCHANT_ID,
+		INVENTORY_DAY,
+		IS_PUBLISH,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="merInventoryId!=null">
+		#{merInventoryId,jdbcType = VARCHAR},
+		</if>
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carBrandName,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{carSeriesId,jdbcType = VARCHAR},
+		#{carSeriesName,jdbcType = VARCHAR},
+		#{carType,jdbcType = TINYINT},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{carModelUrl,jdbcType = CHAR},
+		#{displacement,jdbcType = VARCHAR},
+		#{gearBox,jdbcType = TINYINT},
+		#{boxType,jdbcType = TINYINT},
+		#{seatNumber,jdbcType = TINYINT},
+		#{merchantId,jdbcType = VARCHAR},
+		#{inventoryDay,jdbcType = INTEGER},
+		#{isPublish,jdbcType = INTEGER},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="MerchantInventory">
+	update T_MERCHANT_INVENTORY 
+	<set>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesId!=null and carSeriesId!=''">
+			CAR_SERIES_ID=#{carSeriesId,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesName!=null and carSeriesName!=''">
+			CAR_SERIES_NAME=#{carSeriesName,jdbcType = VARCHAR},
+		</if>
+		<if test="carType!=null ">
+			CAR_TYPE=#{carType,jdbcType = TINYINT},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelUrl!=null and carModelUrl!=''">
+			CAR_MODEL_URL=#{carModelUrl,jdbcType = CHAR},
+		</if>
+		<if test="displacement!=null and displacement!=''">
+			DISPLACEMENT=#{displacement,jdbcType = VARCHAR},
+		</if>
+		<if test="gearBox!=null ">
+			GEAR_BOX=#{gearBox,jdbcType = TINYINT},
+		</if>
+		<if test="boxType!=null ">
+			BOX_TYPE=#{boxType,jdbcType = TINYINT},
+		</if>
+		<if test="seatNumber!=null ">
+			SEAT_NUMBER=#{seatNumber,jdbcType = TINYINT},
+		</if>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="inventoryDay!=null ">
+			INVENTORY_DAY=#{inventoryDay,jdbcType = INTEGER},
+		</if>
+		<if test="isPublish!=null ">
+			IS_PUBLISH=#{isPublish,jdbcType = INTEGER},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND MER_INVENTORY_ID=#{merInventoryId}
+	</where>
+</update>
+
+<update id="updateMerchantInventory" parameterType="MerchantInventory">
+	update T_MERCHANT_INVENTORY set INVENTORY_DAY=#{inventoryDay},UPDATE_TIME=NOW()
+	<where>
+		MERCHANT_ID=#{merchantId}
+		<if test="merInventoryId!=null and merInventoryId!=''">
+			AND MER_INVENTORY_ID=#{merInventoryId}
+		</if>
+	</where>
+</update>
+
+<update id="updateMerchantInventoryByCarModelId" parameterType="MerchantInventory">
+	update T_MERCHANT_INVENTORY
+	<set>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesId!=null and carSeriesId!=''">
+			CAR_SERIES_ID=#{carSeriesId,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesName!=null and carSeriesName!=''">
+			CAR_SERIES_NAME=#{carSeriesName,jdbcType = VARCHAR},
+		</if>
+		<if test="carType!=null ">
+			CAR_TYPE=#{carType,jdbcType = TINYINT},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelUrl!=null and carModelUrl!=''">
+			CAR_MODEL_URL=#{carModelUrl,jdbcType = CHAR},
+		</if>
+		<if test="displacement!=null and displacement!=''">
+			DISPLACEMENT=#{displacement,jdbcType = VARCHAR},
+		</if>
+		<if test="gearBox!=null ">
+			GEAR_BOX=#{gearBox,jdbcType = TINYINT},
+		</if>
+		<if test="boxType!=null ">
+			BOX_TYPE=#{boxType,jdbcType = TINYINT},
+		</if>
+		<if test="seatNumber!=null ">
+			SEAT_NUMBER=#{seatNumber,jdbcType = TINYINT},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		CAR_MODEL_ID=#{carModelId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_MERCHANT_INVENTORY 
+	<where>
+		MER_INVENTORY_ID=#{0}
+	</where>
+</delete>
+<!-- 根据车型,商家，城市查找商家库存记录-->
+<select id="getMerchantInventory" parameterType="MerchantInventory" resultMap="MerchantInventory">
+	SELECT * from T_MERCHANT_INVENTORY 
+	<where>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId} 
+		</if>
+		AND MERCHANT_ID=#{merchantId} AND CITY_ID=#{cityId}
+	</where>
+</select>
+
+<select id="getMerchantInventoryCarModel" parameterType="Query" resultMap="MerchantInventory">
+	SELECT
+		DISTINCT(mi.MER_INVENTORY_ID),mi.*,cm.CAR_PERIOD_ID,cm.CAR_PERIOD_NAME
+	FROM
+		t_merchant_inventory mi
+	LEFT JOIN t_merchant_inventory_date mitd ON mi.MER_INVENTORY_ID = mitd.MER_INVENTORY_ID
+	LEFT JOIN t_car_model cm ON cm.CAR_MODEL_ID=mi.CAR_MODEL_ID
+	<where>
+		(
+			mitd.AVAILABLE_INVENTORY > 0
+			OR mi.INVENTORY_DAY > 0
+		)
+		AND mi.IS_PUBLISH=1
+		AND mi.MERCHANT_ID=#{q.merchantId}
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND mi.CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			AND mi.CAR_SERIES_ID=#{q.carSeriesId}
+		</if>
+		<if test="q.carPeriodId!=null and q.carPeriodId!=''">
+			AND cm.CAR_PERIOD_ID=#{q.carPeriodId}
+		</if>
+		<if test="q.carType!=null and q.carType!=''">
+			AND mi.CAR_TYPE=#{q.carType}
+		</if>
+	</where>
+	<if test="q.carBrandId==null or q.carBrandId==''">
+	    GROUP BY mi.CAR_BRAND_ID
+	</if>
+	<if test="q.carBrandId!=null and q.carBrandId!=''">
+		<if test="q.carSeriesId==null or q.carSeriesId==''">
+		     GROUP BY mi.CAR_SERIES_ID
+		</if>
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			<if test="q.carPeriodId==null or q.carPeriodId==''">
+		     	GROUP BY cm.CAR_PERIOD_ID
+			</if>
+			<if test="q.carPeriodId!=null and q.carPeriodId!=''">
+				 GROUP BY mi.CAR_TYPE
+			</if>
+		</if>
+	</if>
+</select>
+
+<!-- 根据车型查找商家库存-mapi使用 -->
+<select id="getMerchantsByCarModelId" resultType="String">
+	SELECT  mi.MERCHANT_ID
+	FROM t_merchant_inventory mi 
+	LEFT JOIN t_merchant_inventory_date mitd ON mi.MER_INVENTORY_ID = mitd.MER_INVENTORY_ID
+	<where>
+		mi.CAR_MODEL_ID=#{0} AND  mi.CITY_ID=#{1} and mi.IS_PUBLISH=1
+		AND (mitd.AVAILABLE_INVENTORY>0 OR mi.INVENTORY_DAY>0) GROUP BY mi.MERCHANT_ID
+	</where>
+</select>
+<!-- 根据车型查找商家库存-后台 -->
+<select id="getMerchantInventoryByCarModelId" parameterType="Query" resultMap="MerchantInventory">
+	SELECT  mi.MERCHANT_ID,m.MERCHANT_NAME,mi.CAR_MODEL_ID,mi.CAR_MODEL_NAME,
+	(case when mitd.AVAILABLE_INVENTORY is null then mi.INVENTORY_DAY else mi.INVENTORY_DAY end) INVENTORY_DAY
+	FROM t_merchant_inventory mi 
+	LEFT JOIN t_merchant_inventory_date mitd ON mi.MER_INVENTORY_ID = mitd.MER_INVENTORY_ID
+	LEFT JOIN t_merchant m on mi.MERCHANT_ID=m.MERCHANT_ID
+	<where>
+		<if test="q!=null">
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				mi.CAR_MODEL_ID=#{q.carModelId}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				and mi.CITY_ID=#{q.cityId}
+			</if> 
+		</if>
+		AND (mitd.AVAILABLE_INVENTORY>0 OR mi.INVENTORY_DAY>0) GROUP BY mi.MERCHANT_ID
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 根据车型统计商家库存-后台 -->
+<select id="countForMgt" parameterType="Query" resultType="Long">
+	select count(*) from (
+	SELECT  count(mi.MER_INVENTORY_ID)
+	FROM t_merchant_inventory mi 
+	LEFT JOIN t_merchant_inventory_date mitd ON mi.MER_INVENTORY_ID = mitd.MER_INVENTORY_ID
+	LEFT JOIN t_merchant m on mi.MERCHANT_ID=m.MERCHANT_ID
+	<where>
+		<if test="q!=null">
+			<if test="q.carModelId!=null and q.carModelId!=''">
+				mi.CAR_MODEL_ID=#{q.carModelId}
+			</if> 
+		</if>
+		AND (mitd.AVAILABLE_INVENTORY>0 OR mi.INVENTORY_DAY>0) GROUP BY mi.MERCHANT_ID
+	</where>
+	)t
+</select>
+
+<select id="getInventoryByMerchantAndCarModelAndCityId" resultMap="MerchantInventory">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_INVENTORY
+	<where>
+		MERCHANT_ID =#{0} AND CAR_MODEL_ID=#{1} AND CITY_ID=#{2}
+	</where>
+</select>
+
+<select id="get" resultMap="MerchantInventory">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_INVENTORY
+	<where>
+		MER_INVENTORY_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MerchantInventory">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_INVENTORY
+	<where>
+		MER_INVENTORY_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(MER_INVENTORY_ID) from T_MERCHANT_INVENTORY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+<select id="getMerchantsByCarCount" resultType="Long">
+	SELECT  COUNT(mi.MERCHANT_ID) as rowCount
+	FROM t_merchant_inventory mi 
+	LEFT JOIN t_merchant_inventory_date mitd ON mi.MER_INVENTORY_ID = mitd.MER_INVENTORY_ID
+	<where>
+	mi.CAR_MODEL_ID=#{0}  AND  mi.MERCHANT_ID=#{1} AND  mi.CITY_ID=#{2} and mi.IS_PUBLISH=1
+		AND (mitd.AVAILABLE_INVENTORY>0 OR mi.INVENTORY_DAY>0) 
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MerchantInventory">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_INVENTORY 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MerchantInventory">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_INVENTORY
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.merInventoryId!=null and q.merInventoryId!=''">
+			AND MER_INVENTORY_ID=#{q.merInventoryId}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carBrandName!=null and q.carBrandName!=''">
+			AND CAR_BRAND_NAME=#{q.carBrandName}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			AND CAR_SERIES_ID=#{q.carSeriesId}
+		</if>
+		<if test="q.carSeriesName!=null and q.carSeriesName!=''">
+			AND CAR_SERIES_NAME=#{q.carSeriesName}
+		</if>
+		<if test="q.carType!=null ">
+			AND CAR_TYPE=#{q.carType}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carModelUrl!=null and q.carModelUrl!=''">
+			AND CAR_MODEL_URL=#{q.carModelUrl}
+		</if>
+		<if test="q.displacement!=null and q.displacement!=''">
+			AND DISPLACEMENT=#{q.displacement}
+		</if>
+		<if test="q.gearBox!=null ">
+			AND GEAR_BOX=#{q.gearBox}
+		</if>
+		<if test="q.boxType!=null ">
+			AND BOX_TYPE=#{q.boxType}
+		</if>
+		<if test="q.isPublish!=null ">
+			AND IS_PUBLISH=#{q.isPublish}
+		</if>
+		<if test="q.seatNumber!=null ">
+			AND SEAT_NUMBER=#{q.seatNumber}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.inventoryDay!=null ">
+			AND INVENTORY_DAY=#{q.inventoryDay}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

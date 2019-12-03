@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarDao">
+
+<!--  -->
+<resultMap type="cn.com.shopec.core.car.model.CarAndStatus" id="CarAndStatus" >
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PHOTO_URL1" property="carPhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POWER" property="power" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MILEAGE" property="mileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="RANGE_MILEAGE" property="rangeMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+<!-- 
+车辆表（t_car）中：
+	ONLINE_STATUS（上线状态（0、下线，1、上线，默认0））
+	IS_DEDICATED（是否专用车辆（只能供某些集团的客户使用，0、非专用，1、专用，默认0））
+	
+
+车辆状态表（t_car_status）中：
+	USERAGE_STATUS（使用状态（0，空闲、1，已预占、2，订单中、3，调度中））
+	CAR_STATUS(车辆状态（1、已启动，2、已熄火）)
+	POWER(剩余电量百分比(0%~100%))
+ -->
+ 
+<!-- 根据场站ID得到该场站内公用的电量最高的(没登录和普通会员) -->
+<select id="getCarByParkNo2" resultMap="CarAndStatus">
+select distinct(tc.CAR_NO),tc.CAR_PLATE_NO,tc.CAR_BRAND_ID,tc.CAR_BRAND_NAME,tc.CAR_MODEL_ID,tc.CAR_MODEL_NAME,tc.CAR_PHOTO_URL1,tc.SEATING,tcs.POWER,tcs.MILEAGE,tcs.RANGE_MILEAGE from t_car tc,t_car_status tcs 
+where tc.CAR_NO=tcs.CAR_NO 
+AND  tc.IS_DEDICATED = 0 
+AND tc.ONLINE_STATUS = 1 
+<if test="seaTing!=null and  seaTing!=''">
+AND tc.SEATING = #{seaTing}
+</if>
+AND tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not null AND tc.DEVICE_ID !='' 
+AND tcs.USERAGE_STATUS = 0 
+AND (tcs.CAR_STATUS is null OR tcs.CAR_STATUS = 2)
+AND tcs.POWER >= #{power}
+AND	tcs.LOCATION_PARK_NO = #{parkNo} ORDER BY tcs.POWER DESC 
+</select>
+
+<!-- 查询场站内的可用可用的、电量最高的车辆（集团会员） -->
+<select id="getCarByMemberAndParkNo2"  resultMap="CarAndStatus">
+select distinct(tc.CAR_NO),tc.CAR_PLATE_NO,tc.CAR_BRAND_ID,tc.CAR_BRAND_NAME,tc.CAR_MODEL_ID,tc.CAR_MODEL_NAME,tc.CAR_PHOTO_URL1,tc.SEATING,tcs.POWER,tcs.MILEAGE,tcs.RANGE_MILEAGE from t_car tc,t_car_status tcs 
+where tc.CAR_NO=tcs.CAR_NO 
+AND (tc.DEDICATED_COMPANY_ID = #{companyId}  or tc.DEDICATED_COMPANY_ID is null or tc.DEDICATED_COMPANY_ID ='') 
+AND	tc.ONLINE_STATUS= 1 
+<if test="seaTing!=null and  seaTing!=''">
+AND tc.SEATING = #{seaTing}
+</if>
+AND tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not null AND tc.DEVICE_ID !='' 
+AND	tcs.USERAGE_STATUS = 0 
+AND (tcs.CAR_STATUS is null OR tcs.CAR_STATUS = 2)
+AND tcs.POWER >= #{power}
+AND tcs.LOCATION_PARK_NO = #{parkNo} ORDER BY tcs.POWER DESC 
+</select>
+
+<!-- 查询场站内的车辆-->
+<select id="getCarByParkNoWorker"  resultMap="CarAndStatus">
+	select distinct(tc.CAR_NO),tc.CAR_PLATE_NO,tc.CAR_BRAND_ID,tc.CAR_BRAND_NAME,tc.CAR_MODEL_ID,tc.CAR_MODEL_NAME,tc.CAR_PHOTO_URL1,tcs.POWER,tcs.MILEAGE,tcs.RANGE_MILEAGE from t_car tc,t_car_status tcs 
+	where tc.CAR_NO=tcs.CAR_NO 
+	AND	tc.ONLINE_STATUS= 1 
+	AND tc.DEVICE_ID != '0' AND tc.DEVICE_ID is not null AND tc.DEVICE_ID !='' 
+	AND	tcs.USERAGE_STATUS = 0 
+	AND (tcs.CAR_STATUS is null OR tcs.CAR_STATUS = 2)
+	AND tcs.LOCATION_PARK_NO = #{0} ORDER BY tcs.POWER DESC 
+</select>
+
+</mapper>

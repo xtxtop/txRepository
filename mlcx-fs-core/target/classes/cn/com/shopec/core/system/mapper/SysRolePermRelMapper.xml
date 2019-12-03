@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysRolePermRelDao">
+
+<resultMap type="SysRolePermRel" id="SysRolePermRel">
+	<id column="ROLE_ID" property="roleId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="PERM_ID" property="permId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+<resultMap type="SysPermission" id="SysPermission">
+    <id column="PERM_ID" property="permId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="PERM_NAME" property="permName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="PERM_CODE" property="permCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="MODULE_NAME" property="moduleName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="PERM_TYPE" property="permType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="PERM_RESOURCE" property="permResource" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IS_MENU" property="isMenu" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IS_MENU_SHOW" property="isMenuShow" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="MENU_NAME" property="menuName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="LEVEL" property="level" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="PARENT_ID" property="parentId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="RANKING" property="ranking" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="ICON_NAME" property="iconName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    
+</resultMap>
+<insert id="add" parameterType="SysRolePermRel">
+	insert into T_SYS_ROLE_PERM_REL(
+		ROLE_ID,
+		PERM_ID,
+		CREATE_TIME
+	) values (
+		#{roleId,jdbcType = VARCHAR},
+		#{permId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="SysRolePermRel">
+	update t_sys_role_perm_rel 
+	<set>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND PERM_ID=#{permId}
+		AND ROLE_ID=#{roleId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_role_perm_rel 
+	<where>
+		PERM_ID=#{0}
+		AND ROLE_ID=#{1}
+	</where>
+</delete>
+
+<delete id="deleteByRoleId">
+    delete from t_sys_role_perm_rel 
+    <where>
+        ROLE_ID=#{0}
+    </where>
+</delete>
+
+<delete id="deleteByPermId">
+    delete from t_sys_role_perm_rel 
+    <where>
+        PERM_ID=#{0}
+    </where>
+</delete>
+
+<select id="get" resultMap="SysRolePermRel">
+	select * from t_sys_role_perm_rel
+	<where>
+		PERM_ID=#{0}
+		ROLE_ID=#{1}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_role_perm_rel 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysRolePermRel">
+	select * from t_sys_role_perm_rel 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysRolePermRel">
+	select * from  t_sys_role_perm_rel
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 查询对应角色下所有权限 -->
+<!-- <select id="getAllRolePermissions"  resultMap="SysPermission">
+    <![CDATA[
+        SELECT p.*
+        FROM t_sys_role_perm_rel r, t_sys_permission p  WHERE r.role_id = #{0} and 
+            p.perm_id = r.perm_id
+    ]]>
+</select> -->
+
+<select id="selectHandleByModel" resultMap="SysPermission">
+	SELECT p.*
+        FROM t_sys_role_perm_rel r, t_sys_permission p  WHERE p.perm_id = r.perm_id and 
+        r.role_id in <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">#{item}</foreach>
+        <if test="record != null">
+        	<if test="record.moduleName != null">
+        		and p.MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR}
+        	</if>
+        </if>
+        order by p.RANKING desc
+</select>
+
+<select id="getAllRolePermissions"  resultMap="SysPermission">
+     SELECT p.*
+        FROM t_sys_role_perm_rel r, t_sys_permission p  WHERE p.perm_id = r.perm_id and 
+        r.role_id in <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">#{item}</foreach>
+</select>
+
+<!-- 查询对应角色下所有菜单 -->
+<select id="getMenuList"  resultMap="SysPermission">
+        SELECT distinct p.*
+        FROM t_sys_role_perm_rel r, t_sys_permission p  WHERE 
+            p.perm_id = r.perm_id and p.is_menu = 1 and p.is_menu_show = 1 and
+            r.role_id in <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">#{item}</foreach>
+</select>
+
+<!-- 查询对应角色下所有URl -->
+<select id="getMenuList2"  resultMap="SysPermission">
+        SELECT distinct p.*
+        FROM t_sys_role_perm_rel r, t_sys_permission p  WHERE 
+            p.perm_id = r.perm_id and
+            r.role_id in <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">#{item}</foreach>
+</select>
+
+<sql id="listCommonWhere">
+		<if test="q.roleId!=null ">
+			AND ROLE_ID=#{q.roleId}
+		</if>
+		<if test="q.permId!=null ">
+			AND PERM_ID=#{q.permId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+</sql>
+
+</mapper>

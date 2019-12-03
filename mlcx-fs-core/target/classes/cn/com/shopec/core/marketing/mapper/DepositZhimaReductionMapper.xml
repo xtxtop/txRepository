@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.DepositZhimaReductionDao">
+
+<resultMap type="DepositZhimaReduction" id="DepositZhimaReduction">
+	<id column="ID" property="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ZHIMA_SCORE" property="zhimaScore" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="REDUCTION_AMOUNT" property="reductionAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+ID,ZHIMA_SCORE,REDUCTION_AMOUNT,IS_AVAILABLE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+ID,ZHIMA_SCORE,REDUCTION_AMOUNT,IS_AVAILABLE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<insert id="add" parameterType="DepositZhimaReduction" useGeneratedKeys="true" keyProperty="id">
+	insert into T_DEPOSIT_ZHIMA_REDUCTION(
+		<if test="id!=null">
+		ID,
+		</if>
+		ZHIMA_SCORE,
+		REDUCTION_AMOUNT,
+		IS_AVAILABLE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="id!=null">
+		#{id,jdbcType = VARCHAR},
+		</if>
+		#{zhimaScore,jdbcType = INTEGER},
+		#{reductionAmount,jdbcType = DOUBLE},
+		#{isAvailable,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="DepositZhimaReduction">
+	update t_deposit_zhima_reduction 
+	<set>
+		<if test="zhimaScore!=null ">
+			ZHIMA_SCORE=#{zhimaScore,jdbcType = INTEGER},
+		</if>
+		<if test="reductionAmount!=null ">
+			REDUCTION_AMOUNT=#{reductionAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND ID=#{id}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_deposit_zhima_reduction 
+	<where>
+		ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DepositZhimaReduction">
+	select <include refid="AllColumnlist"/> from t_deposit_zhima_reduction
+	<where>
+		ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DepositZhimaReduction">
+	select <include refid="AllColumnlist"/> from t_deposit_zhima_reduction
+	<where>
+		ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(ID) from t_deposit_zhima_reduction 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DepositZhimaReduction">
+	select <include refid="CommonColumnlist"/> from t_deposit_zhima_reduction 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DepositZhimaReduction">
+	select <include refid="CommonColumnlist"/> from t_deposit_zhima_reduction
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	ORDER BY IS_AVAILABLE DESC,ZHIMA_SCORE ASC,UPDATE_TIME
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.id!=null and q.id!=''">
+			AND ID=#{q.id}
+		</if>
+		<if test="q.zhimaScore!=null ">
+			AND ZHIMA_SCORE=#{q.zhimaScore}
+		</if>
+		<if test="q.reductionAmount!=null ">
+			AND REDUCTION_AMOUNT=#{q.reductionAmount}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+<!-- 得到已启用并且芝麻分小于等于入参最接近的那一条的数据 -->
+<select id="getClosestReductionByParameter" resultMap="DepositZhimaReduction">
+	select 
+		<include refid="AllColumnlist"/> 
+	from t_deposit_zhima_reduction 
+	<![CDATA[
+		where ZHIMA_SCORE <= #{0}
+		and IS_AVAILABLE = 1
+	]]>	
+	order by ZHIMA_SCORE desc 
+	limit 1
+</select>
+
+
+</mapper>

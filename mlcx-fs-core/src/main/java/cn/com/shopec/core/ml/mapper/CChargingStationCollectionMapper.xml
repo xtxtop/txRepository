@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CChargingStationCollectionDao">
+
+    <resultMap type="CChargingStationCollection" id="CChargingStationCollection">
+        <id column="COLLECTION_NO" property="collectionNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="COLLECTION_STATUS" property="collectionStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        <result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+        <result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!-- 全部字段，一般用于明细查询 -->
+    <sql id="AllColumnlist">
+COLLECTION_NO,MEMBER_NO,STATION_NO,COLLECTION_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+    <!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+    <sql id="CommonColumnlist">
+COLLECTION_NO,MEMBER_NO,STATION_NO,COLLECTION_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+    <insert id="add" parameterType="CChargingStationCollection" useGeneratedKeys="true" keyProperty="collectionNo">
+        insert into C_CHARGING_STATION_COLLECTION(
+        <if test="collectionNo!=null">
+            COLLECTION_NO,
+        </if>
+        MEMBER_NO,
+        STATION_NO,
+        COLLECTION_STATUS,
+        CREATE_TIME,
+        UPDATE_TIME,
+        OPERATOR_TYPE,
+        OPERATOR_ID
+        ) values (
+        <if test="collectionNo!=null">
+            #{collectionNo,jdbcType = VARCHAR},
+        </if>
+        #{memberNo,jdbcType = VARCHAR},
+        #{stationNo,jdbcType = VARCHAR},
+        #{collectionStatus,jdbcType = TINYINT},
+        #{createTime,jdbcType = TIMESTAMP},
+        #{updateTime,jdbcType = TIMESTAMP},
+        #{operatorType,jdbcType = TINYINT},
+        #{operatorId,jdbcType = VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="CChargingStationCollection">
+        update C_CHARGING_STATION_COLLECTION
+        <set>
+            <if test="memberNo!=null and memberNo!=''">
+                MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+            </if>
+            <if test="stationNo!=null and stationNo!=''">
+                STATION_NO=#{stationNo,jdbcType = VARCHAR},
+            </if>
+            <if test="collectionStatus!=null ">
+                COLLECTION_STATUS=#{collectionStatus,jdbcType = TINYINT},
+            </if>
+            <if test="createTime!=null ">
+                CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+            </if>
+            <if test="updateTime!=null ">
+                UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+            </if>
+            <if test="operatorType!=null ">
+                OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+            </if>
+            <if test="operatorId!=null and operatorId!=''">
+                OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+            </if>
+        </set>
+        <where>
+            AND COLLECTION_NO=#{collectionNo}
+        </where>
+    </update>
+
+    <delete id="delete">
+        delete from C_CHARGING_STATION_COLLECTION
+        <where>
+            COLLECTION_NO=#{0}
+        </where>
+    </delete>
+
+    <select id="get" resultMap="CChargingStationCollection">
+        select
+        <include refid="AllColumnlist"/>
+        from C_CHARGING_STATION_COLLECTION
+        <where>
+            COLLECTION_NO=#{0}
+        </where>
+    </select>
+
+    <select id="getByIds" resultMap="CChargingStationCollection">
+        select
+        <include refid="AllColumnlist"/>
+        from C_CHARGING_STATION_COLLECTION
+        <where>
+            COLLECTION_NO in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+        </where>
+    </select>
+
+    <select id="count" parameterType="Query" resultType="Long">
+        select count(COLLECTION_NO) from C_CHARGING_STATION_COLLECTION
+        <where>
+            <include refid="listCommonWhere"/>
+        </where>
+    </select>
+
+    <select id="queryAll" parameterType="Query" resultMap="CChargingStationCollection">
+        select
+        <include refid="CommonColumnlist"/>
+        from C_CHARGING_STATION_COLLECTION
+        <where>
+            <include refid="listCommonWhere"/>
+        </where>
+    </select>
+
+    <select id="pageList" parameterType="Query" resultMap="CChargingStationCollection">
+        select
+        <include refid="CommonColumnlist"/>
+        from C_CHARGING_STATION_COLLECTION
+        <where>
+            <include refid="listCommonWhere"/>
+        </where>
+        <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+    </select>
+
+
+    <sql id="listCommonWhere">
+        <if test="q!=null">
+            <if test="q.collectionNo!=null and q.collectionNo!=''">
+                AND COLLECTION_NO=#{q.collectionNo}
+            </if>
+            <if test="q.memberNo!=null and q.memberNo!=''">
+                AND MEMBER_NO=#{q.memberNo}
+            </if>
+            <if test="q.stationNo!=null and q.stationNo!=''">
+                AND STATION_NO=#{q.stationNo}
+            </if>
+            <if test="q.collectionStatus!=null ">
+                AND COLLECTION_STATUS=#{q.collectionStatus}
+            </if>
+            <if test="q.createTime!=null ">
+                AND CREATE_TIME=#{q.createTime}
+            </if>
+            <if test="q.createTimeStart!=null">
+                <![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+            </if>
+            <if test="q.createTimeEnd!=null">
+                <![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+            </if>
+            <if test="q.updateTime!=null ">
+                AND UPDATE_TIME=#{q.updateTime}
+            </if>
+            <if test="q.updateTimeStart!=null">
+                <![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+            </if>
+            <if test="q.updateTimeEnd!=null">
+                <![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+            </if>
+            <if test="q.operatorType!=null ">
+                AND OPERATOR_TYPE=#{q.operatorType}
+            </if>
+            <if test="q.operatorId!=null and q.operatorId!=''">
+                AND OPERATOR_ID=#{q.operatorId}
+            </if>
+        </if>
+    </sql>
+
+
+    <select id="getCollectionInfo" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingCollectionVo">
+       select a.COLLECTION_NO collectionNo, s.STATION_NAME stationName, m.MEMBER_NAME memberName,
+        a.COLLECTION_STATUS collectionStatus, a.UPDATE_TIME updateTime
+        from c_charging_station_collection a left join t_member m on a.MEMBER_NO = m.MEMBER_NO
+        left join charging_station s on a.STATION_NO = s.STATION_NO
+        <where>
+            <if test="q!=null">
+                <if test="q.stationName != null and q.stationName != ''">
+                    and s.STATION_NAME like '%' #{q.stationName} '%'
+                </if>
+                <if test="q.memberName!=null and q.memberName!=''">
+                    and m.MEMBER_NAME like '%' #{q.memberName} '%'
+                </if>
+                <if test="q.collectionStatus!=null">
+                    and a.COLLECTION_STATUS=#{q.collectionStatus}
+                </if>
+            </if>
+        </where>
+        order by a.UPDATE_TIME desc
+        <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+    </select>
+
+    <select id="getCollectionSum" parameterType="Query" resultType="java.lang.Integer">
+        select count(1)
+        from c_charging_station_collection a left join t_member m on a.MEMBER_NO = m.MEMBER_NO
+        left join charging_station s on a.STATION_NO = s.STATION_NO
+        <where>
+              <if test="q!=null">
+                <if test="q.stationName != null and q.stationName != ''">
+                    and s.STATION_NAME like '%' #{q.stationName} '%'
+                </if>
+                <if test="q.memberName!=null and q.memberName!=''">
+                    and m.MEMBER_NAME like '%' #{q.memberName} '%'
+                </if>
+                <if test="q.collectionStatus!=null">
+                    and a.COLLECTION_STATUS=#{q.collectionStatus}
+                </if>
+            </if>
+        </where>
+        order by a.UPDATE_TIME desc
+    </select>
+
+    <select id="getAllCollection" parameterType="Query" resultType="cn.com.shopec.core.ml.vo.ChargingCollectionVo">
+		select a.COLLECTION_NO collectionNo, s.STATION_NAME stationName, m.MEMBER_NAME memberName,
+		a.COLLECTION_STATUS collectionStatus, a.UPDATE_TIME updateTime
+		from c_charging_station_collection a left join t_member m on a.MEMBER_NO = m.MEMBER_NO
+											 left join charging_station s on a.STATION_NO = s.STATION_NO
+	order by a.UPDATE_TIME desc
+	</select>
+
+    <select id="isExist" resultType="java.lang.Integer" parameterType="CChargingStationCollection">
+		select count(1) from c_charging_station_collection where MEMBER_NO = #{memberNo, jdbcType=VARCHAR} and STATION_NO = #{stationNo, jdbcType=VARCHAR}
+	</select>
+
+    <insert id="addStationCollection" parameterType="CChargingStationCollection">
+		insert into c_charging_station_collection (MEMBER_NO, STATION_NO, COLLECTION_STATUS, CREATE_TIME, UPDATE_TIME, OPERATOR_TYPE, OPERATOR_ID)
+		values (#{memberNo}, #{stationNo}, #{collectionStatus}, #{createTime}, #{updateTime}, #{operatorType}, #{operatorId})
+	</insert>
+
+
+
+</mapper>

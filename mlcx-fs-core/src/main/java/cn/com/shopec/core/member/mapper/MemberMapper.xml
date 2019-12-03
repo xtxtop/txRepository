@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.member.dao.MemberDao">
+
+<resultMap type="Member" id="Member">
+	<id column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_PHOTO_URL" property="memberPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NICK" property="memberNick" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PASSWORD" property="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SEX" property="sex" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ID_CARD" property="idCard" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="EXPIRATION_DATE" property="expirationDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MEMBER_TYPE" property="memberType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_CREDIT_LEVEL" property="memberCreditLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMBER_POINTS_VALUE" property="memberPointsValues" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_JOINED" property="isJoined" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REGISTER_TIME" property="registerTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_BLACKLIST" property="isBlacklist" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BLACKLIST_MEMO" property="blacklistMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_LICENSE_PHOTO_URL1" property="driverLicensePhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_LICENSE_PHOTO_URL2" property="driverLicensePhotoUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ID_CARD_PHOTO_URL" property="idCardPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_LEVEL_ID" property="memberLevelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVITATION_CODE" property="invitationCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFEREE_ID" property="refereeId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_DISTRIBUTOR" property="isDistributor" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TOKEN" property="token" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOKEN_GENERATE_TIME" property="tokenGenerateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="pack_order_amount" property="packOrderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LICENSE_ID" property="licenseId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAPER_NAME" property="paperName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAPER_URL" property="paperUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CLIENT_ID" property="clientId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REAL_AMOUNT" property="realAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAYABLE_DEPOSIT_AMOUNT" property="payableDepositAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_FINISH_TIME" property="orderFinishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+<resultMap type="Member" id="Member1">
+	<id column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_PHOTO_URL" property="memberPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NICK" property="memberNick" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PASSWORD" property="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SEX" property="sex" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ID_CARD" property="idCard" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="EXPIRATION_DATE" property="expirationDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MEMBER_TYPE" property="memberType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_CREDIT_LEVEL" property="memberCreditLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMBER_POINTS_VALUE" property="memberPointsValues" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="IS_JOINED" property="isJoined" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="REGISTER_TIME" property="registerTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="IS_BLACKLIST" property="isBlacklist" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BLACKLIST_MEMO" property="blacklistMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_LICENSE_PHOTO_URL1" property="driverLicensePhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DRIVER_LICENSE_PHOTO_URL2" property="driverLicensePhotoUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ID_CARD_PHOTO_URL" property="idCardPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_NAME" property="companyName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_LEVEL_ID" property="memberLevelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="LEVEL_NAME" property="levelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVITATION_CODE" property="invitationCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFEREE_ID" property="refereeId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_DISTRIBUTOR" property="isDistributor" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TOKEN" property="token" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOKEN_GENERATE_TIME" property="tokenGenerateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="LICENSE_ID" property="licenseId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAPER_NAME" property="paperName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAPER_URL" property="paperUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CLIENT_ID" property="clientId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_FINISH_TIME" property="orderFinishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+MEMBER_NO,MEMBER_PHOTO_URL,MEMBER_NAME,MEMBER_NICK,MOBILE_PHONE,PASSWORD,SEX,ID_CARD_PHOTO_URL,
+ID_CARD,EXPIRATION_DATE,MEMBER_TYPE,COMPANY_ID,MEMBER_CREDIT_LEVEL,MEMBER_LEVEL_ID,MEMBER_POINTS_VALUE,
+REGISTER_TIME,IS_JOINED,IS_BLACKLIST,BLACKLIST_MEMO,DRIVER_LICENSE_PHOTO_URL1,DRIVER_LICENSE_PHOTO_URL2,
+CENSOR_STATUS,CENCOR_TIME,CENCOR_ID,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,CLIENT_ID,
+OPERATOR_TYPE,OPERATOR_ID,INVITATION_CODE,REFEREE_ID,IS_DISTRIBUTOR,TOKEN,TOKEN_GENERATE_TIME,LICENSE_ID,PAPER_NAME,PAPER_URL,REAL_AMOUNT,PAYABLE_DEPOSIT_AMOUNT,ORDER_FINISH_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+MEMBER_NO,MEMBER_PHOTO_URL,MEMBER_NAME,MEMBER_NICK,MOBILE_PHONE,PASSWORD,SEX,ID_CARD_PHOTO_URL,
+ID_CARD,EXPIRATION_DATE,MEMBER_TYPE,COMPANY_ID,MEMBER_CREDIT_LEVEL,MEMBER_LEVEL_ID,MEMBER_POINTS_VALUE,
+REGISTER_TIME,IS_JOINED,IS_BLACKLIST,BLACKLIST_MEMO,DRIVER_LICENSE_PHOTO_URL1,DRIVER_LICENSE_PHOTO_URL2,
+CENSOR_STATUS,CENCOR_TIME,CENCOR_ID,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,
+OPERATOR_TYPE,OPERATOR_ID,INVITATION_CODE,REFEREE_ID,IS_DISTRIBUTOR,TOKEN,TOKEN_GENERATE_TIME,LICENSE_ID,PAPER_NAME,PAPER_URL,REAL_AMOUNT,PAYABLE_DEPOSIT_AMOUNT,ORDER_FINISH_TIME
+</sql>
+
+<!-- 会员常用基础信息字段 -->
+<sql id="BaseInfoColumnList">
+<!-- MEMBER_NO,MEMBER_PHOTO_URL,MEMBER_NAME,MEMBER_NICK,MOBILE_PHONE,SEX,
+MEMBER_TYPE,MEMBER_LEVEL_ID,IS_BLACKLIST -->
+<!-- 暂时不确定基础信息的列是否以上几个，先用全部的列吧 -->
+MEMBER_NO,MEMBER_PHOTO_URL,MEMBER_NAME,MEMBER_NICK,MOBILE_PHONE,PASSWORD,SEX,ID_CARD_PHOTO_URL,
+ID_CARD,EXPIRATION_DATE,MEMBER_TYPE,COMPANY_ID,MEMBER_CREDIT_LEVEL,MEMBER_LEVEL_ID,MEMBER_POINTS_VALUE,
+REGISTER_TIME,IS_JOINED,IS_BLACKLIST,BLACKLIST_MEMO,DRIVER_LICENSE_PHOTO_URL1,DRIVER_LICENSE_PHOTO_URL2,
+CENSOR_STATUS,CENCOR_TIME,CENCOR_ID,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,CLIENT_ID,
+OPERATOR_TYPE,OPERATOR_ID,INVITATION_CODE,REFEREE_ID,IS_DISTRIBUTOR,TOKEN,TOKEN_GENERATE_TIME,LICENSE_ID,PAPER_NAME,PAPER_URL,REAL_AMOUNT,PAYABLE_DEPOSIT_AMOUNT,ORDER_FINISH_TIME
+</sql>
+
+<insert id="add" parameterType="Member" useGeneratedKeys="true" keyProperty="memberNo">
+	insert into T_MEMBER(
+		<if test="memberNo!=null">
+		MEMBER_NO,
+		</if>
+		MEMBER_PHOTO_URL,
+		MEMBER_NAME,
+		MEMBER_NICK,
+		MOBILE_PHONE,
+		PASSWORD,
+		SEX,
+		ID_CARD,
+		EXPIRATION_DATE,
+		MEMBER_TYPE,
+		COMPANY_ID,
+		MEMBER_CREDIT_LEVEL,
+		MEMBER_LEVEL_ID,
+		MEMBER_POINTS_VALUE,
+		REGISTER_TIME,
+		IS_JOINED,
+		IS_BLACKLIST,
+		BLACKLIST_MEMO,
+		DRIVER_LICENSE_PHOTO_URL1,
+		DRIVER_LICENSE_PHOTO_URL2,
+		ID_CARD_PHOTO_URL,
+		CENSOR_STATUS,
+		CENCOR_TIME,
+		CENCOR_ID,
+		CENCOR_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		INVITATION_CODE,
+		REFEREE_ID,
+		IS_DISTRIBUTOR,
+		TOKEN,
+		TOKEN_GENERATE_TIME,
+		LICENSE_ID,
+		PAPER_NAME,
+		PAPER_URL,
+		CLIENT_ID,
+		ORDER_FINISH_TIME
+	) values (
+		<if test="memberNo!=null">
+		#{memberNo,jdbcType = VARCHAR},
+		</if>
+		#{memberPhotoUrl,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{memberNick,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{password,jdbcType = VARCHAR},
+		#{sex,jdbcType = TINYINT},
+		#{idCard,jdbcType = VARCHAR},
+		#{expirationDate,jdbcType = TIMESTAMP},
+		#{memberType,jdbcType = TINYINT},
+		#{companyId,jdbcType = VARCHAR},
+		#{memberCreditLevel,jdbcType = TINYINT},
+		#{memberLevelId,jdbcType = VARCHAR},
+		#{memberPointsValues,jdbcType = INTEGER},
+		#{registerTime,jdbcType = TIMESTAMP},
+		#{isJoined,jdbcType = TINYINT},
+		#{isBlacklist,jdbcType = TINYINT},
+		#{blacklistMemo,jdbcType = VARCHAR},
+		#{driverLicensePhotoUrl1,jdbcType = VARCHAR},
+		#{driverLicensePhotoUrl2,jdbcType = VARCHAR},
+		#{idCardPhotoUrl,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorId,jdbcType = VARCHAR},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{invitationCode,jdbcType = VARCHAR},
+		#{refereeId,jdbcType = VARCHAR},
+		#{isDistributor,jdbcType = VARCHAR},
+		#{token,jdbcType = VARCHAR},
+		#{tokenGenerateTime,jdbcType = TIMESTAMP},
+		#{licenseId,jdbcType = VARCHAR},
+		#{paperName,jdbcType = VARCHAR},
+		#{paperUrl,jdbcType = VARCHAR},
+		#{clientId,jdbcType = VARCHAR},
+		#{orderFinishTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="Member">
+	update t_member 
+	<set>
+		<if test="memberPhotoUrl!=null and memberPhotoUrl!=''">
+			MEMBER_PHOTO_URL=#{memberPhotoUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNick!=null and memberNick!=''">
+			MEMBER_NICK=#{memberNick,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="password!=null and password!=''">
+			PASSWORD=#{password,jdbcType = VARCHAR},
+		</if>
+		<if test="sex!=null ">
+			SEX=#{sex,jdbcType = TINYINT},
+		</if>
+		<if test="idCard!=null and idCard!=''">
+			ID_CARD=#{idCard,jdbcType = VARCHAR},
+		</if>
+		<if test="expirationDate!=null ">
+			EXPIRATION_DATE=#{expirationDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="memberType!=null ">
+			MEMBER_TYPE=#{memberType,jdbcType = TINYINT},
+		</if>
+		<if test="companyId!=null ">
+			COMPANY_ID=#{companyId,jdbcType = VARCHAR},
+		</if>
+		<if test="memberCreditLevel!=null ">
+			MEMBER_CREDIT_LEVEL=#{memberCreditLevel,jdbcType = TINYINT},
+		</if>
+		<if test="memberLevelId!=null and memberLevelId!=''">
+			MEMBER_LEVEL_ID=#{memberLevelId,jdbcType = VARCHAR},
+		</if>
+		<if test="memberPointsValues!=null and memberPointsValues!=''">
+			MEMBER_POINTS_VALUE=#{memberPointsValues,jdbcType = INTEGER},
+		</if>
+		<if test="registerTime!=null ">
+			REGISTER_TIME=#{registerTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="isJoined!=null ">
+			IS_JOINED=#{isJoined,jdbcType = TINYINT},
+		</if>
+		<if test="isBlacklist!=null ">
+			IS_BLACKLIST=#{isBlacklist,jdbcType = TINYINT},
+		</if>
+		<if test="blacklistMemo!=null and blacklistMemo!=''">
+			BLACKLIST_MEMO=#{blacklistMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="driverLicensePhotoUrl1!=null and driverLicensePhotoUrl1!=''">
+			DRIVER_LICENSE_PHOTO_URL1=#{driverLicensePhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="driverLicensePhotoUrl2!=null and driverLicensePhotoUrl2!=''">
+			DRIVER_LICENSE_PHOTO_URL2=#{driverLicensePhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="idCardPhotoUrl!=null and idCardPhotoUrl!=''">
+			ID_CARD_PHOTO_URL=#{idCardPhotoUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="invitationCode!=null and invitationCode!=''">
+			INVITATION_CODE=#{invitationCode,jdbcType = VARCHAR},
+		</if>
+		<if test="refereeId!=null and refereeId!=''">
+			REFEREE_ID=#{refereeId,jdbcType = VARCHAR},
+		</if>
+		<if test="isDistributor!=null and isDistributor!=''">
+			IS_DISTRIBUTOR=#{isDistributor,jdbcType = VARCHAR},
+		</if>
+		<if test="token!=null and token!=''">
+			TOKEN=#{token,jdbcType = VARCHAR},
+		</if>
+		<if test="tokenGenerateTime!=null">
+			TOKEN_GENERATE_TIME=#{tokenGenerateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="licenseId!=null and licenseId!=''">
+			LICENSE_ID=#{licenseId,jdbcType = VARCHAR},
+		</if>
+		<if test="paperName!=null and paperName!=''">
+			PAPER_NAME=#{paperName,jdbcType = VARCHAR},
+		</if>
+		<if test="paperUrl!=null and paperUrl!=''">
+			PAPER_URL=#{paperUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="clientId!=null and clientId!=''">
+			CLIENT_ID=#{clientId,jdbcType = VARCHAR},
+		</if>
+		<if test="realAmount!=null ">
+			REAL_AMOUNT=#{realAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payableDepositAmount!=null ">
+			<if test="payableDepositAmount==0.0 ">
+				PAYABLE_DEPOSIT_AMOUNT = NULL,
+			</if>
+			<if test="payableDepositAmount!=0.0 ">
+				PAYABLE_DEPOSIT_AMOUNT=#{payableDepositAmount,jdbcType = DOUBLE},
+			</if>
+		</if>
+		<if test="orderFinishTime!=null">
+			ORDER_FINISH_TIME=#{orderFinishTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND MEMBER_NO=#{memberNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_member 
+	<where>
+		MEMBER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Member">
+	select <include refid="AllColumnlist"/> from t_member
+	<where>
+		MEMBER_NO=#{0}
+	</where>
+</select>
+<select id="getIdCardMember" resultMap="Member">
+	select <include refid="AllColumnlist"/> from t_member
+	<where>
+		ID_CARD=#{0}
+	</where>
+</select>
+<select id="getMemberListCenStatus" resultMap="Member">
+	select <include refid="AllColumnlist"/> from t_member
+	<where>
+		CENSOR_STATUS=0 or  CENSOR_STATUS=2 order by update_time desc, create_time desc
+	</where>
+</select>
+
+<select id="getByPhone" resultType="String" resultMap="Member">
+	select <include refid="AllColumnlist"/> from t_member
+	<where>
+		MOBILE_PHONE=#{phone}
+	</where>
+</select>
+
+<!-- 根据会员表主键，取会员基本信息 -->
+<select id="getMemberBasicInfo" resultMap="Member">
+	select <include refid="BaseInfoColumnList"/> from t_member
+	<where>
+		MEMBER_NO=#{0}
+	</where>
+</select>
+
+<!-- //根据 邀请码  查出 推荐人 -->
+<select id="getInvitationCode" resultMap="Member">
+	select <include refid="BaseInfoColumnList"/> from t_member
+	<where>
+		INVITATION_CODE=#{0}
+	</where>
+</select>
+
+<!-- //根据推荐人id  查出推荐人的用户名 真实姓名 手机号码  电话号码 -->
+<select id="getInvitationNamePhone" resultMap="Member" >
+	SELECT MEMBER_NO,MEMBER_NAME,MOBILE_PHONE FROM  t_member
+	<where>
+		MEMBER_NO=#{0}
+	</where>
+</select>
+<select id="getMemberAccountAmount" resultMap="Member" parameterType="Query">
+	SELECT * FROM (
+		SELECT
+			m.member_no,
+			m.member_name,
+			m.mobile_phone,
+			m.MEMBER_POINTS_VALUE,
+			IFNULL(
+			(SELECT SUM(p.PACK_ORDER_AMOUNT - p.USERD_ORDER_AMOUNT) FROM t_pricing_pack_order p WHERE p.member_no=m.MEMBER_NO AND 
+			p.IS_AVAILABLE=1 AND p.PAY_STATUS=1 AND <![CDATA[ p.vailable_time1<=NOW() AND p.vailable_time2>=NOW()]]>),0) AS pack_order_amount,
+			IFNULL(
+			(select SUM(do1.REMAIN_AMOUNT-do1.FROZEN_AMOUNT) from t_deposit_order do1
+			where do1.MEMBER_NO=m.MEMBER_NO and do1.IS_AVAILABLE=1 and do1.PAY_STATUS=1 <![CDATA[ AND do1.REMAIN_AMOUNT > 0.0 ]]>),0) as residueDeposit
+		FROM t_member m 
+		<where>
+			<include refid="listCommonWhereForMemberAccountAmount"/>
+		</where>
+	) AS m2
+	<if test="q!=null">
+		Order BY 
+		<choose>
+		    <when test="q.amountOrderBy!=null and q.amountOrderBy=='asc'">
+		       m2.pack_order_amount asc
+		    </when>
+		    <otherwise>
+		        m2.pack_order_amount desc
+		    </otherwise>
+		</choose>
+	</if>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]> 
+	
+</select>
+
+<select id="countMemberAccountAmount" resultType="Integer" parameterType="Query">
+	SELECT
+	count(m.member_no)
+	FROM
+		t_member m
+	<where>
+		<include refid="listCommonWhereForMemberAccountAmount"/>
+	</where>
+</select>
+<!-- 查询不是集团会员，确在集团人员里面的会员信息 -->
+<select id="getMemberCompany" parameterType="Query"  resultType="cn.com.shopec.core.member.model.MemberCompanyPerson">
+	SELECT t.MEMBER_NO as memberNo,t1.COMPANY_ID as companyId,t1.MOBILE_PHONE as mobilePhone  from t_member t , t_company_person t1 
+ 	<where> 
+ 		t.MOBILE_PHONE = t1.MOBILE_PHONE 
+ 		and t.MEMBER_TYPE = '1' 
+ 		and t1.IS_DELETED = '0'
+ 	</where>
+</select>
+   
+<select id="getByIds" resultMap="Member">
+	select <include refid="AllColumnlist"/> from t_member
+	<where>
+		MEMBER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(MEMBER_NO) from t_member 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Member">
+	select <include refid="CommonColumnlist"/> from t_member 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by update_time desc, create_time desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Member">
+	select <include refid="CommonColumnlist"/> from t_member
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by update_time desc,create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="getMemberBalancePagedList" parameterType="Query" resultMap="Member">
+	select m.*, 
+	ml.level_name levelName,
+	IFNULL(
+		(SELECT SUM(p.PACK_ORDER_AMOUNT - p.USERD_ORDER_AMOUNT) FROM t_pricing_pack_order p WHERE p.member_no=m.MEMBER_NO AND 
+		p.IS_AVAILABLE=1 AND p.PAY_STATUS=1 AND <![CDATA[ p.vailable_time1<=NOW() AND p.vailable_time2>=NOW()]]>),0
+	) AS pack_order_amount,
+	IFNULL((select sum(tdo.REMAIN_AMOUNT-tdo.FROZEN_AMOUNT) from t_deposit_order tdo where m.MEMBER_NO=tdo.MEMBER_NO), 0) as deposit
+	FROM t_member m 
+	LEFT JOIN t_member_level ml on m.MEMBER_LEVEL_ID = ml.MEMBER_LEVEL_ID
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by m.update_time desc,m.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 后台会员列表 -->
+<select id="getMemberPagedList" parameterType="Query" resultMap="Member1">
+	select tm.*,
+	tml.MEMBER_LEVEL_ID,
+	tml.LEVEL_NAME,
+	tc.COMPANY_NAME,
+	ifnull((select sum(tdo.REMAIN_AMOUNT-tdo.FROZEN_AMOUNT) from t_deposit_order tdo where tm.MEMBER_NO=tdo.MEMBER_NO), 0) as deposit
+	from t_member tm 
+	LEFT JOIN t_member_level tml ON tm.MEMBER_LEVEL_ID=tml.MEMBER_LEVEL_ID 
+	LEFT JOIN t_company tc ON tm.COMPANY_ID=tc.COMPANY_ID
+	<where>
+	 <include refid="listCommonWhereS"/>
+	</where>
+	order by tm.update_time desc,tm.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 后台会员总数 -->
+<select id="getMemberPagedListCount" parameterType="Query" resultType="Long">
+	select count(tm.MEMBER_NO) from t_member tm LEFT JOIN t_member_level tml ON tm.MEMBER_LEVEL_ID=tml.MEMBER_LEVEL_ID LEFT JOIN t_company tc ON tm.COMPANY_ID=tc.COMPANY_ID
+	<where>
+	<include refid="listCommonWhereS"/>
+	</where>
+</select>
+<sql id="listCommonWhereS">
+	<if test="q!=null">
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND tm.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberPhotoUrl!=null and q.memberPhotoUrl!=''">
+			AND tm.MEMBER_PHOTO_URL=#{q.memberPhotoUrl}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND tm.MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.memberNick!=null and q.memberNick!=''">
+			AND tm.MEMBER_NICK=#{q.memberNick}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND tm.MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.password!=null and q.password!=''">
+			AND tm.PASSWORD=#{q.password}
+		</if>
+		<if test="q.sex!=null ">
+			AND tm.SEX=#{q.sex}
+		</if>
+		<if test="q.idCard!=null and q.idCard!=''">
+			AND tm.ID_CARD like '%${q.idCard}%'
+		</if>
+		<if test="q.expirationDate!=null ">
+			AND tm.EXPIRATION_DATE=#{q.expirationDate}
+		</if>
+		<if test="q.expirationDateStart!=null">
+		<![CDATA[	AND tm.EXPIRATION_DATE>=#{q.expirationDateStart}  ]]>
+		</if>
+		<if test="q.expirationDateEnd!=null">
+		<![CDATA[	AND tm.EXPIRATION_DATE<#{q.expirationDateEnd}   ]]>
+		</if>
+		<if test="q.memberType!=null ">
+			AND tm.MEMBER_TYPE=#{q.memberType}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND tm.COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.memberCreditLevel!=null ">
+			AND tm.MEMBER_CREDIT_LEVEL=#{q.memberCreditLevel}
+		</if>
+		<if test="q.memberLevelId!=null and q.memberLevelId!=''">
+			AND tm.MEMBER_LEVEL_ID=#{q.memberLevelId}
+		</if>
+		<if test="q.memberPointsValues!=null and q.memberPointsValues!=''">
+			AND tm.MEMBER_POINTS_VALUE=#{q.memberPointsValues}
+		</if>
+		<if test="q.registerTime!=null ">
+			AND tm.REGISTER_TIME=#{q.registerTime}
+		</if>
+		<if test="q.registerTimeStart!=null">
+		<![CDATA[	AND tm.REGISTER_TIME>=#{q.registerTimeStart}  ]]>
+		</if>
+		<if test="q.registerTimeEnd!=null">
+		<![CDATA[	AND tm.REGISTER_TIME<#{q.registerTimeEnd}   ]]>
+		</if>
+		<if test="q.isJoined!=null ">
+			AND tm.IS_JOINED=#{q.isJoined}
+		</if>
+		<if test="q.isBlacklist!=null ">
+			AND tm.IS_BLACKLIST=#{q.isBlacklist}
+		</if>
+		<if test="q.blacklistMemo!=null and q.blacklistMemo!=''">
+			AND tm.BLACKLIST_MEMO=#{q.blacklistMemo}
+		</if>
+		<if test="q.driverLicensePhotoUrl1!=null and q.driverLicensePhotoUrl1!=''">
+			AND tm.DRIVER_LICENSE_PHOTO_URL1=#{q.driverLicensePhotoUrl1}
+		</if>
+		<if test="q.driverLicensePhotoUrl2!=null and q.driverLicensePhotoUrl2!=''">
+			AND tm.DRIVER_LICENSE_PHOTO_URL2=#{q.driverLicensePhotoUrl2}
+		</if>
+		<if test="q.idCardPhotoUrl!=null and q.idCardPhotoUrl!=''">
+			AND tm.ID_CARD_PHOTO_URL=#{q.idCardPhotoUrl}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND tm.CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND tm.CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND tm.CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND tm.CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND tm.CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND tm.CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND tm.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tm.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tm.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND tm.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND tm.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND tm.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND tm.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND tm.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.companyName!=null and q.companyName!=''">
+			AND tm.MEMBER_TYPE=2
+			AND tc.COMPANY_NAME like '%${q.companyName}%'
+		</if>
+		<if test="q.invitationCode!=null and q.invitationCode!=''">
+			AND tm.INVITATION_CODE like '%${q.invitationCode}%'
+		</if>
+		<if test="q.refereeId!=null and q.refereeId!=''">
+			AND tm.REFEREE_ID=#{q.refereeId}
+		</if>
+		<if test="q.isDistributor!=null and q.isDistributor!=''">
+			AND tm.IS_DISTRIBUTOR=#{q.isDistributor}
+		</if>
+		<if test="q.deposit!=null and q.isDistributor!=''">
+			<if test="q.deposit==0">
+				AND tm.MEMBER_NO in(select MEMBER_NO from t_deposit_order where REMAIN_AMOUNT-FROZEN_AMOUNT>0)
+			</if>
+			<if test="q.deposit==1">
+				AND tm.MEMBER_NO not in(select MEMBER_NO from t_deposit_order where REMAIN_AMOUNT-FROZEN_AMOUNT>0)
+			</if>
+		</if>
+		<if test="q.keyword!=null and q.keyword!=''">
+			AND (tm.MEMBER_NAME=#{q.keyword} OR tm.MOBILE_PHONE=#{q.keyword})
+		</if>
+		<if test="q.orderFinishTime!=null ">
+			AND tm.ORDER_FINISH_TIME=#{q.orderFinishTime}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhereForMemberAccountAmount">
+	<if test="q!=null">
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND m.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND m.MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberPhotoUrl!=null and q.memberPhotoUrl!=''">
+			AND MEMBER_PHOTO_URL=#{q.memberPhotoUrl}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.memberNick!=null and q.memberNick!=''">
+			AND MEMBER_NICK=#{q.memberNick}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.password!=null and q.password!=''">
+			AND PASSWORD=#{q.password}
+		</if>
+		<if test="q.sex!=null ">
+			AND SEX=#{q.sex}
+		</if>
+		<if test="q.idCard!=null and q.idCard!=''">
+			AND ID_CARD like '%${q.idCard}%'
+		</if>
+		<if test="q.expirationDate!=null ">
+			AND EXPIRATION_DATE=#{q.expirationDate}
+		</if>
+		<if test="q.expirationDateStart!=null">
+		<![CDATA[	AND EXPIRATION_DATE>=#{q.expirationDateStart}  ]]>
+		</if>
+		<if test="q.expirationDateEnd!=null">
+		<![CDATA[	AND EXPIRATION_DATE<#{q.expirationDateEnd}   ]]>
+		</if>
+		<if test="q.memberType!=null ">
+			AND MEMBER_TYPE=#{q.memberType}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.memberCreditLevel!=null ">
+			AND MEMBER_CREDIT_LEVEL=#{q.memberCreditLevel}
+		</if>
+		<if test="q.memberLevelId!=null and q.memberLevelId!=''">
+			AND MEMBER_LEVEL_ID=#{q.memberLevelId}
+		</if>
+		<if test="q.memberPointsValues!=null and q.memberPointsValues!=''">
+			AND MEMBER_POINTS_VALUE=#{q.memberPointsValues}
+		</if>
+		<if test="q.registerTime!=null ">
+			AND REGISTER_TIME=#{q.registerTime}
+		</if>
+		<if test="q.registerTimeStart!=null">
+		<![CDATA[	AND REGISTER_TIME>=#{q.registerTimeStart}  ]]>
+		</if>
+		<if test="q.registerTimeEnd!=null">
+		<![CDATA[	AND REGISTER_TIME<#{q.registerTimeEnd}   ]]>
+		</if>
+		<if test="q.isJoined!=null ">
+			AND IS_JOINED=#{q.isJoined}
+		</if>
+		<if test="q.isBlacklist!=null ">
+			AND IS_BLACKLIST=#{q.isBlacklist}
+		</if>
+		<if test="q.blacklistMemo!=null and q.blacklistMemo!=''">
+			AND BLACKLIST_MEMO=#{q.blacklistMemo}
+		</if>
+		<if test="q.driverLicensePhotoUrl1!=null and q.driverLicensePhotoUrl1!=''">
+			AND DRIVER_LICENSE_PHOTO_URL1=#{q.driverLicensePhotoUrl1}
+		</if>
+		<if test="q.driverLicensePhotoUrl2!=null and q.driverLicensePhotoUrl2!=''">
+			AND DRIVER_LICENSE_PHOTO_URL2=#{q.driverLicensePhotoUrl2}
+		</if>
+		<if test="q.idCardPhotoUrl!=null and q.idCardPhotoUrl!=''">
+			AND ID_CARD_PHOTO_URL=#{q.idCardPhotoUrl}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.invitationCode!=null and q.invitationCode!=''">
+			AND INVITATION_CODE like '%${q.invitationCode}%'
+		</if>
+		<if test="q.refereeId!=null and q.refereeId!=''">
+			AND REFEREE_ID=#{q.refereeId}
+		</if>
+		<if test="q.isDistributor!=null and q.isDistributor!=''">
+			AND IS_DISTRIBUTOR=#{q.isDistributor}
+		</if>
+		<if test="q.token!=null and q.token!=''">
+			AND TOKEN=#{q.token}
+		</if>
+		<if test="q.tokenGenerateTime!=null">
+			AND TOKEN_GENERATE_TIME=#{q.tokenGenerateTime}
+		</if>
+		
+		<if test="q.paperName!=null and q.paperName!=''">
+			AND PAPER_NAME=#{q.paperName}
+		</if>
+		<if test="q.paperUrl!=null and q.paperUrl!=''">
+			AND PAPER_URL=#{q.paperUrl}
+		</if>
+		<if test="q.orderFinishTime!=null ">
+			AND ORDER_FINISH_TIME=#{q.orderFinishTime}
+		</if>
+	</if>
+</sql>
+
+<!-- 查询申请退款会员信息 -->
+<select id="payRefund" resultType="cn.com.shopec.core.member.model.MemberDepositOrder">
+	SELECT t1.MEMBER_NO as memberNo,t1.MEMBER_NAME as memberName,t1.MOBILE_PHONE as mobilePhone,
+  		t2.DEPOSIT_AMOUNT as depositAmount, t3.PAY_FLOW_NO as paymentFlowNo,
+  		t3.PAYMEMT_ID as paymemtId,t3.BIZ_OBJ_NO as bizObjNo 
+ 	from t_member t1,t_deposit_order t2,t_payment_record t3 
+ 		where t1.MEMBER_NO = t2.MEMBER_NO 
+			and t2.DEPOSIT_ORDER_NO = t3.BIZ_OBJ_NO
+ 			and t2.IS_AVAILABLE = '1' 
+ 			and t1.MEMBER_NO = #{0}
+ 		GROUP BY t1.MEMBER_NO
+</select>
+<!-- 获取截止前一天会员的总注册数 -->
+<select id="getMemberNum" resultType="Long">
+	select count(*) from t_member where 1=1
+	<![CDATA[	and register_time <= #{0}]]>
+	and mobile_phone not in (select mobile_phone from t_insider_member)
+</select>
+
+<select id="getMemberFeeNum" resultType="Long">
+	select count(*) cnt from t_member m where 1=1
+	<![CDATA[ and register_time <= #{0}]]>
+	and m.MOBILE_PHONE not in (select mobile_phone from t_insider_member)
+	and m.member_no in (select member_no from t_deposit_order dpo where dpo.pay_status=1 
+	and dpo.remain_amount>=500)
+</select>
+
+<select id="getRegistNum" resultType="Long">
+	select count(*) from t_member where 1=1
+	<![CDATA[ and register_time >= #{0}]]>
+	<![CDATA[ and register_time <= #{1}]]>
+   and mobile_phone not in (select mobile_phone from t_insider_member)
+</select>
+<!-- 获取截止某一天已认证的会员的总数 -->
+<select id="getCensoredMemberNum" resultType="Long">
+	select count(*) from t_member where 1=1
+	<![CDATA[	and register_time <= #{0}]]>
+	and censor_status=1
+	and mobile_phone not in (select mobile_phone from t_insider_member)
+</select>
+
+<select id="getMemberByToken" resultMap="Member">
+	select <include refid="BaseInfoColumnList"/> from t_member
+	<where>
+		TOKEN=#{0}
+	</where>
+</select>
+
+
+<!-- 获取指定时间段内的会员 -->
+<select id="getmemberListByTime" resultMap="Member">
+	select * from t_member where 1=1
+	<![CDATA[	and register_time >= #{0} and register_time <= #{1}]]>
+</select>
+
+
+<select id="getmemberListByTime1" resultType="Integer" >
+	select count(*) from t_member where 1=1
+	<![CDATA[	and register_time >= #{0} and register_time <= #{1}]]>
+</select>
+
+
+<select id="getmemberListByTime2" resultType="Integer" >
+	select count(*) from t_member where 1=1 and censor_status =1 
+	<![CDATA[	and CENCOR_TIME >= #{0} and CENCOR_TIME <= #{1}]]>
+</select>
+
+
+<!-- 获取指定时间段内的会员 交押金人数-->
+<select id="getmemberDepositAmountByTime" resultType="Integer"  >
+
+select count(*) from t_deposit_order 
+  where MEMBER_NO in (select MEMBER_NO from t_member where 1=1  ) 
+   and IS_AVAILABLE=1 and PAY_STATUS=1 <![CDATA[ and PAYMENT_TIME >= #{0} and PAYMENT_TIME <= #{1}]]> 
+  
+</select> 
+
+<!-- 获取指定时间段内的会员 退款人数-->
+<select id="getmemberRefundAmountByTime" resultType="Integer"  >
+
+select count(*) from t_deposit_order 
+  where MEMBER_NO in (select MEMBER_NO from t_member where 1=1  ) 
+   and IS_AVAILABLE=1 and REFUND_AMOUNT >0  <![CDATA[ and CREATE_TIME >= #{0} and CREATE_TIME <= #{1}]]>  
+</select> 
+
+
+<select id="getmemberDepositAmountByTimeYear" resultType="cn.com.shopec.core.member.model.MemberCountVo">
+	select DATE_FORMAT(CREATE_TIME, '%Y年') memberMonth, count(*) count from t_deposit_order 
+    where MEMBER_NO in (select MEMBER_NO from t_member where 1=1 <![CDATA[ and register_time >= #{0} and register_time <= #{1}]]> ) 
+    and IS_AVAILABLE=1 and PAY_STATUS=1
+    GROUP BY memberMonth 
+</select>
+
+<select id="getmemberDepositAmountByTimeMonth" resultType="cn.com.shopec.core.member.model.MemberCountVo"> 
+	select DATE_FORMAT(CREATE_TIME, '%Y年%m月') memberMonth, count(*) count from t_deposit_order 
+	    where MEMBER_NO in (select MEMBER_NO from t_member where 1=1 <![CDATA[ and register_time >= #{0} and register_time <= #{1}]]> ) 
+	    and IS_AVAILABLE=1 and PAY_STATUS=1
+	    GROUP BY memberMonth 
+</select>
+ 
+<select id="getmemberRefundAmountByTimeYear" resultType="cn.com.shopec.core.member.model.MemberCountVo">
+	select DATE_FORMAT(CREATE_TIME, '%Y年') memberMonth, count(*) count from t_deposit_order 
+    where MEMBER_NO in (select MEMBER_NO from t_member where 1=1 <![CDATA[ and register_time >= #{0} and register_time <= #{1}]]> ) 
+    and IS_AVAILABLE=1 and PAY_STATUS=1 and REFUND_AMOUNT != 0 
+    GROUP BY memberMonth 
+</select>
+
+<select id="getmemberRefundAmountByTimeMonth" resultType="cn.com.shopec.core.member.model.MemberCountVo"> 
+	select DATE_FORMAT(CREATE_TIME, '%Y年%m月') memberMonth, count(*) count from t_deposit_order 
+	    where MEMBER_NO in (select MEMBER_NO from t_member where 1=1 <![CDATA[ and register_time >= #{0} and register_time <= #{1}]]> ) 
+	    and IS_AVAILABLE=1 and PAY_STATUS=1 and REFUND_AMOUNT != 0 
+	    GROUP BY memberMonth 
+</select>
+
+
+<select id="getmemberListByMonth1" resultType="cn.com.shopec.core.member.model.MemberCountVo" >
+	select DATE_FORMAT(CREATE_TIME, '%Y年%m月') weeks, count(*) memberRegisterCount from t_member where 1=1
+	<![CDATA[	and register_time >= #{0} and register_time <= #{1}]]>
+	    GROUP BY memberMonth 
+</select>
+
+
+<select id="getmemberListByMonth2" resultType="cn.com.shopec.core.member.model.MemberCountVo" >
+	select DATE_FORMAT(CREATE_TIME, '%Y年%m月') memberMonth, count(*) memberAuthenticationCount from t_member where 1=1 and censor_status =1 
+	<![CDATA[	and register_time >= #{0} and register_time <= #{1}]]>
+	    GROUP BY memberMonth 
+</select>
+ 
+
+<!-- 根据请求查询出会员认证 待审核的 -->
+<select id="countMemberCensorStatus" resultType="Integer">
+	SELECT count(*) FROM t_member WHERE CENSOR_STATUS=2 
+</select>
+ 
+
+<!-- 验证通过的会员总数 -->
+<select id="countMemberByCensorStatus" resultType="Integer">
+	SELECT count(MEMBER_NO) FROM t_member WHERE CENSOR_STATUS=#{0} 
+</select>
+		
+<select id="getRegisterDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(REGISTER_TIME,'%m-%d') as date,
+	count(REGISTER_TIME) as num
+	from t_member 
+	where 
+	<![CDATA[ REGISTER_TIME>=date_format(date_add(now(), interval -9 day),'%Y-%m-%d')]]>
+	group by date_format(REGISTER_TIME,'%m-%d')
+</select>
+		
+<select id="getCencorDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(CENCOR_TIME,'%m-%d') as date,
+	count(CENCOR_TIME) as num
+	from t_member 
+	where 
+	CENSOR_STATUS=1 
+	<![CDATA[ and CENCOR_TIME>=date_format(date_add(now(), interval -9 day),'%Y-%m-%d')]]>
+	group by date_format(CENCOR_TIME,'%m-%d')
+</select>
+
+
+</mapper>

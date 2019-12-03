@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.CouponDao">
+
+<resultMap type="Coupon" id="Coupon">
+	<id column="COUPON_NO" property="couponNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PLAN_NO" property="planNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BIZ_OBJ_NO" property="bizObjNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TITLE" property="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COUPON_TYPE" property="couponType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="COUPON_METHOD" property="couponMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="DISCOUNT" property="discount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT_AMOUNT" property="discountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DEDUCTIBLE_AMOUNT" property="deductibleAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="VAILABLE_TIME1" property="vailableTime1" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="VAILABLE_TIME2" property="vailableTime2" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AVAILABLE_DAYS" property="availableDays" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="ISSUE_METHOD" property="issueMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ISSUE_CHANNEL" property="issueChannel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ISSUE_TIME" property="issueTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ISSUER_ID" property="issuerId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="AVAILABLE_UPDATE_TIME" property="availableUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="USED_STATUS" property="usedStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="USED_TIME" property="usedTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+COUPON_NO,PLAN_NO,MEMBER_NO,BIZ_OBJ_TYPE,BIZ_OBJ_NO,
+TITLE,COUPON_TYPE,COUPON_METHOD,DISCOUNT,DISCOUNT_AMOUNT,DEDUCTIBLE_AMOUNT,
+VAILABLE_TIME1,VAILABLE_TIME2,AVAILABLE_DAYS,ISSUE_METHOD,ISSUE_CHANNEL,
+ISSUE_TIME,ISSUER_ID,IS_AVAILABLE,AVAILABLE_UPDATE_TIME,USED_STATUS,USED_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+COUPON_NO,PLAN_NO,MEMBER_NO,BIZ_OBJ_TYPE,BIZ_OBJ_NO,TITLE,COUPON_TYPE,
+COUPON_METHOD,DISCOUNT,DISCOUNT_AMOUNT,VAILABLE_TIME1,VAILABLE_TIME2,AVAILABLE_DAYS,ISSUE_METHOD,
+ISSUER_ID,IS_AVAILABLE,ISSUE_TIME,AVAILABLE_UPDATE_TIME,USED_STATUS,USED_TIME
+</sql>
+
+<insert id="add" parameterType="Coupon" useGeneratedKeys="true" keyProperty="couponNo">
+	insert into T_COUPON(
+		<if test="couponNo!=null">
+		COUPON_NO,
+		</if>
+		PLAN_NO,
+		MEMBER_NO,
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_NO,
+		TITLE,
+		COUPON_TYPE,
+		COUPON_METHOD,
+		DISCOUNT, 
+		DISCOUNT_AMOUNT,
+		DEDUCTIBLE_AMOUNT,
+		VAILABLE_TIME1,
+		VAILABLE_TIME2,
+		AVAILABLE_DAYS,
+		ISSUE_METHOD,
+		ISSUE_CHANNEL,
+		ISSUE_TIME,
+		ISSUER_ID,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		USED_STATUS,
+		USED_TIME
+	) values (
+		<if test="couponNo!=null">
+		#{couponNo,jdbcType = VARCHAR},
+		</if>
+		#{planNo,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{bizObjType,jdbcType = TINYINT},
+		#{bizObjNo,jdbcType = VARCHAR},
+		#{title,jdbcType = VARCHAR},
+		#{couponType,jdbcType = TINYINT},
+		#{couponMethod,jdbcType = TINYINT},
+		#{discount,jdbcType = DOUBLE},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{deductibleAmount,jdbcType = DOUBLE},
+		#{vailableTime1,jdbcType = TIMESTAMP},
+		#{vailableTime2,jdbcType = TIMESTAMP},
+		#{availableDays,jdbcType = INTEGER},
+		#{issueMethod,jdbcType = TINYINT},	
+		#{issueChannel,jdbcType = VARCHAR},
+		#{issueTime,jdbcType = TIMESTAMP},
+		#{issuerId,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{availableUpdateTime,jdbcType = TIMESTAMP},
+		#{usedStatus,jdbcType = TINYINT},
+		#{usedTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+
+<insert id="addBatch"  useGeneratedKeys="true" keyProperty="couponNo">
+	insert into T_COUPON(
+		COUPON_NO,
+		PLAN_NO,
+		MEMBER_NO,
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_NO,
+		TITLE,
+		COUPON_TYPE,
+		COUPON_METHOD,
+		DISCOUNT, 
+		DISCOUNT_AMOUNT,
+		DEDUCTIBLE_AMOUNT,
+		VAILABLE_TIME1,
+		VAILABLE_TIME2,
+		AVAILABLE_DAYS,
+		ISSUE_METHOD,
+		ISSUE_CHANNEL,
+		ISSUE_TIME,
+		ISSUER_ID,
+		IS_AVAILABLE,
+		AVAILABLE_UPDATE_TIME,
+		USED_STATUS,
+		USED_TIME
+	) values
+	 <foreach collection="list" item="coupon" separator=",">  
+			(
+			#{coupon.couponNo,jdbcType = VARCHAR},
+			#{coupon.planNo,jdbcType = VARCHAR},
+			#{coupon.memberNo,jdbcType = VARCHAR},
+			#{coupon.bizObjType,jdbcType = TINYINT},
+			#{coupon.bizObjNo,jdbcType = VARCHAR},
+			#{coupon.title,jdbcType = VARCHAR},
+			#{coupon.couponType,jdbcType = TINYINT},
+			#{coupon.couponMethod,jdbcType = TINYINT},
+			#{coupon.discount,jdbcType = DOUBLE},
+			#{coupon.discountAmount,jdbcType = DOUBLE},
+			#{coupon.deductibleAmount,jdbcType = DOUBLE},
+			#{coupon.vailableTime1,jdbcType = TIMESTAMP},
+			#{coupon.vailableTime2,jdbcType = TIMESTAMP},
+			#{coupon.availableDays,jdbcType = INTEGER},
+			#{coupon.issueMethod,jdbcType = TINYINT},	
+			#{coupon.issueChannel,jdbcType = VARCHAR},
+			#{coupon.issueTime,jdbcType = TIMESTAMP},
+			#{coupon.issuerId,jdbcType = VARCHAR},
+			#{coupon.isAvailable,jdbcType = TINYINT},
+			#{coupon.availableUpdateTime,jdbcType = TIMESTAMP},
+			#{coupon.usedStatus,jdbcType = TINYINT},
+			#{coupon.usedTime,jdbcType = TIMESTAMP}
+			)
+	 </foreach>
+</insert>
+<select id="queryAllOrder" parameterType="Query" resultMap="Coupon">
+	select <include refid="CommonColumnlist"/> from t_coupon 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	ORDER BY  DISCOUNT ASC, DEDUCTIBLE_AMOUNT ASC
+</select>
+
+
+<update id="update" parameterType="Coupon">
+	update t_coupon 
+	<set>
+		<if test="planNo!=null and  planNo!='' ">
+			PLAN_NO=#{planNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and  memberNo!='' ">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjType!=null ">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = TINYINT},
+		</if>
+		<if test="bizObjNo!=null and  bizObjNo!='' ">
+			BIZ_OBJ_NO=#{bizObjNo,jdbcType = VARCHAR},
+		</if>
+		<if test="title!=null and  title!='' ">
+			TITLE=#{title,jdbcType = VARCHAR},
+		</if>
+		<if test="couponType!=null ">
+			COUPON_TYPE=#{couponType,jdbcType = TINYINT},
+		</if>
+		<if test="couponMethod!=null ">
+			COUPON_METHOD=#{couponMethod,jdbcType = TINYINT},
+		</if>
+		<if test="discount!=null ">
+			DISCOUNT_AMOUNT=#{discount,jdbcType = DOUBLE},
+		</if>
+		<if test="discountAmount!=null ">
+			DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="deductibleAmount!=null ">
+			DEDUCTIBLE_AMOUNT=#{deductibleAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="vailableTime1!=null ">
+			VAILABLE_TIME1=#{vailableTime1,jdbcType = TIMESTAMP},
+		</if>
+		<if test="vailableTime2!=null ">
+			VAILABLE_TIME2=#{vailableTime2,jdbcType = TIMESTAMP},
+		</if>
+		<if test="availableDays!=null ">
+			AVAILABLE_DAYS=#{availableDays,jdbcType = INTEGER},
+		</if>
+		<if test="issueMethod!=null ">
+			ISSUE_METHOD=#{issueMethod,jdbcType = TINYINT},	
+		</if>		
+		<if test="issueChannel!=null and issueChannel!='' ">
+			ISSUE_CHANNEL=#{issueChannel,jdbcType = VARCHAR},
+		</if>		
+		<if test="issueTime!=null ">
+			ISSUE_TIME=#{issueTime,jdbcType = TIMESTAMP},
+		</if>		
+		<if test="issuerId!=null and issuerId!='' ">
+			ISSUER_ID=#{issuerId,jdbcType = VARCHAR},
+		</if>			
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>	
+		<if test="availableUpdateTime!=null ">
+			AVAILABLE_UPDATE_TIME=#{availableUpdateTime,jdbcType = TIMESTAMP},
+		</if>	
+		<if test="usedStatus!=null ">
+			USED_STATUS=#{usedStatus,jdbcType = TINYINT},
+		</if>
+		<if test="usedTime!=null ">
+			USED_TIME=#{usedTime,jdbcType = TIMESTAMP},
+		</if>				
+	</set>
+	<where>
+		AND COUPON_NO=#{couponNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_coupon 
+	<where>
+		COUPON_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Coupon">
+	select <include refid="AllColumnlist"/> from t_coupon
+	<where>
+		COUPON_NO=#{0}
+	</where>
+</select>
+
+<select id="listCouponByPlanNo" resultMap="Coupon">
+	select <include refid="AllColumnlist"/> from t_coupon
+	<where>
+		PLAN_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Coupon">
+	select <include refid="AllColumnlist"/> from t_coupon
+	<where>
+		COUPON_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(COUPON_NO) from t_coupon 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Coupon">
+	select <include refid="CommonColumnlist"/> from t_coupon 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Coupon">
+	select <include refid="CommonColumnlist"/> from t_coupon
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by ISSUE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<select id="getMemberCouponCount" parameterType="Query" resultType="Long">
+	SELECT 
+	 count(COUPON_NO) 
+	FROM t_coupon tc
+	LEFT JOIN (
+		SELECT MEMBER_NO MEMBER_NO2,MEMBER_NAME memberName,MOBILE_PHONE mobilePhone FROM t_member
+	) tm 
+	ON tc.MEMBER_NO = tm.MEMBER_NO2 
+	<where>
+	 <include refid="listCommonWhere"/>
+	 	<if test="q!=null">
+			<if test="q.memberName!=null and  q.memberName!='' ">
+				AND tm.memberName like CONCAT('%',#{q.memberName},'%')  
+			</if>
+			<if test="q.mobilePhone!=null and  q.mobilePhone!='' ">
+				AND tm.mobilePhone like CONCAT('%',#{q.mobilePhone},'%')  
+			</if>
+		</if>
+	</where>
+</select>
+
+<select id="getMemberCouponPageList" parameterType="Query" resultMap="Coupon">
+	SELECT 
+	<include refid="CommonColumnlist"/>,tm.memberName,tm.mobilePhone
+	FROM t_coupon tc
+	LEFT JOIN (
+		SELECT MEMBER_NO MEMBER_NO2,MEMBER_NAME memberName,MOBILE_PHONE mobilePhone FROM t_member
+	) tm 
+	ON tc.MEMBER_NO = tm.MEMBER_NO2 
+	<where>
+	 <include refid="listCommonWhere"/>
+	 	<if test="q!=null">
+			<if test="q.memberName!=null and  q.memberName!='' ">
+				AND tm.memberName like CONCAT('%',#{q.memberName},'%')  
+			</if>
+			<if test="q.mobilePhone!=null and  q.mobilePhone!='' ">
+				AND tm.mobilePhone like CONCAT('%',#{q.mobilePhone},'%')  
+			</if>
+		</if>
+	</where>
+	order by ISSUE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.couponNo!=null and  q.couponNo!='' ">
+			AND COUPON_NO like CONCAT('%',#{q.couponNo},'%')  
+		</if>
+		<if test="q.planNo!=null and  q.planNo!='' ">
+			AND PLAN_NO like CONCAT('%',#{q.planNo},'%')  
+		</if>
+		<if test="q.memberNo!=null and  q.memberNo!='' ">
+			AND MEMBER_NO like CONCAT('%',#{q.memberNo},'%')  
+		</if>
+		<if test="q.bizObjType!=null ">
+			AND BIZ_OBJ_TYPE = #{q.bizObjType}
+		</if>
+		<if test="q.bizObjNo!=null and  q.bizObjNo!='' ">
+			AND BIZ_OBJ_NO like CONCAT('%',#{q.bizObjNo},'%')
+		</if>
+		<if test="q.title!=null and  q.title!='' ">
+			AND TITLE = like CONCAT('%',#{q.title},'%')
+		</if>
+		<if test="q.couponType!=null ">
+			AND COUPON_TYPE = #{q.couponType}
+		</if>
+		<if test="q.couponMethod!=null ">
+			AND COUPON_METHOD = #{q.couponMethod}
+		</if>
+		<if test="q.vailableTime1!=null ">
+			AND VAILABLE_TIME1 = #{q.vailableTime1}
+		</if>
+		<if test="q.vailableTime2!=null ">
+			AND VAILABLE_TIME2 = #{q.vailableTime2}
+		</if>
+		<if test="q.availableTime1Start!=null">
+		<![CDATA[	AND VAILABLE_TIME1>=#{q.availableTime1Start}  ]]>
+		</if>
+		<if test="q.availableTime1End!=null">
+		<![CDATA[	AND VAILABLE_TIME1<#{q.availableTime1End}   ]]>
+		</if>
+		<if test="q.availableTime2Start!=null">
+		<![CDATA[	AND VAILABLE_TIME2>=#{q.availableTime2Start}  ]]>
+		</if>
+		<if test="q.availableTime2End!=null">
+		<![CDATA[	AND VAILABLE_TIME2<#{q.availableTime2End}   ]]>
+		</if>
+		<if test="q.availableDays!=null ">
+			AND AVAILABLE_DAYS = #{q.availableDays}
+		</if>
+		<if test="q.issueMethod!=null ">
+			AND ISSUE_METHOD = #{q.issueMethod}
+		</if>		
+		<if test="q.issueTime!=null ">
+			AND ISSUE_TIME = #{q.issueTime}
+		</if>
+		<if test="q.issueTimeStart!=null">
+		<![CDATA[	AND ISSUE_TIME>=#{q.issueTimeStart}  ]]>
+		</if>
+		<if test="q.issueTimeEnd!=null">
+		<![CDATA[	AND ISSUE_TIME<#{q.issueTimeEnd}   ]]>
+		</if>
+				
+		<if test="q.issuerId!=null and q.issuerId!='' ">
+			AND ISSUER_ID = #{q.issuerId}
+		</if>			
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE = #{q.isAvailable}
+		</if>	
+		<if test="q.availableUpdateTime!=null ">
+			AND AVAILABLE_UPDATE_TIME = #{q.availableUpdateTime}
+		</if>	
+		<if test="q.usedStatus!=null ">
+			AND USED_STATUS = #{q.usedStatus}
+		</if>
+		<if test="q.usedTime!=null ">
+			AND USED_TIME = #{q.usedTime}
+		</if>		
+	</if>
+</sql>
+</mapper>

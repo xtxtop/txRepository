@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarPreiodDao">
+
+<resultMap type="CarPreiod" id="CarPreiod">
+	<id column="CAR_PERIOD_ID" property="carPeriodId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PERIOD_NAME" property="carPeriodName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_ID" property="carSeriesId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_NAME" property="carSeriesName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_PERIOD_ID,CAR_PERIOD_NAME,CAR_SERIES_ID,CAR_SERIES_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_PERIOD_ID,CAR_PERIOD_NAME,CAR_SERIES_ID,CAR_SERIES_NAME,CAR_BRAND_ID,CAR_BRAND_NAME,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,
+OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="CarPreiod" useGeneratedKeys="true" keyProperty="carPeriodId">
+	insert into T_CAR_PREIOD(
+		<if test="carPeriodId!=null">
+		CAR_PERIOD_ID,
+		</if>
+		CAR_PERIOD_NAME,
+		CAR_BRAND_ID,
+		CAR_SERIES_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="carPeriodId!=null">
+		#{carPeriodId,jdbcType = VARCHAR},
+		</if>
+		#{carPeriodName,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carSeriesId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CarPreiod">
+	update t_car_preiod 
+	<set>
+		<if test="carPeriodName!=null and carPeriodName!=''">
+			CAR_PERIOD_NAME=#{carPeriodName,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesId!=null and carSeriesId!=''">
+			CAR_SERIES_ID=#{carSeriesId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND CAR_PERIOD_ID=#{carPeriodId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_preiod 
+	<where>
+		CAR_PERIOD_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarPreiod">
+	SELECT
+		CAR_PERIOD_ID,
+		CAR_PERIOD_NAME,
+		p.CAR_SERIES_ID,
+		s.CAR_SERIES_NAME,
+		p.CAR_BRAND_ID,
+		b.CAR_BRAND_NAME,
+		p.CREATE_TIME,
+		p.UPDATE_TIME,
+		p.OPERATOR_ID,
+		p.OPERATOR_TYPE
+	FROM
+	t_car_preiod p
+	LEFT JOIN t_car_brand b ON p.CAR_BRAND_ID = b.CAR_BRAND_ID
+	LEFT JOIN t_car_series s ON p.CAR_SERIES_ID = s.CAR_SERIES_ID
+	<where>
+		CAR_PERIOD_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarPreiod">
+	select <include refid="AllColumnlist"/> from t_car_preiod
+	<where>
+		CAR_PERIOD_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	SELECT
+		count(CAR_PERIOD_ID)
+	FROM
+	t_car_preiod p
+	LEFT JOIN t_car_brand b ON p.CAR_BRAND_ID = b.CAR_BRAND_ID
+	LEFT JOIN t_car_series s ON p.CAR_SERIES_ID = s.CAR_SERIES_ID
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarPreiod">
+	SELECT
+		CAR_PERIOD_ID,
+		CAR_PERIOD_NAME,
+		p.CAR_SERIES_ID,
+		s.CAR_SERIES_NAME,
+		p.CAR_BRAND_ID,
+		b.CAR_BRAND_NAME,
+		p.CREATE_TIME,
+		p.UPDATE_TIME,
+		p.OPERATOR_ID,
+		p.OPERATOR_TYPE
+	FROM
+	t_car_preiod p
+	LEFT JOIN t_car_brand b ON p.CAR_BRAND_ID = b.CAR_BRAND_ID
+	LEFT JOIN t_car_series s ON p.CAR_SERIES_ID = s.CAR_SERIES_ID
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarPreiod">
+	SELECT
+		CAR_PERIOD_ID,
+		CAR_PERIOD_NAME,
+		p.CAR_SERIES_ID,
+		s.CAR_SERIES_NAME,
+		p.CAR_BRAND_ID,
+		b.CAR_BRAND_NAME,
+		p.CREATE_TIME,
+		p.UPDATE_TIME,
+		p.OPERATOR_ID,
+		p.OPERATOR_TYPE
+	FROM
+	t_car_preiod p
+	LEFT JOIN t_car_brand b ON p.CAR_BRAND_ID = b.CAR_BRAND_ID
+	LEFT JOIN t_car_series s ON p.CAR_SERIES_ID = s.CAR_SERIES_ID
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by p.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carPeriodId!=null and q.carPeriodId!=''">
+			AND CAR_PERIOD_ID=#{q.carPeriodId}
+		</if>
+		<if test="q.carPeriodNameQuery!=null and q.carPeriodNameQuery!=''">
+			AND CAR_PERIOD_NAME like '%${q.carPeriodName}%'
+		</if>
+		<if test="q.carPeriodName!=null and q.carPeriodName!=''">
+			AND CAR_PERIOD_NAME=#{q.carPeriodName}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND p.CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carSeriesId!=null and q.carSeriesId!=''">
+			AND p.CAR_SERIES_ID=#{q.carSeriesId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND p.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND p.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND p.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND p.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND p.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND p.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND p.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND p.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.MerchantUserDao">
+
+<resultMap type="MerchantUser" id="MerchantUser">
+	<id column="USER_NO" property="userNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="USER_PHOTO_URL" property="userPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="USER_NAME" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PASSWORD" property="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SEX" property="sex" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ID_CARD" property="idCard" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ID_CARD_PHOTO_URL" property="idCardPhotoUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_BLACKLIST" property="isBlacklist" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BLACKLIST_MEMO" property="blacklistMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENSOR_STATUS" property="censorStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOKEN" property="token" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOKEN_GENERATE_TIME" property="tokenGenerateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CLIENT_ID" property="clientId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_NAME" property="merchantName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+USER_NO,MERCHANT_ID,USER_PHOTO_URL,USER_NAME,MOBILE_PHONE,PASSWORD,CITY_ID,SEX,
+ID_CARD,ID_CARD_PHOTO_URL,IS_BLACKLIST,BLACKLIST_MEMO,CENSOR_STATUS,CENCOR_TIME,
+CENCOR_ID,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,CITY_NAME,
+TOKEN,TOKEN_GENERATE_TIME,CLIENT_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+USER_NO,MERCHANT_ID,USER_PHOTO_URL,USER_NAME,MOBILE_PHONE,PASSWORD,CITY_ID,SEX,
+ID_CARD,ID_CARD_PHOTO_URL,IS_BLACKLIST,BLACKLIST_MEMO,CENSOR_STATUS,CENCOR_TIME,
+CENCOR_ID,CENCOR_MEMO,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,CITY_NAME,
+TOKEN,TOKEN_GENERATE_TIME,CLIENT_ID
+</sql>
+
+<insert id="add" parameterType="MerchantUser" useGeneratedKeys="true" keyProperty="userNo">
+	insert into T_MERCHANT_USER(
+		<if test="userNo!=null">
+		USER_NO,
+		</if>
+		MERCHANT_ID,
+		USER_PHOTO_URL,
+		USER_NAME,
+		MOBILE_PHONE,
+		PASSWORD,
+		CITY_ID,
+		SEX,
+		ID_CARD,
+		ID_CARD_PHOTO_URL,
+		IS_BLACKLIST,
+		BLACKLIST_MEMO,
+		CENSOR_STATUS,
+		CENCOR_TIME,
+		CENCOR_ID,
+		CENCOR_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		TOKEN,
+		TOKEN_GENERATE_TIME,
+		CLIENT_ID,
+		CITY_NAME
+	) values (
+		<if test="userNo!=null">
+		#{userNo,jdbcType = VARCHAR},
+		</if>
+		#{merchantId,jdbcType = VARCHAR},
+		#{userPhotoUrl,jdbcType = VARCHAR},
+		#{userName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{password,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{sex,jdbcType = TINYINT},
+		#{idCard,jdbcType = VARCHAR},
+		#{idCardPhotoUrl,jdbcType = VARCHAR},
+		#{isBlacklist,jdbcType = TINYINT},
+		#{blacklistMemo,jdbcType = VARCHAR},
+		#{censorStatus,jdbcType = TINYINT},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorId,jdbcType = VARCHAR},
+		#{cencorMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{token,jdbcType = VARCHAR},
+		#{tokenGenerateTime,jdbcType = TIMESTAMP},
+		#{clientId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MerchantUser">
+	update T_MERCHANT_USER 
+	<set>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="userPhotoUrl!=null and userPhotoUrl!=''">
+			USER_PHOTO_URL=#{userPhotoUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="userName!=null and userName!=''">
+			USER_NAME=#{userName,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="password!=null and password!=''">
+			PASSWORD=#{password,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="sex!=null ">
+			SEX=#{sex,jdbcType = TINYINT},
+		</if>
+		<if test="idCard!=null and idCard!=''">
+			ID_CARD=#{idCard,jdbcType = VARCHAR},
+		</if>
+		<if test="idCardPhotoUrl!=null and idCardPhotoUrl!=''">
+			ID_CARD_PHOTO_URL=#{idCardPhotoUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="isBlacklist!=null ">
+			IS_BLACKLIST=#{isBlacklist,jdbcType = TINYINT},
+		</if>
+		<if test="blacklistMemo!=null and blacklistMemo!=''">
+			BLACKLIST_MEMO=#{blacklistMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="censorStatus!=null ">
+			CENSOR_STATUS=#{censorStatus,jdbcType = TINYINT},
+		</if>
+		<if test="cencorTime!=null ">
+			CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="cencorId!=null and cencorId!=''">
+			CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+		</if>
+		<if test="cencorMemo!=null and cencorMemo!=''">
+			CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="token!=null and token!=''">
+			TOKEN=#{token,jdbcType = VARCHAR},
+		</if>
+		<if test="tokenGenerateTime!=null ">
+			TOKEN_GENERATE_TIME=#{tokenGenerateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="clientId!=null and clientId!=''">
+			CLIENT_ID=#{clientId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND USER_NO=#{userNo}
+	</where>
+</update>
+
+<update id="updateMerchantUserByMerchantId" parameterType="MerchantUser">
+	update T_MERCHANT_USER 
+	<set>
+		<if test="isBlacklist!=null ">
+			IS_BLACKLIST=#{isBlacklist,jdbcType = TINYINT},
+		</if>
+		<if test="blacklistMemo!=null and blacklistMemo!=''">
+			BLACKLIST_MEMO=#{blacklistMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP}
+		</if>
+	</set>
+	<where>
+		MERCHANT_ID=#{merchantId}
+	</where>
+</update>
+
+
+<delete id="delete">
+	delete from T_MERCHANT_USER 
+	<where>
+		USER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MerchantUser">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_USER
+	<where>
+		USER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByMobilePhone" resultMap="MerchantUser">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_USER
+	<where>
+		<if test="merchantId!=null and merchantId!=''">
+			AND MERCHANT_ID=#{merchantId}
+		</if>
+		<if test="password!=null and password!=''">
+			AND PASSWORD=#{password}
+		</if>
+			AND MOBILE_PHONE=#{mobilePhone} AND IS_BLACKLIST=0 AND CENSOR_STATUS=1
+	</where>
+</select>
+
+<select id="getByToken" resultMap="MerchantUser">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_USER
+	<where>
+			TOKEN=#{token} AND USER_NO=#{userNo} AND IS_BLACKLIST=0 AND CENSOR_STATUS=1
+	</where>
+</select>
+
+
+<select id="getByIds" resultMap="MerchantUser">
+	select <include refid="AllColumnlist"/> from T_MERCHANT_USER
+	<where>
+		USER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(USER_NO) from T_MERCHANT_USER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MerchantUser">
+	select <include refid="CommonColumnlist"/> from T_MERCHANT_USER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MerchantUser">
+	SELECT
+		u.*, m.merchant_name,d.ITEM_VALUE as CITY_NAME
+	FROM
+		T_MERCHANT_USER u
+	LEFT JOIN t_merchant m ON u.MERCHANT_ID = m.MERCHANT_ID
+	LEFT JOIN t_data_dict_item d on d.DATA_DICT_ITEM_ID=u.CITY_ID
+	<where>
+	 <include refid="listCommonWhereForMgt"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<sql id="listCommonWhereForMgt">
+	<if test="q!=null">
+		<if test="q.userNo!=null and q.userNo!=''">
+			AND USER_NO=#{q.userNo}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND u.MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.userName!=null and q.userName!=''">
+			AND USER_NAME LIKE '%${q.userName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND U.MOBILE_PHONE LIKE '%${q.mobilePhone}%'
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND U.CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.sex!=null ">
+			AND SEX=#{q.sex}
+		</if>
+		<if test="q.isBlacklist!=null ">
+			AND IS_BLACKLIST=#{q.isBlacklist}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.userNo!=null and q.userNo!=''">
+			AND USER_NO=#{q.userNo}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.userPhotoUrl!=null and q.userPhotoUrl!=''">
+			AND USER_PHOTO_URL=#{q.userPhotoUrl}
+		</if>
+		<if test="q.userName!=null and q.userName!=''">
+			AND USER_NAME=#{q.userName}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.password!=null and q.password!=''">
+			AND PASSWORD=#{q.password}
+		</if>
+		<if test="q.sex!=null ">
+			AND SEX=#{q.sex}
+		</if>
+		<if test="q.idCard!=null and q.idCard!=''">
+			AND ID_CARD=#{q.idCard}
+		</if>
+		<if test="q.idCardPhotoUrl!=null and q.idCardPhotoUrl!=''">
+			AND ID_CARD_PHOTO_URL=#{q.idCardPhotoUrl}
+		</if>
+		<if test="q.isBlacklist!=null ">
+			AND IS_BLACKLIST=#{q.isBlacklist}
+		</if>
+		<if test="q.blacklistMemo!=null and q.blacklistMemo!=''">
+			AND BLACKLIST_MEMO=#{q.blacklistMemo}
+		</if>
+		<if test="q.censorStatus!=null ">
+			AND CENSOR_STATUS=#{q.censorStatus}
+		</if>
+		<if test="q.cencorTime!=null ">
+			AND CENCOR_TIME=#{q.cencorTime}
+		</if>
+		<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+		</if>
+		<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+		</if>
+		<if test="q.cencorId!=null and q.cencorId!=''">
+			AND CENCOR_ID=#{q.cencorId}
+		</if>
+		<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+			AND CENCOR_MEMO=#{q.cencorMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.token!=null and q.token!=''">
+			AND TOKEN=#{q.token}
+		</if>
+		<if test="q.tokenGenerateTime!=null ">
+			AND TOKEN_GENERATE_TIME=#{q.tokenGenerateTime}
+		</if>
+		<if test="q.tokenGenerateTimeStart!=null">
+		<![CDATA[	AND TOKEN_GENERATE_TIME>=#{q.tokenGenerateTimeStart}  ]]>
+		</if>
+		<if test="q.tokenGenerateTimeEnd!=null">
+		<![CDATA[	AND TOKEN_GENERATE_TIME<#{q.tokenGenerateTimeEnd}   ]]>
+		</if>
+		<if test="q.clientId!=null and q.clientId!=''">
+			AND CLIENT_ID=#{q.clientId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

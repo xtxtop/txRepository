@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.MonitorDataCocurrentDao">
+
+<resultMap type="MonitorDataCocurrent" id="MonitorDataCocurrent">
+	<id column="COCURRENT_NO" property="cocurrentNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_GUN_NO" property="chargingGunNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NAME" property="chargingPileName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="CHARGING_GUN_CODE" property="chargingGunCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BATTERY_CHARGER_STATUS" property="batteryChargerStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CONNECT_CAR" property="connectCar" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CHARGE_TIME" property="chargeTime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TOTAL_ACTIVE_POWER" property="totalActivePower" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OUTPUT_VOLTAGE" property="outputVoltage" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OUTPUT_CURRENT" property="outputCurrent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SOC" property="soc" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BATTERY_TEMPERATURE_MIN" property="batteryTemperatureMin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BATTERY_TEMPERATURE_MAX" property="batteryTemperatureMax" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VOLTAGE_MAX" property="voltageMax" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VOLTAGE_MIN" property="voltageMin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GLOBAL_ERROR" property="globalError" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MODULAR_ERROR" property="modularError" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CORD_TIME" property="cordTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="DC_TEMPERATURE_P" property="dcTemperatureP" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DC_TEMPERATURE_N" property="dcTemperatureN" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VIN" property="vin" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+COCURRENT_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,BATTERY_CHARGER_STATUS,CONNECT_CAR,CHARGE_TIME,TOTAL_ACTIVE_POWER,
+OUTPUT_VOLTAGE,OUTPUT_CURRENT,SOC,BATTERY_TEMPERATURE_MIN,BATTERY_TEMPERATURE_MAX,VOLTAGE_MAX,
+VOLTAGE_MIN,GLOBAL_ERROR,MODULAR_ERROR,CORD_TIME,DC_TEMPERATURE_P,DC_TEMPERATURE_N,
+VIN,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+COCURRENT_NO,CHARGING_PILE_NO,CHARGING_GUN_NO,BATTERY_CHARGER_STATUS,CONNECT_CAR,CHARGE_TIME,TOTAL_ACTIVE_POWER,
+OUTPUT_VOLTAGE,OUTPUT_CURRENT,SOC,BATTERY_TEMPERATURE_MIN,BATTERY_TEMPERATURE_MAX,VOLTAGE_MAX,
+VOLTAGE_MIN,GLOBAL_ERROR,MODULAR_ERROR,CORD_TIME,DC_TEMPERATURE_P,DC_TEMPERATURE_N,
+VIN,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+</sql>
+
+<insert id="add" parameterType="MonitorDataCocurrent" useGeneratedKeys="true" keyProperty="cocurrentNo">
+	insert into MONITOR_DATA_COCURRENT(
+		<if test="cocurrentNo!=null">
+		COCURRENT_NO,
+		</if>
+		CHARGING_PILE_NO,
+		CHARGING_GUN_NO,
+		BATTERY_CHARGER_STATUS,
+		CONNECT_CAR,
+		CHARGE_TIME,
+		TOTAL_ACTIVE_POWER,
+		OUTPUT_VOLTAGE,
+		OUTPUT_CURRENT,
+		SOC,
+		BATTERY_TEMPERATURE_MIN,
+		BATTERY_TEMPERATURE_MAX,
+		VOLTAGE_MAX,
+		VOLTAGE_MIN,
+		GLOBAL_ERROR,
+		MODULAR_ERROR,
+		CORD_TIME,
+		DC_TEMPERATURE_P,
+		DC_TEMPERATURE_N,
+		VIN,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,CHARGING_PILE_NAME,CHARGING_GUN_CODE
+	) values (
+		<if test="cocurrentNo!=null">
+		#{cocurrentNo,jdbcType = VARCHAR},
+		</if>
+		#{chargingPileNo,jdbcType = VARCHAR},
+		#{chargingGunNo,jdbcType = VARCHAR},
+		#{batteryChargerStatus,jdbcType = TINYINT},
+		#{connectCar,jdbcType = TINYINT},
+		#{chargeTime,jdbcType = VARCHAR},
+		#{totalActivePower,jdbcType = VARCHAR},
+		#{outputVoltage,jdbcType = VARCHAR},
+		#{outputCurrent,jdbcType = VARCHAR},
+		#{soc,jdbcType = VARCHAR},
+		#{batteryTemperatureMin,jdbcType = VARCHAR},
+		#{batteryTemperatureMax,jdbcType = VARCHAR},
+		#{voltageMax,jdbcType = VARCHAR},
+		#{voltageMin,jdbcType = VARCHAR},
+		#{globalError,jdbcType = VARCHAR},
+		#{modularError,jdbcType = VARCHAR},
+		#{cordTime,jdbcType = TIMESTAMP},
+		#{dcTemperatureP,jdbcType = VARCHAR},
+		#{dcTemperatureN,jdbcType = VARCHAR},
+		#{vin,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+        #{chargingPileName,jdbcType = VARCHAR},
+        #{chargingGunCode,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="MonitorDataCocurrent">
+	update MONITOR_DATA_COCURRENT 
+	<set>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingGunNo!=null and chargingGunNo!=''">
+			CHARGING_GUN_NO=#{chargingGunNo,jdbcType = VARCHAR},
+		</if>
+		<if test="batteryChargerStatus!=null ">
+			BATTERY_CHARGER_STATUS=#{batteryChargerStatus,jdbcType = TINYINT},
+		</if>
+		<if test="connectCar!=null ">
+			CONNECT_CAR=#{connectCar,jdbcType = TINYINT},
+		</if>
+		<if test="chargeTime!=null ">
+			CHARGE_TIME=#{chargeTime,jdbcType = VARCHAR},
+		</if>
+		<if test="totalActivePower!=null and totalActivePower!=''">
+			TOTAL_ACTIVE_POWER=#{totalActivePower,jdbcType = VARCHAR},
+		</if>
+		<if test="outputVoltage!=null and outputVoltage!=''">
+			OUTPUT_VOLTAGE=#{outputVoltage,jdbcType = VARCHAR},
+		</if>
+		<if test="outputCurrent!=null and outputCurrent!=''">
+			OUTPUT_CURRENT=#{outputCurrent,jdbcType = VARCHAR},
+		</if>
+		<if test="soc!=null and soc!=''">
+			SOC=#{soc,jdbcType = VARCHAR},
+		</if>
+		<if test="batteryTemperatureMin!=null and batteryTemperatureMin!=''">
+			BATTERY_TEMPERATURE_MIN=#{batteryTemperatureMin,jdbcType = VARCHAR},
+		</if>
+		<if test="batteryTemperatureMax!=null and batteryTemperatureMax!=''">
+			BATTERY_TEMPERATURE_MAX=#{batteryTemperatureMax,jdbcType = VARCHAR},
+		</if>
+		<if test="voltageMax!=null and voltageMax!=''">
+			VOLTAGE_MAX=#{voltageMax,jdbcType = VARCHAR},
+		</if>
+		<if test="voltageMin!=null and voltageMin!=''">
+			VOLTAGE_MIN=#{voltageMin,jdbcType = VARCHAR},
+		</if>
+		<if test="globalError!=null and globalError!=''">
+			GLOBAL_ERROR=#{globalError,jdbcType = VARCHAR},
+		</if>
+		<if test="modularError!=null and modularError!=''">
+			MODULAR_ERROR=#{modularError,jdbcType = VARCHAR},
+		</if>
+		<if test="cordTime!=null ">
+			CORD_TIME=#{cordTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="dcTemperatureP!=null and dcTemperatureP!=''">
+			DC_TEMPERATURE_P=#{dcTemperatureP,jdbcType = VARCHAR},
+		</if>
+		<if test="dcTemperatureN!=null and dcTemperatureN!=''">
+			DC_TEMPERATURE_N=#{dcTemperatureN,jdbcType = VARCHAR},
+		</if>
+		<if test="vin!=null and vin!=''">
+			VIN=#{vin,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="chargingPileName!=null and chargingPileName!=''">
+            CHARGING_PILE_NAME=#{chargingPileName,jdbcType = VARCHAR},
+        </if>
+        <if test="chargingGunCode!=null and chargingGunCode!=''">
+            CHARGING_GUN_CODE=#{chargingGunCode,jdbcType = VARCHAR},
+        </if>
+	</set>
+	<where>
+		AND COCURRENT_NO=#{cocurrentNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from MONITOR_DATA_COCURRENT 
+	<where>
+		COCURRENT_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MonitorDataCocurrent">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_COCURRENT
+	<where>
+		COCURRENT_NO=#{0}
+	</where>
+</select>
+<select id="getTwo" resultMap="MonitorDataCocurrent">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_COCURRENT
+	<where>
+		CHARGING_GUN_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MonitorDataCocurrent">
+	select <include refid="AllColumnlist"/> from MONITOR_DATA_COCURRENT
+	<where>
+		COCURRENT_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(COCURRENT_NO) from MONITOR_DATA_COCURRENT 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MonitorDataCocurrent">
+	select <include refid="CommonColumnlist"/> from MONITOR_DATA_COCURRENT 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MonitorDataCocurrent">
+	select <include refid="CommonColumnlist"/> from MONITOR_DATA_COCURRENT
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.cocurrentNo!=null and q.cocurrentNo!=''">
+			AND COCURRENT_NO like "%"#{q.cocurrentNo}"%"
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.chargingGunNo!=null and q.chargingGunNo!=''">
+			AND CHARGING_GUN_NO=#{q.chargingGunNo}
+		</if>
+		<if test="q.batteryChargerStatus!=null ">
+			AND BATTERY_CHARGER_STATUS=#{q.batteryChargerStatus}
+		</if>
+		<if test="q.connectCar!=null ">
+			AND CONNECT_CAR=#{q.connectCar}
+		</if>
+		<if test="q.chargeTime!=null ">
+			AND CHARGE_TIME=#{q.chargeTime}
+		</if>
+		<if test="q.totalActivePower!=null and q.totalActivePower!=''">
+			AND TOTAL_ACTIVE_POWER=#{q.totalActivePower}
+		</if>
+		<if test="q.outputVoltage!=null and q.outputVoltage!=''">
+			AND OUTPUT_VOLTAGE=#{q.outputVoltage}
+		</if>
+		<if test="q.outputCurrent!=null and q.outputCurrent!=''">
+			AND OUTPUT_CURRENT=#{q.outputCurrent}
+		</if>
+		<if test="q.soc!=null and q.soc!=''">
+			AND SOC=#{q.soc}
+		</if>
+		<if test="q.batteryTemperatureMin!=null and q.batteryTemperatureMin!=''">
+			AND BATTERY_TEMPERATURE_MIN=#{q.batteryTemperatureMin}
+		</if>
+		<if test="q.batteryTemperatureMax!=null and q.batteryTemperatureMax!=''">
+			AND BATTERY_TEMPERATURE_MAX=#{q.batteryTemperatureMax}
+		</if>
+		<if test="q.voltageMax!=null and q.voltageMax!=''">
+			AND VOLTAGE_MAX=#{q.voltageMax}
+		</if>
+		<if test="q.voltageMin!=null and q.voltageMin!=''">
+			AND VOLTAGE_MIN=#{q.voltageMin}
+		</if>
+		<if test="q.globalError!=null and q.globalError!=''">
+			AND GLOBAL_ERROR=#{q.globalError}
+		</if>
+		<if test="q.modularError!=null and q.modularError!=''">
+			AND MODULAR_ERROR=#{q.modularError}
+		</if>
+		<if test="q.cordTime!=null ">
+			AND CORD_TIME=#{q.cordTime}
+		</if>
+		<if test="q.dcTemperatureP!=null and q.dcTemperatureP!=''">
+			AND DC_TEMPERATURE_P=#{q.dcTemperatureP}
+		</if>
+		<if test="q.dcTemperatureN!=null and q.dcTemperatureN!=''">
+			AND DC_TEMPERATURE_N=#{q.dcTemperatureN}
+		</if>
+		<if test="q.vin!=null and q.vin!=''">
+			AND VIN=#{q.vin}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+           AND CHARGING_PILE_NAME=#{q.chargingPileName,jdbcType = VARCHAR}
+        </if>
+        <if test="q.chargingGunCode!=null and q.chargingGunCode!=''">
+          AND  CHARGING_GUN_CODE=#{q.chargingGunCode,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+
+</mapper>

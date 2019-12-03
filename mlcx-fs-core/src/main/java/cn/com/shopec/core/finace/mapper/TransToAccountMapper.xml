@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.TransToAccountDao">
+
+<resultMap type="TransToAccount" id="TransToAccount">
+	<id column="TRANS_NO" property="transNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="THIRD_TRANS_ORDER_ID" property="thirdTransOrderId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEPOSIT_ORDER_NO" property="depositOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REFUND_NO" property="refundNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TRANS_TYPE" property="transType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TRANS_AMOUNT" property="transAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="TRANS_TIME" property="transTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="TRANS_RESULT" property="transResult" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TRANS_INFO" property="transInfo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TRANS_NO,THIRD_TRANS_ORDER_ID,DEPOSIT_ORDER_NO,REFUND_NO,
+TRANS_TYPE,TRANS_AMOUNT,TRANS_TIME,
+TRANS_RESULT,TRANS_INFO,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TRANS_NO,THIRD_TRANS_ORDER_ID,DEPOSIT_ORDER_NO,REFUND_NO,TRANS_TYPE,TRANS_AMOUNT,TRANS_TIME,TRANS_RESULT,TRANS_INFO,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="TransToAccount" useGeneratedKeys="true" keyProperty="TRANS_NO">
+	insert into T_TRANS_TO_ACCOUNT(
+		<if test="transNo">
+		TRANS_NO,
+		</if>
+		THIRD_TRANS_ORDER_ID,
+		DEPOSIT_ORDER_NO,
+		REFUND_NO,
+		TRANS_TYPE,
+		TRANS_AMOUNT,
+		TRANS_TIME,
+		TRANS_RESULT,
+		TRANS_INFO,
+		OPERATOR_ID
+	) values (
+		<if test="transNo!=null">
+		#{transNo,jdbcType = VARCHAR},
+		</if>
+		#{thirdTransOrderId,jdbcType = VARCHAR},
+		#{depositOrderNo,jdbcType = VARCHAR},
+		#{refundNo,jdbcType = VARCHAR},
+		#{transType,jdbcType = TINYINT},
+		#{transAmount,jdbcType = DOUBLE},
+		#{transTime,jdbcType = TIMESTAMP},
+		#{transResult,jdbcType = TINYINT},
+		#{transInfo,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<!-- 根据押金退款申请单号查找转账记录 -->
+<select id="get" resultMap="TransToAccount">
+	select <include refid="AllColumnlist"/> from t_trans_to_account
+	<where>
+		REFUND_NO=#{0} and TRANS_RESULT = 1
+	</where>
+</select>
+
+
+</mapper>

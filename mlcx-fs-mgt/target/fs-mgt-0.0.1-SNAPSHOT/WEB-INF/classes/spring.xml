@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+   
+    <!-- 引入属性文件 -->
+    <context:property-placeholder location="classpath*:*.properties" />
+	<!-- 默认扫描的包路径, 自动扫描（自动注入）-自动的把注解变成bean -->
+	<context:component-scan base-package="cn.com.shopec" />
+		<!-- redis配置 -->
+	<import resource="classpath*:/redis.xml" />
+	<!-- <import resource="classpath*:/spring-rabbitmq.xml" />
+	<import resource="classpath*:/spring-websocket.xml" /> -->
+		<!-- 缓存工具类 -->
+	<bean id="commonCacheUtil" class="cn.com.shopec.common.cache.redis.CommonCacheUtilRedisImpl"/>
+	
+	<!-- 短信发送实现类 -->
+	<bean id="sendMsgCommonInterfaceService" class="cn.com.shopec.message.impl.SendMessageJTDServiceImpl"/>
+	<!-- 认证接口实现类 -->
+	<bean id="AuthenticationService" class="cn.com.shopec.common.authentication.Impl.AuthenticationMemberJDWXServiceImpl"/>
+	<!-- 分时场站搜索的solr server -->
+	<bean id="parkSearchSolrServer" class="cn.com.shopec.core.search.factory.SolrServerFactory">
+		<property name="solrServerUrl" value="${search.solr_server_url}" />
+		<property name="user" value="${search.solr_server_user}" />
+		<property name="password" value="${search.solr_server_password}" />
+		<property name="connectionTimeout" value="${search.solr_server_conn_timeout}" />
+		<property name="soTimeout" value="${search.solr_server_so_timeout}" />
+	</bean>	
+	<!-- 门店搜索的solr server -->
+	<bean id="parkDaySearchSolrServer" class="cn.com.shopec.core.dailyrental.search.factory.SolrServerFactory">
+		<property name="solrServerUrl" value="${daySearch.solr_server_url}" />
+		<property name="user" value="${daySearch.solr_server_user}" />
+		<property name="password" value="${daySearch.solr_server_password}" />
+		<property name="connectionTimeout" value="${daySearch.solr_server_conn_timeout}" />
+		<property name="soTimeout" value="${daySearch.solr_server_so_timeout}" />
+	</bean>				
+	
+</beans>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.monitor.dao.WarningDao">
+
+<resultMap type="Warning" id="Warning">
+	<id column="WARNING_NO" property="warningNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WARNING_LEVEL" property="warningLevel" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="WARNING_TYPE" property="warningType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WARNING_SUB_TYPE" property="warningSubType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="WARNING_TIME" property="warningTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="WARNING_CONTENT" property="warningContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NAME" property="parkName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_NEED_MANUAL_CLOSED" property="isNeedManualClosed" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_CLOSED" property="isClosed" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CLOSED_TIME" property="closedTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CLOSED_MEMO" property="closedMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+WARNING_NO,CITY_ID,CITY_NAME,WARNING_LEVEL,WARNING_TYPE,WARNING_SUB_TYPE,WARNING_TIME,
+WARNING_CONTENT,PARK_NO,PARK_NAME,CAR_PLATE_NO,MEMBER_NO,MEMBER_NAME,
+ORDER_NO,IS_NEED_MANUAL_CLOSED,IS_CLOSED,CLOSED_TIME,CLOSED_MEMO,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+WARNING_NO,CITY_ID,CITY_NAME,WARNING_LEVEL,WARNING_TYPE,WARNING_SUB_TYPE,WARNING_TIME,
+PARK_NO,PARK_NAME,CAR_PLATE_NO,MEMBER_NO,MEMBER_NAME,
+ORDER_NO,IS_NEED_MANUAL_CLOSED,IS_CLOSED,CLOSED_TIME,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,WARNING_CONTENT
+</sql>
+
+<insert id="add" parameterType="Warning" useGeneratedKeys="true" keyProperty="warningNo">
+	insert into T_WARNING(
+		<if test="warningNo!=null">
+		WARNING_NO,
+		</if>
+		CITY_ID,
+		CITY_NAME,
+		WARNING_LEVEL,
+		WARNING_TYPE,
+		WARNING_SUB_TYPE,
+		WARNING_TIME,
+		WARNING_CONTENT,
+		PARK_NO,
+		PARK_NAME,
+		CAR_PLATE_NO,
+		MEMBER_NO,
+		MEMBER_NAME,
+		ORDER_NO,
+		IS_NEED_MANUAL_CLOSED,
+		IS_CLOSED,
+		CLOSED_TIME,
+		CLOSED_MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="warningNo!=null">
+		#{warningNo,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{warningLevel,jdbcType = TINYINT},
+		#{warningType,jdbcType = VARCHAR},
+		#{warningSubType,jdbcType = VARCHAR},
+		#{warningTime,jdbcType = TIMESTAMP},
+		#{warningContent,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{parkName,jdbcType = VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{isNeedManualClosed,jdbcType = TINYINT},
+		#{isClosed,jdbcType = TINYINT},
+		#{closedTime,jdbcType = TIMESTAMP},
+		#{closedMemo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="Warning">
+	update t_warning 
+	<set>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="warningLevel!=null ">
+			WARNING_LEVEL=#{warningLevel,jdbcType = TINYINT},
+		</if>
+		<if test="warningType!=null and warningType!=''">
+			WARNING_TYPE=#{warningType,jdbcType = VARCHAR},
+		</if>
+		<if test="warningSubType!=null and warningSubType!=''">
+			WARNING_SUB_TYPE=#{warningSubType,jdbcType = VARCHAR},
+		</if>
+		<if test="warningTime!=null ">
+			WARNING_TIME=#{warningTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="warningContent!=null and warningContent!=''">
+			WARNING_CONTENT=#{warningContent,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkName!=null and parkName!=''">
+			PARK_NAME=#{parkName,jdbcType = VARCHAR},
+		</if>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="isNeedManualClosed!=null ">
+			IS_NEED_MANUAL_CLOSED=#{isNeedManualClosed,jdbcType = TINYINT},
+		</if>
+		<if test="isClosed!=null ">
+			IS_CLOSED=#{isClosed,jdbcType = TINYINT},
+		</if>
+		<if test="closedTime!=null ">
+			CLOSED_TIME=#{closedTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="closedMemo!=null and closedMemo!=''">
+			CLOSED_MEMO=#{closedMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND WARNING_NO=#{warningNo}
+	</where>
+</update>
+<update id="closeWarning" parameterType="Warning">
+	update t_warning 
+	<set>
+		<if test="isNeedManualClosed!=null ">
+			IS_NEED_MANUAL_CLOSED=#{isNeedManualClosed,jdbcType = TINYINT},
+		</if>
+		<if test="closedTime!=null ">
+			CLOSED_TIME=#{closedTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="closedMemo!=null and closedMemo!=''">
+			CLOSED_MEMO=#{closedMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="isClosed!=null ">
+			IS_CLOSED=#{isClosed,jdbcType = TINYINT},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	where WARNING_NO=#{warningNo};
+</update>
+<update id="closeAllWarnng" parameterType="Warning">
+	update t_warning 
+		<set>
+			<if test="closedTime!=null ">
+				CLOSED_TIME=#{closedTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="closedMemo!=null and closedMemo!=''">
+				CLOSED_MEMO=#{closedMemo,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			IS_CLOSED = 1
+		</set>
+		where WARNING_NO IN 
+		(select a.warning_no from (select warning_no from t_warning where CAR_PLATE_NO=#{carPlateNo} and WARNING_SUB_TYPE = '车辆状态信息异常' and IS_CLOSED = 0) a);
+</update>
+<delete id="delete">
+	delete from t_warning 
+	<where>
+		WARNING_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Warning">
+	select <include refid="AllColumnlist"/> from t_warning
+	<where>
+		WARNING_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Warning">
+	select <include refid="AllColumnlist"/> from t_warning
+	<where>
+		WARNING_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(WARNING_NO) from t_warning 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Warning">
+	select <include refid="CommonColumnlist"/> from t_warning 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>order by UPDATE_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Warning">
+	select <include refid="CommonColumnlist"/> from t_warning
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where> order by WARNING_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="getWarningByCarNo" resultMap="Warning">
+	select <include refid="AllColumnlist"/> from t_warning
+	<where>
+		car_plate_no=#{0} and WARNING_SUB_TYPE = '车辆状态信息异常' and IS_NEED_MANUAL_CLOSED = '1' and IS_CLOSED = '0' and WARNING_TYPE = '车辆' ORDER BY
+	WARNING_TIME limit 1;
+	</where>
+</select>
+
+<select id="getRealTimeWarning" resultType="java.util.HashMap">
+	select 
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='车辆状态信息异常' THEN 1 ELSE 0 END) as onOrderNum,
+	sum(CASE WHEN warning_type='会员' and warning_sub_type='欠费超期' THEN 1 ELSE 0 END) as ownFeeNum,
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='闲置时间过长' THEN 1 ELSE 0 END) as carFreeTimeNum,
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='车辆电压过低警告' THEN 1 ELSE 0 END) as lowPowerNum,
+	sum(CASE WHEN warning_type='场站' and warning_sub_type='车位不足' THEN 1 ELSE 0 END) as carSpaceShortage
+	from t_warning
+	where IS_NEED_MANUAL_CLOSED='1' AND IS_CLOSED='0'
+	<![CDATA[	and WARNING_TIME >= #{0} and WARNING_TIME <= #{1}]]>
+</select>
+
+<select id="getWarningCountMap" resultType="java.util.HashMap">
+	select 
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='车辆状态信息异常' THEN 1 ELSE 0 END) as onOrderNum,
+	sum(CASE WHEN warning_type='会员' and warning_sub_type='欠费超期' THEN 1 ELSE 0 END) as ownFeeNum,
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='闲置时间过长' THEN 1 ELSE 0 END) as carFreeTimeNum,
+	sum(CASE WHEN warning_type='车辆' and warning_sub_type='车辆电压过低警告' THEN 1 ELSE 0 END) as lowPowerNum,
+	sum(CASE WHEN warning_type='场站' and warning_sub_type='车位不足' THEN 1 ELSE 0 END) as carSpaceShortageNum
+	from t_warning
+	where IS_NEED_MANUAL_CLOSED='1' AND IS_CLOSED='0'
+</select>
+		
+<select id="getWarningDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(WARNING_TIME,'%m-%d') as date,
+	count(WARNING_TIME) as num
+	from t_warning 
+	where 
+	<![CDATA[WARNING_TIME>=date_format(date_add(now(), interval -100 day),'%Y-%m-%d')]]>
+	group by date_format(WARNING_TIME,'%m-%d')
+</select>
+
+<sql id="listCommonWhere">
+<!-- 无传入参数时默认查未未关闭的 -->
+	<!--  <if test="q.isClosed==null">
+       AND IS_CLOSED=0
+    </if>-->
+	<if test="q!=null">
+		<if test="q.warningNo!=null and q.warningNo!=''">
+			AND WARNING_NO=#{q.warningNo}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.warningLevel!=null ">
+			AND WARNING_LEVEL=#{q.warningLevel}
+		</if>
+		<if test="q.warningType!=null and q.warningType!=''">
+			AND WARNING_TYPE=#{q.warningType}
+		</if>
+		<if test="q.warningSubType!=null and q.warningSubType!=''">
+			AND WARNING_SUB_TYPE=#{q.warningSubType}
+		</if>
+		<if test="q.warningTime!=null ">
+			AND WARNING_TIME=#{q.warningTime}
+		</if>
+		<if test="q.warningTimeStart!=null">
+		<![CDATA[	AND WARNING_TIME>=#{q.warningTimeStart}  ]]>
+		</if>
+		<if test="q.warningTimeEnd!=null">
+		<![CDATA[	AND WARNING_TIME<#{q.warningTimeEnd}   ]]>
+		</if>
+		<if test="q.warningContent!=null and q.warningContent!=''">
+			AND WARNING_CONTENT=#{q.warningContent}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.parkName!=null and q.parkName!=''">
+			AND PARK_NAME=#{q.parkName}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.isNeedManualClosed!=null ">
+			AND IS_NEED_MANUAL_CLOSED=#{q.isNeedManualClosed}
+		</if>
+		<if test="q.isClosed!=null ">
+			AND IS_CLOSED=#{q.isClosed}
+		</if>
+		<if test="q.closedTime!=null ">
+			AND CLOSED_TIME=#{q.closedTime}
+		</if>
+		<if test="q.closedTimeStart!=null">
+		<![CDATA[	AND CLOSED_TIME>=#{q.closedTimeStart}  ]]>
+		</if>
+		<if test="q.closedTimeEnd!=null">
+		<![CDATA[	AND CLOSED_TIME<#{q.closedTimeEnd}   ]]>
+		</if>
+		<if test="q.closedMemo!=null and q.closedMemo!=''">
+			AND CLOSED_MEMO=#{q.closedMemo}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+<select id="countWarning" resultType="Integer">
+	SELECT count(*) FROM t_warning WHERE WARNING_SUB_TYPE='车辆电压过低警告' AND IS_CLOSED=0
+</select>
+</mapper>

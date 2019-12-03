@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.ParkingLockDao">
+
+<resultMap type="ParkingLock" id="ParkingLock">
+	<id column="PARKING_LOCK_NO" property="parkingLockNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_NAME" property="parkingLockName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_CODE" property="parkingLockCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_SERIAL_NUMBER" property="parkingLockSerialNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_LOCK_TYPE" property="parkingLockType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_LOCK_USERTYPE" property="parkingLockUsertype" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_LOCK_STATUS" property="parkingLockStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ACTIVE_CONDITION" property="activeCondition" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PARKING_LOCK_CHARGING_NO" property="parkingLockChargingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATION_NAME" property="stationName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NAME" property="chargingPileName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARKING_LOCK_NO,PARKING_LOCK_NAME,PARKING_LOCK_CODE,PARKING_LOCK_SERIAL_NUMBER,PARKING_LOCK_TYPE,PARKING_LOCK_USERTYPE,PARKING_LOCK_STATUS,
+ACTIVE_CONDITION,PARKING_LOCK_CHARGING_NO,STATION_NO,STATION_NAME,CHARGING_PILE_NO,CHARGING_PILE_NAME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARKING_LOCK_NO,PARKING_LOCK_NAME,PARKING_LOCK_CODE,PARKING_LOCK_SERIAL_NUMBER,PARKING_LOCK_TYPE,PARKING_LOCK_USERTYPE,PARKING_LOCK_STATUS,
+ACTIVE_CONDITION,PARKING_LOCK_CHARGING_NO,STATION_NO,STATION_NAME,CHARGING_PILE_NO,CHARGING_PILE_NAME,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="ParkingLock" useGeneratedKeys="true" keyProperty="parkingLockNo">
+	insert into PARKING_LOCK(
+		<if test="parkingLockNo!=null">
+		PARKING_LOCK_NO,
+		</if>
+		PARKING_LOCK_NAME,
+		PARKING_LOCK_CODE,
+		PARKING_LOCK_SERIAL_NUMBER,
+		PARKING_LOCK_TYPE,
+		PARKING_LOCK_USERTYPE,
+		PARKING_LOCK_STATUS,
+		ACTIVE_CONDITION,
+		PARKING_LOCK_CHARGING_NO,
+		STATION_NO,
+		STATION_NAME,
+		CHARGING_PILE_NO,
+		CHARGING_PILE_NAME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="parkingLockNo!=null">
+		#{parkingLockNo,jdbcType = VARCHAR},
+		</if>
+		#{parkingLockName,jdbcType = VARCHAR},
+		#{parkingLockCode,jdbcType = VARCHAR},
+		#{parkingLockSerialNumber,jdbcType = VARCHAR},
+		#{parkingLockType,jdbcType = TINYINT},
+		#{parkingLockUsertype,jdbcType = TINYINT},
+		#{parkingLockStatus,jdbcType = TINYINT},
+		#{activeCondition,jdbcType = TINYINT},
+		#{parkingLockChargingNo,jdbcType = VARCHAR},
+		#{stationNo,jdbcType = VARCHAR},
+		#{stationName,jdbcType = VARCHAR},
+		#{chargingPileNo,jdbcType = VARCHAR},
+		#{chargingPileName,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="ParkingLock">
+	update PARKING_LOCK 
+	<set>
+		<if test="parkingLockName!=null and parkingLockName!=''">
+			PARKING_LOCK_NAME=#{parkingLockName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockCode!=null and parkingLockCode!=''">
+			PARKING_LOCK_CODE=#{parkingLockCode,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockSerialNumber!=null and parkingLockSerialNumber!=''">
+			PARKING_LOCK_SERIAL_NUMBER=#{parkingLockSerialNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingLockType!=null ">
+			PARKING_LOCK_TYPE=#{parkingLockType,jdbcType = TINYINT},
+		</if>
+		<if test="parkingLockUsertype!=null ">
+			PARKING_LOCK_USERTYPE=#{parkingLockUsertype,jdbcType = TINYINT},
+		</if>
+		<if test="parkingLockStatus!=null ">
+			PARKING_LOCK_STATUS=#{parkingLockStatus,jdbcType = TINYINT},
+		</if>
+		<if test="activeCondition!=null ">
+			ACTIVE_CONDITION=#{activeCondition,jdbcType = TINYINT},
+		</if>
+		<if test="parkingLockChargingNo!=null and parkingLockChargingNo!=''">
+			PARKING_LOCK_CHARGING_NO=#{parkingLockChargingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="stationNo!=null and stationNo!=''">
+			STATION_NO=#{stationNo,jdbcType = VARCHAR},
+		</if>
+		<if test="stationName!=null and stationName!=''">
+			STATION_NAME=#{stationName,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingPileName!=null and chargingPileName!=''">
+			CHARGING_PILE_NAME=#{chargingPileName,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND PARKING_LOCK_NO=#{parkingLockNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from PARKING_LOCK 
+	<where>
+		PARKING_LOCK_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ParkingLock">
+	select <include refid="AllColumnlist"/> from PARKING_LOCK
+	<where>
+		PARKING_LOCK_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ParkingLock">
+	select <include refid="AllColumnlist"/> from PARKING_LOCK
+	<where>
+		PARKING_LOCK_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARKING_LOCK_NO) from PARKING_LOCK 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ParkingLock">
+	select <include refid="CommonColumnlist"/> from PARKING_LOCK 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ParkingLock">
+	select <include refid="CommonColumnlist"/> from PARKING_LOCK
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.parkingLockNo!=null and q.parkingLockNo!=''">
+			AND PARKING_LOCK_NO=#{q.parkingLockNo}
+		</if>
+		<if test="q.parkingLockName!=null and q.parkingLockName!=''">
+			AND PARKING_LOCK_NAME=#{q.parkingLockName}
+		</if>
+		<if test="q.parkingLockCode!=null and q.parkingLockCode!=''">
+			AND PARKING_LOCK_CODE=#{q.parkingLockCode}
+		</if>
+		<if test="q.parkingLockSerialNumber!=null and q.parkingLockSerialNumber!=''">
+			AND PARKING_LOCK_SERIAL_NUMBER=#{q.parkingLockSerialNumber}
+		</if>
+		<if test="q.parkingLockType!=null ">
+			AND PARKING_LOCK_TYPE=#{q.parkingLockType}
+		</if>
+		<if test="q.parkingLockUsertype!=null ">
+			AND PARKING_LOCK_USERTYPE=#{q.parkingLockUsertype}
+		</if>
+		<if test="q.parkingLockStatus!=null ">
+			AND PARKING_LOCK_STATUS=#{q.parkingLockStatus}
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.parkingLockChargingNo!=null and q.parkingLockChargingNo!=''">
+			AND PARKING_LOCK_CHARGING_NO=#{q.parkingLockChargingNo}
+		</if>
+		<if test="q.stationNo!=null and q.stationNo!=''">
+			AND STATION_NO=#{q.stationNo}
+		</if>
+		<if test="q.stationName!=null and q.stationName!=''">
+			AND STATION_NAME=#{q.stationName}
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.chargingPileName!=null and q.chargingPileName!=''">
+			AND CHARGING_PILE_NAME=#{q.chargingPileName}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.car.dao.CarTripDao">
+
+<resultMap type="CarTrip" id="CarTrip">
+	<id column="TRIP_ID" property="tripId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STARTUP_TIME" property="startupTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="SHUTDOWN_TIME" property="shutdownTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="AUX_BATTERY_VOLTAGE" property="auxBatteryVoltage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IDLE_SPEED_DURATION" property="idleSpeedDuration" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DRIVEN_DURATION" property="drivenDuration" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DRIVEN_MILEAGE" property="drivenMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="USED_POWER" property="usedPower" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="HIGHEST_SPEED" property="highestSpeed" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="BRAKING_TIMES" property="brakingTimes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="RAPID_ACCELERATION_TIMES" property="rapidAccelerationTimes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="RAPID_DECELERATION_TIMES" property="rapidDecelerationTimes" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="TOTAL_MILEAGE" property="totalMileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="REMAIN_POWER" property="remainPower" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+TRIP_ID,CAR_NO,STARTUP_TIME,SHUTDOWN_TIME,AUX_BATTERY_VOLTAGE,IDLE_SPEED_DURATION,DRIVEN_DURATION,
+DRIVEN_MILEAGE,USED_POWER,HIGHEST_SPEED,BRAKING_TIMES,RAPID_ACCELERATION_TIMES,RAPID_DECELERATION_TIMES,
+TOTAL_MILEAGE,REMAIN_POWER,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+TRIP_ID,CAR_NO,STARTUP_TIME,SHUTDOWN_TIME,AUX_BATTERY_VOLTAGE,IDLE_SPEED_DURATION,DRIVEN_DURATION,
+DRIVEN_MILEAGE,USED_POWER,HIGHEST_SPEED,BRAKING_TIMES,RAPID_ACCELERATION_TIMES,RAPID_DECELERATION_TIMES,
+TOTAL_MILEAGE,REMAIN_POWER,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="CarTrip" useGeneratedKeys="true" keyProperty="tripId">
+	insert into T_CAR_TRIP(
+		<if test="tripId!=null">
+		TRIP_ID,
+		</if>
+		CAR_NO,
+		STARTUP_TIME,
+		SHUTDOWN_TIME,
+		AUX_BATTERY_VOLTAGE,
+		IDLE_SPEED_DURATION,
+		DRIVEN_DURATION,
+		DRIVEN_MILEAGE,
+		USED_POWER,
+		HIGHEST_SPEED,
+		BRAKING_TIMES,
+		RAPID_ACCELERATION_TIMES,
+		RAPID_DECELERATION_TIMES,
+		TOTAL_MILEAGE,
+		REMAIN_POWER,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="tripId!=null">
+		#{tripId,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{startupTime,jdbcType = TIMESTAMP},
+		#{shutdownTime,jdbcType = TIMESTAMP},
+		#{auxBatteryVoltage,jdbcType = DOUBLE},
+		#{idleSpeedDuration,jdbcType = DOUBLE},
+		#{drivenDuration,jdbcType = DOUBLE},
+		#{drivenMileage,jdbcType = DOUBLE},
+		#{usedPower,jdbcType = DOUBLE},
+		#{highestSpeed,jdbcType = DOUBLE},
+		#{brakingTimes,jdbcType = INTEGER},
+		#{rapidAccelerationTimes,jdbcType = INTEGER},
+		#{rapidDecelerationTimes,jdbcType = INTEGER},
+		#{totalMileage,jdbcType = DOUBLE},
+		#{remainPower,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="CarTrip">
+	update t_car_trip 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="startupTime!=null ">
+			STARTUP_TIME=#{startupTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="shutdownTime!=null ">
+			SHUTDOWN_TIME=#{shutdownTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="auxBatteryVoltage!=null ">
+			AUX_BATTERY_VOLTAGE=#{auxBatteryVoltage,jdbcType = DOUBLE},
+		</if>
+		<if test="idleSpeedDuration!=null ">
+			IDLE_SPEED_DURATION=#{idleSpeedDuration,jdbcType = DOUBLE},
+		</if>
+		<if test="drivenDuration!=null ">
+			DRIVEN_DURATION=#{drivenDuration,jdbcType = DOUBLE},
+		</if>
+		<if test="drivenMileage!=null ">
+			DRIVEN_MILEAGE=#{drivenMileage,jdbcType = DOUBLE},
+		</if>
+		<if test="usedPower!=null ">
+			USED_POWER=#{usedPower,jdbcType = DOUBLE},
+		</if>
+		<if test="highestSpeed!=null ">
+			HIGHEST_SPEED=#{highestSpeed,jdbcType = DOUBLE},
+		</if>
+		<if test="brakingTimes!=null ">
+			BRAKING_TIMES=#{brakingTimes,jdbcType = INTEGER},
+		</if>
+		<if test="rapidAccelerationTimes!=null ">
+			RAPID_ACCELERATION_TIMES=#{rapidAccelerationTimes,jdbcType = INTEGER},
+		</if>
+		<if test="rapidDecelerationTimes!=null ">
+			RAPID_DECELERATION_TIMES=#{rapidDecelerationTimes,jdbcType = INTEGER},
+		</if>
+		<if test="totalMileage!=null ">
+			TOTAL_MILEAGE=#{totalMileage,jdbcType = DOUBLE},
+		</if>
+		<if test="remainPower!=null ">
+			REMAIN_POWER=#{remainPower,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND TRIP_ID=#{tripId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_car_trip 
+	<where>
+		TRIP_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarTrip">
+	select <include refid="AllColumnlist"/> from t_car_trip
+	<where>
+		TRIP_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarTrip">
+	select <include refid="AllColumnlist"/> from t_car_trip
+	<where>
+		TRIP_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<!-- 获取订单总里程 -->
+<select id="getMileageByOrderTime" resultType="Double">
+	select  COALESCE(SUM(DRIVEN_MILEAGE),0) from t_car_trip
+	where CAR_NO=#{0} 
+	<![CDATA[	AND STARTUP_TIME>=#{1}   ]]>
+	<![CDATA[	AND SHUTDOWN_TIME<=#{2}   ]]>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(TRIP_ID) from t_car_trip 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarTrip">
+	select <include refid="CommonColumnlist"/> from t_car_trip 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarTrip">
+	select <include refid="CommonColumnlist"/> from t_car_trip
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.tripId!=null and q.tripId!=''">
+			AND TRIP_ID=#{q.tripId}
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.startupTime!=null ">
+			AND STARTUP_TIME=#{q.startupTime}
+		</if>
+		<if test="q.startupTimeStart!=null">
+		<![CDATA[	AND STARTUP_TIME>=#{q.startupTimeStart}  ]]>
+		</if>
+		<if test="q.startupTimeEnd!=null">
+		<![CDATA[	AND STARTUP_TIME<#{q.startupTimeEnd}   ]]>
+		</if>
+		<if test="q.shutdownTime!=null ">
+			AND SHUTDOWN_TIME=#{q.shutdownTime}
+		</if>
+		<if test="q.shutdownTimeStart!=null">
+		<![CDATA[	AND SHUTDOWN_TIME>=#{q.shutdownTimeStart}  ]]>
+		</if>
+		<if test="q.shutdownTimeEnd!=null">
+		<![CDATA[	AND SHUTDOWN_TIME<#{q.shutdownTimeEnd}   ]]>
+		</if>
+		<if test="q.auxBatteryVoltage!=null ">
+			AND AUX_BATTERY_VOLTAGE=#{q.auxBatteryVoltage}
+		</if>
+		<if test="q.idleSpeedDuration!=null ">
+			AND IDLE_SPEED_DURATION=#{q.idleSpeedDuration}
+		</if>
+		<if test="q.drivenDuration!=null ">
+			AND DRIVEN_DURATION=#{q.drivenDuration}
+		</if>
+		<if test="q.drivenMileage!=null ">
+			AND DRIVEN_MILEAGE=#{q.drivenMileage}
+		</if>
+		<if test="q.usedPower!=null ">
+			AND USED_POWER=#{q.usedPower}
+		</if>
+		<if test="q.highestSpeed!=null ">
+			AND HIGHEST_SPEED=#{q.highestSpeed}
+		</if>
+		<if test="q.brakingTimes!=null ">
+			AND BRAKING_TIMES=#{q.brakingTimes}
+		</if>
+		<if test="q.rapidAccelerationTimes!=null ">
+			AND RAPID_ACCELERATION_TIMES=#{q.rapidAccelerationTimes}
+		</if>
+		<if test="q.rapidDecelerationTimes!=null ">
+			AND RAPID_DECELERATION_TIMES=#{q.rapidDecelerationTimes}
+		</if>
+		<if test="q.totalMileage!=null ">
+			AND TOTAL_MILEAGE=#{q.totalMileage}
+		</if>
+		<if test="q.remainPower!=null ">
+			AND REMAIN_POWER=#{q.remainPower}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

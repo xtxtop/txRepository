@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CMatchingDao">
+
+<resultMap type="CMatching" id="CMatching">
+	<id column="MATCHING_ID" property="matchingId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MATCHING_NAME" property="matchingName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MATCHING_PIC_URL" property="matchingPicUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENABLE_STATUS" property="enableStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MATCHING_TYPE" property="matchingType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+MATCHING_ID,MATCHING_NAME,MATCHING_PIC_URL,ENABLE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,MATCHING_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+MATCHING_ID,MATCHING_NAME,ENABLE_STATUS,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,MATCHING_TYPE
+</sql>
+
+<insert id="add" parameterType="CMatching" useGeneratedKeys="true" keyProperty="matchingId">
+	insert into C_MATCHING(
+		<if test="matchingId!=null">
+		MATCHING_ID,
+		</if>
+		MATCHING_NAME,
+		MATCHING_PIC_URL,
+		ENABLE_STATUS,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,MATCHING_TYPE
+	) values (
+		<if test="matchingId!=null">
+		#{matchingId,jdbcType = VARCHAR},
+		</if>
+		#{matchingName,jdbcType = VARCHAR},
+		#{matchingPicUrl,jdbcType = VARCHAR},
+		#{enableStatus,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{matchingType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="CMatching">
+	update C_MATCHING 
+	<set>
+		<if test="matchingName!=null and matchingName!=''">
+			MATCHING_NAME=#{matchingName,jdbcType = VARCHAR},
+		</if>
+		<if test="matchingPicUrl!=null and matchingPicUrl!=''">
+			MATCHING_PIC_URL=#{matchingPicUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="enableStatus!=null ">
+			ENABLE_STATUS=#{enableStatus,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="matchingType!=null ">
+			MATCHING_TYPE=#{matchingType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND MATCHING_ID=#{matchingId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_MATCHING 
+	<where>
+		MATCHING_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultType="CMatching">
+	select m.MATCHING_ID matchingId,m.MATCHING_NAME matchingName,
+	m.MATCHING_PIC_URL matchingPicUrl,m.ENABLE_STATUS enableStatus,
+	m.CREATE_TIME createTime,m.UPDATE_TIME updateTime,m.MATCHING_TYPE matchingType,
+	m.OPERATOR_TYPE operatorType,m.OPERATOR_ID operatorId,
+	u.USER_NAME userName
+	 from C_MATCHING m
+	 LEFT JOIN t_sys_user u on m.OPERATOR_ID=u.USER_ID
+	<where>
+		MATCHING_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CMatching">
+	select <include refid="AllColumnlist"/> from C_MATCHING
+	<where>
+		MATCHING_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(MATCHING_ID) from C_MATCHING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CMatching">
+	select <include refid="CommonColumnlist"/> from C_MATCHING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+	order by CREATE_TIME
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CMatching">
+	select <include refid="AllColumnlist"/> from C_MATCHING
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<select id="searchInMatchingNos" resultType="cn.com.shopec.core.ml.vo.MatchingVo">
+	select MATCHING_NAME AS matchingName, CONCAT_WS('/',#{imgPath},MATCHING_PIC_URL) AS matchingPicUrl from C_MATCHING
+	<where>
+	   MATCHING_ID IN <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+	         #{item}
+	    </foreach>
+	</where>
+	ORDER BY CREATE_TIME
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.matchingId!=null and q.matchingId!=''">
+			AND MATCHING_ID=#{q.matchingId}
+		</if>
+		<if test="q.matchingName!=null and q.matchingName!=''">
+			AND MATCHING_NAME=#{q.matchingName}
+		</if>
+		<if test="q.matchingPicUrl!=null and q.matchingPicUrl!=''">
+			AND MATCHING_PIC_URL=#{q.matchingPicUrl}
+		</if>
+		<if test="q.enableStatus!=null ">
+			AND ENABLE_STATUS=#{q.enableStatus}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.matchingType!=null ">
+           AND MATCHING_TYPE=#{q.matchingType,jdbcType = TINYINT}
+        </if>
+	</if>
+</sql>
+
+</mapper>

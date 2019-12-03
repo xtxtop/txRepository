@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.DailyCarDao">
+
+<resultMap type="DailyCar" id="DailyCar">
+	<id column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MERCHANT_ID" property="merchantId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_NO" property="parkNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_ID" property="carBrandId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_ID" property="carModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_ID_NO" property="carIdNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENGINE_NO" property="engineNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_COLOR" property="carColor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="VALIDITY_DATE" property="validityDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CAR_LEVEL" property="carLevel" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SEATING" property="seating" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEVICE_ID" property="deviceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POWER" property="power" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MILEAGE" property="mileage" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LONGITUDE" property="longitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LATITUDE" property="latitude" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="LAST_REPORTING_TIME" property="lastReportingTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="INSURANCE_COMPANY" property="insuranceCompany" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ENROLLMENT_DATE" property="enrollmentDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="EFFECTIVE_INSURANCE_PERIOD" property="effectiveInsurancePeriod" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CAR_PHOTO_URL1" property="carPhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PHOTO_URL2" property="carPhotoUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PHOTO_URL3" property="carPhotoUrl3" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PHOTO_URL4" property="carPhotoUrl4" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_DOC_PHOTO_URL1" property="carDocPhotoUrl1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_DOC_PHOTO_URL2" property="carDocPhotoUrl2" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="USERAGE_STATUS" property="userageStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ONLINE_STATUS" property="onlineStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ON_OFF_LINE_REASON" property="onOffLineReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ONLINE_STATUS_UPDATE_TIME" property="onlineStatusUpdateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_NO,CAR_PLATE_NO,MERCHANT_ID,CITY_ID,CITY_NAME,PARK_NO,CAR_BRAND_ID,
+CAR_BRAND_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_ID_NO,ENGINE_NO,CAR_COLOR,
+VALIDITY_DATE,CAR_LEVEL,SEATING,DEVICE_ID,POWER,MILEAGE,
+LONGITUDE,LATITUDE,LAST_REPORTING_TIME,INSURANCE_COMPANY,ENROLLMENT_DATE,EFFECTIVE_INSURANCE_PERIOD,
+CAR_PHOTO_URL1,CAR_PHOTO_URL2,CAR_PHOTO_URL3,CAR_PHOTO_URL4,CAR_DOC_PHOTO_URL1,CAR_DOC_PHOTO_URL2,
+USERAGE_STATUS,ONLINE_STATUS,ON_OFF_LINE_REASON,ONLINE_STATUS_UPDATE_TIME,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_NO,CAR_PLATE_NO,MERCHANT_ID,CITY_ID,CITY_NAME,PARK_NO,CAR_BRAND_ID,
+CAR_BRAND_NAME,CAR_MODEL_ID,CAR_MODEL_NAME,CAR_ID_NO,ENGINE_NO,CAR_COLOR,
+VALIDITY_DATE,CAR_LEVEL,SEATING,DEVICE_ID,POWER,MILEAGE,
+LONGITUDE,LATITUDE,LAST_REPORTING_TIME,INSURANCE_COMPANY,ENROLLMENT_DATE,EFFECTIVE_INSURANCE_PERIOD,
+CAR_PHOTO_URL1,CAR_PHOTO_URL2,CAR_PHOTO_URL3,CAR_PHOTO_URL4,CAR_DOC_PHOTO_URL1,CAR_DOC_PHOTO_URL2,
+USERAGE_STATUS,ONLINE_STATUS,ONLINE_STATUS_UPDATE_TIME,CREATE_TIME,UPDATE_TIME,
+OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="DailyCar" useGeneratedKeys="true" keyProperty="carNo">
+	insert into T_DAILY_CAR(
+		<if test="carNo!=null">
+		CAR_NO,
+		</if>
+		CAR_PLATE_NO,
+		MERCHANT_ID,
+		CITY_ID,
+		CITY_NAME,
+		PARK_NO,
+		CAR_BRAND_ID,
+		CAR_BRAND_NAME,
+		CAR_MODEL_ID,
+		CAR_MODEL_NAME,
+		CAR_ID_NO,
+		ENGINE_NO,
+		CAR_COLOR,
+		VALIDITY_DATE,
+		CAR_LEVEL,
+		SEATING,
+		DEVICE_ID,
+		POWER,
+		MILEAGE,
+		LONGITUDE,
+		LATITUDE,
+		LAST_REPORTING_TIME,
+		INSURANCE_COMPANY,
+		ENROLLMENT_DATE,
+		EFFECTIVE_INSURANCE_PERIOD,
+		CAR_PHOTO_URL1,
+		CAR_PHOTO_URL2,
+		CAR_PHOTO_URL3,
+		CAR_PHOTO_URL4,
+		CAR_DOC_PHOTO_URL1,
+		CAR_DOC_PHOTO_URL2,
+		USERAGE_STATUS,
+		ONLINE_STATUS,
+		ON_OFF_LINE_REASON,
+		ONLINE_STATUS_UPDATE_TIME,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="carNo!=null">
+		#{carNo,jdbcType = VARCHAR},
+		</if>
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{merchantId,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{parkNo,jdbcType = VARCHAR},
+		#{carBrandId,jdbcType = VARCHAR},
+		#{carBrandName,jdbcType = VARCHAR},
+		#{carModelId,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{carIdNo,jdbcType = VARCHAR},
+		#{engineNo,jdbcType = VARCHAR},
+		#{carColor,jdbcType = VARCHAR},
+		#{validityDate,jdbcType = TIMESTAMP},
+		#{carLevel,jdbcType = DOUBLE},
+		#{seating,jdbcType = VARCHAR},
+		#{deviceId,jdbcType = VARCHAR},
+		#{power,jdbcType = DOUBLE},
+		#{mileage,jdbcType = DOUBLE},
+		#{longitude,jdbcType = DOUBLE},
+		#{latitude,jdbcType = DOUBLE},
+		#{lastReportingTime,jdbcType = TIMESTAMP},
+		#{insuranceCompany,jdbcType = VARCHAR},
+		#{enrollmentDate,jdbcType = TIMESTAMP},
+		#{effectiveInsurancePeriod,jdbcType = TIMESTAMP},
+		#{carPhotoUrl1,jdbcType = VARCHAR},
+		#{carPhotoUrl2,jdbcType = VARCHAR},
+		#{carPhotoUrl3,jdbcType = VARCHAR},
+		#{carPhotoUrl4,jdbcType = VARCHAR},
+		#{carDocPhotoUrl1,jdbcType = VARCHAR},
+		#{carDocPhotoUrl2,jdbcType = VARCHAR},
+		#{userageStatus,jdbcType = TINYINT},
+		#{onlineStatus,jdbcType = TINYINT},
+		#{onOffLineReason,jdbcType = VARCHAR},
+		#{onlineStatusUpdateTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="DailyCar">
+	update T_DAILY_CAR 
+	<set>
+		<if test="carPlateNo!=null and carPlateNo!=''">
+			CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+		</if>
+		<if test="merchantId!=null and merchantId!=''">
+			MERCHANT_ID=#{merchantId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			CAR_MODEL_ID=#{carModelId,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="carIdNo!=null and carIdNo!=''">
+			CAR_ID_NO=#{carIdNo,jdbcType = VARCHAR},
+		</if>
+		<if test="engineNo!=null and engineNo!=''">
+			ENGINE_NO=#{engineNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carColor!=null and carColor!=''">
+			CAR_COLOR=#{carColor,jdbcType = VARCHAR},
+		</if>
+		<if test="validityDate!=null ">
+			VALIDITY_DATE=#{validityDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="carLevel!=null ">
+			CAR_LEVEL=#{carLevel,jdbcType = DOUBLE},
+		</if>
+		<if test="seating!=null and seating!=''">
+			SEATING=#{seating,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceId!=null and deviceId!=''">
+			DEVICE_ID=#{deviceId,jdbcType = VARCHAR},
+		</if>
+		<if test="power!=null ">
+			POWER=#{power,jdbcType = DOUBLE},
+		</if>
+		<if test="mileage!=null ">
+			MILEAGE=#{mileage,jdbcType = DOUBLE},
+		</if>
+		<if test="longitude!=null ">
+			LONGITUDE=#{longitude,jdbcType = DOUBLE},
+		</if>
+		<if test="latitude!=null ">
+			LATITUDE=#{latitude,jdbcType = DOUBLE},
+		</if>
+		<if test="lastReportingTime!=null ">
+			LAST_REPORTING_TIME=#{lastReportingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="insuranceCompany!=null and insuranceCompany!=''">
+			INSURANCE_COMPANY=#{insuranceCompany,jdbcType = VARCHAR},
+		</if>
+		<if test="enrollmentDate!=null ">
+			ENROLLMENT_DATE=#{enrollmentDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="effectiveInsurancePeriod!=null ">
+			EFFECTIVE_INSURANCE_PERIOD=#{effectiveInsurancePeriod,jdbcType = TIMESTAMP},
+		</if>
+		<if test="carPhotoUrl1!=null and carPhotoUrl1!=''">
+			CAR_PHOTO_URL1=#{carPhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl2!=null and carPhotoUrl2!=''">
+			CAR_PHOTO_URL2=#{carPhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl3!=null and carPhotoUrl3!=''">
+			CAR_PHOTO_URL3=#{carPhotoUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl4!=null and carPhotoUrl4!=''">
+			CAR_PHOTO_URL4=#{carPhotoUrl4,jdbcType = VARCHAR},
+		</if>
+		<if test="carDocPhotoUrl1!=null and carDocPhotoUrl1!=''">
+			CAR_DOC_PHOTO_URL1=#{carDocPhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="carDocPhotoUrl2!=null and carDocPhotoUrl2!=''">
+			CAR_DOC_PHOTO_URL2=#{carDocPhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="userageStatus!=null ">
+			USERAGE_STATUS=#{userageStatus,jdbcType = TINYINT},
+		</if>
+		<if test="onlineStatus!=null ">
+			ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+		</if>
+		<if test="onOffLineReason!=null and onOffLineReason!=''">
+			ON_OFF_LINE_REASON=#{onOffLineReason,jdbcType = VARCHAR},
+		</if>
+		<if test="onlineStatusUpdateTime!=null ">
+			ONLINE_STATUS_UPDATE_TIME=#{onlineStatusUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND CAR_NO=#{carNo}
+	</where>
+</update>
+
+<update id="updateDailyCarByPlateNo" parameterType="DailyCar">
+	update T_DAILY_CAR 
+	<set>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkNo!=null and parkNo!=''">
+			PARK_NO=#{parkNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandId!=null and carBrandId!=''">
+			CAR_BRAND_ID=#{carBrandId,jdbcType = VARCHAR},
+		</if>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="carIdNo!=null and carIdNo!=''">
+			CAR_ID_NO=#{carIdNo,jdbcType = VARCHAR},
+		</if>
+		<if test="engineNo!=null and engineNo!=''">
+			ENGINE_NO=#{engineNo,jdbcType = VARCHAR},
+		</if>
+		<if test="carColor!=null and carColor!=''">
+			CAR_COLOR=#{carColor,jdbcType = VARCHAR},
+		</if>
+		<if test="validityDate!=null ">
+			VALIDITY_DATE=#{validityDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="carLevel!=null ">
+			CAR_LEVEL=#{carLevel,jdbcType = DOUBLE},
+		</if>
+		<if test="seating!=null and seating!=''">
+			SEATING=#{seating,jdbcType = VARCHAR},
+		</if>
+		<if test="deviceId!=null and deviceId!=''">
+			DEVICE_ID=#{deviceId,jdbcType = VARCHAR},
+		</if>
+		<if test="power!=null ">
+			POWER=#{power,jdbcType = DOUBLE},
+		</if>
+		<if test="mileage!=null ">
+			MILEAGE=#{mileage,jdbcType = DOUBLE},
+		</if>
+		<if test="longitude!=null ">
+			LONGITUDE=#{longitude,jdbcType = DOUBLE},
+		</if>
+		<if test="latitude!=null ">
+			LATITUDE=#{latitude,jdbcType = DOUBLE},
+		</if>
+		<if test="lastReportingTime!=null ">
+			LAST_REPORTING_TIME=#{lastReportingTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="insuranceCompany!=null and insuranceCompany!=''">
+			INSURANCE_COMPANY=#{insuranceCompany,jdbcType = VARCHAR},
+		</if>
+		<if test="enrollmentDate!=null ">
+			ENROLLMENT_DATE=#{enrollmentDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="effectiveInsurancePeriod!=null ">
+			EFFECTIVE_INSURANCE_PERIOD=#{effectiveInsurancePeriod,jdbcType = TIMESTAMP},
+		</if>
+		<if test="carPhotoUrl1!=null and carPhotoUrl1!=''">
+			CAR_PHOTO_URL1=#{carPhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl2!=null and carPhotoUrl2!=''">
+			CAR_PHOTO_URL2=#{carPhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl3!=null and carPhotoUrl3!=''">
+			CAR_PHOTO_URL3=#{carPhotoUrl3,jdbcType = VARCHAR},
+		</if>
+		<if test="carPhotoUrl4!=null and carPhotoUrl4!=''">
+			CAR_PHOTO_URL4=#{carPhotoUrl4,jdbcType = VARCHAR},
+		</if>
+		<if test="carDocPhotoUrl1!=null and carDocPhotoUrl1!=''">
+			CAR_DOC_PHOTO_URL1=#{carDocPhotoUrl1,jdbcType = VARCHAR},
+		</if>
+		<if test="carDocPhotoUrl2!=null and carDocPhotoUrl2!=''">
+			CAR_DOC_PHOTO_URL2=#{carDocPhotoUrl2,jdbcType = VARCHAR},
+		</if>
+		<if test="userageStatus!=null ">
+			USERAGE_STATUS=#{userageStatus,jdbcType = TINYINT},
+		</if>
+		<if test="onlineStatus!=null ">
+			ONLINE_STATUS=#{onlineStatus,jdbcType = TINYINT},
+		</if>
+		<if test="onOffLineReason!=null and onOffLineReason!=''">
+			ON_OFF_LINE_REASON=#{onOffLineReason,jdbcType = VARCHAR},
+		</if>
+		<if test="onlineStatusUpdateTime!=null ">
+			ONLINE_STATUS_UPDATE_TIME=#{onlineStatusUpdateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		 CAR_PLATE_NO=#{carPlateNo} 
+		<if test="merchantId!=null and merchantId!=''">
+			AND MERCHANT_ID=#{merchantId}
+		</if>
+		<if test="carModelId!=null and carModelId!=''">
+			AND CAR_MODEL_ID=#{carModelId}
+		</if>
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_DAILY_CAR 
+	<where>
+		CAR_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DailyCar">
+	select <include refid="AllColumnlist"/> from T_DAILY_CAR
+	<where>
+		CAR_NO=#{0}
+	</where>
+</select>
+
+<select id="getDailyCarByCarPlateNo" resultMap="DailyCar">
+	select <include refid="AllColumnlist"/> from T_DAILY_CAR
+	<where>
+		CAR_PLATE_NO=#{0} 
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DailyCar">
+	select <include refid="AllColumnlist"/> from T_DAILY_CAR
+	<where>
+		CAR_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_NO) from T_DAILY_CAR 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DailyCar">
+	select <include refid="CommonColumnlist"/> from T_DAILY_CAR 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DailyCar">
+	select <include refid="CommonColumnlist"/> from T_DAILY_CAR
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO=#{q.carNo}
+		</if>
+		<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+			AND CAR_PLATE_NO=#{q.carPlateNo}
+		</if>
+		<if test="q.merchantId!=null and q.merchantId!=''">
+			AND MERCHANT_ID=#{q.merchantId}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.parkNo!=null and q.parkNo!=''">
+			AND PARK_NO=#{q.parkNo}
+		</if>
+		<if test="q.carBrandId!=null and q.carBrandId!=''">
+			AND CAR_BRAND_ID=#{q.carBrandId}
+		</if>
+		<if test="q.carBrandName!=null and q.carBrandName!=''">
+			AND CAR_BRAND_NAME=#{q.carBrandName}
+		</if>
+		<if test="q.carModelId!=null and q.carModelId!=''">
+			AND CAR_MODEL_ID=#{q.carModelId}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.carIdNo!=null and q.carIdNo!=''">
+			AND CAR_ID_NO=#{q.carIdNo}
+		</if>
+		<if test="q.engineNo!=null and q.engineNo!=''">
+			AND ENGINE_NO=#{q.engineNo}
+		</if>
+		<if test="q.carColor!=null and q.carColor!=''">
+			AND CAR_COLOR=#{q.carColor}
+		</if>
+		<if test="q.validityDate!=null ">
+			AND VALIDITY_DATE=#{q.validityDate}
+		</if>
+		<if test="q.validityDateStart!=null">
+		<![CDATA[	AND VALIDITY_DATE>=#{q.validityDateStart}  ]]>
+		</if>
+		<if test="q.validityDateEnd!=null">
+		<![CDATA[	AND VALIDITY_DATE<#{q.validityDateEnd}   ]]>
+		</if>
+		<if test="q.carLevel!=null ">
+			AND CAR_LEVEL=#{q.carLevel}
+		</if>
+		<if test="q.seating!=null and q.seating!=''">
+			AND SEATING=#{q.seating}
+		</if>
+		<if test="q.deviceId!=null and q.deviceId!=''">
+			AND DEVICE_ID=#{q.deviceId}
+		</if>
+		<if test="q.power!=null ">
+			AND POWER=#{q.power}
+		</if>
+		<if test="q.mileage!=null ">
+			AND MILEAGE=#{q.mileage}
+		</if>
+		<if test="q.longitude!=null ">
+			AND LONGITUDE=#{q.longitude}
+		</if>
+		<if test="q.latitude!=null ">
+			AND LATITUDE=#{q.latitude}
+		</if>
+		<if test="q.lastReportingTime!=null ">
+			AND LAST_REPORTING_TIME=#{q.lastReportingTime}
+		</if>
+		<if test="q.lastReportingTimeStart!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME>=#{q.lastReportingTimeStart}  ]]>
+		</if>
+		<if test="q.lastReportingTimeEnd!=null">
+		<![CDATA[	AND LAST_REPORTING_TIME<#{q.lastReportingTimeEnd}   ]]>
+		</if>
+		<if test="q.insuranceCompany!=null and q.insuranceCompany!=''">
+			AND INSURANCE_COMPANY=#{q.insuranceCompany}
+		</if>
+		<if test="q.enrollmentDate!=null ">
+			AND ENROLLMENT_DATE=#{q.enrollmentDate}
+		</if>
+		<if test="q.enrollmentDateStart!=null">
+		<![CDATA[	AND ENROLLMENT_DATE>=#{q.enrollmentDateStart}  ]]>
+		</if>
+		<if test="q.enrollmentDateEnd!=null">
+		<![CDATA[	AND ENROLLMENT_DATE<#{q.enrollmentDateEnd}   ]]>
+		</if>
+		<if test="q.effectiveInsurancePeriod!=null ">
+			AND EFFECTIVE_INSURANCE_PERIOD=#{q.effectiveInsurancePeriod}
+		</if>
+		<if test="q.effectiveInsurancePeriodStart!=null">
+		<![CDATA[	AND EFFECTIVE_INSURANCE_PERIOD>=#{q.effectiveInsurancePeriodStart}  ]]>
+		</if>
+		<if test="q.effectiveInsurancePeriodEnd!=null">
+		<![CDATA[	AND EFFECTIVE_INSURANCE_PERIOD<#{q.effectiveInsurancePeriodEnd}   ]]>
+		</if>
+		<if test="q.carPhotoUrl1!=null and q.carPhotoUrl1!=''">
+			AND CAR_PHOTO_URL1=#{q.carPhotoUrl1}
+		</if>
+		<if test="q.carPhotoUrl2!=null and q.carPhotoUrl2!=''">
+			AND CAR_PHOTO_URL2=#{q.carPhotoUrl2}
+		</if>
+		<if test="q.carPhotoUrl3!=null and q.carPhotoUrl3!=''">
+			AND CAR_PHOTO_URL3=#{q.carPhotoUrl3}
+		</if>
+		<if test="q.carPhotoUrl4!=null and q.carPhotoUrl4!=''">
+			AND CAR_PHOTO_URL4=#{q.carPhotoUrl4}
+		</if>
+		<if test="q.carDocPhotoUrl1!=null and q.carDocPhotoUrl1!=''">
+			AND CAR_DOC_PHOTO_URL1=#{q.carDocPhotoUrl1}
+		</if>
+		<if test="q.carDocPhotoUrl2!=null and q.carDocPhotoUrl2!=''">
+			AND CAR_DOC_PHOTO_URL2=#{q.carDocPhotoUrl2}
+		</if>
+		<if test="q.userageStatus!=null ">
+			AND USERAGE_STATUS=#{q.userageStatus}
+		</if>
+		<if test="q.onlineStatus!=null ">
+			AND ONLINE_STATUS=#{q.onlineStatus}
+		</if>
+		<if test="q.onOffLineReason!=null and q.onOffLineReason!=''">
+			AND ON_OFF_LINE_REASON=#{q.onOffLineReason}
+		</if>
+		<if test="q.onlineStatusUpdateTime!=null ">
+			AND ONLINE_STATUS_UPDATE_TIME=#{q.onlineStatusUpdateTime}
+		</if>
+		<if test="q.onlineStatusUpdateTimeStart!=null">
+		<![CDATA[	AND ONLINE_STATUS_UPDATE_TIME>=#{q.onlineStatusUpdateTimeStart}  ]]>
+		</if>
+		<if test="q.onlineStatusUpdateTimeEnd!=null">
+		<![CDATA[	AND ONLINE_STATUS_UPDATE_TIME<#{q.onlineStatusUpdateTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

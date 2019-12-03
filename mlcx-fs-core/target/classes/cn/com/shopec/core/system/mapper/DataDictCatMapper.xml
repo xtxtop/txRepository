@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.DataDictCatDao">
+
+<resultMap type="DataDictCat" id="DataDictCat">
+	<id column="DATA_DICT_CAT_CODE" property="dataDictCatCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DATA_DICT_CAT_NAME" property="dataDictCatName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARENT_CAT_CODE" property="parentCatCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DATA_DICT_CAT_CODE,DATA_DICT_CAT_NAME,PARENT_CAT_CODE,MEMO,IS_AVAILABLE,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DATA_DICT_CAT_CODE,DATA_DICT_CAT_NAME,PARENT_CAT_CODE,IS_AVAILABLE,IS_DELETED,CREATE_TIME,
+UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="DataDictCat" useGeneratedKeys="true" keyProperty="dataDictCatCode">
+	insert into T_DATA_DICT_CAT(
+		<if test="dataDictCatCode!=null">
+		DATA_DICT_CAT_CODE,
+		</if>
+		DATA_DICT_CAT_NAME,
+		PARENT_CAT_CODE,
+		MEMO,
+		IS_AVAILABLE,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="dataDictCatCode!=null">
+		#{dataDictCatCode,jdbcType = VARCHAR},
+		</if>
+		#{dataDictCatName,jdbcType = VARCHAR},
+		#{parentCatCode,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{isAvailable,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DataDictCat">
+	update t_data_dict_cat 
+	<set>
+		<if test="dataDictCatName!=null and dataDictCatName!=''">
+			DATA_DICT_CAT_NAME=#{dataDictCatName,jdbcType = VARCHAR},
+		</if>
+			PARENT_CAT_CODE=#{parentCatCode,jdbcType = VARCHAR},
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="isDeleted!=null ">
+			IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND DATA_DICT_CAT_CODE=#{dataDictCatCode}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_data_dict_cat 
+	<where>
+		DATA_DICT_CAT_CODE=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DataDictCat">
+	select <include refid="AllColumnlist"/> from t_data_dict_cat
+	<where>
+		DATA_DICT_CAT_CODE=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="DataDictCat">
+	select <include refid="AllColumnlist"/> from t_data_dict_cat
+	<where>
+		DATA_DICT_CAT_CODE in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DATA_DICT_CAT_CODE) from t_data_dict_cat 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DataDictCat">
+	select <include refid="CommonColumnlist"/> from t_data_dict_cat 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DataDictCat">
+	select <include refid="CommonColumnlist"/> from t_data_dict_cat
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+       AND IS_DELETED=0
+    </if>
+	<if test="q!=null">
+		<if test="q.dataDictCatCode!=null and q.dataDictCatCode!=''">
+			AND DATA_DICT_CAT_CODE=#{q.dataDictCatCode}
+		</if>
+		<if test="q.dataDictCatName!=null and q.dataDictCatName!=''">
+			AND DATA_DICT_CAT_NAME like '%${q.dataDictCatName}%'
+		</if>
+		<if test="q.parentCatCode!=null and q.parentCatCode!=''">
+			AND PARENT_CAT_CODE=#{q.parentCatCode}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

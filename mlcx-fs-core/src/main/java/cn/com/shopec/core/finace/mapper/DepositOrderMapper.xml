@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.DepositOrderDao">
+
+<resultMap type="DepositOrder" id="DepositOrder">
+	<id column="DEPOSIT_ORDER_NO" property="depositOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DEPOSIT_AMOUNT" property="depositAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAYABLE_AMOUNT" property="payableAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_METHOD" property="paymentMethod" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAYMENT_FLOW_NO" property="paymentFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PART_TRADE_FLOW_NO" property="partTradeFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="REMAIN_AMOUNT" property="remainAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DEDUCTED_AMOUNT" property="deductedAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="REFUND_AMOUNT" property="refundAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FROZEN_AMOUNT" property="frozenAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ADDR_REGION" property="addrRegion" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DEPOSIT_ORDER_NO,MEMBER_NO,DEPOSIT_AMOUNT,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,
+PAYMENT_TIME,REMAIN_AMOUNT,DEDUCTED_AMOUNT,REFUND_AMOUNT,FROZEN_AMOUNT,IS_AVAILABLE,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,ADDR_REGION,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DEPOSIT_ORDER_NO,MEMBER_NO,DEPOSIT_AMOUNT,PAYABLE_AMOUNT,PAY_STATUS,PAYMENT_METHOD,PAYMENT_FLOW_NO,PART_TRADE_FLOW_NO,
+PAYMENT_TIME,REMAIN_AMOUNT,DEDUCTED_AMOUNT,REFUND_AMOUNT,FROZEN_AMOUNT,IS_AVAILABLE,
+CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="DepositOrder" useGeneratedKeys="true" keyProperty="depositOrderNo">
+	insert into T_DEPOSIT_ORDER(
+		<if test="depositOrderNo!=null">
+		DEPOSIT_ORDER_NO,
+		</if>
+		MEMBER_NO,
+		DEPOSIT_AMOUNT,
+		PAYABLE_AMOUNT,
+		PAY_STATUS,
+		PAYMENT_METHOD,
+		PAYMENT_FLOW_NO,
+		PART_TRADE_FLOW_NO,
+		PAYMENT_TIME,
+		REMAIN_AMOUNT,
+		DEDUCTED_AMOUNT,
+		REFUND_AMOUNT,
+		FROZEN_AMOUNT,
+		IS_AVAILABLE,
+		ADDR_REGION,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="depositOrderNo!=null">
+		#{depositOrderNo,jdbcType = VARCHAR},
+		</if>
+		#{memberNo,jdbcType = VARCHAR},
+		#{depositAmount,jdbcType = DOUBLE},
+		#{payableAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{paymentMethod,jdbcType = TINYINT},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{partTradeFlowNo,jdbcType = VARCHAR},
+		#{remainAmount,jdbcType = DOUBLE},
+		#{deductedAmount,jdbcType = DOUBLE},
+		#{refundAmount,jdbcType = DOUBLE},
+		#{frozenAmount,jdbcType = DOUBLE},
+		#{isAvailable,jdbcType = TINYINT},
+		#{addrRegion,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="DepositOrder">
+	update t_deposit_order 
+	<set>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="depositAmount!=null ">
+			DEPOSIT_AMOUNT=#{depositAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payableAmount!=null ">
+			PAYABLE_AMOUNT=#{payableAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="paymentMethod!=null ">
+			PAYMENT_METHOD=#{paymentMethod,jdbcType = TINYINT},
+		</if>
+		<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+			PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="partTradeFlowNo!=null and partTradeFlowNo!=''">
+			PART_TRADE_FLOW_NO=#{partTradeFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="paymentTime!=null ">
+			PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="remainAmount!=null ">
+			REMAIN_AMOUNT=#{remainAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="deductedAmount!=null ">
+			DEDUCTED_AMOUNT=#{deductedAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="refundAmount!=null ">
+			REFUND_AMOUNT=#{refundAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="frozenAmount!=null ">
+			FROZEN_AMOUNT=#{frozenAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="isAvailable!=null ">
+			IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+		</if>
+		<if test="addrRegion!=null and addrRegion!=''">
+			ADDR_REGION=#{addrRegion,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND DEPOSIT_ORDER_NO=#{depositOrderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_deposit_order 
+	<where>
+		DEPOSIT_ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="DepositOrder">
+	select <include refid="AllColumnlist"/> from t_deposit_order
+	<where>
+		DEPOSIT_ORDER_NO=#{0}
+	</where>
+</select>
+<!-- 获取会员的剩余押金 -->
+<select id="getAmountByMemberNo" resultType="Double">
+	select sum(REMAIN_AMOUNT) from t_deposit_order
+	<where>
+		MEMBER_NO=#{0} and IS_AVAILABLE=1 and PAY_STATUS=1
+	</where>
+</select>
+
+<select id="getMemberNo" resultType="DepositOrder">
+	select <include refid="AllColumnlist"/> from t_deposit_order
+	<where>
+		MEMBER_NO=#{0} and IS_AVAILABLE=1 and PAY_STATUS=1
+	</where>
+</select>
+<!-- 根据会员编号获取会员当前保证金的使用情况  zln -->
+<select id="getDepositByMemberNo" resultType="cn.com.shopec.core.finace.model.Deposit">
+	select MEMBER_NO as memberNo,SUM(DEPOSIT_AMOUNT) as depositAmount,SUM(DEDUCTED_AMOUNT) as deductedAmount,SUM(REMAIN_AMOUNT) as remainAmount,SUM(FROZEN_AMOUNT) as frozenAmount,
+	SUM(REMAIN_AMOUNT-FROZEN_AMOUNT) as availableAmount
+	 from t_deposit_order
+		where MEMBER_NO=#{0} and IS_AVAILABLE=1 and PAY_STATUS=1 
+		<![CDATA[	AND REMAIN_AMOUNT > 0.0   ]]>
+</select>
+<!-- 根据会员编号获取会员当前保证金中最早缴纳的一笔  zln -->
+<select id="getEarliestDepositByMemberNo" resultMap="DepositOrder">
+	select <include refid="AllColumnlist"/>  from t_deposit_order 
+	where MEMBER_NO=#{0} 
+	and IS_AVAILABLE=1 
+	and PAY_STATUS=1 
+	<![CDATA[	and REMAIN_AMOUNT > 0.0   ]]>
+	order by create_time asc
+	limit 0,1
+</select>
+
+
+<!-- 根据会员编号查询保证金可以进行退款的记录 -->
+<select id="getDepositRefundByMemberNo" resultMap="DepositOrder">
+	select <include refid="AllColumnlist"/> from t_deposit_order
+	<where>
+		MEMBER_NO=#{0} and IS_AVAILABLE=1 and PAY_STATUS=1
+		<![CDATA[	AND REMAIN_AMOUNT > 0.0   ]]>
+		<![CDATA[	AND REMAIN_AMOUNT - FROZEN_AMOUNT> 0.0   ]]>
+	</where>
+</select>
+<select id="getByIds" resultMap="DepositOrder">
+	select <include refid="AllColumnlist"/> from t_deposit_order
+	<where>
+		DEPOSIT_ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DEPOSIT_ORDER_NO) from t_deposit_order 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="DepositOrder">
+	select <include refid="CommonColumnlist"/> from t_deposit_order 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where> order by PAYMENT_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="DepositOrder">
+	select <include refid="CommonColumnlist"/> from t_deposit_order
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<!-- 财务资金 -->
+<select id="getDepositAlipayAmount" resultType="Double">
+	SELECT ROUND(SUM(tdo.PAYABLE_AMOUNT),2) FROM t_deposit_order tdo 
+	LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO 
+	<where>
+		<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+		<![CDATA[ and tdo.payment_time <=#{money.endTime} ]]> 
+		AND tdo.PAYMENT_METHOD=1 AND tdo.pay_status=1
+	</where>
+</select>
+<select id="getDepositWxAmount" resultType="Double">
+	SELECT ROUND(SUM(tdo.PAYABLE_AMOUNT),2) FROM t_deposit_order tdo 
+	LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO 
+	<where>
+		<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+		<![CDATA[ and tdo.payment_time <=#{money.endTime} ]]> 
+		AND tdo.PAYMENT_METHOD=2 AND tdo.pay_status=1
+	</where>
+</select>
+<select id="getDepositAlipayRefund" resultType="Double">
+SELECT ROUND(SUM(tdr.REFUND_AMOUNT),2) FROM t_deposit_order tdo 
+LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO
+	<where>
+		<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+		<![CDATA[ and tdo.payment_time <=#{money.endTime} ]]> 
+		AND tdo.PAYMENT_METHOD=1 AND tdo.pay_status=1
+		AND tdr.REFUND_STATUS=1
+	</where>
+</select>
+<select id="getDepositWxRefund" resultType="Double">
+SELECT ROUND(SUM(tdr.REFUND_AMOUNT),2) FROM t_deposit_order tdo 
+LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO
+	<where>
+		<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+		<![CDATA[ and tdo.payment_time <=#{money.endTime} ]]> 
+		AND tdo.PAYMENT_METHOD=2 AND tdo.pay_status=1
+		AND tdr.REFUND_STATUS=1
+	</where>
+</select>
+
+<select id="getWxAmount" resultType="Double">
+ SELECT 
+ (SELECT ROUND(SUM(o.payable_amount),2) FROM t_order o 
+ 	<where>
+ 	<![CDATA[ and o.finish_time>=#{money.startTime} ]]> 
+	<![CDATA[ and o.FINISH_TIME<=#{money.endTime} ]]>  
+ 	AND PAYMENT_METHOD=2 AND pay_status=1
+ 	</where>
+ 	)
+   +
+   (SELECT ROUND(SUM(tdo.PAYABLE_AMOUNT),2) FROM t_deposit_order tdo 
+   	LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO 
+   	<where>
+   	<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+	<![CDATA[ and tdo.payment_time<=#{money.endTime} ]]> 
+   	AND tdo.PAYMENT_METHOD=2 AND tdo.pay_status=1
+   	</where> 
+   	) 
+</select>
+<select id="getAlipayAmount" resultType="Double">
+ SELECT 
+ (SELECT ROUND(SUM(o.payable_amount),2) FROM t_order o 
+ 	<where>
+ 	<![CDATA[ and o.finish_time>=#{money.startTime} ]]> 
+	<![CDATA[ and o.FINISH_TIME<=#{money.endTime} ]]>  
+ 	AND PAYMENT_METHOD=1 AND pay_status=1
+ 	</where>
+ 	)
+   +
+   (SELECT ROUND(SUM(tdo.PAYABLE_AMOUNT),2) FROM t_deposit_order tdo 
+   	LEFT JOIN t_deposit_refund tdr ON tdo.deposit_order_no=tdr.DEPOSIT_ORDER_NO 
+   	<where>
+   	<![CDATA[ and tdo.payment_time >=#{money.startTime} ]]> 
+	<![CDATA[ and tdo.payment_time<=#{money.endTime} ]]> 
+   	AND tdo.PAYMENT_METHOD=1 AND tdo.pay_status=1
+   	</where> 
+   	) 
+</select>
+		
+<select id="getDepositMemberDay10CountMap" resultType="java.util.HashMap">
+	select 
+	date_format(PAYMENT_TIME,'%m-%d') as date,
+	count(MEMBER_NO) as num
+	from t_deposit_order 
+	where 
+	<![CDATA[ PAYMENT_TIME>=date_format(date_add(now(), interval -100 day),'%Y-%m-%d') ]]>
+	group by date_format(PAYMENT_TIME,'%m-%d')
+</select>
+
+<select id="getMemberDepositList" parameterType="Query"  resultType="cn.com.shopec.core.finace.model.DepositOrderForMgt">
+	/*押金缴纳列表，就把会员名、手机号、缴纳方式、押金金额、缴纳时间、退款状态、退款时间、退款金额、退款方式*/
+	SELECT
+		m.MEMBER_NAME as memberName,
+		m.MOBILE_PHONE as mobilePhone,
+		d.PAYMENT_METHOD as paymentMethod,
+		d.DEPOSIT_AMOUNT as depositAmount,
+		d.PAYMENT_TIME as paymentTime,
+		r.REFUND_STATUS as refundStatus,
+		r.REFUND_TIME as refundTime,
+		r.REFUND_AMOUNT as refundAmount,
+		r.REFUND_METHOD as refundMethod
+	FROM
+		t_deposit_order d
+	LEFT JOIN t_deposit_refund r ON d.DEPOSIT_ORDER_NO = r.DEPOSIT_ORDER_NO
+	LEFT JOIN t_member m ON d.MEMBER_NO = m.MEMBER_NO
+<where>
+	<include refid="listCommonWhereForMgt"/>
+</where>
+	order by d.create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="countForMgt" parameterType="Query" resultType="Long">
+	SELECT
+		count(*)
+	FROM
+		t_deposit_order d
+	LEFT JOIN t_deposit_refund r ON d.DEPOSIT_ORDER_NO = r.DEPOSIT_ORDER_NO
+	LEFT JOIN t_member m ON d.MEMBER_NO = m.MEMBER_NO
+	<where>
+		<include refid="listCommonWhereForMgt"/>
+	</where>
+</select>
+
+<sql id="listCommonWhereForMgt">
+	d.PAY_STATUS=1
+	<if test="q!=null">
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND m.MEMBER_NAME  like '%${q.memberName}%'
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND m.MOBILE_PHONE like '%${q.mobilePhone}%'
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND d.PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND d.PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND d.PART_TRADE_FLOW_NO like '%${q.partTradeFlowNo}%'
+		</if>
+		<if test="q.refundStatus!=null and q.refundStatus!=''">
+			AND r.REFUND_STATUS=#{q.refundStatus}
+		</if>
+		<if test="q.refundMethod!=null ">
+			AND r.REFUND_METHOD=#{q.refundMethod}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.depositOrderNo!=null and q.depositOrderNo!=''">
+			AND DEPOSIT_ORDER_NO=#{q.depositOrderNo}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.depositAmount!=null ">
+			AND DEPOSIT_AMOUNT=#{q.depositAmount}
+		</if>
+		<if test="q.payableAmount!=null ">
+			AND PAYABLE_AMOUNT=#{q.payableAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.paymentMethod!=null ">
+			AND PAYMENT_METHOD=#{q.paymentMethod}
+		</if>
+		<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+			AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+		</if>
+		<if test="q.partTradeFlowNo!=null and q.partTradeFlowNo!=''">
+			AND PART_TRADE_FLOW_NO=#{q.partTradeFlowNo}
+		</if>
+		<if test="q.paymentTime!=null ">
+			AND PAYMENT_TIME=#{q.paymentTime}
+		</if>
+		<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+		</if>
+		<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+		</if>
+		<if test="q.remainAmount!=null ">
+			AND REMAIN_AMOUNT=#{q.remainAmount}
+		</if>
+		<if test="q.deductedAmount!=null ">
+			AND DEDUCTED_AMOUNT=#{q.deductedAmount}
+		</if>
+		<if test="q.refundAmount!=null ">
+			AND REFUND_AMOUNT=#{q.refundAmount}
+		</if>
+		<if test="q.frozenAmount!=null ">
+			AND FROZEN_AMOUNT=#{q.frozenAmount}
+		</if>
+		<if test="q.isAvailable!=null ">
+			AND IS_AVAILABLE=#{q.isAvailable}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

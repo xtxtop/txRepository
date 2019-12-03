@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	    
+    <!-- quartz定时任务配置  -->
+    <bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="OrderOverTimeCronTrigger"/>
+				<ref bean="SendMessageTimeCronTrigger"/>
+				<ref bean="DriverLicenseTimeCronTrigger"/>
+			</list>
+		</property> 
+	</bean>
+	<!-- quartz定时任务触发  -->
+	<bean id="OrderOverTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="OrderOverTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>OrderOverTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="OrderOverTimeQuartz" class="cn.com.shopec.mapi.order.controller.OrderTimerController"></bean>
+    <!-- 目标类配置 -->
+	<!-- 扫描已完成的订单 -->
+	<bean id="OrderOverTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="OrderOverTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	<!-- 消息列表定时任务触发  -->
+    <bean id="SendMessageTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="SendMessageTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>SendMessageTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="SendMessageTimeQuartz" class="cn.com.shopec.mapi.message.controller.SendMessageOrderController"></bean>
+	 <!-- 目标类配置 -->
+	<!-- 扫描已下单，未支付的订单添加到消息列表中 -->
+	<bean id="SendMessageTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="SendMessageTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+	
+	
+	<!-- 驾驶证过期定时（过期修改审核状态为未审核，提前一天发消息给客户） -->
+    <bean id="DriverLicenseTimeCronTrigger" class="cn.com.shopec.quartz.utils.InitCronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="DriverLicenseTimeJobDetail"/>
+		</property>
+		<property name="key">
+			<value>DriverLicenseTimeQuartzParam</value>
+		</property>
+	</bean>
+	<bean id="DriverLicenseTimeQuartz" class="cn.com.shopec.mapi.message.controller.DriverLicenseController"></bean>
+	 <!-- 目标类配置 -->
+	<bean id="DriverLicenseTimeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="DriverLicenseTimeQuartz" />
+		<property name="targetMethod" value="execute" />  
+	</bean>
+</beans>

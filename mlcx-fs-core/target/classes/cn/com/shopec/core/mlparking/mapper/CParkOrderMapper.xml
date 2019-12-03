@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mlparking.dao.CParkOrderDao">
+
+<resultMap type="CParkOrder" id="CParkOrder">
+	<id column="PARK_ORDER_NO" property="parkOrderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_NO" property="carNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_STATUS" property="orderStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="APPOINTMENT_TIME" property="appointmentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ENTRY_TIME" property="entryTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="DEPARTURE_TIME" property="departureTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="TOTAL_TIME" property="totalTime" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="APPOINTMENT_TIME_TOTAL" property="appointmentTimeTotal" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="APPOINTMENT_FREE_TOTAL" property="appointmentFreeTotal" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="TOTAL_MONEY" property="totalMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="APPOINTMENT_MONEY" property="appointmentMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PARK_MONEY" property="parkMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="DISCOUNT_AMOUNT" property="discountAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAY_STATUS" property="payStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="PAY_TYPE" property="payType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="NOPAY_AMOUNT" property="nopayAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PAYMENT_TIME" property="paymentTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PAYMENT_FLOW_NO" property="paymentFlowNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_SOURCE" property="orderSource" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="ORDER_MEMO" property="orderMemo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FINISH_TYPE" property="finishType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="FINISH_REASON" property="finishReason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_NO" property="parkingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARKING_NAME" property="parkingName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARK_TYPE" property="parkType" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="PARK_LOCK_NO" property="parkLockNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARK_ORDER_NO,CAR_NO,ORDER_STATUS,APPOINTMENT_TIME,ENTRY_TIME,DEPARTURE_TIME,TOTAL_TIME,
+APPOINTMENT_TIME_TOTAL,APPOINTMENT_FREE_TOTAL,TOTAL_MONEY,APPOINTMENT_MONEY,PARK_MONEY,DISCOUNT_AMOUNT,
+PAY_STATUS,PAY_TYPE,NOPAY_AMOUNT,PAYMENT_TIME,PAYMENT_FLOW_NO,ORDER_SOURCE,
+ORDER_MEMO,FINISH_TYPE,FINISH_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,PARKING_NO,PARKING_NAME,MEMBER_NO,MOBILE_PHONE,MEMBER_NAME,PARK_TYPE
+,PARK_LOCK_NO
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARK_ORDER_NO,CAR_NO,ORDER_STATUS,APPOINTMENT_TIME,ENTRY_TIME,DEPARTURE_TIME,TOTAL_TIME,
+APPOINTMENT_TIME_TOTAL,APPOINTMENT_FREE_TOTAL,TOTAL_MONEY,APPOINTMENT_MONEY,PARK_MONEY,DISCOUNT_AMOUNT,
+PAY_STATUS,PAY_TYPE,NOPAY_AMOUNT,PAYMENT_TIME,PAYMENT_FLOW_NO,ORDER_SOURCE,
+ORDER_MEMO,FINISH_TYPE,FINISH_REASON,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID,PARKING_NO,PARKING_NAME,MEMBER_NO,MOBILE_PHONE,MEMBER_NAME,PARK_TYPE
+,PARK_LOCK_NO
+</sql>
+
+<insert id="add" parameterType="CParkOrder" useGeneratedKeys="true" keyProperty="parkOrderNo">
+	insert into C_PARK_ORDER(
+		<if test="parkOrderNo!=null">
+		PARK_ORDER_NO,
+		</if>
+		CAR_NO,
+		ORDER_STATUS,
+		APPOINTMENT_TIME,
+		ENTRY_TIME,
+		DEPARTURE_TIME,
+		TOTAL_TIME,
+		APPOINTMENT_TIME_TOTAL,
+		APPOINTMENT_FREE_TOTAL,
+		TOTAL_MONEY,
+		APPOINTMENT_MONEY,
+		PARK_MONEY,
+		DISCOUNT_AMOUNT,
+		PAY_STATUS,
+		PAY_TYPE,
+		NOPAY_AMOUNT,
+		PAYMENT_TIME,
+		PAYMENT_FLOW_NO,
+		ORDER_SOURCE,
+		ORDER_MEMO,
+		FINISH_TYPE,
+		FINISH_REASON,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		PARKING_NO,
+		PARKING_NAME,
+		MEMBER_NO,
+		MOBILE_PHONE,
+		MEMBER_NAME,PARK_TYPE,PARK_LOCK_NO
+	) values (
+		<if test="parkOrderNo!=null">
+		#{parkOrderNo,jdbcType = VARCHAR},
+		</if>
+		#{carNo,jdbcType = VARCHAR},
+		#{orderStatus,jdbcType = TINYINT},
+		#{appointmentTime,jdbcType = TIMESTAMP},
+		#{entryTime,jdbcType = TIMESTAMP},
+		#{departureTime,jdbcType = TIMESTAMP},
+		#{totalTime,jdbcType = INTEGER},
+		#{appointmentTimeTotal,jdbcType = INTEGER},
+		#{appointmentFreeTotal,jdbcType = INTEGER},
+		#{totalMoney,jdbcType = DOUBLE},
+		#{appointmentMoney,jdbcType = DOUBLE},
+		#{parkMoney,jdbcType = DOUBLE},
+		#{discountAmount,jdbcType = DOUBLE},
+		#{payStatus,jdbcType = TINYINT},
+		#{payType,jdbcType = TINYINT},
+		#{nopayAmount,jdbcType = DOUBLE},
+		#{paymentTime,jdbcType = TIMESTAMP},
+		#{paymentFlowNo,jdbcType = VARCHAR},
+		#{orderSource,jdbcType = TINYINT},
+		#{orderMemo,jdbcType = VARCHAR},
+		#{finishType,jdbcType = TINYINT},
+		#{finishReason,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{parkingNo,jdbcType = VARCHAR},
+		#{parkingName,jdbcType = VARCHAR},
+		#{memberNo,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{parkType,jdbcType = INTEGER},
+		#{parkLockNo,jdbcType = VARCHAR}
+		
+	)
+</insert>
+
+<update id="update" parameterType="CParkOrder">
+	update C_PARK_ORDER 
+	<set>
+		<if test="carNo!=null and carNo!=''">
+			CAR_NO=#{carNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderStatus!=null ">
+			ORDER_STATUS=#{orderStatus,jdbcType = TINYINT},
+		</if>
+		<if test="appointmentTime!=null ">
+			APPOINTMENT_TIME=#{appointmentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="entryTime!=null ">
+			ENTRY_TIME=#{entryTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="departureTime!=null ">
+			DEPARTURE_TIME=#{departureTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="totalTime!=null ">
+			TOTAL_TIME=#{totalTime,jdbcType = INTEGER},
+		</if>
+		<if test="appointmentTimeTotal!=null ">
+			APPOINTMENT_TIME_TOTAL=#{appointmentTimeTotal,jdbcType = INTEGER},
+		</if>
+		<if test="appointmentFreeTotal!=null ">
+			APPOINTMENT_FREE_TOTAL=#{appointmentFreeTotal,jdbcType = INTEGER},
+		</if>
+		<if test="totalMoney!=null ">
+			TOTAL_MONEY=#{totalMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="appointmentMoney!=null ">
+			APPOINTMENT_MONEY=#{appointmentMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="parkMoney!=null ">
+			PARK_MONEY=#{parkMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="discountAmount!=null ">
+			DISCOUNT_AMOUNT=#{discountAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="payStatus!=null ">
+			PAY_STATUS=#{payStatus,jdbcType = TINYINT},
+		</if>
+		<if test="payType!=null ">
+			PAY_TYPE=#{payType,jdbcType = TINYINT},
+		</if>
+		<if test="nopayAmount!=null ">
+			NOPAY_AMOUNT=#{nopayAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="paymentTime!=null ">
+			PAYMENT_TIME=#{paymentTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="paymentFlowNo!=null and paymentFlowNo!=''">
+			PAYMENT_FLOW_NO=#{paymentFlowNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderSource!=null ">
+			ORDER_SOURCE=#{orderSource,jdbcType = TINYINT},
+		</if>
+		<if test="orderMemo!=null and orderMemo!=''">
+			ORDER_MEMO=#{orderMemo,jdbcType = VARCHAR},
+		</if>
+		<if test="finishType!=null ">
+			FINISH_TYPE=#{finishType,jdbcType = TINYINT},
+		</if>
+		<if test="finishReason!=null and finishReason!=''">
+			FINISH_REASON=#{finishReason,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingNo!=null and parkingNo!=''">
+			PARKING_NO=#{parkingNo,jdbcType = VARCHAR},
+		</if>
+		<if test="parkingName!=null and parkingName!=''">
+			PARKING_NAME=#{parkingName,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="parkType!=null">
+			PARK_TYPE=#{parkType,jdbcType = INTEGER},
+		</if>
+		<if test="parkLockNo!=null and parkLockNo!=''">
+			PARK_LOCK_NO=#{parkLockNo,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PARK_ORDER_NO=#{parkOrderNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from C_PARK_ORDER 
+	<where>
+		PARK_ORDER_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CParkOrder">
+	select <include refid="AllColumnlist"/> from C_PARK_ORDER
+	<where>
+		PARK_ORDER_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CParkOrder">
+	select <include refid="AllColumnlist"/> from C_PARK_ORDER
+	<where>
+		PARK_ORDER_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARK_ORDER_NO) from C_PARK_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CParkOrder">
+	select <include refid="CommonColumnlist"/> from C_PARK_ORDER 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+    ORDER BY CREATE_TIME desc
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CParkOrder">
+	select <include refid="CommonColumnlist"/> from C_PARK_ORDER
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	ORDER BY UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.parkOrderNo!=null and q.parkOrderNo!=''">
+			AND PARK_ORDER_NO like '%' #{q.parkOrderNo} '%'
+		</if>
+		<if test="q.carNo!=null and q.carNo!=''">
+			AND CAR_NO like '%' #{q.carNo} '%'
+		</if>
+		<if test="q.orderStatus!=null ">
+			AND ORDER_STATUS=#{q.orderStatus}
+		</if>
+		<if test="q.appointmentTime!=null ">
+			AND APPOINTMENT_TIME=#{q.appointmentTime}
+		</if>
+		<if test="q.appointmentTimeStart!=null">
+		<![CDATA[	AND APPOINTMENT_TIME>=#{q.appointmentTimeStart}  ]]>
+		</if>
+		<if test="q.appointmentTimeEnd!=null">
+		<![CDATA[	AND APPOINTMENT_TIME<#{q.appointmentTimeEnd}   ]]>
+		</if>
+		<if test="q.entryTime!=null ">
+			AND ENTRY_TIME=#{q.entryTime}
+		</if>
+		<if test="q.entryTimeStart!=null">
+		<![CDATA[	AND ENTRY_TIME>=#{q.entryTimeStart}  ]]>
+		</if>
+		<if test="q.entryTimeEnd!=null">
+		<![CDATA[	AND ENTRY_TIME<#{q.entryTimeEnd}   ]]>
+		</if>
+		<if test="q.departureTime!=null ">
+			AND DEPARTURE_TIME=#{q.departureTime}
+		</if>
+		<if test="q.departureTimeStart!=null">
+		<![CDATA[	AND DEPARTURE_TIME>=#{q.departureTimeStart}  ]]>
+		</if>
+		<if test="q.departureTimeEnd!=null">
+		<![CDATA[	AND DEPARTURE_TIME<#{q.departureTimeEnd}   ]]>
+		</if>
+		<if test="q.totalTime!=null ">
+			AND TOTAL_TIME=#{q.totalTime}
+		</if>
+		<if test="q.appointmentTimeTotal!=null ">
+			AND APPOINTMENT_TIME_TOTAL=#{q.appointmentTimeTotal}
+		</if>
+		<if test="q.appointmentFreeTotal!=null ">
+			AND APPOINTMENT_FREE_TOTAL=#{q.appointmentFreeTotal}
+		</if>
+		<if test="q.totalMoney!=null ">
+			AND TOTAL_MONEY=#{q.totalMoney}
+		</if>
+		<if test="q.appointmentMoney!=null ">
+			AND APPOINTMENT_MONEY=#{q.appointmentMoney}
+		</if>
+		<if test="q.parkMoney!=null ">
+			AND PARK_MONEY=#{q.parkMoney}
+		</if>
+		<if test="q.discountAmount!=null ">
+			AND DISCOUNT_AMOUNT=#{q.discountAmount}
+		</if>
+		<if test="q.payStatus!=null ">
+			AND PAY_STATUS=#{q.payStatus}
+		</if>
+		<if test="q.payType!=null ">
+			AND PAY_TYPE=#{q.payType}
+		</if>
+		<if test="q.nopayAmount!=null ">
+			AND NOPAY_AMOUNT=#{q.nopayAmount}
+		</if>
+		<if test="q.paymentTime!=null ">
+			AND PAYMENT_TIME=#{q.paymentTime}
+		</if>
+		<if test="q.paymentTimeStart!=null">
+		<![CDATA[	AND PAYMENT_TIME>=#{q.paymentTimeStart}  ]]>
+		</if>
+		<if test="q.paymentTimeEnd!=null">
+		<![CDATA[	AND PAYMENT_TIME<#{q.paymentTimeEnd}   ]]>
+		</if>
+		<if test="q.paymentFlowNo!=null and q.paymentFlowNo!=''">
+			AND PAYMENT_FLOW_NO=#{q.paymentFlowNo}
+		</if>
+		<if test="q.orderSource!=null ">
+			AND ORDER_SOURCE=#{q.orderSource}
+		</if>
+		<if test="q.orderMemo!=null and q.orderMemo!=''">
+			AND ORDER_MEMO=#{q.orderMemo}
+		</if>
+		<if test="q.finishType!=null ">
+			AND FINISH_TYPE=#{q.finishType}
+		</if>
+		<if test="q.finishReason!=null and q.finishReason!=''">
+			AND FINISH_REASON=#{q.finishReason}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.parkingNo!=null and q.parkingNo!=''">
+			AND PARKING_NO=#{q.parkingNo}
+		</if>
+		<if test="q.parkingName!=null and q.parkingName!=''">
+			AND PARKING_NAME like '%' #{q.parkingName} '%'
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME=#{q.memberName}
+		</if>
+		<if test="q.parkType!=null">
+            AND PARK_TYPE=#{q.parkType,jdbcType = INTEGER}
+        </if>
+        <if test="q.parkLockNo!=null and q.parkLockNo!=''">
+            AND=#{q.parkLockNo,jdbcType = VARCHAR}
+        </if>
+	</if>
+</sql>
+<!-- 地锁订单 -->
+<select id="getOrder" resultMap="CParkOrder">
+    select  <include refid="AllColumnlist"/>  from  c_park_order where MEMBER_NO=#{0}
+     and (FINISH_TYPE =2 or ORDER_STATUS=1) and PARK_TYPE=1
+</select>
+<!--查看未结束地锁订单 -->
+<select id="getOrderOver" resultMap="CParkOrder">
+    select  <include refid="AllColumnlist"/>  from  c_park_order where MEMBER_NO=#{0}
+     and ORDER_STATUS =0 and PARK_TYPE=1
+</select>
+<select id="getOrderInfo" resultType="cn.com.shopec.core.mlparking.vo.OrderInfo">
+    SELECT 
+o.PARK_ORDER_NO orderNo,o.MEMBER_NO memberNo,
+o.PARKING_NAME parkName,o.ORDER_STATUS orderStatus,
+o.PAY_STATUS payStatus, DATE_FORMAT(IFNULL(o.APPOINTMENT_TIME,ENTRY_TIME),'%Y-%m-%d %H:%i' ) AS startTime
+,DATE_FORMAT(IFNULL(o.DEPARTURE_TIME,''),'%Y-%m-%d %H:%i' ) AS endTime
+,DATE_FORMAT(IFNULL(o.ENTRY_TIME,''),'%Y-%m-%d %H:%i' ) as entryTime, 
+o.TOTAL_TIME duration,b.FREE_TIME gratisTime,o.NOPAY_AMOUNT realPayMoney,
+o.PARK_MONEY overstepMoney,o.DISCOUNT_AMOUNT balanceDeductionMoney,o.PARK_TYPE parkType,
+e.EVALUATE_GRADE star
+FROM  c_park_order o
+LEFT JOIN c_order_evaluate e on o.PARK_ORDER_NO=e.ORDER_NO
+LEFT JOIN c_parking p on o.PARKING_NO=p.PARKING_NO
+LEFT JOIN c_park_billing b on p.BILLING_SCHEME_NO=b.PARK_BILLING_NO
+WHERE PARK_ORDER_NO=#{0}
+</select>
+</mapper>

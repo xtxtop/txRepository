@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.PricingRuleCustomizedDateDao">
+
+<resultMap type="PricingRuleCustomizedDate" id="PricingRuleCustomizedDate">
+	<id column="CUSTOMIZED_ID" property="customizedId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RULE_NO" property="ruleNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_ID" property="cityId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CITY_NAME" property="cityName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_MODEL_NAME" property="carModelName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CUSTOMIZED_DATE" property="customizedDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="PRICE_OF_MINUTE_CUSTOMIZED" property="priceOfMinuteCustomized" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PRICE_OF_KM_CUSTOMIZED" property="priceOfKmCustomized" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="BILLING_CAP_PER_DAY_CUSTOMIZED" property="billingCapPerDayCustomized" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CUSTOMIZED_ID,RULE_NO,CITY_ID,CITY_NAME,CAR_MODEL_NAME,COMPANY_ID,CUSTOMIZED_DATE,
+PRICE_OF_MINUTE_CUSTOMIZED,PRICE_OF_KM_CUSTOMIZED,BILLING_CAP_PER_DAY_CUSTOMIZED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CUSTOMIZED_ID,RULE_NO,CITY_ID,CITY_NAME,CAR_MODEL_NAME,COMPANY_ID,CUSTOMIZED_DATE,
+PRICE_OF_MINUTE_CUSTOMIZED,PRICE_OF_KM_CUSTOMIZED,BILLING_CAP_PER_DAY_CUSTOMIZED,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,
+OPERATOR_ID
+</sql>
+
+<insert id="add" parameterType="PricingRuleCustomizedDate" useGeneratedKeys="true" keyProperty="customizedId">
+	insert into T_PRICING_RULE_CUSTOMIZED_DATE(
+		<if test="customizedId!=null">
+		CUSTOMIZED_ID,
+		</if>
+		RULE_NO,
+		CITY_ID,
+		CITY_NAME,
+		CAR_MODEL_NAME,
+		COMPANY_ID,
+		CUSTOMIZED_DATE,
+		PRICE_OF_MINUTE_CUSTOMIZED,
+		PRICE_OF_KM_CUSTOMIZED,
+		BILLING_CAP_PER_DAY_CUSTOMIZED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="customizedId!=null">
+		#{customizedId,jdbcType = VARCHAR},
+		</if>
+		#{ruleNo,jdbcType = VARCHAR},
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{carModelName,jdbcType = VARCHAR},
+		#{companyId,jdbcType = VARCHAR},
+		#{customizedDate,jdbcType = TIMESTAMP},
+		#{priceOfMinuteCustomized,jdbcType = DOUBLE},
+		#{priceOfKmCustomized,jdbcType = DOUBLE},
+		#{billingCapPerDayCustomized,jdbcType = DOUBLE},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="PricingRuleCustomizedDate">
+	update t_pricing_rule_customized_date 
+	<set>
+		<if test="ruleNo!=null and ruleNo!=''">
+			RULE_NO=#{ruleNo,jdbcType = VARCHAR},
+		</if>
+		<if test="cityId!=null and cityId!=''">
+			CITY_ID=#{cityId,jdbcType = VARCHAR},
+		</if>
+		<if test="cityName!=null and cityName!=''">
+			CITY_NAME=#{cityName,jdbcType = VARCHAR},
+		</if>
+		<if test="carModelName!=null and carModelName!=''">
+			CAR_MODEL_NAME=#{carModelName,jdbcType = VARCHAR},
+		</if>
+		<if test="companyId!=null and companyId!=''">
+			COMPANY_ID=#{companyId,jdbcType = VARCHAR},
+		</if>
+		<if test="customizedDate!=null ">
+			CUSTOMIZED_DATE=#{customizedDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="priceOfMinuteCustomized!=null ">
+			PRICE_OF_MINUTE_CUSTOMIZED=#{priceOfMinuteCustomized,jdbcType = DOUBLE},
+		</if>
+		<if test="priceOfKmCustomized!=null ">
+			PRICE_OF_KM_CUSTOMIZED=#{priceOfKmCustomized,jdbcType = DOUBLE},
+		</if>
+		<if test="billingCapPerDayCustomized!=null ">
+			BILLING_CAP_PER_DAY_CUSTOMIZED=#{billingCapPerDayCustomized,jdbcType = DOUBLE},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND CUSTOMIZED_ID=#{customizedId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_pricing_rule_customized_date 
+	<where>
+		CUSTOMIZED_ID=#{0}
+	</where>
+</delete>
+
+<delete id="deleteCustomizedDateByRuleNo">
+	delete from t_pricing_rule_customized_date 
+	<where>
+		RULE_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="PricingRuleCustomizedDate">
+	select <include refid="AllColumnlist"/> from t_pricing_rule_customized_date
+	<where>
+		CUSTOMIZED_ID=#{0}
+	</where>
+</select>
+
+<select id="getPricingRuleCustomizedDate" resultMap="PricingRuleCustomizedDate">
+	select <include refid="AllColumnlist"/> from t_pricing_rule_customized_date
+	<where>
+		RULE_NO=#{0}
+		AND CUSTOMIZED_DATE=#{1}
+	</where>
+</select>
+
+<select id="getPricingList" resultMap="PricingRuleCustomizedDate">
+ <![CDATA[SELECT PRICE_OF_MINUTE_CUSTOMIZED, PRICE_OF_KM_CUSTOMIZED, BILLING_CAP_PER_DAY_CUSTOMIZED, CONCAT(BEGIN ,'至' ,MAX(CUSTOMIZED_DATE)) AS customizedDateStr
+FROM (
+        SELECT t.*,
+           @f:=CONVERT(
+             IF( @a<=>PRICE_OF_MINUTE_CUSTOMIZED 
+	     AND @b<=>PRICE_OF_KM_CUSTOMIZED 
+             AND @c<=>BILLING_CAP_PER_DAY_CUSTOMIZED 
+             AND DATEDIFF(CUSTOMIZED_DATE, @d)=1, @f, CUSTOMIZED_DATE), DATE
+           ) AS BEGIN,
+           @a:=PRICE_OF_MINUTE_CUSTOMIZED, @b:=PRICE_OF_KM_CUSTOMIZED, @c:=BILLING_CAP_PER_DAY_CUSTOMIZED, @d:=CUSTOMIZED_DATE
+	FROM t_pricing_rule_customized_date t JOIN (SELECT @a:=NULL) AS init
+	WHERE DATE_SUB(CURDATE(), INTERVAL -#{1} DAY) >= DATE(CUSTOMIZED_DATE) 
+	  AND DATE(CUSTOMIZED_DATE)>=CURDATE()
+	  AND RULE_NO=#{0}
+	ORDER BY CUSTOMIZED_DATE
+) AS t
+GROUP BY PRICE_OF_MINUTE_CUSTOMIZED, PRICE_OF_KM_CUSTOMIZED, BILLING_CAP_PER_DAY_CUSTOMIZED, BEGIN
+ORDER BY CUSTOMIZED_DATE]]>
+
+</select>
+
+<select id="getByIds" resultMap="PricingRuleCustomizedDate">
+	select <include refid="AllColumnlist"/> from t_pricing_rule_customized_date
+	<where>
+		CUSTOMIZED_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CUSTOMIZED_ID) from t_pricing_rule_customized_date 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="PricingRuleCustomizedDate">
+	select <include refid="CommonColumnlist"/> from t_pricing_rule_customized_date 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="PricingRuleCustomizedDate">
+	select <include refid="CommonColumnlist"/> from t_pricing_rule_customized_date
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	 order by CUSTOMIZED_DATE desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.customizedId!=null and q.customizedId!=''">
+			AND CUSTOMIZED_ID=#{q.customizedId}
+		</if>
+		<if test="q.ruleNo!=null and q.ruleNo!=''">
+			AND RULE_NO=#{q.ruleNo}
+		</if>
+		<if test="q.cityId!=null and q.cityId!=''">
+			AND CITY_ID=#{q.cityId}
+		</if>
+		<if test="q.cityName!=null and q.cityName!=''">
+			AND CITY_NAME=#{q.cityName}
+		</if>
+		<if test="q.carModelName!=null and q.carModelName!=''">
+			AND CAR_MODEL_NAME=#{q.carModelName}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.customizedDate!=null ">
+			AND CUSTOMIZED_DATE=#{q.customizedDate}
+		</if>
+		<if test="q.customizedDateStart!=null">
+		<![CDATA[	AND CUSTOMIZED_DATE>=#{q.customizedDateStart}  ]]>
+		</if>
+		<if test="q.customizedDateEnd!=null">
+		<![CDATA[	AND CUSTOMIZED_DATE<#{q.customizedDateEnd}   ]]>
+		</if>
+		<if test="q.priceOfMinuteCustomized!=null ">
+			AND PRICE_OF_MINUTE_CUSTOMIZED=#{q.priceOfMinuteCustomized}
+		</if>
+		<if test="q.priceOfKmCustomized!=null ">
+			AND PRICE_OF_KM_CUSTOMIZED=#{q.priceOfKmCustomized}
+		</if>
+		<if test="q.billingCapPerDayCustomized!=null ">
+			AND BILLING_CAP_PER_DAY_CUSTOMIZED=#{q.billingCapPerDayCustomized}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

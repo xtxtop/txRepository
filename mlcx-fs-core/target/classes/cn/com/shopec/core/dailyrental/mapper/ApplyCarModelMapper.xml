@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.dailyrental.dao.ApplyCarModelDao">
+
+<resultMap type="ApplyCarModel" id="ApplyCarModel">
+	<id column="APPLY_CAR_MODEL_ID" property="applyCarModelId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_BRAND_NAME" property="carBrandName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PERIOD_NAME" property="carPeriodName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_SERIES_NAME" property="carSeriesName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_TYPE" property="carType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="DISPLACEMENT" property="displacement" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="GEAR_BOX" property="gearBox" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="APPLY_ID" property="applyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="APPLY_NAME" property="applyName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="IS_AGREE" property="isAgree" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETE" property="isDelete" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+APPLY_CAR_MODEL_ID,CAR_BRAND_NAME,CAR_PERIOD_NAME,CAR_SERIES_NAME,CAR_TYPE,DISPLACEMENT,GEAR_BOX,
+APPLY_ID,APPLY_NAME,IS_AGREE,IS_DELETE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+APPLY_CAR_MODEL_ID,CAR_PERIOD_NAME,CAR_TYPE,DISPLACEMENT,GEAR_BOX,
+APPLY_ID,APPLY_NAME,IS_AGREE,IS_DELETE,CREATE_TIME,UPDATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+
+</sql>
+
+<insert id="add" parameterType="ApplyCarModel" useGeneratedKeys="true" keyProperty="applyCarModelId">
+	insert into T_APPLY_CAR_MODEL(
+		<if test="applyCarModelId!=null">
+		APPLY_CAR_MODEL_ID,
+		</if>
+		CAR_BRAND_NAME,
+		CAR_PERIOD_NAME,
+		CAR_SERIES_NAME,
+		CAR_TYPE,
+		DISPLACEMENT,
+		GEAR_BOX,
+		APPLY_ID,
+		APPLY_NAME,
+		IS_AGREE,
+		IS_DELETE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="applyCarModelId!=null">
+		#{applyCarModelId,jdbcType = VARCHAR},
+		</if>
+		#{carBrandName,jdbcType = VARCHAR},
+		#{carPeriodName,jdbcType = VARCHAR},
+		#{carSeriesName,jdbcType = VARCHAR},
+		#{carType,jdbcType = VARCHAR},
+		#{displacement,jdbcType = VARCHAR},
+		#{gearBox,jdbcType = TINYINT},
+		#{applyId,jdbcType = VARCHAR},
+		#{applyName,jdbcType = VARCHAR},
+		#{isAgree,jdbcType = TINYINT},
+		#{isDelete,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="ApplyCarModel">
+	update T_APPLY_CAR_MODEL 
+	<set>
+		<if test="carBrandName!=null and carBrandName!=''">
+			CAR_BRAND_NAME=#{carBrandName,jdbcType = VARCHAR},
+		</if>
+		<if test="carPeriodName!=null and carPeriodName!=''">
+			CAR_PERIOD_NAME=#{carPeriodName,jdbcType = VARCHAR},
+		</if>
+		<if test="carSeriesName!=null and carSeriesName!=''">
+			CAR_SERIES_NAME=#{carSeriesName,jdbcType = VARCHAR},
+		</if>
+		<if test="carType!=null and carType!=''">
+			CAR_TYPE=#{carType,jdbcType = VARCHAR},
+		</if>
+		<if test="displacement!=null and displacement!=''">
+			DISPLACEMENT=#{displacement,jdbcType = VARCHAR},
+		</if>
+		<if test="gearBox!=null ">
+			GEAR_BOX=#{gearBox,jdbcType = TINYINT},
+		</if>
+		<if test="applyId!=null and applyId!=''">
+			APPLY_ID=#{applyId,jdbcType = VARCHAR},
+		</if>
+		<if test="applyName!=null and applyName!=''">
+			APPLY_NAME=#{applyName,jdbcType = VARCHAR},
+		</if>
+		<if test="isAgree!=null ">
+			IS_AGREE=#{isAgree,jdbcType = TINYINT},
+		</if>
+		<if test="isDelete!=null ">
+			IS_DELETE=#{isDelete,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND APPLY_CAR_MODEL_ID=#{applyCarModelId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from T_APPLY_CAR_MODEL 
+	<where>
+		APPLY_CAR_MODEL_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="ApplyCarModel">
+	select <include refid="AllColumnlist"/> from T_APPLY_CAR_MODEL
+	<where>
+		APPLY_CAR_MODEL_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ApplyCarModel">
+	select <include refid="AllColumnlist"/> from T_APPLY_CAR_MODEL
+	<where>
+		APPLY_CAR_MODEL_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(APPLY_CAR_MODEL_ID) from T_APPLY_CAR_MODEL 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ApplyCarModel">
+	select <include refid="CommonColumnlist"/> from T_APPLY_CAR_MODEL 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ApplyCarModel">
+	select <include refid="AllColumnlist"/> from T_APPLY_CAR_MODEL
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	ORDER BY CREATE_TIME DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.applyCarModelId!=null and q.applyCarModelId!=''">
+			AND APPLY_CAR_MODEL_ID=#{q.applyCarModelId}
+		</if>
+		<if test="q.carBrandName!=null and q.carBrandName!=''">
+			AND CAR_BRAND_NAME like '%${q.carBrandName}%'
+		</if>
+		<if test="q.carPeriodName!=null and q.carPeriodName!=''">
+			AND CAR_PERIOD_NAME like '%${q.carPeriodName}%'
+		</if>
+		<if test="q.carSeriesName!=null and q.carSeriesName!=''">
+			AND CAR_SERIES_NAME '%${q.carSeriesName}%'
+		</if>
+		<if test="q.carType!=null and q.carType!=''">
+			AND CAR_TYPE=#{q.carType}
+		</if>
+		<if test="q.displacement!=null and q.displacement!=''">
+			AND DISPLACEMENT=#{q.displacement}
+		</if>
+		<if test="q.gearBox!=null ">
+			AND GEAR_BOX=#{q.gearBox}
+		</if>
+		<if test="q.applyId!=null and q.applyId!=''">
+			AND APPLY_ID=#{q.applyId}
+		</if>
+		<if test="q.applyName!=null and q.applyName!=''">
+			AND APPLY_NAME=#{q.applyName}
+		</if>
+		<if test="q.isDelete!=null ">
+			AND IS_DELETE=#{q.isDelete}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

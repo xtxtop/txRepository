@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.GoldBeansConsumerDetailsDao">
+
+<resultMap type="GoldBeansConsumerDetails" id="GoldBeansConsumerDetails">
+	<id column="CONSUMER_DETAILS_ID" property="consumerDetailsId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MENBER_NO" property="menberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_NAME" property="memberName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMBER_PHONE" property="memberPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_NO" property="orderNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_TIME" property="orderTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CONSUMER_BEANS_NUM" property="consumerBeansNum" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+	<result column="CONSUMER_BEANS_AMOUNT" property="consumerBeansAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="CONSUMER_TIME" property="consumerTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CONSUMER_DETAILS_ID,MENBER_NO,MEMBER_NAME,MEMBER_PHONE,ORDER_NO,ORDER_AMOUNT,ORDER_TIME,CONSUMER_BEANS_AMOUNT,
+CONSUMER_BEANS_NUM,CONSUMER_TIME,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CONSUMER_DETAILS_ID,MENBER_NO,MEMBER_NAME,MEMBER_PHONE,ORDER_NO,ORDER_AMOUNT,ORDER_TIME,CONSUMER_BEANS_AMOUNT,
+CONSUMER_BEANS_NUM,CONSUMER_TIME,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="GoldBeansConsumerDetails" useGeneratedKeys="true" keyProperty="consumerDetailsId">
+	insert into T_GOLD_BEANS_CONSUMER_DETAILS(
+		<if test="consumerDetailsId!=null">
+		CONSUMER_DETAILS_ID,
+		</if>
+		MENBER_NO,
+		MEMBER_NAME,
+		MEMBER_PHONE,
+		ORDER_NO,
+		ORDER_AMOUNT,
+		ORDER_TIME,
+		CONSUMER_BEANS_NUM,
+		CONSUMER_BEANS_AMOUNT,
+		CONSUMER_TIME,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="consumerDetailsId!=null">
+		#{consumerDetailsId,jdbcType = VARCHAR},
+		</if>
+		#{menberNo,jdbcType = VARCHAR},
+		#{memberName,jdbcType = VARCHAR},
+		#{memberPhone,jdbcType = VARCHAR},
+		#{orderNo,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{orderTime,jdbcType = TIMESTAMP},
+		#{consumerBeansNum,jdbcType = INTEGER},
+		#{consumerBeansAmount,jdbcType = DOUBLE},
+		#{consumerTime,jdbcType = TIMESTAMP},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="GoldBeansConsumerDetails">
+	update t_gold_beans_consumer_details 
+	<set>
+		<if test="menberNo!=null and menberNo!=''">
+			MENBER_NO=#{menberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="memberName!=null and memberName!=''">
+			MEMBER_NAME=#{memberName,jdbcType = VARCHAR},
+		</if>
+		<if test="memberPhone!=null and memberPhone!=''">
+			MEMBER_PHONE=#{memberPhone,jdbcType = VARCHAR},
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="orderTime!=null ">
+			ORDER_TIME=#{orderTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="consumerBeansNum!=null ">
+			CONSUMER_BEANS_NUM=#{consumerBeansNum,jdbcType = INTEGER},
+		</if>
+		<if test="consumerBeansAmount!=null ">
+			CONSUMER_BEANS_AMOUNT=#{consumerBeansAmount,jdbcType = INTEGER},
+		</if>
+		<if test="consumerTime!=null ">
+			CONSUMER_TIME=#{consumerTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND CONSUMER_DETAILS_ID=#{consumerDetailsId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_gold_beans_consumer_details 
+	<where>
+		CONSUMER_DETAILS_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="GoldBeansConsumerDetails">
+	select <include refid="AllColumnlist"/> from t_gold_beans_consumer_details
+	<where>
+		CONSUMER_DETAILS_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="GoldBeansConsumerDetails">
+	select <include refid="AllColumnlist"/> from t_gold_beans_consumer_details
+	<where>
+		CONSUMER_DETAILS_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CONSUMER_DETAILS_ID) from t_gold_beans_consumer_details 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="GoldBeansConsumerDetails">
+	select <include refid="CommonColumnlist"/> from t_gold_beans_consumer_details 
+	<where>
+	<include refid="listCommonWhere"/>
+	order by create_time desc
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="GoldBeansConsumerDetails">
+	select <include refid="CommonColumnlist"/> from t_gold_beans_consumer_details
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.consumerDetailsId!=null and q.consumerDetailsId!=''">
+			AND CONSUMER_DETAILS_ID=#{q.consumerDetailsId}
+		</if>
+		<if test="q.menberNo!=null and q.menberNo!=''">
+			AND MENBER_NO=#{q.menberNo}
+		</if>
+		<if test="q.memberName!=null and q.memberName!=''">
+			AND MEMBER_NAME like '%${q.memberName}%'
+		</if>
+		<if test="q.memberPhone!=null and q.memberPhone!=''">
+			AND MEMBER_PHONE like '%${q.memberPhone}%'
+		</if>
+		<if test="q.orderNo!=null and q.orderNo!=''">
+			AND ORDER_NO=#{q.orderNo}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.orderTime!=null ">
+			AND ORDER_TIME=#{q.orderTime}
+		</if>
+		<if test="q.orderTimeStart!=null">
+		<![CDATA[	AND ORDER_TIME>=#{q.orderTimeStart}  ]]>
+		</if>
+		<if test="q.orderTimeEnd!=null">
+		<![CDATA[	AND ORDER_TIME<#{q.orderTimeEnd}   ]]>
+		</if>
+		<if test="q.consumerBeansNum!=null ">
+			AND CONSUMER_BEANS_NUM=#{q.consumerBeansNum}
+		</if>
+		<if test="q.consumerTime!=null ">
+			AND CONSUMER_TIME=#{q.consumerTime}
+		</if>
+		<if test="q.consumerTimeStart!=null">
+		<![CDATA[	AND CONSUMER_TIME>=#{q.consumerTimeStart}  ]]>
+		</if>
+		<if test="q.consumerTimeEnd!=null">
+		<![CDATA[	AND CONSUMER_TIME<#{q.consumerTimeEnd}   ]]>
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

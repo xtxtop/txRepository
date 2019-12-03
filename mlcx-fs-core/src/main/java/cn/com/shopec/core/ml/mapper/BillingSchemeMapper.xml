@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.BillingSchemeDao">
+
+<resultMap type="BillingScheme" id="BillingScheme">
+	<id column="SCHEME_NO" property="schemeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCHEME_VERSIONS" property="schemeVersions" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCHEME_NAME" property="schemeName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="EFFECTIVE_DATE" property="effectiveDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="INVALID_DATE" property="invalidDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="ADVANCE_FROZEN_MONEY" property="advanceFrozenMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="MIN_FROZEN_MONEY" property="minFrozenMoney" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="TIME_NUM" property="timeNum" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPINT_PRICE" property="opintPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="PEAK_PRICE" property="peakPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="FLAT_PRICE" property="flatPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="VALLEY_PRICE" property="valleyPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDERED_RATE" property="orderedRate" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="SERVICE_CHARGE" property="serviceCharge" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="WARMING_PRICE" property="warmingPrice" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="STATUS" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+SCHEME_NO,SCHEME_VERSIONS,SCHEME_NAME,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,
+EFFECTIVE_DATE,INVALID_DATE,ADVANCE_FROZEN_MONEY,MIN_FROZEN_MONEY,TIME_NUM,OPINT_PRICE,
+PEAK_PRICE,FLAT_PRICE,VALLEY_PRICE,ORDERED_RATE,SERVICE_CHARGE,WARMING_PRICE,
+STATUS
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+SCHEME_NO,SCHEME_VERSIONS,SCHEME_NAME,OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME,
+EFFECTIVE_DATE,INVALID_DATE,ADVANCE_FROZEN_MONEY,MIN_FROZEN_MONEY,TIME_NUM,OPINT_PRICE,
+PEAK_PRICE,FLAT_PRICE,VALLEY_PRICE,ORDERED_RATE,SERVICE_CHARGE,WARMING_PRICE,
+STATUS
+</sql>
+
+<insert id="add" parameterType="BillingScheme" useGeneratedKeys="true" keyProperty="schemeNo">
+	insert into BILLING_SCHEME(
+		<if test="schemeNo!=null">
+		SCHEME_NO,
+		</if>
+		SCHEME_VERSIONS,
+		SCHEME_NAME,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		EFFECTIVE_DATE,
+		INVALID_DATE,
+		ADVANCE_FROZEN_MONEY,
+		MIN_FROZEN_MONEY,
+		TIME_NUM,
+		OPINT_PRICE,
+		PEAK_PRICE,
+		FLAT_PRICE,
+		VALLEY_PRICE,
+		ORDERED_RATE,
+		SERVICE_CHARGE,
+		WARMING_PRICE,
+		STATUS
+	) values (
+		<if test="schemeNo!=null">
+		#{schemeNo,jdbcType = VARCHAR},
+		</if>
+		#{schemeVersions,jdbcType = VARCHAR},
+		#{schemeName,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{effectiveDate,jdbcType = TIMESTAMP},
+		#{invalidDate,jdbcType = TIMESTAMP},
+		#{advanceFrozenMoney,jdbcType = DOUBLE},
+		#{minFrozenMoney,jdbcType = DOUBLE},
+		#{timeNum,jdbcType = VARCHAR},
+		#{opintPrice,jdbcType = DOUBLE},
+		#{peakPrice,jdbcType = DOUBLE},
+		#{flatPrice,jdbcType = DOUBLE},
+		#{valleyPrice,jdbcType = DOUBLE},
+		#{orderedRate,jdbcType = DOUBLE},
+		#{serviceCharge,jdbcType = DOUBLE},
+		#{warmingPrice,jdbcType = DOUBLE},
+		#{status,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="BillingScheme">
+	update BILLING_SCHEME 
+	<set>
+		<if test="schemeVersions!=null and schemeVersions!=''">
+			SCHEME_VERSIONS=#{schemeVersions,jdbcType = VARCHAR},
+		</if>
+		<if test="schemeName!=null and schemeName!=''">
+			SCHEME_NAME=#{schemeName,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="effectiveDate!=null ">
+			EFFECTIVE_DATE=#{effectiveDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="invalidDate!=null ">
+			INVALID_DATE=#{invalidDate,jdbcType = TIMESTAMP},
+		</if>
+		<if test="advanceFrozenMoney!=null ">
+			ADVANCE_FROZEN_MONEY=#{advanceFrozenMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="minFrozenMoney!=null ">
+			MIN_FROZEN_MONEY=#{minFrozenMoney,jdbcType = DOUBLE},
+		</if>
+		<if test="timeNum!=null and timeNum!=''">
+			TIME_NUM=#{timeNum,jdbcType = VARCHAR},
+		</if>
+		<if test="opintPrice!=null ">
+			OPINT_PRICE=#{opintPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="peakPrice!=null ">
+			PEAK_PRICE=#{peakPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="flatPrice!=null ">
+			FLAT_PRICE=#{flatPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="valleyPrice!=null ">
+			VALLEY_PRICE=#{valleyPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="orderedRate!=null ">
+			ORDERED_RATE=#{orderedRate,jdbcType = DOUBLE},
+		</if>
+		<if test="serviceCharge!=null ">
+			SERVICE_CHARGE=#{serviceCharge,jdbcType = DOUBLE},
+		</if>
+		<if test="warmingPrice!=null ">
+			WARMING_PRICE=#{warmingPrice,jdbcType = DOUBLE},
+		</if>
+		<if test="status!=null ">
+			STATUS=#{status,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND SCHEME_NO=#{schemeNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from BILLING_SCHEME 
+	<where>
+		SCHEME_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="BillingScheme">
+	select <include refid="AllColumnlist"/> from BILLING_SCHEME
+	<where>
+		SCHEME_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="BillingScheme">
+	select <include refid="AllColumnlist"/> from BILLING_SCHEME
+	<where>
+		SCHEME_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(SCHEME_NO) from BILLING_SCHEME 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="BillingScheme">
+	select <include refid="CommonColumnlist"/> from BILLING_SCHEME 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="BillingScheme">
+	select <include refid="CommonColumnlist"/> from BILLING_SCHEME
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.schemeNo!=null and q.schemeNo!=''">
+			AND SCHEME_NO LIKE "%" #{q.schemeNo} "%"
+		</if>
+		<if test="q.schemeVersions!=null and q.schemeVersions!=''">
+			AND SCHEME_VERSIONS=#{q.schemeVersions}
+		</if>
+		<if test="q.schemeName!=null and q.schemeName!=''">
+			AND SCHEME_NAME=#{q.schemeName}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.effectiveDate!=null ">
+			AND EFFECTIVE_DATE=#{q.effectiveDate}
+		</if>
+		<if test="q.effectiveDateStart!=null">
+		<![CDATA[	AND EFFECTIVE_DATE>=#{q.effectiveDateStart}  ]]>
+		</if>
+		<if test="q.effectiveDateEnd!=null">
+		<![CDATA[	AND EFFECTIVE_DATE<#{q.effectiveDateEnd}   ]]>
+		</if>
+		<if test="q.invalidDate!=null ">
+			AND INVALID_DATE=#{q.invalidDate}
+		</if>
+		<if test="q.invalidDateStart!=null">
+		<![CDATA[	AND INVALID_DATE>=#{q.invalidDateStart}  ]]>
+		</if>
+		<if test="q.invalidDateEnd!=null">
+		<![CDATA[	AND INVALID_DATE<#{q.invalidDateEnd}   ]]>
+		</if>
+		<if test="q.advanceFrozenMoney!=null ">
+			AND ADVANCE_FROZEN_MONEY=#{q.advanceFrozenMoney}
+		</if>
+		<if test="q.minFrozenMoney!=null ">
+			AND MIN_FROZEN_MONEY=#{q.minFrozenMoney}
+		</if>
+		<if test="q.timeNum!=null and q.timeNum!=''">
+			AND TIME_NUM=#{q.timeNum}
+		</if>
+		<if test="q.opintPrice!=null ">
+			AND OPINT_PRICE=#{q.opintPrice}
+		</if>
+		<if test="q.peakPrice!=null ">
+			AND PEAK_PRICE=#{q.peakPrice}
+		</if>
+		<if test="q.flatPrice!=null ">
+			AND FLAT_PRICE=#{q.flatPrice}
+		</if>
+		<if test="q.valleyPrice!=null ">
+			AND VALLEY_PRICE=#{q.valleyPrice}
+		</if>
+		<if test="q.orderedRate!=null ">
+			AND ORDERED_RATE=#{q.orderedRate}
+		</if>
+		<if test="q.serviceCharge!=null ">
+			AND SERVICE_CHARGE=#{q.serviceCharge}
+		</if>
+		<if test="q.warmingPrice!=null ">
+			AND WARMING_PRICE=#{q.warmingPrice}
+		</if>
+		<if test="q.status!=null ">
+			AND STATUS=#{q.status}
+		</if>
+	</if>
+</sql>
+
+</mapper>

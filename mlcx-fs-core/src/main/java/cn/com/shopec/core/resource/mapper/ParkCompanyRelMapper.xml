@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.resource.dao.ParkCompanyRelDao">
+
+<resultMap type="ParkCompanyRel" id="ParkCompanyRel">
+	<id column="PARK_ID" property="parkId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+
+<resultMap type="ParkCompanyRel" id="ParkCompanyRel1">
+	<id column="PARK_ID" property="parkId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="COMPANY_ID" property="companyId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="COMPANY_NAME" property="companyName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+PARK_ID,COMPANY_ID,CREATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+PARK_ID,COMPANY_ID,CREATE_TIME,OPERATOR_ID,OPERATOR_TYPE
+</sql>
+
+<insert id="add" parameterType="ParkCompanyRel" useGeneratedKeys="true" keyProperty="companyId">
+	insert into T_PARK_COMPANY_REL(
+		<if test="parkId!=null">
+		PARK_ID,
+		</if>
+		<if test="companyId!=null">
+		COMPANY_ID,
+		</if>
+		CREATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+	) values (
+		<if test="parkId!=null">
+		#{parkId,jdbcType = VARCHAR},
+		</if>
+		<if test="companyId!=null">
+		#{companyId,jdbcType = VARCHAR},
+		</if>
+		#{createTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="ParkCompanyRel">
+	update t_park_company_rel 
+	<set>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND COMPANY_ID=#{companyId}
+		AND PARK_ID=#{parkId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_park_company_rel 
+	<where>
+		COMPANY_ID=#{0} and
+		PARK_ID=#{1}
+	</where>
+</delete>
+<delete id="deletePCR">
+	delete from t_park_company_rel 
+	<where>
+		COMPANY_ID=#{companyId} and 
+		PARK_ID=#{parkId}
+	</where>
+</delete>
+<select id="get" resultMap="ParkCompanyRel">
+	select <include refid="AllColumnlist"/> from t_park_company_rel
+	<where>
+		COMPANY_ID=#{0}
+		PARK_ID=#{1}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="ParkCompanyRel">
+	select <include refid="AllColumnlist"/> from t_park_company_rel
+	<where>
+		PARK_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(PARK_ID) from t_park_company_rel 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="ParkCompanyRel1">
+	select tpcr.PARK_ID,tpcr.COMPANY_ID,tc.COMPANY_NAME from t_park_company_rel tpcr left join t_company tc 
+	on tpcr.COMPANY_ID=tc.COMPANY_ID
+	<where>
+	<include refid="listCommonWhereJoin"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="ParkCompanyRel">
+	select <include refid="CommonColumnlist"/> from t_park_company_rel
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<sql id="listCommonWhereJoin">
+	<if test="q!=null">
+		<if test="q.parkId!=null and q.parkId!=''">
+			AND tpcr.PARK_ID=#{q.parkId}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND tpcr.COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND tpcr.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tpcr.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tpcr.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND tpcr.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND tpcr.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.parkId!=null and q.parkId!=''">
+			AND PARK_ID=#{q.parkId}
+		</if>
+		<if test="q.companyId!=null and q.companyId!=''">
+			AND COMPANY_ID=#{q.companyId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysUserDao">
+
+<resultMap type="SysUser" id="SysUser">
+    <id column="USER_ID" property="userId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="USER_NAME" property="userName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="PASSWORD" property="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="REAL_NAME" property="realName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="EMAIL" property="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="TEL_PHONE" property="telPhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IDENTIFICATION" property="identification" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+    <result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+<resultMap type="SysUser" id="SysUserAss" extends="SysUser">  
+   <association property="sysRole" column="USER_ID"   
+            select="cn.com.shopec.core.system.dao.SysUserRoleRelDao.getAllUserRole"> 
+            </association>    
+</resultMap>
+<insert id="add" parameterType="SysUser">
+    insert into T_SYS_USER(
+        USER_ID,
+        USER_NAME,
+        PASSWORD,
+        REAL_NAME,
+        EMAIL,
+        MOBILE_PHONE,
+        TEL_PHONE,
+        LAST_LOGIN_TIME,
+        MEMO,
+        IS_AVAILABLE,
+        IS_DELETED,
+        IDENTIFICATION,
+        CREATE_TIME,
+        UPDATE_TIME,
+        OPERATOR_TYPE,
+        OPERATOR_ID
+    ) values (
+        #{userId,jdbcType = VARCHAR},
+        #{userName,jdbcType = VARCHAR},
+        #{password,jdbcType = VARCHAR},
+        #{realName,jdbcType = VARCHAR},
+        #{email,jdbcType = VARCHAR},
+        #{mobilePhone,jdbcType = VARCHAR},
+        #{telPhone,jdbcType = VARCHAR},
+        #{lastLoginTime,jdbcType = TIMESTAMP},
+        #{memo,jdbcType = VARCHAR},
+        #{isAvailable,jdbcType = TINYINT},
+        #{isDeleted,jdbcType = TINYINT},
+        #{identification,jdbcType = TINYINT},
+        #{createTime,jdbcType = TIMESTAMP},
+        #{updateTime,jdbcType = TIMESTAMP},
+        #{operatorType,jdbcType = TINYINT},
+        #{operatorId,jdbcType = VARCHAR}
+    )
+</insert>
+
+<update id="update" parameterType="SysUser">
+    update t_sys_user 
+    <set>
+        <if test="userName!=null and userName!=''">
+            USER_NAME=#{userName,jdbcType = VARCHAR},
+        </if>
+        <if test="password!=null and password!=''">
+            PASSWORD=#{password,jdbcType = VARCHAR},
+        </if>
+        <if test="realName!=null and realName!=''">
+            REAL_NAME=#{realName,jdbcType = VARCHAR},
+        </if>
+        <if test="email!=null and email!=''">
+            EMAIL=#{email,jdbcType = VARCHAR},
+        </if>
+        <if test="mobilePhone!=null and mobilePhone!=''">
+            MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+        </if>
+        <if test="telPhone!=null and telPhone!=''">
+            TEL_PHONE=#{telPhone,jdbcType = VARCHAR},
+        </if>
+        <if test="lastLoginTime!=null ">
+            LAST_LOGIN_TIME=#{lastLoginTime,jdbcType = TIMESTAMP},
+        </if>
+        <if test="memo!=null and memo!=''">
+            MEMO=#{memo,jdbcType = VARCHAR},
+        </if>
+        <if test="isAvailable!=null ">
+            IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+        </if>
+        <if test="isDeleted!=null ">
+            IS_DELETED=#{isDeleted,jdbcType = TINYINT},
+        </if>
+        <if test="identification!=null ">
+            identification=#{identification,jdbcType = TIMESTAMP},
+        </if>
+        <if test="createTime!=null ">
+            CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+        </if>
+        <if test="updateTime!=null ">
+            UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+        </if>
+        <if test="operatorType!=null ">
+            OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+        </if>
+        <if test="operatorId!=null ">
+            OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+        </if>
+    </set>
+    <where>
+        AND USER_ID=#{userId}
+    </where>
+</update>
+
+<update id="updateByUserId">
+    update t_sys_user 
+    <set>
+    <if test="isDeleted!=null ">
+            IS_DELETED=#{1},
+    </if>
+    </set>
+    <where>
+        AND USER_ID=#{0}
+    </where>
+</update>
+
+<delete id="delete">
+    delete from t_sys_user 
+    <where>
+        USER_ID=#{0}
+    </where>
+</delete>
+
+
+
+<select id="get" resultMap="SysUserAss">
+    select * from t_sys_user
+    <where>
+        USER_ID=#{0}
+    </where>
+</select>
+
+<select id="getByIds"  resultMap="SysUser">
+	select * from t_sys_user
+	<where>
+		USER_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="getSysUser" resultMap="SysUserAss">
+    select * from t_sys_user
+    <where>
+        USER_NAME=#{0}
+    and PASSWORD=#{1}
+    </where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+    select count(*) from t_sys_user 
+    <where>
+    <include refid="listCommonWhere"/>
+    </where>
+</select>
+
+<select id="count2" parameterType="Query" resultType="Long">
+    select count(*) from t_sys_user 
+    <where>
+    <include refid="listCommonWhere2"/>
+    </where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysUserAss">
+    select * from t_sys_user 
+    <where>
+    <include refid="listCommonWhere"/>
+    </where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysUserAss">
+    select * from  t_sys_user
+    <where>
+     <include refid="listCommonWhere"/>
+    </where>
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<select id="pageList2" parameterType="Query" resultMap="SysUserAss">
+    select * from  t_sys_user
+    <where>
+     <include refid="listCommonWhere2"/>
+    </where>
+    order by CREATE_TIME desc
+    <![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+    
+</select>
+    <select id="getCheckExistsByName" resultType="java.lang.Long" parameterType="string">
+        select count(1) from t_sys_user where USER_NAME = #{userName}
+    </select>
+
+
+    <sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+         AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+        <if test="q.userId!=null ">
+            AND USER_ID=#{q.userId}
+        </if>
+        <if test="q.userName!=null and q.userName!=''">
+            AND USER_NAME=#{q.userName}
+        </if>
+        <if test="q.password!=null and q.password!=''">
+            AND PASSWORD=#{q.password}
+        </if>
+        <if test="q.realName!=null and q.realName!=''">
+            AND REAL_NAME=#{q.realName}
+        </if>
+        <if test="q.email!=null and q.email!=''">
+            AND EMAIL=#{q.email}
+        </if>
+        <if test="q.mobilePhone!=null and q.mobilePhone!=''">
+            AND MOBILE_PHONE=#{q.mobilePhone}
+        </if>
+        <if test="q.telPhone!=null and q.telPhone!=''">
+            AND TEL_PHONE=#{q.telPhone}
+        </if>
+        <if test="q.lastLoginTime!=null ">
+            AND LAST_LOGIN_TIME=#{q.lastLoginTime}
+        </if>
+        <if test="q.memo!=null and q.memo!=''">
+            AND MEMO=#{q.memo}
+        </if>
+        <if test="q.isAvailable!=null ">
+            AND IS_AVAILABLE=#{q.isAvailable}
+        </if>
+        <if test="q.isDeleted!=null ">
+            AND IS_DELETED=#{q.isDeleted}
+        </if>
+         <if test="q.identification!=null ">
+            AND IDENTIFICATION=#{q.identification}
+        </if>
+        <if test="q.createTime!=null ">
+            AND CREATE_TIME=#{q.createTime}
+        </if>
+        <if test="q.updateTime!=null ">
+            AND UPDATE_TIME=#{q.updateTime}
+        </if>
+        <if test="q.operatorType!=null ">
+            AND OPERATOR_TYPE=#{q.operatorType}
+        </if>
+        <if test="q.operatorId!=null ">
+            AND OPERATOR_ID=#{q.operatorId}
+        </if>
+    </if>
+</sql>
+
+<sql id="listCommonWhere2">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+         AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+        <if test="q.userId!=null ">
+            AND USER_ID=#{q.userId}
+        </if>
+        <if test="q.userName!=null and q.userName!=''">
+            AND USER_NAME like CONCAT('%',#{q.userName},'%')
+        </if>
+        <if test="q.password!=null and q.password!=''">
+            AND PASSWORD=#{q.password}
+        </if>
+        <if test="q.realName!=null and q.realName!=''">
+            AND REAL_NAME like CONCAT('%',#{q.realName},'%')
+        </if>
+        <if test="q.email!=null and q.email!=''">
+            AND EMAIL=#{q.email}
+        </if>
+        <if test="q.mobilePhone!=null and q.mobilePhone!=''">
+            AND MOBILE_PHONE=#{q.mobilePhone}
+        </if>
+        <if test="q.telPhone!=null and q.telPhone!=''">
+            AND TEL_PHONE=#{q.telPhone}
+        </if>
+        <if test="q.lastLoginTime!=null ">
+            AND LAST_LOGIN_TIME=#{q.lastLoginTime}
+        </if>
+        <if test="q.memo!=null and q.memo!=''">
+            AND MEMO=#{q.memo}
+        </if>
+        <if test="q.isAvailable!=null ">
+            AND IS_AVAILABLE=#{q.isAvailable}
+        </if>
+        <if test="q.isDeleted!=null ">
+            AND IS_DELETED=#{q.isDeleted}
+        </if>
+        <if test="q.createTime!=null ">
+            AND CREATE_TIME=#{q.createTime}
+        </if>
+        <if test="q.updateTime!=null ">
+            AND UPDATE_TIME=#{q.updateTime}
+        </if>
+        <if test="q.operatorType!=null ">
+            AND OPERATOR_TYPE=#{q.operatorType}
+        </if>
+        <if test="q.operatorId!=null ">
+            AND OPERATOR_ID=#{q.operatorId}
+        </if>
+        <if test="q.identification!=null ">
+            AND IDENTIFICATION=#{q.identification}
+        </if>
+    </if>
+</sql>
+
+</mapper>

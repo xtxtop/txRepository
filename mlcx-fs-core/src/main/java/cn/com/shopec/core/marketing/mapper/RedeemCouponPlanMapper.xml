@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.marketing.dao.RedeemCouponPlanDao">
+
+<resultMap type="RedeemCouponPlan" id="RedeemCouponPlan">
+	<id column="RED_CODE" property="redCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<id column="PLAN_NO" property="planNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PLAN_TITLE" property="planTitle" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RED_QUTITY" property="redQutity" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+
+</resultMap>
+
+<!-- 全部字段-->
+<sql id="AllColumnlist">
+RED_CODE,PLAN_NO,RED_QUTITY
+</sql>
+
+
+<insert id="add" parameterType="RedeemCouponPlan" useGeneratedKeys="true" keyProperty="redCode">
+	insert into T_REDEEM_COUPON_PLAN(
+		RED_CODE,
+		PLAN_NO,
+		RED_QUTITY
+	) values (
+		#{redCode,jdbcType = VARCHAR},
+		#{planNo,jdbcType = VARCHAR},
+		#{redQutity,jdbcType = INTEGER}
+	)
+</insert>
+
+<!-- 通用update -->
+<update id="update" parameterType="RedeemCouponPlan">
+	update t_redeem_coupon_plan 
+	<set>
+		<include refid="listCommonSet"/>
+	</set>
+	<where>
+		AND RED_CODE=#{redCode} AND PLAN_NO =#{planNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_redeem_coupon_plan 
+	<where>
+		AND RED_CODE=#{0} AND PLAN_NO =#{1}
+	</where>
+</delete>
+
+<delete id="deleteByRedCode">
+	delete from t_redeem_coupon_plan 
+	<where>
+		AND RED_CODE=#{0}
+	</where>
+</delete>
+
+
+<select id="get" resultMap="RedeemCouponPlan">
+	select <include refid="AllColumnlist"/> from t_redeem_coupon_plan
+	<where>
+		AND RED_CODE=#{0} AND PLAN_NO =#{1}
+	</where>
+</select>
+
+<select id="getAllByRedCode" resultMap="RedeemCouponPlan">
+	select TRCP.RED_CODE,TRCP.PLAN_NO,TRCP.RED_QUTITY,TCP.TITLE as planTitle
+	from t_redeem_coupon_plan TRCP left join t_coupon_plan TCP on TRCP.PLAN_NO = TCP.PLAN_NO
+	where trcp.RED_CODE = #{0}
+</select>
+
+<select id="getByIds" resultMap="RedeemCouponPlan">
+	select <include refid="AllColumnlist"/> from t_redeem_coupon_plan
+	<where>
+		RED_CODE in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RED_CODE) from t_redeem_coupon_plan 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="RedeemCouponPlan">
+	select <include refid="AllColumnlist"/> from t_redeem_coupon_plan 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+
+
+
+<select id="pageList" parameterType="Query" resultMap="RedeemCouponPlan">
+	select <include refid="AllColumnlist"/> from t_redeem_coupon_plan
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by RED_CODE DESC
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonSet">
+		<if test="redQutity!=null ">
+			RED_QUTITY=#{redQutity,jdbcType = INTEGER},
+		</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.redCode!=null and  q.redCode!='' ">
+			AND RED_CODE like CONCAT('%',#{q.redCode},'%')  
+		</if>
+		<if test="q.planNo!=null and  q.planNo!='' ">
+			AND PLAN_NO like CONCAT('%',#{q.planNo},'%')
+		</if>
+	</if>
+</sql>
+</mapper>

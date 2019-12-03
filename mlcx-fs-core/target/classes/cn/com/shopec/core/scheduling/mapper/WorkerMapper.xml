@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.scheduling.dao.WorkerDao">
+
+	<resultMap type="Worker" id="Worker">
+		<id column="WORKER_NO" property="workerNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_ID" property="cityId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="REGION_ID" property="regionId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="REGION_NAME" property="regionName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CITY_NAME" property="cityName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="EMP_NO" property="empNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="TOKEN" property="token" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="TOKEN_GENERATE_TIME" property="tokenGenerateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="WORKER_NAME" property="workerName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SYS_USER_ID" property="sysUserId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="LOCATION_LONGITUDE" property="locationLongitude"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="LOCATION_LATITUDE" property="locationLatitude"
+			javaType="java.lang.Double" jdbcType="DOUBLE" />
+		<result column="LOCATION_UPDATE_TIME" property="locationUpdateTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="APP_IS_ONLINE" property="appIsOnline" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="APP_LAST_ONLINE_TIME" property="appLastOnlineTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="IS_AVAILABLE" property="isAvailable" javaType="java.lang.Integer"
+			jdbcType="TINYINT" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		WORKER_NO,CITY_ID,CITY_NAME,EMP_NO,WORKER_NAME,MOBILE_PHONE,PASSWORD,
+		SYS_USER_ID,LOCATION_LONGITUDE,LOCATION_LATITUDE,LOCATION_UPDATE_TIME,APP_IS_ONLINE,APP_LAST_ONLINE_TIME,
+		IS_AVAILABLE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,TOKEN,TOKEN_GENERATE_TIME,REGION_ID,REGION_NAME
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		WORKER_NO,CITY_ID,CITY_NAME,EMP_NO,WORKER_NAME,MOBILE_PHONE,PASSWORD,
+		SYS_USER_ID,LOCATION_LONGITUDE,LOCATION_LATITUDE,LOCATION_UPDATE_TIME,APP_IS_ONLINE,APP_LAST_ONLINE_TIME,
+		IS_AVAILABLE,CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,TOKEN,TOKEN_GENERATE_TIME,REGION_ID,REGION_NAME
+	</sql>
+
+	<insert id="add" parameterType="Worker" useGeneratedKeys="true"
+		keyProperty="workerNo">
+		insert into T_WORKER(
+		<if test="workerNo!=null">
+			WORKER_NO,
+		</if>
+		CITY_ID,
+		CITY_NAME,
+		EMP_NO,
+		WORKER_NAME,
+		MOBILE_PHONE,
+		PASSWORD,
+		SYS_USER_ID,
+		LOCATION_LONGITUDE,
+		LOCATION_LATITUDE,
+		LOCATION_UPDATE_TIME,
+		APP_IS_ONLINE,
+		APP_LAST_ONLINE_TIME,
+		IS_AVAILABLE,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		TOKEN,
+		TOKEN_GENERATE_TIME,
+		REGION_ID,
+		REGION_NAME
+		) values (
+		<if test="workerNo!=null">
+			#{workerNo,jdbcType = VARCHAR},
+		</if>
+		#{cityId,jdbcType = VARCHAR},
+		#{cityName,jdbcType = VARCHAR},
+		#{empNo,jdbcType = VARCHAR},
+		#{workerName,jdbcType = VARCHAR},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{password,jdbcType = VARCHAR},
+		#{sysUserId,jdbcType = VARCHAR},
+		#{locationLongitude,jdbcType =
+		DOUBLE},
+		#{locationLatitude,jdbcType = DOUBLE},
+		#{locationUpdateTime,jdbcType = TIMESTAMP},
+		#{appIsOnline,jdbcType =
+		TINYINT},
+		#{appLastOnlineTime,jdbcType = TIMESTAMP},
+		#{isAvailable,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{token,jdbcType = VARCHAR},
+		#{tokenGenerateTime,jdbcType = TIMESTAMP},
+		#{regionId,jdbcType =
+		VARCHAR},
+		#{regionName,jdbcType = VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="Worker">
+		update t_worker
+		<set>
+			<if test="cityId!=null and cityId!=''">
+				CITY_ID=#{cityId,jdbcType = VARCHAR},
+			</if>
+			<if test="cityName!=null and cityName!=''">
+				CITY_NAME=#{cityName,jdbcType = VARCHAR},
+			</if>
+			<if test="regionId!=null and regionId!=''">
+				REGION_ID=#{regionId,jdbcType = VARCHAR},
+			</if>
+			<if test="regionName!=null and regionName!=''">
+				REGION_NAME=#{regionName,jdbcType = VARCHAR},
+			</if>
+			<if test="empNo!=null and empNo!=''">
+				EMP_NO=#{empNo,jdbcType = VARCHAR},
+			</if>
+			<if test="workerName!=null and workerName!=''">
+				WORKER_NAME=#{workerName,jdbcType = VARCHAR},
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!=''">
+				MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+			</if>
+			<if test="password!=null and password!=''">
+				PASSWORD=#{password,jdbcType = VARCHAR},
+			</if>
+			<if test="sysUserId!=null and sysUserId!=''">
+				SYS_USER_ID=#{sysUserId,jdbcType = VARCHAR},
+			</if>
+			<if test="token!=null and token!=''">
+				TOKEN=#{token,jdbcType = VARCHAR},
+			</if>
+			<if test="locationLongitude!=null ">
+				LOCATION_LONGITUDE=#{locationLongitude,jdbcType =
+				DOUBLE},
+			</if>
+			<if test="locationLatitude!=null ">
+				LOCATION_LATITUDE=#{locationLatitude,jdbcType = DOUBLE},
+			</if>
+			<if test="locationUpdateTime!=null ">
+				LOCATION_UPDATE_TIME=#{locationUpdateTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="tokenGenerateTime!=null ">
+				TOKEN_GENERATE_TIME=#{tokenGenerateTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="appIsOnline!=null ">
+				APP_IS_ONLINE=#{appIsOnline,jdbcType = TINYINT},
+			</if>
+			<if test="appLastOnlineTime!=null ">
+				APP_LAST_ONLINE_TIME=#{appLastOnlineTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="isAvailable!=null ">
+				IS_AVAILABLE=#{isAvailable,jdbcType = TINYINT},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND WORKER_NO=#{workerNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_worker
+		<where>
+			WORKER_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="Worker">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker
+		<where>
+			WORKER_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getWorkerNs" parameterType="Query" resultMap="Worker">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker
+		<where>
+			<if test="q!=null">
+				<if test="q.nameOrempNo!=null and q.nameOrempNo!=''">
+					AND WORKER_NAME like '%${q.nameOrempNo}%' OR EMP_NO like
+					'%${q.nameOrempNo}%'
+				</if>
+				<if test="q.empNo!=null and q.empNo!=''">
+					AND EMP_NO != #{q.empNo}
+				</if>
+			</if>
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="getWorkerByToken" resultMap="Worker">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker
+		<where>
+			TOKEN=#{0}
+		</where>
+	</select>
+
+	<!-- 根据工号获取调度员信息 zln -->
+	<select id="getWorkerByEmpNo" resultMap="Worker">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker
+		<where>
+			EMP_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="Worker">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker
+		<where>
+			WORKER_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(WORKER_NO) from t_worker
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="Worker">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="findPositionReporting" parameterType="Query"
+		resultMap="Worker">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker
+		<where>
+			<if test="q!=null">
+				<if test="q.workerName!=null and q.workerName!=''">
+					AND WORKER_NAME like '%${q.workerName}%'
+				</if>
+				AND 
+			</if>
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="Worker">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+		order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<sql id="listCommonWhereMH">
+		<if test="q!=null">
+			<if test="q.workerNo!=null and q.workerNo!=''">
+				AND WORKER_NO=#{q.workerNo}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.token!=null and q.token!=''">
+				AND TOKEN=#{q.token}
+			</if>
+			<if test="q.empNo!=null and q.empNo!=''">
+				AND EMP_NO like '%${q.empNo}%'
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND WORKER_NAME like '%${q.workerName}%'
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND MOBILE_PHONE like '%${q.mobilePhone}%'
+			</if>
+			<if test="q.password!=null and q.password!=''">
+				AND PASSWORD=#{q.password}
+			</if>
+			<if test="q.sysUserId!=null and q.sysUserId!=''">
+				AND SYS_USER_ID=#{q.sysUserId}
+			</if>
+			<if test="q.locationLongitude!=null ">
+				AND LOCATION_LONGITUDE=#{q.locationLongitude}
+			</if>
+			<if test="q.locationLatitude!=null ">
+				AND LOCATION_LATITUDE=#{q.locationLatitude}
+			</if>
+			<if test="q.tokenGenerateTime!=null ">
+				AND TOKEN_GENERATE_TIME=#{q.tokenGenerateTime}
+			</if>
+			<if test="q.locationUpdateTime!=null ">
+				AND LOCATION_UPDATE_TIME=#{q.locationUpdateTime}
+			</if>
+			<if test="q.locationUpdateTimeStart!=null">
+		<![CDATA[	AND LOCATION_UPDATE_TIME>=#{q.locationUpdateTimeStart}  ]]>
+			</if>
+			<if test="q.locationUpdateTimeEnd!=null">
+		<![CDATA[	AND LOCATION_UPDATE_TIME<#{q.locationUpdateTimeEnd}   ]]>
+			</if>
+			<if test="q.appIsOnline!=null ">
+				AND APP_IS_ONLINE=#{q.appIsOnline}
+			</if>
+			<if test="q.appLastOnlineTime!=null ">
+				AND APP_LAST_ONLINE_TIME=#{q.appLastOnlineTime}
+			</if>
+			<if test="q.appLastOnlineTimeStart!=null">
+		<![CDATA[	AND APP_LAST_ONLINE_TIME>=#{q.appLastOnlineTimeStart}  ]]>
+			</if>
+			<if test="q.appLastOnlineTimeEnd!=null">
+		<![CDATA[	AND APP_LAST_ONLINE_TIME<#{q.appLastOnlineTimeEnd}   ]]>
+			</if>
+			<if test="q.isAvailable!=null ">
+				AND IS_AVAILABLE=#{q.isAvailable}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.workerNo!=null and q.workerNo!=''">
+				AND WORKER_NO=#{q.workerNo}
+			</if>
+			<if test="q.cityId!=null and q.cityId!=''">
+				AND CITY_ID=#{q.cityId}
+			</if>
+			<if test="q.regionId!=null and q.regionId!=''">
+				AND REGION_ID=#{q.regionId}
+			</if>
+			<if test="q.regionName!=null and q.regionName!=''">
+				AND REGION_NAME=#{q.regionName}
+			</if>
+			<if test="q.cityName!=null and q.cityName!=''">
+				AND CITY_NAME=#{q.cityName}
+			</if>
+			<if test="q.empNo!=null and q.empNo!=''">
+				AND EMP_NO=#{q.empNo}
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND WORKER_NAME like '%${q.workerName}%'
+			</if>
+			<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+				AND MOBILE_PHONE like '%${q.mobilePhone}%'
+			</if>
+			<if test="q.password!=null and q.password!=''">
+				AND PASSWORD=#{q.password}
+			</if>
+			<if test="q.sysUserId!=null and q.sysUserId!=''">
+				AND SYS_USER_ID=#{q.sysUserId}
+			</if>
+			<if test="q.locationLongitude!=null ">
+				AND LOCATION_LONGITUDE=#{q.locationLongitude}
+			</if>
+			<if test="q.locationLatitude!=null ">
+				AND LOCATION_LATITUDE=#{q.locationLatitude}
+			</if>
+			<if test="q.token!=null and q.token!=''">
+				AND TOKEN=#{q.token}
+			</if>
+			<if test="q.tokenGenerateTime!=null ">
+				AND TOKEN_GENERATE_TIME=#{q.tokenGenerateTime}
+			</if>
+			<if test="q.locationUpdateTime!=null ">
+				AND LOCATION_UPDATE_TIME=#{q.locationUpdateTime}
+			</if>
+			<if test="q.locationUpdateTimeStart!=null">
+		<![CDATA[	AND LOCATION_UPDATE_TIME>=#{q.locationUpdateTimeStart}  ]]>
+			</if>
+			<if test="q.locationUpdateTimeEnd!=null">
+		<![CDATA[	AND LOCATION_UPDATE_TIME<#{q.locationUpdateTimeEnd}   ]]>
+			</if>
+			<if test="q.appIsOnline!=null ">
+				AND APP_IS_ONLINE=#{q.appIsOnline}
+			</if>
+			<if test="q.appLastOnlineTime!=null ">
+				AND APP_LAST_ONLINE_TIME=#{q.appLastOnlineTime}
+			</if>
+			<if test="q.appLastOnlineTimeStart!=null">
+		<![CDATA[	AND APP_LAST_ONLINE_TIME>=#{q.appLastOnlineTimeStart}  ]]>
+			</if>
+			<if test="q.appLastOnlineTimeEnd!=null">
+		<![CDATA[	AND APP_LAST_ONLINE_TIME<#{q.appLastOnlineTimeEnd}   ]]>
+			</if>
+			<if test="q.isAvailable!=null ">
+				AND IS_AVAILABLE=#{q.isAvailable}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+		</if>
+	</sql>
+
+</mapper>

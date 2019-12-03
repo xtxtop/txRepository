@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.finace.dao.InvoiceDao">
+
+<resultMap type="Invoice" id="Invoice">
+	<id column="INVOICE_ID" property="invoiceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_TYPE" property="invoiceType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="INVOICE_AMOUNT" property="invoiceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="INVOICE_TITLE" property="invoiceTitle" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TAXPAYER_NO" property="taxpayerNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACCOUNT_BANK" property="accountBank" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACCOUNT_NO" property="accountNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDRESS" property="address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHONE" property="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="FAX" property="fax" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POSTCODE" property="postcode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="BIZ_OBJ_TYPE" property="bizObjType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="BIZ_OBJ_ID" property="bizObjId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ORDER_AMOUNT" property="orderAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+	<result column="ORDER_TIME" property="orderTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="INVOICE_TIME" property="invoiceTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="INVOICE_STATUS" property="invoiceStatus" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="INVOICE_NO" property="invoiceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TAXPAYER_NOTICE_PIC" property="taxpayerNoticePic" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_OPERATOR_ID" property="invoiceOperatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_OPERATOR_NAME" property="invoiceOperatorName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    <result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="EMAIL_ADDRESS" property="emailAddress" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="INVOICE_INFO" property="invoiceInfo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="TEL" property="tel" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="COMPANY_ADDRESS" property="companyAddress" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    <result column="NAME" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="HEADER_CATEGORIES" property="headerCategories" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+</resultMap>
+<resultMap type="Invoice" id="Invoice1">
+	<id column="INVOICE_ID" property="invoiceId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_NO" property="invoiceNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="INVOICE_AMOUNT" property="invoiceAmount" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+INVOICE_ID,INVOICE_TYPE,INVOICE_AMOUNT,INVOICE_TITLE,TAXPAYER_NO,ACCOUNT_BANK,ACCOUNT_NO,
+ADDRESS,PHONE,FAX,POSTCODE,BIZ_OBJ_TYPE,BIZ_OBJ_ID,
+ORDER_AMOUNT,ORDER_TIME,INVOICE_TIME,INVOICE_STATUS,INVOICE_NO,TAXPAYER_NOTICE_PIC,
+INVOICE_OPERATOR_ID,INVOICE_OPERATOR_NAME,OPERATOR_TYPE,OPERATOR_ID,CREATE_TIME,UPDATE_TIME,MEMBER_NO,
+EMAIL_ADDRESS,INVOICE_INFO,TEL,COMPANY_ADDRESS,NAME,HEADER_CATEGORIES
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+INVOICE_ID,INVOICE_TYPE,INVOICE_AMOUNT,INVOICE_TITLE,TAXPAYER_NO,ACCOUNT_BANK,ACCOUNT_NO,
+ADDRESS,PHONE,FAX,POSTCODE,BIZ_OBJ_TYPE,BIZ_OBJ_ID,
+ORDER_AMOUNT,ORDER_TIME,INVOICE_TIME,INVOICE_STATUS,INVOICE_NO,TAXPAYER_NOTICE_PIC,
+INVOICE_OPERATOR_ID,INVOICE_OPERATOR_NAME,OPERATOR_TYPE,OPERATOR_ID,CREATE_TIME,UPDATE_TIME,MEMBER_NO,
+EMAIL_ADDRESS,INVOICE_INFO,TEL,COMPANY_ADDRESS,NAME,HEADER_CATEGORIES
+</sql>
+
+<insert id="add" parameterType="Invoice" useGeneratedKeys="true" keyProperty="invoiceId">
+	insert into T_INVOICE(
+		<if test="invoiceId!=null">
+		INVOICE_ID,
+		</if>
+		INVOICE_TYPE,
+		INVOICE_AMOUNT,
+		INVOICE_TITLE,
+		TAXPAYER_NO,
+		ACCOUNT_BANK,
+		ACCOUNT_NO,
+		ADDRESS,
+		PHONE,
+		FAX,
+		POSTCODE,
+		BIZ_OBJ_TYPE,
+		BIZ_OBJ_ID,
+		ORDER_AMOUNT,
+		ORDER_TIME,
+		INVOICE_TIME,
+		INVOICE_STATUS,
+		INVOICE_NO,
+		TAXPAYER_NOTICE_PIC,
+		INVOICE_OPERATOR_ID,
+		INVOICE_OPERATOR_NAME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		CREATE_TIME,
+		UPDATE_TIME,
+		MEMBER_NO,
+		EMAIL_ADDRESS,
+		INVOICE_INFO,
+		TEL,
+		COMPANY_ADDRESS,
+		NAME,
+		HEADER_CATEGORIES
+	) values (
+		<if test="invoiceId!=null">
+		#{invoiceId,jdbcType = VARCHAR},
+		</if>
+		#{invoiceType,jdbcType = TINYINT},
+		#{invoiceAmount,jdbcType = DOUBLE},
+		#{invoiceTitle,jdbcType = VARCHAR},
+		#{taxpayerNo,jdbcType = VARCHAR},
+		#{accountBank,jdbcType = VARCHAR},
+		#{accountNo,jdbcType = VARCHAR},
+		#{address,jdbcType = VARCHAR},
+		#{phone,jdbcType = VARCHAR},
+		#{fax,jdbcType = VARCHAR},
+		#{postcode,jdbcType = VARCHAR},
+		#{bizObjType,jdbcType = TINYINT},
+		#{bizObjId,jdbcType = VARCHAR},
+		#{orderAmount,jdbcType = DOUBLE},
+		#{orderTime,jdbcType = TIMESTAMP},
+		#{invoiceTime,jdbcType = TIMESTAMP},
+		#{invoiceStatus,jdbcType = TINYINT},
+		#{invoiceNo,jdbcType = VARCHAR},
+		#{taxpayerNoticePic,jdbcType = VARCHAR},
+		#{invoiceOperatorId,jdbcType = VARCHAR},
+		#{invoiceOperatorName,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{memberNo,jdbcType = VARCHAR},
+		#{emailAddress,jdbcType = VARCHAR},
+		#{invoiceInfo,jdbcType = VARCHAR},
+		#{tel,jdbcType = VARCHAR},
+		#{companyAddress,jdbcType = VARCHAR},
+		#{name,jdbcType = VARCHAR},
+		#{headerCategories,jdbcType = TINYINT}
+	)
+</insert>
+
+<update id="update" parameterType="Invoice">
+	update t_invoice 
+	<set>
+		<if test="invoiceType!=null ">
+			INVOICE_TYPE=#{invoiceType,jdbcType = TINYINT},
+		</if>
+		<if test="invoiceAmount!=null ">
+			INVOICE_AMOUNT=#{invoiceAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="invoiceTitle!=null and invoiceTitle!=''">
+			INVOICE_TITLE=#{invoiceTitle,jdbcType = VARCHAR},
+		</if>
+		<if test="taxpayerNo!=null and taxpayerNo!=''">
+			TAXPAYER_NO=#{taxpayerNo,jdbcType = VARCHAR},
+		</if>
+		<if test="accountBank!=null and accountBank!=''">
+			ACCOUNT_BANK=#{accountBank,jdbcType = VARCHAR},
+		</if>
+		<if test="accountNo!=null and accountNo!=''">
+			ACCOUNT_NO=#{accountNo,jdbcType = VARCHAR},
+		</if>
+		<if test="address!=null and address!=''">
+			ADDRESS=#{address,jdbcType = VARCHAR},
+		</if>
+		<if test="phone!=null and phone!=''">
+			PHONE=#{phone,jdbcType = VARCHAR},
+		</if>
+		<if test="fax!=null and fax!=''">
+			FAX=#{fax,jdbcType = VARCHAR},
+		</if>
+		<if test="postcode!=null and postcode!=''">
+			POSTCODE=#{postcode,jdbcType = VARCHAR},
+		</if>
+		<if test="bizObjType!=null ">
+			BIZ_OBJ_TYPE=#{bizObjType,jdbcType = TINYINT},
+		</if>
+		<if test="bizObjId!=null and bizObjId!=''">
+			BIZ_OBJ_ID=#{bizObjId,jdbcType = VARCHAR},
+		</if>
+		<if test="orderAmount!=null ">
+			ORDER_AMOUNT=#{orderAmount,jdbcType = DOUBLE},
+		</if>
+		<if test="orderTime!=null ">
+			ORDER_TIME=#{orderTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="invoiceTime!=null ">
+			INVOICE_TIME=#{invoiceTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="invoiceStatus!=null ">
+			INVOICE_STATUS=#{invoiceStatus,jdbcType = TINYINT},
+		</if>
+		<if test="invoiceNo!=null and invoiceNo!=''">
+			INVOICE_NO=#{invoiceNo,jdbcType = VARCHAR},
+		</if>
+		<if test="taxpayerNoticePic!=null and taxpayerNoticePic!=''">
+			TAXPAYER_NOTICE_PIC=#{taxpayerNoticePic,jdbcType = VARCHAR},
+		</if>
+		<if test="invoiceOperatorId!=null and invoiceOperatorId!=''">
+			INVOICE_OPERATOR_ID=#{invoiceOperatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="invoiceOperatorName!=null and invoiceOperatorName!=''">
+			INVOICE_OPERATOR_NAME=#{invoiceOperatorName,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="emailAddress!=null and emailAddress!=''">
+			EMAIL_ADDRESS=#{emailAddress,jdbcType = VARCHAR},
+		</if>
+		<if test="invoiceInfo!=null and invoiceInfo!=''">
+			INVOICE_INFO=#{invoiceInfo,jdbcType = VARCHAR},
+		</if>
+		<if test="tel!=null and tel!=''">
+			TEL=#{tel,jdbcType = VARCHAR},
+		</if>
+		<if test="companyAddress!=null and companyAddress!=''">
+			COMPANY_ADDRESS=#{companyAddress,jdbcType = VARCHAR},
+		</if>
+		<if test="name!=null and name!=''">
+			NAME=#{name,jdbcType = VARCHAR},
+		</if>
+		<if test="headerCategories!=null ">
+			HEADER_CATEGORIES=#{headerCategories,jdbcType = TINYINT},
+		</if>
+	</set>
+	<where>
+		AND INVOICE_ID=#{invoiceId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_invoice 
+	<where>
+		INVOICE_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="Invoice">
+	select <include refid="AllColumnlist"/> from t_invoice
+	<where>
+		INVOICE_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="Invoice">
+	select <include refid="AllColumnlist"/> from t_invoice
+	<where>
+		INVOICE_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(INVOICE_ID) from t_invoice 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="Invoice">
+	select <include refid="CommonColumnlist"/> from t_invoice 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="Invoice">
+	select <include refid="CommonColumnlist"/> from t_invoice
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where> order by CREATE_TIME desc,INVOICE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 获取一个月内的开票记录  -->
+<select id="getInvoiceListByMemberMonth" parameterType="Query" resultMap="Invoice">
+	SELECT tiv.* FROM t_invoice tiv 
+WHERE tiv.MEMBER_NO=#{q.memberNo}
+<![CDATA[AND tiv.CREATE_TIME>=#{q.createTimeStart}]]>
+ order by tiv.INVOICE_TIME desc
+</select>
+
+<!-- 获取更多的开票记录  -->
+<select id="getMoreMonthMyInvoice" parameterType="Query" resultMap="Invoice">
+	SELECT tiv.* FROM t_invoice tiv 
+WHERE tiv.MEMBER_NO=#{q.memberNo}
+<![CDATA[AND tiv.CREATE_TIME<#{q.createTimeEnd} ]]>
+order by tiv.INVOICE_TIME desc
+<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<!-- 获取更多的开票记录总数 zln -->
+<select id="countMoreInvoice" parameterType="Query" resultType="Long">
+	SELECT count(tiv.INVOICE_ID) FROM t_invoice tiv 
+WHERE tiv.MEMBER_NO=#{q.memberNo} 
+<![CDATA[AND MONTH(tiv.CREATE_TIME)<#{q.month} ]]>
+</select>
+<!-- 财务对账有关会员某一时期的开票金额 -->
+<select id="getInvoiceAmountByMember" resultType="Double">
+ SELECT SUM(DISTINCT invoice.invoice_amount) FROM t_invoice invoice,
+ t_order o WHERE invoice.phone=o.mobile_phone  and invoice.biz_obj_type=1
+ and invoice.invoice_status=1
+ 		<if test="cA.mobilePhone!=null and cA.mobilePhone!=''">
+ 			AND invoice.phone=#{cA.mobilePhone} 
+ 		</if>
+		<if test="cA.checkDateRange1!=null">
+			<![CDATA[	AND invoice.CREATE_TIME>=#{cA.checkDateRange1}  ]]>
+		</if>
+		<if test="cA.checkDateRange2!=null">
+			<![CDATA[	AND invoice.CREATE_TIME<=#{cA.checkDateRange2}  ]]>
+		</if>
+</select>
+<!-- 财务对账明细 -->
+<select id="getInvoiceByOrderNo" resultMap="Invoice1">
+ SELECT invoice.invoice_no,invoice.invoice_amount FROM t_invoice invoice
+where invoice.biz_obj_type=1 and invoice.biz_obj_id like '%${orderNo}%' 
+order by invoice.create_time desc
+</select>
+<!-- 根据订单号获取发票 -->
+<select id="getInvoiceDetailByOrderNo" resultMap="Invoice">
+	select <include refid="AllColumnlist"/> from t_invoice
+	<where>
+		 biz_obj_type=1 and biz_obj_id=#{0}
+	</where>
+</select>
+<sql id="listCommonWheremouth">
+	<if test="q!=null">
+		<if test="q.invoiceId!=null and q.invoiceId!=''">
+			AND tiv.INVOICE_ID=#{q.invoiceId}
+		</if>
+		<if test="q.invoiceType!=null ">
+			AND tiv.INVOICE_TYPE=#{q.invoiceType}
+		</if>
+		<if test="q.invoiceAmount!=null ">
+			AND tiv.INVOICE_AMOUNT=#{q.invoiceAmount}
+		</if>
+		<if test="q.invoiceTitle!=null and q.invoiceTitle!=''">
+			AND tiv.INVOICE_TITLE=#{q.invoiceTitle}
+		</if>
+		<if test="q.taxpayerNo!=null and q.taxpayerNo!=''">
+			AND tiv.TAXPAYER_NO=#{q.taxpayerNo}
+		</if>
+		<if test="q.accountBank!=null and q.accountBank!=''">
+			AND tiv.ACCOUNT_BANK=#{q.accountBank}
+		</if>
+		<if test="q.accountNo!=null and q.accountNo!=''">
+			AND tiv.ACCOUNT_NO=#{q.accountNo}
+		</if>
+		<if test="q.address!=null and q.address!=''">
+			AND tiv.ADDRESS=#{q.address}
+		</if>
+		<if test="q.phone!=null and q.phone!=''">
+		
+			AND tiv.PHONE like '%${q.phone}%'
+		</if>
+		<if test="q.fax!=null and q.fax!=''">
+			AND tiv.FAX=#{q.fax}
+		</if>
+		<if test="q.postcode!=null and q.postcode!=''">
+			AND tiv.POSTCODE=#{q.postcode}
+		</if>
+		<if test="q.bizObjType!=null ">
+		AND tiv.BIZ_OBJ_TYPE=#{q.bizObjType}
+			<if test="q.bizObjType==1 ">
+				<if test="q.bizObjId!=null and q.bizObjId!=''">
+					AND (select MEMBER_NO from t_order where ORDER_NO=#{q.bizObjId})=#{q.memberNo}
+				</if>
+			</if>
+			<if test="q.bizObjType==2 ">
+				<if test="q.bizObjId!=null and q.bizObjId!=''">
+					AND (select MEMBER_NO from t_pricing_pack_order where PACK_ORDER_NO=#{q.bizObjId})=#{q.memberNo}
+				</if>
+			</if>
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND tiv.ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.orderTime!=null ">
+			AND tiv.ORDER_TIME=#{q.orderTime}
+		</if>
+		<if test="q.orderTimeStart!=null">
+		<![CDATA[	AND tiv.ORDER_TIME>=#{q.orderTimeStart}  ]]>
+		</if>
+		<if test="q.orderTimeEnd!=null">
+		<![CDATA[	AND tiv.ORDER_TIME<#{q.orderTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceTime!=null ">
+			AND tiv.INVOICE_TIME=#{q.invoiceTime}
+		</if>
+		<if test="q.invoiceTimeStart!=null">
+		<![CDATA[	AND tiv.INVOICE_TIME>=#{q.invoiceTimeStart}  ]]>
+		</if>
+		<if test="q.invoiceTimeEnd!=null">
+		<![CDATA[	AND tiv.INVOICE_TIME<#{q.invoiceTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceStatus!=null ">
+			AND tiv.INVOICE_STATUS=#{q.invoiceStatus}
+		</if>
+		<if test="q.invoiceNo!=null and q.invoiceNo!=''">
+			AND tiv.INVOICE_NO=#{q.invoiceNo}
+		</if>
+		<if test="q.taxpayerNoticePic!=null and q.taxpayerNoticePic!=''">
+			AND tiv.TAXPAYER_NOTICE_PIC=#{q.taxpayerNoticePic}
+		</if>
+		<if test="q.invoiceOperatorId!=null and q.invoiceOperatorId!=''">
+			AND tiv.INVOICE_OPERATOR_ID=#{q.invoiceOperatorId}
+		</if>
+		<if test="q.invoiceOperatorName!=null and q.invoiceOperatorName!=''">
+			AND tiv.INVOICE_OPERATOR_NAME=#{q.invoiceOperatorName}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND tiv.OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND tiv.OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND tiv.CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.month!=null and q.month!='' ">
+			AND month(tiv.CREATE_TIME)=#{q.month}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND tiv.CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND tiv.CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND tiv.UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND tiv.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND tiv.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND tiv.MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.companyAddress!=null and q.companyAddress!=''">
+			AND tiv.COMPANY_ADDRESS=#{q.companyAddress,jdbcType = VARCHAR}
+		</if>
+		<if test="q.name!=null and q.name!=''">
+			AND tiv.NAME=#{q.name,jdbcType = VARCHAR}
+		</if>
+	</if>
+</sql>
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.invoiceId!=null and q.invoiceId!=''">
+			AND INVOICE_ID=#{q.invoiceId}
+		</if>
+		<if test="q.invoiceType!=null ">
+			AND INVOICE_TYPE=#{q.invoiceType}
+		</if>
+		<if test="q.invoiceAmount!=null ">
+			AND INVOICE_AMOUNT=#{q.invoiceAmount}
+		</if>
+		<if test="q.invoiceTitle!=null and q.invoiceTitle!=''">
+			AND INVOICE_TITLE like concat(concat("%",#{q.invoiceTitle}),"%")
+		</if>
+		<if test="q.taxpayerNo!=null and q.taxpayerNo!=''">
+			AND TAXPAYER_NO=#{q.taxpayerNo}
+		</if>
+		<if test="q.accountBank!=null and q.accountBank!=''">
+			AND ACCOUNT_BANK=#{q.accountBank}
+		</if>
+		<if test="q.accountNo!=null and q.accountNo!=''">
+			AND ACCOUNT_NO=#{q.accountNo}
+		</if>
+		<if test="q.address!=null and q.address!=''">
+			AND ADDRESS=#{q.address}
+		</if>
+		<if test="q.phone!=null and q.phone!=''">
+			AND PHONE like '%${q.phone}%'
+		</if>
+		<if test="q.fax!=null and q.fax!=''">
+			AND FAX=#{q.fax}
+		</if>
+		<if test="q.postcode!=null and q.postcode!=''">
+			AND POSTCODE=#{q.postcode}
+		</if>
+		<if test="q.bizObjType!=null ">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.bizObjId!=null and q.bizObjId!=''">
+			AND BIZ_OBJ_ID like concat(concat("%",#{q.bizObjId}),"%")
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.orderTime!=null ">
+			AND ORDER_TIME=#{q.orderTime}
+		</if>
+		<if test="q.orderTimeStart!=null">
+		<![CDATA[	AND ORDER_TIME>=#{q.orderTimeStart}  ]]>
+		</if>
+		<if test="q.orderTimeEnd!=null">
+		<![CDATA[	AND ORDER_TIME<#{q.orderTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceTime!=null ">
+			AND INVOICE_TIME=#{q.invoiceTime}
+		</if>
+		<if test="q.invoiceTimeStart!=null">
+		<![CDATA[	AND INVOICE_TIME>=#{q.invoiceTimeStart}  ]]>
+		</if>
+		<if test="q.invoiceTimeEnd!=null">
+		<![CDATA[	AND INVOICE_TIME<#{q.invoiceTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceTimeLeadStart!=null">
+		<![CDATA[	AND INVOICE_TIME>=#{q.invoiceTimeLeadStart}  ]]>
+		</if>
+		<if test="q.invoiceTimeLeadEnd!=null">
+		<![CDATA[	AND INVOICE_TIME<#{q.invoiceTimeLeadEnd}   ]]>
+		</if>
+		<if test="q.invoiceStatus!=null ">
+			AND INVOICE_STATUS=#{q.invoiceStatus}
+		</if>
+		<if test="q.invoiceNo!=null and q.invoiceNo!=''">
+			AND INVOICE_NO=#{q.invoiceNo}
+		</if>
+		<if test="q.taxpayerNoticePic!=null and q.taxpayerNoticePic!=''">
+			AND TAXPAYER_NOTICE_PIC=#{q.taxpayerNoticePic}
+		</if>
+		<if test="q.invoiceOperatorId!=null and q.invoiceOperatorId!=''">
+			AND INVOICE_OPERATOR_ID=#{q.invoiceOperatorId}
+		</if>
+		<if test="q.invoiceOperatorName!=null and q.invoiceOperatorName!=''">
+			AND INVOICE_OPERATOR_NAME=#{q.invoiceOperatorName}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.emailAddress!=null and q.emailAddress!=''">
+			AND EMAIL_ADDRESS=#{q.emailAddress}
+		</if>
+		<if test="q.invoiceInfo!=null and q.invoiceInfo!=''">
+			AND INVOICE_INFO=#{q.invoiceInfo}
+		</if>
+		<if test="q.tel!=null and q.tel!=''">
+			AND TEL=#{q.tel}
+		</if>
+		<if test="q.companyAddress!=null and q.companyAddress!=''">
+			AND COMPANY_ADDRESS=#{q.companyAddress}
+		</if>
+		<if test="q.name!=null and q.name!=''">
+			AND NAME=#{q.name}
+		</if>
+	</if>
+</sql>
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.invoiceId!=null and q.invoiceId!=''">
+			AND INVOICE_ID=#{q.invoiceId}
+		</if>
+		<if test="q.invoiceType!=null ">
+			AND INVOICE_TYPE=#{q.invoiceType}
+		</if>
+		<if test="q.invoiceAmount!=null ">
+			AND INVOICE_AMOUNT=#{q.invoiceAmount}
+		</if>
+		<if test="q.invoiceTitle!=null and q.invoiceTitle!=''">
+			AND INVOICE_TITLE=#{q.invoiceTitle}
+		</if>
+		<if test="q.taxpayerNo!=null and q.taxpayerNo!=''">
+			AND TAXPAYER_NO=#{q.taxpayerNo}
+		</if>
+		<if test="q.accountBank!=null and q.accountBank!=''">
+			AND ACCOUNT_BANK=#{q.accountBank}
+		</if>
+		<if test="q.accountNo!=null and q.accountNo!=''">
+			AND ACCOUNT_NO=#{q.accountNo}
+		</if>
+		<if test="q.address!=null and q.address!=''">
+			AND ADDRESS=#{q.address}
+		</if>
+		<if test="q.phone!=null and q.phone!=''">
+			AND PHONE=#{q.phone}
+		</if>
+		<if test="q.fax!=null and q.fax!=''">
+			AND FAX=#{q.fax}
+		</if>
+		<if test="q.postcode!=null and q.postcode!=''">
+			AND POSTCODE=#{q.postcode}
+		</if>
+		<if test="q.bizObjType!=null ">
+			AND BIZ_OBJ_TYPE=#{q.bizObjType}
+		</if>
+		<if test="q.bizObjId!=null and q.bizObjId!=''">
+			AND BIZ_OBJ_ID=#{q.bizObjId}
+		</if>
+		<if test="q.orderAmount!=null ">
+			AND ORDER_AMOUNT=#{q.orderAmount}
+		</if>
+		<if test="q.orderTime!=null ">
+			AND ORDER_TIME=#{q.orderTime}
+		</if>
+		<if test="q.orderTimeStart!=null">
+		<![CDATA[	AND ORDER_TIME>=#{q.orderTimeStart}  ]]>
+		</if>
+		<if test="q.orderTimeEnd!=null">
+		<![CDATA[	AND ORDER_TIME<#{q.orderTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceTime!=null ">
+			AND INVOICE_TIME=#{q.invoiceTime}
+		</if>
+		<if test="q.invoiceTimeStart!=null">
+		<![CDATA[	AND INVOICE_TIME>=#{q.invoiceTimeStart}  ]]>
+		</if>
+		<if test="q.invoiceTimeEnd!=null">
+		<![CDATA[	AND INVOICE_TIME<#{q.invoiceTimeEnd}   ]]>
+		</if>
+		<if test="q.invoiceStatus!=null ">
+			AND INVOICE_STATUS=#{q.invoiceStatus}
+		</if>
+		<if test="q.invoiceNo!=null and q.invoiceNo!=''">
+			AND INVOICE_NO=#{q.invoiceNo}
+		</if>
+		<if test="q.taxpayerNoticePic!=null and q.taxpayerNoticePic!=''">
+			AND TAXPAYER_NOTICE_PIC=#{q.taxpayerNoticePic}
+		</if>
+		<if test="q.invoiceOperatorId!=null and q.invoiceOperatorId!=''">
+			AND INVOICE_OPERATOR_ID=#{q.invoiceOperatorId}
+		</if>
+		<if test="q.invoiceOperatorName!=null and q.invoiceOperatorName!=''">
+			AND INVOICE_OPERATOR_NAME=#{q.invoiceOperatorName}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.emailAddress!=null and q.emailAddress!=''">
+			AND EMAIL_ADDRESS=#{q.emailAddress}
+		</if>
+		<if test="q.invoiceInfo!=null and q.invoiceInfo!=''">
+			AND INVOICE_INFO=#{q.invoiceInfo}
+		</if>
+		<if test="q.tel!=null and q.tel!=''">
+			AND TEL=#{q.tel}
+		</if>
+		<if test="q.companyAddress!=null and q.companyAddress!=''">
+			AND COMPANY_ADDRESS=#{q.companyAddress}
+		</if>
+		<if test="q.name!=null and q.name!=''">
+			AND NAME=#{q.name}
+		</if>
+		<if test="q.headerCategories!=null ">
+			AND HEADER_CATEGORIES=#{q.headerCategories}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.mall.dao.MallItemPointsRecordDao">
+
+<resultMap type="MallItemPointsRecord" id="MallItemPointsRecord">
+	<id column="RECORD_NO" property="recordNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ITEM_NO" property="itemNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ITEM_NAME" property="itemName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PIC_URL" property="picUrl" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="POINTS" property="points" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="MEMBER_NO" property="memberNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PHONE" property="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ADDRESS" property="address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATUS" property="status" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="SIGN_IN_TIME" property="signInTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+RECORD_NO,ITEM_NO,ITEM_NAME,PIC_URL,POINTS,MEMBER_NO,PHONE,ADDRESS,STATUS,CREATE_TIME,SIGN_IN_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+RECORD_NO,ITEM_NO,ITEM_NAME,PIC_URL,POINTS,MEMBER_NO,PHONE,ADDRESS,STATUS,CREATE_TIME,SIGN_IN_TIME
+</sql>
+
+<insert id="add" parameterType="MallItemPointsRecord" useGeneratedKeys="true" keyProperty="recordNo">
+	insert into t_mall_item_points_record(
+		<if test="recordNo!=null">
+		RECORD_NO,
+		</if>
+		ITEM_NO,
+		ITEM_NAME,
+		PIC_URL,
+		POINTS,
+		MEMBER_NO,
+		PHONE,
+		ADDRESS,
+		CREATE_TIME,
+		SIGN_IN_TIME
+	) values (
+		<if test="recordNo!=null">
+		#{recordNo,jdbcType = VARCHAR},
+		</if>
+		#{itemNo,jdbcType = VARCHAR},
+		#{itemName,jdbcType = VARCHAR},
+		#{picUrl,jdbcType = VARCHAR},
+		#{points,jdbcType = TINYINT},
+		#{memberNo,jdbcType = VARCHAR},
+		#{phone,jdbcType = VARCHAR},
+		#{address,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{signInTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="MallItemPointsRecord">
+	update t_mall_item_points_record 
+	<set>
+		<if test="itemNo!=null and itemNo!=''">
+			ITEM_NO=#{itemNo,jdbcType = VARCHAR},
+		</if>
+		<if test="itemName!=null and itemName!=''">
+			ITEM_NAME=#{itemName,jdbcType = VARCHAR},
+		</if>
+		<if test="picUrl!=null and picUrl!=''">
+			PIC_URL=#{picUrl,jdbcType = VARCHAR},
+		</if>
+		<if test="points!=null and points!=''">
+			POINTS=#{points,jdbcType = VARCHAR},
+		</if>
+		<if test="memberNo!=null and memberNo!=''">
+			MEMBER_NO=#{memberNo,jdbcType = VARCHAR},
+		</if>
+		<if test="phone!=null and phone!=''">
+			PHONE=#{phone,jdbcType = VARCHAR},
+		</if>
+		<if test="address!=null and address!=''">
+			ADDRESS=#{address,jdbcType = VARCHAR},
+		</if>
+		<if test="status!=null and status!=''">
+			STATUS=#{status,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="signInTime!=null ">
+			SIGN_IN_TIME=#{signInTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND RECORD_NO=#{recordNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_mall_item_points_record 
+	<where>
+		RECORD_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="MallItemPointsRecord">
+	select <include refid="AllColumnlist"/> from t_mall_item_points_record
+	<where>
+		RECORD_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="MallItemPointsRecord">
+	select <include refid="AllColumnlist"/> from t_mall_item_points_record
+	<where>
+		RECORD_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(RECORD_NO) from t_mall_item_points_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="MallItemPointsRecord">
+	select <include refid="CommonColumnlist"/> from t_mall_item_points_record 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="MallItemPointsRecord">
+	select <include refid="CommonColumnlist"/> from t_mall_item_points_record
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by create_time desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.recordNo!=null and q.recordNo!=''">
+			AND RECORD_NO=#{q.recordNo}
+		</if>
+		<if test="q.itemNo!=null and q.itemNo!=''">
+			AND ITEM_NO=#{q.itemNo}
+		</if>
+		<if test="q.itemName!=null and q.itemName!=''">
+			AND ITEM_NAME=#{q.itemName}
+		</if>
+		<if test="q.picUrl!=null and q.picUrl!=''">
+			AND PIC_URL=#{q.picUrl}
+		</if>
+		<if test="q.points!=null and q.points!=''">
+			AND POINTS=#{q.points}
+		</if>
+		<if test="q.memberNo!=null and q.memberNo!=''">
+			AND MEMBER_NO=#{q.memberNo}
+		</if>
+		<if test="q.phone!=null and q.phone!=''">
+			AND PHONE=#{q.phone}
+		</if>
+		<if test="q.address!=null and q.address!=''">
+			AND ADDRESS=#{q.address}
+		</if>
+		<if test="q.status!=null and q.status!=''">
+			AND STATUS=#{q.status}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

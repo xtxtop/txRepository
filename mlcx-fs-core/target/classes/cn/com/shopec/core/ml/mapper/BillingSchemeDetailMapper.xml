@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.BillingSchemeDetailDao">
+
+<resultMap type="BillingSchemeDetail" id="BillingSchemeDetail">
+	<id column="DETAIL_NO" property="detailNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SCHEME_NO" property="schemeNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SERIAL_NUMBER" property="serialNumber" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="START_TIME" property="startTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="STATUS" property="status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="SCHEME_NAME" property="schemeName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+DETAIL_NO,SCHEME_NO,SERIAL_NUMBER,START_TIME,FINISH_TIME,MEMO,STATUS,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+DETAIL_NO,SCHEME_NO,SERIAL_NUMBER,START_TIME,FINISH_TIME,MEMO,STATUS,
+OPERATOR_ID,OPERATOR_TYPE,CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="BillingSchemeDetail" useGeneratedKeys="true" keyProperty="detailNo">
+	insert into BILLING_SCHEME_DETAIL(
+		<if test="detailNo!=null">
+		DETAIL_NO,
+		</if>
+		SCHEME_NO,
+		SERIAL_NUMBER,
+		START_TIME,
+		FINISH_TIME,
+		MEMO,
+		STATUS,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="detailNo!=null">
+		#{detailNo,jdbcType = VARCHAR},
+		</if>
+		#{schemeNo,jdbcType = VARCHAR},
+		#{serialNumber,jdbcType = VARCHAR},
+		#{startTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType = TIMESTAMP},
+		#{memo,jdbcType = VARCHAR},
+		#{status,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="BillingSchemeDetail">
+	update BILLING_SCHEME_DETAIL 
+	<set>
+		<if test="schemeNo!=null and schemeNo!=''">
+			SCHEME_NO=#{schemeNo,jdbcType = VARCHAR},
+		</if>
+		<if test="serialNumber!=null and serialNumber!=''">
+			SERIAL_NUMBER=#{serialNumber,jdbcType = VARCHAR},
+		</if>
+		<if test="startTime!=null ">
+			START_TIME=#{startTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="finishTime!=null ">
+			FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="memo!=null and memo!=''">
+			MEMO=#{memo,jdbcType = VARCHAR},
+		</if>
+		<if test="status!=null and status!=''">
+			STATUS=#{status,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND DETAIL_NO=#{detailNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from BILLING_SCHEME_DETAIL 
+	<where>
+		DETAIL_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="BillingSchemeDetail">
+	select <include refid="AllColumnlist"/> from BILLING_SCHEME_DETAIL
+	<where>
+		DETAIL_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="BillingSchemeDetail">
+	select <include refid="AllColumnlist"/> from BILLING_SCHEME_DETAIL
+	<where>
+		DETAIL_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(DETAIL_NO) from BILLING_SCHEME_DETAIL 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="BillingSchemeDetail">
+	select <include refid="CommonColumnlist"/> from BILLING_SCHEME_DETAIL 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="BillingSchemeDetail">
+	select d.DETAIL_NO,d.SCHEME_NO,d.SERIAL_NUMBER,d.START_TIME,d.FINISH_TIME,d.MEMO,d.STATUS,
+    d.OPERATOR_ID,d.OPERATOR_TYPE,d.CREATE_TIME,d.UPDATE_TIME,s.SCHEME_NAME from BILLING_SCHEME_DETAIL d
+    LEFT JOIN billing_scheme s on d.SCHEME_NO=s.SCHEME_NO
+	<where>
+	 <if test="q.detailNo!=null and q.detailNo!=''">
+            AND d.DETAIL_NO like "%"#{q.detailNo}"%"
+        </if>
+	</where>
+	order by d.UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.detailNo!=null and q.detailNo!=''">
+			AND DETAIL_NO like "%"#{q.detailNo}"%"
+		</if>
+		<if test="q.schemeNo!=null and q.schemeNo!=''">
+			AND SCHEME_NO=#{q.schemeNo}
+		</if>
+		<if test="q.serialNumber!=null and q.serialNumber!=''">
+			AND SERIAL_NUMBER=#{q.serialNumber}
+		</if>
+		<if test="q.startTime!=null ">
+			AND START_TIME=#{q.startTime}
+		</if>
+		<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+		</if>
+		<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+		</if>
+		<if test="q.finishTime!=null ">
+			AND FINISH_TIME=#{q.finishTime}
+		</if>
+		<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+		</if>
+		<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.status!=null and q.status!=''">
+			AND STATUS=#{q.status}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

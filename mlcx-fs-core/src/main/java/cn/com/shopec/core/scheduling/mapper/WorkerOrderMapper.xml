@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.scheduling.dao.WorkerOrderDao">
+
+	<resultMap type="WorkerOrder" id="WorkerOrder">
+		<id column="WORKER_ORDER_NO" property="workerOrderNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="POWER" property="power" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="OPEN_CAR_DOOR_TIME" property="openCarDoorTime"
+			javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result column="START_PARK_NO" property="startParkNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="START_PARK_NAME" property="startParkName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NO" property="terminalParkNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="TERMINAL_PARK_NAME" property="terminalParkName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_PLATE_NO" property="carPlateNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="END_LONGITUDE" property="endLongitude"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="END_LATITUDE" property="endLatitude" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORKER_ID" property="workerId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORKER_NAME" property="workerName" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="sendTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="SEND_REASON" property="sendReason" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="SEND_REASON_PIC_URL1" property="sendReasonPicUrl1"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="SEND_REASON_PIC_URL2" property="sendReasonPicUrl2"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="SEND_REASON_PIC_URL3" property="sendReasonPicUrl3"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ASSIGN_WORKER_ID" property="assignWorkerId"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ASSIGN_WORKER_NAME" property="assignWorkerName"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ASSIGN_TIME" property="assignTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="START_TIME" property="startTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="FINISH_TIME" property="finishTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="CENCOR_STATUS" property="cencorStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="CENCOR_MEMO" property="cencorMemo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CENCOR_TIME" property="cencorTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="CENCOR_ID" property="cencorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="WORK_ORDER_STATUS" property="workOrderStatus"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="MEMO" property="memo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="PLAN_TIME" property="planTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+			<result column="CURRENT_ADDRESS" property="currentAddress" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+			<result column="CURRENT_LONGITUDE" property="currentLongitude" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+			<result column="CURRENT_LATITUDE" property="currentLatitude" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		WORKER_ORDER_NO,TYPE,START_PARK_NO,START_PARK_NAME,TERMINAL_PARK_NO,TERMINAL_PARK_NAME,CAR_NO,
+		CAR_PLATE_NO,WORKER_ID,WORKER_NAME,SEND_TIME,START_TIME,FINISH_TIME,
+		CENCOR_STATUS,CENCOR_MEMO,CENCOR_TIME,CENCOR_ID,WORK_ORDER_STATUS,MEMO,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,PLAN_TIME,ASSIGN_WORKER_ID,ASSIGN_WORKER_NAME,ASSIGN_TIME,POWER,OPEN_CAR_DOOR_TIME,SEND_REASON_PIC_URL1,SEND_REASON_PIC_URL2,SEND_REASON_PIC_URL3,END_LONGITUDE,END_LATITUDE,CURRENT_ADDRESS,CURRENT_LONGITUDE,CURRENT_LATITUDE
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		WORKER_ORDER_NO,TYPE,START_PARK_NO,START_PARK_NAME,TERMINAL_PARK_NO,TERMINAL_PARK_NAME,CAR_NO,
+		CAR_PLATE_NO,WORKER_ID,WORKER_NAME,SEND_TIME,START_TIME,FINISH_TIME,
+		CENCOR_STATUS,CENCOR_MEMO,CENCOR_TIME,CENCOR_ID,WORK_ORDER_STATUS,MEMO,
+		CREATE_TIME,UPDATE_TIME,OPERATOR_TYPE,OPERATOR_ID,PLAN_TIME,ASSIGN_WORKER_ID,ASSIGN_WORKER_NAME,ASSIGN_TIME,POWER,OPEN_CAR_DOOR_TIME,SEND_REASON_PIC_URL1,SEND_REASON_PIC_URL2,SEND_REASON_PIC_URL3,END_LONGITUDE,END_LATITUDE,CURRENT_ADDRESS,CURRENT_LONGITUDE,CURRENT_LATITUDE
+	</sql>
+
+	<insert id="add" parameterType="WorkerOrder" useGeneratedKeys="true"
+		keyProperty="workerOrderNo">
+		insert into T_WORKER_ORDER(
+		<if test="workerOrderNo!=null">
+			WORKER_ORDER_NO,
+		</if>
+		TYPE,
+		START_PARK_NO,
+		START_PARK_NAME,
+		TERMINAL_PARK_NO,
+		TERMINAL_PARK_NAME,
+		CAR_NO,
+		CAR_PLATE_NO,
+		WORKER_ID,
+		WORKER_NAME,
+		SEND_TIME,
+		START_TIME,
+		FINISH_TIME,
+		CENCOR_STATUS,
+		CENCOR_MEMO,
+		CENCOR_TIME,
+		CENCOR_ID,
+		WORK_ORDER_STATUS,
+		MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID,
+		SEND_REASON,
+		SEND_REASON_PIC_URL1,
+		SEND_REASON_PIC_URL2,
+		SEND_REASON_PIC_URL3,
+		PLAN_TIME,
+		ASSIGN_WORKER_ID,
+		ASSIGN_WORKER_NAME,
+		ASSIGN_TIME,
+		POWER,
+		OPEN_CAR_DOOR_TIME,
+		END_LONGITUDE,
+		END_LATITUDE,
+		CURRENT_ADDRESS,
+		CURRENT_LONGITUDE,
+		CURRENT_LATITUDE
+		) values (
+		<if test="workerOrderNo!=null">
+			#{workerOrderNo,jdbcType = VARCHAR},
+		</if>
+		#{type,jdbcType = VARCHAR},
+		#{startParkNo,jdbcType = VARCHAR},
+		#{startParkName,jdbcType = VARCHAR},
+		#{terminalParkNo,jdbcType =
+		VARCHAR},
+		#{terminalParkName,jdbcType = VARCHAR},
+		#{carNo,jdbcType =
+		VARCHAR},
+		#{carPlateNo,jdbcType = VARCHAR},
+		#{workerId,jdbcType =
+		VARCHAR},
+		#{workerName,jdbcType = VARCHAR},
+		#{sendTime,jdbcType =
+		TIMESTAMP},
+		#{startTime,jdbcType = TIMESTAMP},
+		#{finishTime,jdbcType =
+		TIMESTAMP},
+		#{cencorStatus,jdbcType = TINYINT},
+		#{cencorMemo,jdbcType =
+		VARCHAR},
+		#{cencorTime,jdbcType = TIMESTAMP},
+		#{cencorId,jdbcType =
+		VARCHAR},
+		#{workOrderStatus,jdbcType = TINYINT},
+		#{memo,jdbcType =
+		VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType =
+		TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType =
+		VARCHAR},
+		#{sendReason,jdbcType = VARCHAR},
+		#{sendReasonPicUrl1,jdbcType = VARCHAR},
+		#{sendReasonPicUrl2,jdbcType =
+		VARCHAR},
+		#{sendReasonPicUrl3,jdbcType = VARCHAR},
+		#{planTime,jdbcType =
+		TIMESTAMP},
+		#{assignWorkerId,jdbcType = VARCHAR},
+		#{assignWorkerName,jdbcType = VARCHAR},
+		#{assignTime,jdbcType =
+		TIMESTAMP},
+		#{power,jdbcType = DOUBLE},
+		#{openCarDoorTime,jdbcType =
+		TIMESTAMP},
+		#{endLongitude,jdbcType = VARCHAR},
+		#{endLatitude,jdbcType = VARCHAR},
+		#{currentAddress,jdbcType = VARCHAR},
+		#{currentLongitude,jdbcType = VARCHAR},
+		#{currentLatitude,jdbcType = VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="WorkerOrder">
+		update t_worker_order
+		<set>
+			<if test="type!=null and type!=''">
+				TYPE=#{type,jdbcType = VARCHAR},
+			</if>
+			<if test="startParkNo!=null and startParkNo!=''">
+				START_PARK_NO=#{startParkNo,jdbcType = VARCHAR},
+			</if>
+			<if test="startParkName!=null and startParkName!=''">
+				START_PARK_NAME=#{startParkName,jdbcType = VARCHAR},
+			</if>
+			<if test="assignWorkerId!=null and assignWorkerId!=''">
+				ASSIGN_WORKER_ID=#{assignWorkerId,jdbcType = VARCHAR},
+			</if>
+			<if test="assignWorkerName!=null and assignWorkerName!=''">
+				ASSIGN_WORKER_NAME=#{assignWorkerName,jdbcType =
+				VARCHAR},
+			</if>
+
+			TERMINAL_PARK_NO=#{terminalParkNo,jdbcType = VARCHAR},
+
+			<if test="terminalParkName!=null and terminalParkName!=''">
+				TERMINAL_PARK_NAME=#{terminalParkName,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="carNo!=null and carNo!=''">
+				CAR_NO=#{carNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carPlateNo!=null and carPlateNo!=''">
+				CAR_PLATE_NO=#{carPlateNo,jdbcType = VARCHAR},
+			</if>
+			<if test="endLongitude!=null and endLongitude!=''">
+				END_LONGITUDE=#{endLongitude,jdbcType = VARCHAR},
+			</if>
+			<if test="endLatitude!=null and endLatitude!=''">
+				END_LATITUDE=#{endLatitude,jdbcType = VARCHAR},
+			</if>
+			<if test="workerId!=null and workerId!=''">
+				WORKER_ID=#{workerId,jdbcType = VARCHAR},
+			</if>
+			<if test="workerName!=null and workerName!=''">
+				WORKER_NAME=#{workerName,jdbcType = VARCHAR},
+			</if>
+			<if test="sendTime!=null ">
+				SEND_TIME=#{sendTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="planTime!=null ">
+				PLAN_TIME=#{planTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="assignTime!=null ">
+				ASSIGN_TIME=#{assignTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="openCarDoorTime!=null ">
+				OPEN_CAR_DOOR_TIME=#{openCarDoorTime,jdbcType =
+				TIMESTAMP},
+			</if>
+			<if test="power!=null ">
+				POWER=#{power,jdbcType = DOUBLE},
+			</if>
+			<if test="startTime!=null ">
+				START_TIME=#{startTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="finishTime!=null ">
+				FINISH_TIME=#{finishTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="cencorStatus!=null ">
+				CENCOR_STATUS=#{cencorStatus,jdbcType = TINYINT},
+			</if>
+			<if test="cencorMemo!=null and cencorMemo!=''">
+				CENCOR_MEMO=#{cencorMemo,jdbcType = VARCHAR},
+			</if>
+			<if test="cencorTime!=null ">
+				CENCOR_TIME=#{cencorTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="cencorId!=null and cencorId!=''">
+				CENCOR_ID=#{cencorId,jdbcType = VARCHAR},
+			</if>
+			<if test="workOrderStatus!=null ">
+				WORK_ORDER_STATUS=#{workOrderStatus,jdbcType = TINYINT},
+			</if>
+			<if test="memo!=null and memo!=''">
+				MEMO=#{memo,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="sendReason!=null and sendReason!=''">
+				SEND_REASON=#{sendReason,jdbcType = VARCHAR},
+			</if>
+			<if test="sendReasonPicUrl1!=null and sendReasonPicUrl1!=''">
+				SEND_REASON_PIC_URL1=#{sendReasonPicUrl1,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="sendReasonPicUrl2!=null and sendReasonPicUrl2!=''">
+				SEND_REASON_PIC_URL2=#{sendReasonPicUrl2,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="sendReasonPicUrl3!=null and sendReasonPicUrl3!=''">
+				SEND_REASON_PIC_URL3=#{sendReasonPicUrl3,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="currentAddress!=null and currentAddress!=''">
+				CURRENT_ADDRESS=#{currentAddress,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="currentLongitude!=null and currentLongitude!=''">
+				CURRENT_LONGITUDE=#{currentLongitude,jdbcType =
+				VARCHAR},
+			</if>
+			<if test="currentLatitude!=null and currentLatitude!=''">
+				CURRENT_LATITUDE=#{currentLatitude,jdbcType =
+				VARCHAR},
+			</if>
+		</set>
+		<where>
+			AND WORKER_ORDER_NO=#{workerOrderNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_worker_order
+		<where>
+			WORKER_ORDER_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="WorkerOrder">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker_order
+		<where>
+			WORKER_ORDER_NO=#{0}
+		</where>
+	</select>
+	<!-- 根据车辆编号得到最新调度单信息 -->
+
+	<select id="getWorkerOrderNowByCarNo" resultMap="WorkerOrder">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker_order
+		<where>
+			CAR_NO=#{0} and WORK_ORDER_STATUS=2
+		</where>
+		order by CREATE_TIME desc limit 1
+	</select>
+
+	<select id="getByIds" resultMap="WorkerOrder">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker_order
+		<where>
+			WORKER_ORDER_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+	<select id="queryAllNs" parameterType="Query"
+		resultType="cn.com.shopec.core.scheduling.vo.WorkerOrderVo">
+		SELECT
+		o.WORKER_ORDER_NO AS workerOrderNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		o.TYPE AS type,
+		o.WORK_ORDER_STATUS AS workOrderStatus,
+		s.POWER AS
+		power,
+		s.RANGE_MILEAGE AS rangeMileage,
+		c.CAR_BRAND_NAME AS
+		carBrandName,
+		c.CAR_MODEL_NAME AS carModelName,
+		p.ADDR_STREET AS
+		parkName,
+		o.SEND_TIME AS sendTime,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		as distance
+
+		FROM
+		t_worker_order o
+		LEFT JOIN t_car c ON o.CAR_NO =
+		c.CAR_NO
+		LEFT JOIN
+		t_car_status s ON o.CAR_NO = s.CAR_NO
+		LEFT JOIN t_park
+		p ON p.PARK_NO =
+		s.LOCATION_PARK_NO
+		<where>
+			<if test="q!=null">
+				<if test="q.workerNo!=null and q.workerNo!=''">
+					AND o.WORKER_ID=#{q.workerNo}
+				</if>
+				<if test="q.taskStatus!=null">
+					AND o.WORK_ORDER_STATUS=#{q.taskStatus}
+				</if>
+				<if test="q.type!=null">
+					AND o.TYPE=#{q.type}
+				</if>
+				<if test="q.timeOrdering==1">
+					ORDER BY o.SEND_TIME DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY o.SEND_TIME ASC
+				</if>
+				<if test="q.electricity==1">
+					ORDER BY s.POWER DESC
+				</if>
+				<if test="q.electricity==2">
+					ORDER BY s.POWER ASC
+				</if>
+			</if>
+		</where>
+	</select>
+
+
+	<select id="queryTask" parameterType="Query"
+		resultType="cn.com.shopec.core.resource.vo.TaskVo">
+
+		<choose>
+			<when test="q.taskType==7">
+				SELECT * FROM (SELECT
+				w.WORKER_ORDER_NO AS taskNo,
+				c.CAR_PHOTO_URL1 AS photoUrl,
+				w.WORK_ORDER_STATUS AS taskStatus,
+				w.TYPE AS type,
+				w.CREATE_TIME AS
+				crTime,
+				w.SEND_TIME AS
+				sendTime,
+				p1.PARK_NAME AS
+				parkName,
+				p1.ADDR_STREET AS
+				addrStreet,
+				c.CAR_PLATE_NO AS carPlateNo,
+				c.CAR_BRAND_NAME AS
+				carBrandName,
+				c.CAR_MODEL_NAME AS carModelName,
+				s.POWER AS power,
+				s.RANGE_MILEAGE AS
+				rangeMileage,
+				12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+				as distance
+				FROM
+				t_worker_order w
+				LEFT JOIN t_car c
+				ON c.CAR_NO =
+				w.CAR_NO
+				LEFT JOIN
+				t_car_status s ON w.CAR_NO = s.CAR_NO
+				LEFT JOIN
+				t_park
+				p1 ON p1.PARK_NO =
+				s.LOCATION_PARK_NO
+
+				<where>
+					<if test="q!=null">
+						<if test="q.workerNo!=null and q.workerNo!=''">
+							AND W.WORKER_ID=#{q.workerNo}
+						</if>
+						<if test="q.taskStatus!=null">
+							AND w.WORK_ORDER_STATUS=#{q.taskStatus}
+						</if>
+					</if>
+				</where>
+				<if test="q.timeOrdering==1">
+					ORDER BY sendTime DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY sendTime ASC
+				</if>
+				<if test="q.electricity==1">
+					ORDER BY power DESC
+				</if>
+				<if test="q.electricity==2">
+					ORDER BY power ASC
+				</if>
+				)	T1
+				UNION
+				SELECT * FROM (SELECT
+				k.CHECK_PLAN_NO AS
+				taskNo,
+				p.PARK_PIC_URL1 AS
+				photoUrl,
+				k.PLAN_STATUS
+				AS
+				taskStatus,
+				k.PLAN_TYPE AS type,
+				k.CREATE_TIME AS
+				crTime,
+				k.CREATE_TIME AS
+				sendTime,
+				p.PARK_NAME AS
+				parkName,
+				p.ADDR_STREET AS
+				addrStreet,
+				'xunjian' AS
+				carPlateNo,
+				'' AS
+				carBrandName,
+				'' AS
+				carModelName,
+				'' AS
+				power,
+				'' AS
+				rangeMileage,
+				12756274*asin(Sqrt(power(sin((#{q.latitude}-p.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(p.LATITUDE*0.0174533)*power(sin((#{q.longitude}-p.LONGITUDE)*0.008726646),2)))
+				as distance
+				FROM
+				t_check_plan k
+				LEFT JOIN t_park p ON
+				k.PARK_NO =
+				p.PARK_NO
+				<where>
+					<if test="q!=null">
+						<if test="q.workerNo!=null and q.workerNo!=''">
+							AND k.WORKER_ID like '%${q.workerNo}%'
+						</if>
+						<if test="q.taskStatus!=null">
+							AND k.PLAN_STATUS=#{q.taskStatus}
+						</if>
+					</if>
+				</where>
+				<if test="q.timeOrdering==1">
+					ORDER BY sendTime DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY sendTime ASC
+				</if>
+				<if test="q.timeOrdering==0 and q.electricity==0">
+					ORDER BY crTime DESC
+				</if>
+				<if test="q.electricity==1">
+					ORDER BY power DESC
+				</if>
+				<if test="q.electricity==2">
+					ORDER BY power ASC
+				</if>
+				) T2
+				<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+			</when>
+			<when test="q.taskType==6">
+				SELECT
+				k.CHECK_PLAN_NO AS
+				taskNo,
+				p.PARK_PIC_URL1 AS
+				photoUrl,
+				k.PLAN_STATUS
+				AS
+				taskStatus,
+				k.PLAN_TYPE AS type,
+				k.CREATE_TIME AS
+				sendTime,
+				p.PARK_NAME AS
+				parkName,
+				p.ADDR_STREET AS
+				addrStreet,
+				'xunjian' AS
+				carPlateNo,
+				'' AS carBrandName,
+				'' AS
+				carModelName,
+				'' AS
+				power,
+				'' AS
+				rangeMileage,
+				12756274*asin(Sqrt(power(sin((#{q.latitude}-p.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(p.LATITUDE*0.0174533)*power(sin((#{q.longitude}-p.LONGITUDE)*0.008726646),2)))
+				as distance
+				FROM
+				t_check_plan k
+				LEFT JOIN t_park p ON
+				k.PARK_NO =
+				p.PARK_NO
+				<where>
+					<if test="q!=null">
+						<if test="q.workerNo!=null and q.workerNo!=''">
+							AND k.WORKER_ID like '%${q.workerNo}%'
+						</if>
+						<if test="q.taskStatus!=null">
+							AND k.PLAN_STATUS=#{q.taskStatus}
+						</if>
+					</if>
+				</where>
+				<if test="q.timeOrdering==1">
+					ORDER BY sendTime DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY sendTime ASC
+				</if>
+			<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+			</when>
+			<otherwise>
+				SELECT
+				w.WORKER_ORDER_NO AS taskNo,
+				c.CAR_PHOTO_URL1 AS photoUrl,
+				w.WORK_ORDER_STATUS AS taskStatus,
+				w.TYPE AS type,
+				w.SEND_TIME AS
+				sendTime,
+				p1.PARK_NAME AS
+				parkName,
+				p1.ADDR_STREET AS
+				addrStreet,
+				c.CAR_PLATE_NO AS carPlateNo,
+				c.CAR_BRAND_NAME AS
+				carBrandName,
+				c.CAR_MODEL_NAME AS carModelName,
+				s.POWER AS power,
+				s.RANGE_MILEAGE AS
+				rangeMileage,
+				12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+				as distance
+				FROM
+				t_worker_order w
+				LEFT JOIN t_car c
+				ON c.CAR_NO =
+				w.CAR_NO
+				LEFT JOIN
+				t_car_status s ON w.CAR_NO = s.CAR_NO
+				LEFT JOIN
+				t_park
+				p1 ON p1.PARK_NO =
+				s.LOCATION_PARK_NO
+
+				<where>
+					<if test="q!=null">
+						<if test="q.workerNo!=null and q.workerNo!=''">
+							AND W.WORKER_ID=#{q.workerNo}
+						</if>
+						<if test="q.taskStatus!=null">
+							AND w.WORK_ORDER_STATUS=#{q.taskStatus}
+						</if>
+						<if test="q.taskType!=5">
+							AND w.TYPE=#{q.taskType}
+						</if>
+					</if>
+				</where>
+				<if test="q.timeOrdering==1">
+					ORDER BY sendTime DESC
+				</if>
+				<if test="q.timeOrdering==2">
+					ORDER BY sendTime ASC
+				</if>
+				<if test="q.electricity==1">
+					ORDER BY power DESC
+				</if>
+				<if test="q.electricity==2">
+					ORDER BY power ASC
+				</if>
+				<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+			</otherwise>
+		</choose>
+
+
+	</select>
+
+	<select id="getWorkerOrderDetail"
+		resultType="cn.com.shopec.core.scheduling.vo.WorkerOrderDetailsVo">
+		SELECT
+		o.WORKER_ORDER_NO AS workerOrderNo,
+		c.CAR_PLATE_NO AS carPlateNo,
+		c.CAR_NO AS carNo,
+		o.TYPE AS type,
+		o.CURRENT_ADDRESS AS currentAddress,
+		o.CURRENT_LONGITUDE AS  currentLongitude,
+		o.CURRENT_LATITUDE As currentLatitude,
+		o.WORK_ORDER_STATUS AS
+		workOrderStatus,
+		s.POWER AS
+		power,
+		s.RANGE_MILEAGE AS rangeMileage,
+		c.CAR_BRAND_NAME AS
+		carBrandName,
+		c.CAR_MODEL_NAME AS carModelName,
+		c.ONLINE_STATUS AS onlineStatus,
+		p.ADDR_STREET AS
+		parkName,
+		p.ADDR_STREET AS addrStreet,
+		c.CAR_PHOTO_URL1 AS carPhotoUrl1,
+		12756274*asin(Sqrt(power(sin((#{1}-s.LATITUDE)*0.008726646),2)+Cos(#{1}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{0}-s.LONGITUDE)*0.008726646),2)))
+		AS distance,
+		o.SEND_TIME AS sendTime,
+		o.PLAN_TIME AS planTime,
+		o.FINISH_TIME AS finishTime,
+		o.TERMINAL_PARK_NAME AS terminalParkName,
+		o.MEMO AS memo,
+		d.DEVICE_SN AS deviceSn,
+		d.MAC_ADDR AS macAddr,
+		d.TERMINAL_DEVICE_NO AS terminalDeviceNo,
+		s.LONGITUDE AS longitude,
+		s.LATITUDE AS latitude,
+		o.END_LONGITUDE AS endLongitude,
+		o.END_LATITUDE AS endLatitude,
+		o.START_PARK_NAME AS startParkName,
+		o.WORKER_ID AS workerNo
+		FROM
+		t_worker_order o
+		LEFT JOIN t_car c ON
+		o.CAR_NO =
+		c.CAR_NO
+		LEFT JOIN t_car_status s ON o.CAR_NO = s.CAR_NO
+		LEFT
+		JOIN
+		t_park p ON p.PARK_NO = s.LOCATION_PARK_NO
+		LEFT JOIN t_device d ON
+		o.CAR_NO = d.CAR_NO
+		<where>
+			o.WORKER_ORDER_NO = #{2}
+		</where>
+	</select>
+	<!-- 调度员 网点任务 列表 zln 场站 -->
+	<select id="getWorkerOrderListByParkAddr" resultMap="WorkerOrder">
+		select DISTINCT two.START_PARK_NO from t_worker_order two,t_park tp
+		<where>
+			two.START_PARK_NO=tp.PARK_NO
+			<if test="addrRegion1Name!=null and addrRegion1Name!='' ">
+				AND tp.ADDR_REGION1_NAME=#{addrRegion1Name}
+			</if>
+			<if test="addrRegion2Name!=null and addrRegion2Name!='' ">
+				AND tp.ADDR_REGION2_NAME=#{addrRegion2Name}
+			</if>
+			<if test="addrRegion3Name!=null and addrRegion3Name!='' ">
+				AND tp.ADDR_REGION3_NAME=#{addrRegion3Name}
+			</if>
+
+		</where>
+	</select>
+
+	<!-- 调度员 网点任务 列表 场站任务数量 -->
+	<select id="getWorkerOrderListNum" parameterType="Query"
+		resultType="cn.com.shopec.core.resource.model.ParkVOAround">
+		select count(*) as workerTakeNum,START_PARK_NO as parkNo from
+		t_worker_order two,t_park tp
+
+		<where>
+			two.START_PARK_NO=tp.PARK_NO
+			<if test="addrRegion1Name!=null and addrRegion1Name!='' ">
+				AND tp.ADDR_REGION1_NAME=#{addrRegion1Name}
+			</if>
+			<if test="addrRegion2Name!=null and addrRegion2Name!='' ">
+				AND tp.ADDR_REGION2_NAME=#{addrRegion2Name}
+			</if>
+			<if test="addrRegion3Name!=null and addrRegion3Name!='' ">
+				AND tp.ADDR_REGION3_NAME=#{addrRegion3Name}
+			</if>
+
+		</where>
+
+		GROUP BY START_PARK_NO
+
+	</select>
+	<!-- 获取场站实时任务量 WORK_ORDER_STATUS=1 已下发,正在进行的 -->
+	<select id="getWorkerOrderNumByParkNo" resultMap="WorkerOrder">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker_order
+		<where>
+			START_PARK_NO=#{0} and WORK_ORDER_STATUS IN (1,2) and
+			CENCOR_STATUS =1 and WORKER_ID =
+			#{1}
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(WORKER_ORDER_NO) from t_worker_order
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+	</select>
+	<select id="countWorkerOrderPark" parameterType="Query"
+		resultType="Long">
+		select count(WORKER_ORDER_NO) from t_worker_order
+		<where>
+			<include refid="listCommonWhere" />
+			AND WORK_ORDER_STATUS=2
+		</where>
+	</select>
+
+
+	<!-- 车辆是否存在已下发的调度单中 zln 调度员 -->
+	<select id="carExsitWorkerOrder" resultType="Long">
+		select count(WORKER_ORDER_NO) from t_worker_order
+		<where>
+			CAR_NO=#{0} and WORK_ORDER_STATUS=1
+		</where>
+	</select>
+
+	<!-- 获取任务列表 zln -->
+	<select id="getWorkerOrderListByWorkerNo" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			WORKER_ID=#{0} and CENCOR_STATUS=1 and WORK_ORDER_STATUS=#{1}
+		</where>
+		order by SEND_TIME desc
+	</select>
+
+	<!-- 当前调度员，是否还有调度中订单调度单 -->
+	<select id="exsitWorkerOrder" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			WORKER_ID=#{0} and CENCOR_STATUS=1 and WORK_ORDER_STATUS = 2
+		</where>
+	</select>
+
+	<!-- 当前车辆是否是，当前调度员的调度中调度单 -->
+	<select id="esUserWorkerOrder" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			WORKER_ID=#{0} and CAR_NO=#{1} and CENCOR_STATUS=1 and
+			WORK_ORDER_STATUS = 2
+		</where>
+	</select>
+
+	<!-- 根据车号，记录调度单开始执行的时间，并同时调度单状态改为“调度中” -->
+	<update id="startWorkerOrderByCarNo" parameterType="int">
+		update t_worker_order t
+		set t.OPEN_CAR_DOOR_TIME=(case when
+		t.OPEN_CAR_DOOR_TIME is null then
+		#{1} else t.OPEN_CAR_DOOR_TIME
+		end),t.UPDATE_TIME=#{1}
+		where
+		t.CAR_NO=#{0} and t.WORK_ORDER_STATUS=2
+		<!-- (t.CAR_NO=#{0} and t.WORK_ORDER_STATUS=1) or (t.CAR_NO=#{0} and t.START_TIME 
+			is null and t.WORK_ORDER_STATUS=2) -->
+	</update>
+
+	<select id="queryAll" parameterType="Query" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<!-- 根据调度员工号查询该调度员任务 -->
+	<select id="listWorkerOrder" parameterType="Query" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			<include refid="listCommonWhereMH" />
+		</where>
+		order by CREATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	
+	<select id="countWokerOrder" parameterType="Query" resultType="Long">
+	select count(WORKER_ORDER_NO) from t_worker_order
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+	
+	<!-- 查询车辆最近一笔调度单信息 -->
+
+	<select id="getLatelyWorkerOrderByCarNo" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			CAR_NO=#{0} order by send_time desc limit 1
+		</where>
+	</select>
+
+
+	<sql id="listCommonWhereMH">
+		<if test="q!=null">
+			<if test="q.workerOrderNo!=null and q.workerOrderNo!=''">
+				AND WORKER_ORDER_NO like '%${q.workerOrderNo}%'
+			</if>
+			<if test="q.type!=null and q.type!=''">
+				AND CONCAT(type,",") like '%${q.type},%'
+			</if>
+			<if test="q.startParkNo!=null and q.startParkNo!=''">
+				AND START_PARK_NO=#{q.startParkNo}
+			</if>
+			<if test="q.startParkName!=null and q.startParkName!=''">
+				AND START_PARK_NAME=#{q.startParkName}
+			</if>
+			<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+				AND TERMINAL_PARK_NO=#{q.terminalParkNo}
+			</if>
+			<if test="q.terminalParkName!=null and q.terminalParkName!=''">
+				AND TERMINAL_PARK_NAME=#{q.terminalParkName}
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO like '%${q.carPlateNo}%'
+			</if>
+			<if test="q.workerId!=null and q.workerId!=''">
+				AND WORKER_ID=#{q.workerId}
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND WORKER_NAME like '%${q.workerName}%'
+			</if>
+			<if test="q.sendTime!=null ">
+				AND SEND_TIME=#{q.sendTime}
+			</if>
+			<if test="q.sendTimeStart!=null">
+		<![CDATA[	AND SEND_TIME>=#{q.sendTimeStart}  ]]>
+			</if>
+			<if test="q.sendTimeEnd!=null">
+		<![CDATA[	AND SEND_TIME<#{q.sendTimeEnd}   ]]>
+			</if>
+			<if test="q.startTime!=null ">
+				AND START_TIME=#{q.startTime}
+			</if>
+			<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+			</if>
+			<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+			</if>
+			<if test="q.finishTime!=null ">
+				AND FINISH_TIME=#{q.finishTime}
+			</if>
+			<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+			</if>
+			<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+			</if>
+			<if test="q.cencorStatus!=null ">
+				AND CENCOR_STATUS=#{q.cencorStatus}
+			</if>
+			<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+				AND CENCOR_MEMO=#{q.cencorMemo}
+			</if>
+			<if test="q.cencorTime!=null ">
+				AND CENCOR_TIME=#{q.cencorTime}
+			</if>
+			<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+			</if>
+			<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+			</if>
+			<if test="q.cencorId!=null and q.cencorId!=''">
+				AND CENCOR_ID=#{q.cencorId}
+			</if>
+			<if test="q.workOrderStatus!=null ">
+				AND WORK_ORDER_STATUS=#{q.workOrderStatus}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.workerOrderNo!=null and q.workerOrderNo!=''">
+				AND WORKER_ORDER_NO=#{q.workerOrderNo}
+			</if>
+			<if test="q.type!=null and q.type!=''">
+				AND TYPE=#{q.type}
+			</if>
+			<if test="q.power!=null ">
+				AND POWER=#{q.power}
+			</if>
+			<if test="q.startParkNo!=null and q.startParkNo!=''">
+				AND START_PARK_NO=#{q.startParkNo}
+			</if>
+			<if test="q.startParkName!=null and q.startParkName!=''">
+				AND START_PARK_NAME=#{q.startParkName}
+			</if>
+			<if test="q.terminalParkNo!=null and q.terminalParkNo!=''">
+				AND TERMINAL_PARK_NO=#{q.terminalParkNo}
+			</if>
+			<if test="q.terminalParkName!=null and q.terminalParkName!=''">
+				AND TERMINAL_PARK_NAME=#{q.terminalParkName}
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.endLongitude!=null and q.endLongitude!=''">
+				AND END_LONGITUDE=#{q.endLongitude}
+			</if>
+			<if test="q.endLatitude!=null and q.endLatitude!=''">
+				AND END_LATITUDE=#{q.endLatitude}
+			</if>
+			<if test="q.assignWorkerId!=null and q.assignWorkerId!=''">
+				AND ASSIGN_WORKER_ID=#{q.assignWorkerId}
+			</if>
+			<if test="q.assignWorkerName!=null and q.assignWorkerName!=''">
+				AND ASSIGN_WORKER_NAME=#{q.assignWorkerName}
+			</if>
+			<if test="q.carPlateNo!=null and q.carPlateNo!=''">
+				AND CAR_PLATE_NO=#{q.carPlateNo}
+			</if>
+			<if test="q.workerId!=null and q.workerId!=''">
+				AND WORKER_ID=#{q.workerId}
+			</if>
+			<if test="q.workerName!=null and q.workerName!=''">
+				AND WORKER_NAME=#{q.workerName}
+			</if>
+			<if test="q.sendTime!=null ">
+				AND SEND_TIME=#{q.sendTime}
+			</if>
+			<if test="q.sendTime!=null ">
+				AND SEND_TIME=#{q.sendTime}
+			</if>
+			<if test="q.openCarDoorTime!=null ">
+				AND OPEN_CAR_DOOR_TIME=#{q.openCarDoorTime}
+			</if>
+			<if test="q.assignTime!=null ">
+				AND ASSIGN_TIME=#{q.assignTime}
+			</if>
+			<if test="q.sendTimeStart!=null">
+		<![CDATA[	AND SEND_TIME>=#{q.sendTimeStart}  ]]>
+			</if>
+			<if test="q.sendTimeEnd!=null">
+		<![CDATA[	AND SEND_TIME<#{q.sendTimeEnd}   ]]>
+			</if>
+			<if test="q.startTime!=null ">
+				AND START_TIME=#{q.startTime}
+			</if>
+			<if test="q.startTimeStart!=null">
+		<![CDATA[	AND START_TIME>=#{q.startTimeStart}  ]]>
+			</if>
+			<if test="q.startTimeEnd!=null">
+		<![CDATA[	AND START_TIME<#{q.startTimeEnd}   ]]>
+			</if>
+			<if test="q.finishTime!=null ">
+				AND FINISH_TIME=#{q.finishTime}
+			</if>
+			<if test="q.finishTimeStart!=null">
+		<![CDATA[	AND FINISH_TIME>=#{q.finishTimeStart}  ]]>
+			</if>
+			<if test="q.finishTimeEnd!=null">
+		<![CDATA[	AND FINISH_TIME<#{q.finishTimeEnd}   ]]>
+			</if>
+			<if test="q.cencorStatus!=null ">
+				AND CENCOR_STATUS=#{q.cencorStatus}
+			</if>
+			<if test="q.cencorMemo!=null and q.cencorMemo!=''">
+				AND CENCOR_MEMO=#{q.cencorMemo}
+			</if>
+			<if test="q.cencorTime!=null ">
+				AND CENCOR_TIME=#{q.cencorTime}
+			</if>
+			<if test="q.cencorTimeStart!=null">
+		<![CDATA[	AND CENCOR_TIME>=#{q.cencorTimeStart}  ]]>
+			</if>
+			<if test="q.cencorTimeEnd!=null">
+		<![CDATA[	AND CENCOR_TIME<#{q.cencorTimeEnd}   ]]>
+			</if>
+			<if test="q.cencorId!=null and q.cencorId!=''">
+				AND CENCOR_ID=#{q.cencorId}
+			</if>
+			<if test="q.workOrderStatus!=null ">
+				AND WORK_ORDER_STATUS=#{q.workOrderStatus}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.currentAddress!=null and q.currentAddress!=''">
+				AND CURRENT_ADDRESS=#{q.currentAddress}
+			</if>
+			<if test="q.currentLongitude!=null and q.currentLongitude!=''">
+				AND CURRENT_LONGITUDE=#{q.currentLongitude}
+			</if>
+			<if test="q.currentLatitude!=null and q.currentLatitude!=''">
+				AND CURRENT_LATITUDE=#{q.currentLatitude}
+			</if>
+		</if>
+	</sql>
+
+	<!-- 根据请求查询出调度工单 待审核的 -->
+	<select id="countWorkerOrdersTodoIndexValue" resultType="Integer">
+		SELECT
+		count(*) FROM t_worker_order WHERE CENCOR_STATUS=0
+	</select>
+	<!-- 根据车辆编号查询车辆据现在时间最近的一笔调度单（状态为已完成或者已取消） -->
+	<select id="getWorkerOrderNewestByCarNo" resultMap="WorkerOrder">
+		select
+		<include refid="CommonColumnlist" />
+		from t_worker_order
+		<where>
+			CAR_NO=#{carNo} and WORK_ORDER_STATUS in(3,4) 
+			order by CREATE_TIME desc limit 1
+		</where>
+	</select>
+	<!-- 根据车辆编号查找已预约的调度单单信息 -->
+	<select id="getWorderOrderByCarNo" resultMap="WorkerOrder">
+		select
+		<include refid="AllColumnlist" />
+		from t_worker_order
+		<where>
+			CAR_NO=#{0} and WORK_ORDER_STATUS=1
+		</where>
+	</select>
+
+	<select id="launchTask" parameterType="Query"
+		resultType="cn.com.shopec.core.resource.vo.TaskVo">
+		SELECT
+		w.WORKER_ORDER_NO AS taskNo,
+		c.CAR_PHOTO_URL1 AS photoUrl,
+		w.WORK_ORDER_STATUS AS taskStatus,
+		w.TYPE AS type,
+		w.SEND_TIME AS
+		sendTime,
+		p1.PARK_NAME AS
+		parkName,
+		p1.ADDR_STREET AS
+		addrStreet,
+		c.CAR_PLATE_NO AS carPlateNo,
+		c.CAR_BRAND_NAME AS
+		carBrandName,
+		c.CAR_MODEL_NAME AS carModelName,
+		s.POWER AS power,
+		s.RANGE_MILEAGE AS
+		rangeMileage,
+		12756274*asin(Sqrt(power(sin((#{q.latitude}-s.LATITUDE)*0.008726646),2)+Cos(#{q.latitude}*0.0174533)*Cos(s.LATITUDE*0.0174533)*power(sin((#{q.longitude}-s.LONGITUDE)*0.008726646),2)))
+		as distance
+		FROM
+		t_worker_order w
+		LEFT JOIN t_car c
+		ON c.CAR_NO =
+		w.CAR_NO
+		LEFT JOIN
+		t_car_status s ON w.CAR_NO = s.CAR_NO
+		LEFT JOIN
+		t_park
+		p1 ON
+		p1.PARK_NO =
+		s.LOCATION_PARK_NO
+		<where>
+			<if test="q.isTask==1">
+				AND w.WORKER_ID=#{q.workerNo}
+			</if>
+			<if test="q.isTask==2">
+				AND w.ASSIGN_WORKER_ID=#{q.workerNo}
+			</if>
+		</where>
+		<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="countWorkerOrder" resultType="java.util.HashMap">
+		select
+		sum(case when
+		WORK_ORDER_STATUS=1 then 1 else 0 end) as waitWorkerOrderNum,
+		sum(case
+		when WORK_ORDER_STATUS=2 then 1 else 0 end) as
+		doingWorkerOrderNum
+		from
+		t_worker_order
+	</select>
+
+</mapper>

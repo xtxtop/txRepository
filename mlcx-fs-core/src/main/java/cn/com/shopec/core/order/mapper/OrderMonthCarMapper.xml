@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.order.dao.OrderMonthCarDao">
+
+	<resultMap type="OrderMonthCar" id="OrderMonthCar">
+		<id column="ORDER_MONTH_CAR_NO" property="orderMonthCarNo"
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CAR_NO" property="carNo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="RENT" property="rent" javaType="java.lang.Double"
+			jdbcType="DOUBLE" />
+		<result column="MEMO" property="memo" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date"
+			jdbcType="TIMESTAMP" />
+		<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="OPERATOR_TYPE" property="operatorType"
+			javaType="java.lang.Integer" jdbcType="TINYINT" />
+	</resultMap>
+
+
+	<!-- 全部字段，一般用于明细查询 -->
+	<sql id="AllColumnlist">
+		ORDER_MONTH_CAR_NO,ORDER_NO,CAR_NO,RENT,MEMO,CREATE_TIME,UPDATE_TIME,
+		OPERATOR_ID,OPERATOR_TYPE
+	</sql>
+
+	<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+	<sql id="CommonColumnlist">
+		ORDER_MONTH_CAR_NO,ORDER_NO,CAR_NO,RENT,MEMO,CREATE_TIME,UPDATE_TIME,
+		OPERATOR_ID,OPERATOR_TYPE
+	</sql>
+
+	<insert id="add" parameterType="OrderMonthCar" useGeneratedKeys="true"
+		keyProperty="orderMonthCarNo">
+		insert into T_ORDER_MONTH_CAR(
+		<if test="orderMonthCarNo!=null">
+			ORDER_MONTH_CAR_NO,
+		</if>
+		ORDER_NO,
+		CAR_NO,
+		RENT,
+		MEMO,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_ID,
+		OPERATOR_TYPE
+		) values (
+		<if test="orderMonthCarNo!=null">
+			#{orderMonthCarNo,jdbcType = VARCHAR},
+		</if>
+		#{orderNo,jdbcType = VARCHAR},
+		#{carNo,jdbcType = VARCHAR},
+		#{rent,jdbcType = DOUBLE},
+		#{memo,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT}
+		)
+	</insert>
+
+	<update id="update" parameterType="OrderMonthCar">
+		update t_order_month_car
+		<set>
+			<if test="orderNo!=null and orderNo!=''">
+				ORDER_NO=#{orderNo,jdbcType = VARCHAR},
+			</if>
+			<if test="carNo!=null and carNo!=''">
+				CAR_NO=#{carNo,jdbcType = VARCHAR},
+			</if>
+			<if test="rent!=null ">
+				RENT=#{rent,jdbcType = DOUBLE},
+			</if>
+			<if test="memo!=null and memo!=''">
+				MEMO=#{memo,jdbcType = VARCHAR},
+			</if>
+			<if test="createTime!=null ">
+				CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="updateTime!=null ">
+				UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+			</if>
+			<if test="operatorId!=null and operatorId!=''">
+				OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+			</if>
+			<if test="operatorType!=null ">
+				OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+			</if>
+		</set>
+		<where>
+			AND ORDER_MONTH_CAR_NO=#{orderMonthCarNo}
+		</where>
+	</update>
+
+	<delete id="delete">
+		delete from t_order_month_car
+		<where>
+			ORDER_MONTH_CAR_NO=#{0}
+		</where>
+	</delete>
+	<delete id="deleteNs">
+		delete from t_order_month_car
+		<where>
+			ORDER_NO=#{0}
+		</where>
+	</delete>
+
+	<select id="get" resultMap="OrderMonthCar">
+		select
+		<include refid="AllColumnlist" />
+		from t_order_month_car
+		<where>
+			ORDER_MONTH_CAR_NO=#{0}
+		</where>
+	</select>
+
+	<select id="getByIds" resultMap="OrderMonthCar">
+		select
+		<include refid="AllColumnlist" />
+		from t_order_month_car
+		<where>
+			ORDER_MONTH_CAR_NO in
+			<foreach item="item" index="index" collection="array" open="("
+				separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+
+	<select id="count" parameterType="Query" resultType="Long">
+		select count(ORDER_MONTH_CAR_NO) from t_order_month_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="queryAll" parameterType="Query" resultMap="OrderMonthCar">
+		select
+		<include refid="CommonColumnlist" />
+		from t_order_month_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+	<select id="pageList" parameterType="Query" resultMap="OrderMonthCar">
+		select
+		<include refid="CommonColumnlist" />
+		from t_order_month_car
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+
+	<select id="pageListNs" parameterType="Query" resultMap="OrderMonthCar">
+		SELECT
+		o.*, c.CAR_BRAND_NAME AS carBrandName,
+		c.CAR_MODEL_NAME AS carModelName
+		FROM
+		t_order_month_car o
+		LEFT JOIN t_car c ON o.CAR_NO = c.CAR_NO
+		<where>
+			<include refid="listCommonWhereNs" />
+		</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+	</select>
+	<select id="countNs" parameterType="Query" resultType="Long">
+		SELECT
+		count(o.ORDER_MONTH_CAR_NO)
+		FROM
+		t_order_month_car o
+		LEFT JOIN t_car c ON o.CAR_NO = c.CAR_NO
+		<where>
+			<include refid="listCommonWhere" />
+		</where>
+	</select>
+
+
+<sql id="listCommonWhereNs">
+		<if test="q!=null">
+			<if test="q.orderMonthCarNo!=null and q.orderMonthCarNo!=''">
+				AND o.ORDER_MONTH_CAR_NO=#{q.orderMonthCarNo}
+			</if>
+			<if test="q.orderNo!=null and q.orderNo!=''">
+				AND o.ORDER_NO=#{q.orderNo}
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND o.CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.rent!=null ">
+				AND o.RENT=#{q.rent}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND o.MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND o.CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND o.CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND o.CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND o.UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND o.UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND o.UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND o.OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND o.OPERATOR_TYPE=#{q.operatorType}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="listCommonWhere">
+		<if test="q!=null">
+			<if test="q.orderMonthCarNo!=null and q.orderMonthCarNo!=''">
+				AND ORDER_MONTH_CAR_NO=#{q.orderMonthCarNo}
+			</if>
+			<if test="q.orderNo!=null and q.orderNo!=''">
+				AND ORDER_NO=#{q.orderNo}
+			</if>
+			<if test="q.carNo!=null and q.carNo!=''">
+				AND CAR_NO=#{q.carNo}
+			</if>
+			<if test="q.rent!=null ">
+				AND RENT=#{q.rent}
+			</if>
+			<if test="q.memo!=null and q.memo!=''">
+				AND MEMO=#{q.memo}
+			</if>
+			<if test="q.createTime!=null ">
+				AND CREATE_TIME=#{q.createTime}
+			</if>
+			<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+			</if>
+			<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+			</if>
+			<if test="q.updateTime!=null ">
+				AND UPDATE_TIME=#{q.updateTime}
+			</if>
+			<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+			</if>
+			<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+			</if>
+			<if test="q.operatorId!=null and q.operatorId!=''">
+				AND OPERATOR_ID=#{q.operatorId}
+			</if>
+			<if test="q.operatorType!=null ">
+				AND OPERATOR_TYPE=#{q.operatorType}
+			</if>
+		</if>
+	</sql>
+
+</mapper>

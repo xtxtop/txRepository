@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SysParamDao">
+
+<resultMap type="SysParam" id="SysParam">
+	<id column="PARAM_ID" property="paramId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_GROUP" property="paramGroup" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_TYPE" property="paramType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_NAME" property="paramName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_KEY" property="paramKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_VALUE" property="paramValue" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="MEMO" property="memo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_VALUE_TYPE" property="paramValueType" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_VALUE_MODE" property="paramValueMode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="PARAM_VALUE_JSON" property="paramValueJson" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="SEQ" property="seq" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="IS_DELETED" property="isDeleted" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+<insert id="add" parameterType="SysParam">
+	insert into T_SYS_PARAM(
+		PARAM_ID,
+		PARAM_GROUP,
+		PARAM_TYPE,
+		PARAM_NAME,
+		PARAM_KEY,
+		PARAM_VALUE,
+		MEMO,
+		PARAM_VALUE_TYPE,
+		PARAM_VALUE_JSON,
+		PARAM_VALUE_JSON,
+		SEQ,
+		IS_DELETED,
+		CREATE_TIME,
+		UPDATE_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		#{paramId,jdbcType = VARCHAR},
+		#{paramGroup,jdbcType = VARCHAR},
+		#{paramType,jdbcType = VARCHAR},
+		#{paramName,jdbcType = VARCHAR},
+		#{paramKey,jdbcType = VARCHAR},
+		#{paramValue,jdbcType = VARCHAR},
+		#{memo,jdbcType = VARCHAR},
+		#{paramValueType,jdbcType = VARCHAR},
+		#{paramValueMode,jdbcType = VARCHAR},
+		#{paramValueJson,jdbcType = VARCHAR},
+		#{seq,jdbcType = TINYINT},
+		#{isDeleted,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SysParam">
+	update t_sys_param 
+	<set>
+		<if test="paramValue!=null and paramValue!=''">
+			PARAM_VALUE=#{paramValue,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null ">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND PARAM_ID=#{paramId}
+	</where>
+</update>
+
+<update id="updateByParamId">
+    update t_sys_param 
+    <set>
+    <if test="isDeleted!=null ">
+            IS_DELETED=#{1},
+    </if>
+    </set>
+    <where>
+        AND PARAM_ID=#{0}
+    </where>
+</update>
+
+<delete id="delete">
+	delete from t_sys_param 
+	<where>
+		PARAM_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SysParam">
+	select * from t_sys_param
+	<where>
+		PARAM_ID=#{0}
+	</where>
+</select>
+
+<!-- 根据参数的key，取回一条参数记录 -->
+<select id="getByParamKey" resultMap="SysParam">
+	select * from t_sys_param
+	<where>
+		PARAM_KEY = #{0}
+	</where>
+</select>
+
+<select id="getByParamName" resultMap="SysParam">
+	select * from t_sys_param
+	<where>
+		PARAM_NAME=#{0}
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(*) from t_sys_param 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SysParam">
+	select * from t_sys_param 
+	<where>
+	<if test="q != null">
+	   <include refid="listCommonWhere"/>
+	</if>
+	</where>
+    order by SEQ
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SysParam">
+	select * from  t_sys_param
+	<where>
+	   <include refid="listCommonWhere"/>
+	</where>
+    order by SEQ
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+<sql id="listCommonWhere">
+    <if test="q==null"><!-- 无传入参数时默认查未删除的 -->
+         AND IS_DELETED=0
+    </if>
+    <if test="q!=null">
+		<if test="q.paramId!=null ">
+			AND PARAM_ID=#{q.paramId}
+		</if>
+		<if test="q.paramGroup!=null and q.paramGroup!=''">
+			AND PARAM_GROUP=#{q.paramGroup}
+		</if>
+		<if test="q.paramType!=null and q.paramType!=''">
+			AND PARAM_TYPE=#{q.paramType}
+		</if>
+		<if test="q.paramName!=null and q.paramName!=''">
+			AND PARAM_NAME=#{q.paramName}
+		</if>
+		<if test="q.paramKey!=null and q.paramKey!=''">
+			AND PARAM_KEY=#{q.paramKey}
+		</if>
+		<if test="q.paramValue!=null and q.paramValue!=''">
+			AND PARAM_VALUE=#{q.paramValue}
+		</if>
+		<if test="q.memo!=null and q.memo!=''">
+			AND MEMO=#{q.memo}
+		</if>
+		<if test="q.paramValueType!=null and q.paramValueType!=''">
+			AND PARAM_VALUE_TYPE=#{q.paramValueType}
+		</if>
+		<if test="q.paramValueMode!=null and q.paramValueMode!=''">
+			AND PARAM_VALUE_MODE=#{q.paramValueMode}
+		</if>
+		<if test="q.paramValueJson!=null and q.paramValueJson!=''">
+			AND PARAM_VALUE_JSON=#{q.paramValueJson}
+		</if>
+		<if test="q.isDeleted!=null ">
+			AND IS_DELETED=#{q.isDeleted}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null ">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.ml.dao.CarParkingDao">
+
+<resultMap type="CarParking" id="CarParking">
+	<id column="CAR_PARKING_NO" property="carParkingNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CAR_PARKING_CODE" property="carParkingCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="ACTIVE_CONDITION" property="activeCondition" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="STATION_NO" property="stationNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CHARGING_PILE_NO" property="chargingPileNo" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+CAR_PARKING_NO,CAR_PARKING_CODE,ACTIVE_CONDITION,STATION_NO,CHARGING_PILE_NO,OPERATOR_ID,OPERATOR_TYPE,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+CAR_PARKING_NO,CAR_PARKING_CODE,ACTIVE_CONDITION,STATION_NO,CHARGING_PILE_NO,OPERATOR_ID,OPERATOR_TYPE,
+CREATE_TIME,UPDATE_TIME
+</sql>
+
+<insert id="add" parameterType="CarParking" useGeneratedKeys="true" keyProperty="carParkingNo">
+	insert into CAR_PARKING(
+		<if test="carParkingNo!=null">
+		CAR_PARKING_NO,
+		</if>
+		CAR_PARKING_CODE,
+		ACTIVE_CONDITION,
+		STATION_NO,
+		CHARGING_PILE_NO,
+		OPERATOR_ID,
+		OPERATOR_TYPE,
+		CREATE_TIME,
+		UPDATE_TIME
+	) values (
+		<if test="carParkingNo!=null">
+		#{carParkingNo,jdbcType = VARCHAR},
+		</if>
+		#{carParkingCode,jdbcType = VARCHAR},
+		#{activeCondition,jdbcType = TINYINT},
+		#{stationNo,jdbcType = VARCHAR},
+		#{chargingPileNo,jdbcType = VARCHAR},
+		#{operatorId,jdbcType = VARCHAR},
+		#{operatorType,jdbcType = TINYINT},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP}
+	)
+</insert>
+
+<update id="update" parameterType="CarParking">
+	update CAR_PARKING 
+	<set>
+		<if test="carParkingCode!=null and carParkingCode!=''">
+			CAR_PARKING_CODE=#{carParkingCode,jdbcType = VARCHAR},
+		</if>
+		<if test="activeCondition!=null ">
+			ACTIVE_CONDITION=#{activeCondition,jdbcType = TINYINT},
+		</if>
+		<if test="stationNo!=null and stationNo!=''">
+			STATION_NO=#{stationNo,jdbcType = VARCHAR},
+		</if>
+		<if test="chargingPileNo!=null and chargingPileNo!=''">
+			CHARGING_PILE_NO=#{chargingPileNo,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+	</set>
+	<where>
+		AND CAR_PARKING_NO=#{carParkingNo}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from CAR_PARKING 
+	<where>
+		CAR_PARKING_NO=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="CarParking">
+	select <include refid="AllColumnlist"/> from CAR_PARKING
+	<where>
+		CAR_PARKING_NO=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="CarParking">
+	select <include refid="AllColumnlist"/> from CAR_PARKING
+	<where>
+		CAR_PARKING_NO in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(CAR_PARKING_NO) from CAR_PARKING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="CarParking">
+	select <include refid="CommonColumnlist"/> from CAR_PARKING 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="CarParking">
+	select <include refid="CommonColumnlist"/> from CAR_PARKING
+	<where>
+	 <include refid="listCommonWhere"/>
+	</where>
+	order by UPDATE_TIME desc
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.carParkingNo!=null and q.carParkingNo!=''">
+			AND CAR_PARKING_NO=#{q.carParkingNo}
+		</if>
+		<if test="q.carParkingCode!=null and q.carParkingCode!=''">
+			AND CAR_PARKING_CODE=#{q.carParkingCode}
+		</if>
+		<if test="q.activeCondition!=null ">
+			AND ACTIVE_CONDITION=#{q.activeCondition}
+		</if>
+		<if test="q.stationNo!=null and q.stationNo!=''">
+			AND STATION_NO=#{q.stationNo}
+		</if>
+		<if test="q.chargingPileNo!=null and q.chargingPileNo!=''">
+			AND CHARGING_PILE_NO=#{q.chargingPileNo}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+	</if>
+</sql>
+
+</mapper>

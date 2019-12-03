@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.shopec.core.system.dao.SendSmsDao">
+
+<resultMap type="SendSms" id="SendSms">
+	<id column="SMS_ID" property="smsId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="RECEIVER_TYPE" property="receiverType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="RECEIVER_ID" property="receiverId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+	<result column="MOBILE_PHONE" property="mobilePhone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="TEMPLATE_TYPE" property="templateType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="TEMPLATE_ID" property="templateId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+	<result column="SMS_CONTENT" property="smsContent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+	<result column="CREATE_TIME" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="UPDATE_TIME" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="SEND_TIME" property="sendTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+	<result column="OPERATOR_TYPE" property="operatorType" javaType="java.lang.Integer" jdbcType="TINYINT"/>
+	<result column="OPERATOR_ID" property="operatorId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+</resultMap>
+
+
+<!-- 全部字段，一般用于明细查询 -->
+<sql id="AllColumnlist">
+SMS_ID,RECEIVER_TYPE,RECEIVER_ID,MOBILE_PHONE,TEMPLATE_TYPE,TEMPLATE_ID,SMS_CONTENT,
+CREATE_TIME,UPDATE_TIME,SEND_TIME,OPERATOR_TYPE,OPERATOR_ID
+</sql>
+
+<!-- 常见字段，一般用于列表查询，可能不包含备注之类的字段 -->
+<sql id="CommonColumnlist">
+SMS_ID,RECEIVER_TYPE,RECEIVER_ID,MOBILE_PHONE,TEMPLATE_TYPE,TEMPLATE_ID,CREATE_TIME,UPDATE_TIME,SEND_TIME,OPERATOR_TYPE,OPERATOR_ID,SMS_CONTENT
+</sql>
+
+<insert id="add" parameterType="SendSms" useGeneratedKeys="true" keyProperty="smsId">
+	insert into T_SEND_SMS(
+		<if test="smsId!=null">
+		SMS_ID,
+		</if>
+		RECEIVER_TYPE,
+		RECEIVER_ID,
+		MOBILE_PHONE,
+		TEMPLATE_TYPE,
+		TEMPLATE_ID,
+		SMS_CONTENT,
+		CREATE_TIME,
+		UPDATE_TIME,
+		SEND_TIME,
+		OPERATOR_TYPE,
+		OPERATOR_ID
+	) values (
+		<if test="smsId!=null">
+		#{smsId,jdbcType = VARCHAR},
+		</if>
+		#{receiverType,jdbcType = TINYINT},
+		#{receiverId,jdbcType = BIGINT},
+		#{mobilePhone,jdbcType = VARCHAR},
+		#{templateType,jdbcType = TINYINT},
+		#{templateId,jdbcType = BIGINT},
+		#{smsContent,jdbcType = VARCHAR},
+		#{createTime,jdbcType = TIMESTAMP},
+		#{updateTime,jdbcType = TIMESTAMP},
+		#{sendTime,jdbcType = TIMESTAMP},
+		#{operatorType,jdbcType = TINYINT},
+		#{operatorId,jdbcType = VARCHAR}
+	)
+</insert>
+
+<update id="update" parameterType="SendSms">
+	update t_send_sms 
+	<set>
+		<if test="receiverType!=null ">
+			RECEIVER_TYPE=#{receiverType,jdbcType = TINYINT},
+		</if>
+		<if test="receiverId!=null ">
+			RECEIVER_ID=#{receiverId,jdbcType = BIGINT},
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			MOBILE_PHONE=#{mobilePhone,jdbcType = VARCHAR},
+		</if>
+		<if test="templateType!=null ">
+			TEMPLATE_TYPE=#{templateType,jdbcType = TINYINT},
+		</if>
+		<if test="templateId!=null ">
+			TEMPLATE_ID=#{templateId,jdbcType = BIGINT},
+		</if>
+		<if test="smsContent!=null and smsContent!=''">
+			SMS_CONTENT=#{smsContent,jdbcType = VARCHAR},
+		</if>
+		<if test="createTime!=null ">
+			CREATE_TIME=#{createTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="updateTime!=null ">
+			UPDATE_TIME=#{updateTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="sendTime!=null ">
+			SEND_TIME=#{sendTime,jdbcType = TIMESTAMP},
+		</if>
+		<if test="operatorType!=null ">
+			OPERATOR_TYPE=#{operatorType,jdbcType = TINYINT},
+		</if>
+		<if test="operatorId!=null and operatorId!=''">
+			OPERATOR_ID=#{operatorId,jdbcType = VARCHAR},
+		</if>
+	</set>
+	<where>
+		AND SMS_ID=#{smsId}
+	</where>
+</update>
+
+<delete id="delete">
+	delete from t_send_sms 
+	<where>
+		SMS_ID=#{0}
+	</where>
+</delete>
+
+<select id="get" resultMap="SendSms">
+	select <include refid="AllColumnlist"/> from t_send_sms
+	<where>
+		SMS_ID=#{0}
+	</where>
+</select>
+
+<select id="getByIds" resultMap="SendSms">
+	select <include refid="AllColumnlist"/> from t_send_sms
+	<where>
+		SMS_ID in <foreach item="item" index="index" collection="array" open="(" separator="," close=")">#{item}</foreach>
+	</where>
+</select>
+
+<select id="count" parameterType="Query" resultType="Long">
+	select count(SMS_ID) from t_send_sms 
+	<where>
+	<include refid="listCommonWhereMH"/>
+	</where>
+</select>
+
+<select id="queryAll" parameterType="Query" resultMap="SendSms">
+	select <include refid="CommonColumnlist"/> from t_send_sms 
+	<where>
+	<include refid="listCommonWhere"/>
+	</where>
+</select>
+
+<select id="pageList" parameterType="Query" resultMap="SendSms">
+	select <include refid="CommonColumnlist"/> from t_send_sms
+	<where>
+	 <include refid="listCommonWhereMH"/>
+	</where>
+	<![CDATA[LIMIT #{rowIndex},#{pageSize} ]]>
+</select>
+<sql id="listCommonWhereMH">
+	<if test="q!=null">
+		<if test="q.smsId!=null and q.smsId!=''">
+			AND SMS_ID=#{q.smsId}
+		</if>
+		<if test="q.receiverType!=null ">
+			AND RECEIVER_TYPE=#{q.receiverType}
+		</if>
+		<if test="q.receiverId!=null ">
+			AND RECEIVER_ID=#{q.receiverId}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE like  concat(concat("%",#{q.mobilePhone}),"%")
+		</if>
+		<if test="q.templateType!=null ">
+			AND TEMPLATE_TYPE=#{q.templateType}
+		</if>
+		<if test="q.templateId!=null ">
+			AND TEMPLATE_ID=#{q.templateId}
+		</if>
+		<if test="q.smsContent!=null and q.smsContent!=''">
+			AND SMS_CONTENT=#{q.smsContent}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.sendTime!=null ">
+			AND SEND_TIME=#{q.sendTime}
+		</if>
+		<if test="q.sendTimeStart!=null">
+		<![CDATA[	AND SEND_TIME>=#{q.sendTimeStart}  ]]>
+		</if>
+		<if test="q.sendTimeEnd!=null">
+		<![CDATA[	AND SEND_TIME<#{q.sendTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+<sql id="listCommonWhere">
+	<if test="q!=null">
+		<if test="q.smsId!=null and q.smsId!=''">
+			AND SMS_ID=#{q.smsId}
+		</if>
+		<if test="q.receiverType!=null ">
+			AND RECEIVER_TYPE=#{q.receiverType}
+		</if>
+		<if test="q.receiverId!=null ">
+			AND RECEIVER_ID=#{q.receiverId}
+		</if>
+		<if test="q.mobilePhone!=null and q.mobilePhone!=''">
+			AND MOBILE_PHONE=#{q.mobilePhone}
+		</if>
+		<if test="q.templateType!=null ">
+			AND TEMPLATE_TYPE=#{q.templateType}
+		</if>
+		<if test="q.templateId!=null ">
+			AND TEMPLATE_ID=#{q.templateId}
+		</if>
+		<if test="q.smsContent!=null and q.smsContent!=''">
+			AND SMS_CONTENT=#{q.smsContent}
+		</if>
+		<if test="q.createTime!=null ">
+			AND CREATE_TIME=#{q.createTime}
+		</if>
+		<if test="q.createTimeStart!=null">
+		<![CDATA[	AND CREATE_TIME>=#{q.createTimeStart}  ]]>
+		</if>
+		<if test="q.createTimeEnd!=null">
+		<![CDATA[	AND CREATE_TIME<#{q.createTimeEnd}   ]]>
+		</if>
+		<if test="q.updateTime!=null ">
+			AND UPDATE_TIME=#{q.updateTime}
+		</if>
+		<if test="q.updateTimeStart!=null">
+		<![CDATA[	AND UPDATE_TIME>=#{q.updateTimeStart}  ]]>
+		</if>
+		<if test="q.updateTimeEnd!=null">
+		<![CDATA[	AND UPDATE_TIME<#{q.updateTimeEnd}   ]]>
+		</if>
+		<if test="q.sendTime!=null ">
+			AND SEND_TIME=#{q.sendTime}
+		</if>
+		<if test="q.sendTimeStart!=null">
+		<![CDATA[	AND SEND_TIME>=#{q.sendTimeStart}  ]]>
+		</if>
+		<if test="q.sendTimeEnd!=null">
+		<![CDATA[	AND SEND_TIME<#{q.sendTimeEnd}   ]]>
+		</if>
+		<if test="q.operatorType!=null ">
+			AND OPERATOR_TYPE=#{q.operatorType}
+		</if>
+		<if test="q.operatorId!=null and q.operatorId!=''">
+			AND OPERATOR_ID=#{q.operatorId}
+		</if>
+	</if>
+</sql>
+
+</mapper>

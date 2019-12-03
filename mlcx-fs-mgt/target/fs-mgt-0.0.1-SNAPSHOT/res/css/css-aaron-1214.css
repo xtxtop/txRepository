@@ -1,0 +1,197 @@
+/* 公共样式 */
+.center-mr-aaron{
+    width:1200px;
+    margin: 0 auto;
+}
+.white-bg-aaron{
+    background: #fff;
+}
+.mt-aaron{
+    margin-top: 20px;
+}
+/* 头部样式 */
+.main-header-aaron{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #3f9fff;
+    z-index: 999;
+    height: 60px;
+    line-height: 60px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,.3);
+}
+.main-header-aaron img{
+    margin-top: 15px;
+}
+.main-header-aaron ul{
+    margin-bottom: 0;
+}
+.main-header-aaron ul li{
+    width: 84px;
+    text-align: center;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.main-header-aaron ul li a{
+    color: #fff;
+    font-size:12px;
+}
+.main-header-aaron ul li.active{
+    background-color: #2B94FD;
+}
+.main-header-aaron ul li:hover{
+    background-color: #2B94FD;
+}
+.content-wrapper-aaron{
+    box-sizing: border-box;
+    padding-top: 65px;
+    margin-left: 0;
+}
+
+
+/* 自定义新建main-content-aaron1 */
+
+.content-wrapper-aaron1{
+    box-sizing: border-box;
+    padding-top: 65px;
+    background: #3EABFE ;
+}
+
+.main-header-aaron img.img-circle-aaron{
+    width: 38px;
+    height: 38px;
+    margin-top: 0;
+    border-radius: 50%;
+}
+.login-out-aaron{
+    position: relative;
+    box-sizing: border-box;
+    padding-right: 66px;
+}
+.login-out-btn-aaron{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    line-height:20px;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: transparent;
+    text-align: center;    
+}
+.btn-aaron,.letter-aaron{
+    font-size: 12px;
+    color: #fff;
+}
+.user-name-aaron{
+    font-size: 14px;
+    color: #fff;
+}
+.btn-aaron{
+    margin-top:20px;
+    display: none;
+    color: #3F3F4D;
+}
+
+.login-out-btn-aaron:hover{
+    background-color: #fff;
+    cursor: pointer;
+    
+}
+.login-out-btn-aaron:hover .user-name-aaron{
+    color: #3F9FFF;
+}
+.login-out-btn-aaron:hover .btn-aaron{
+    display: block;
+}
+/* 第一层 */
+.five-icon-infro ul{
+    box-sizing: border-box;
+    padding: 50px 0;
+}
+.five-icon-infro ul li {
+    width: 20%;
+}
+
+.five-icon-infro ul li div{
+    text-align: center;
+}
+.five-icon-infro ul li div.icon-img{
+
+}
+.five-icon-infro ul li div.icon-num{
+    font-size: 44px;
+    font-weight: 700;
+    color:#fff;
+    margin:15px 0;
+}
+.five-icon-infro ul li div.icon-name{
+    font-size: 14px;
+    color:#fff;
+}
+
+/* 第二层 */
+.floor-two-aaron{
+    box-sizing: border-box;
+    padding: 22px 26px;
+}
+.floor-two-aaron .block-aaron{
+   width: 48%;
+   margin-top: 20px;
+}
+.floor-two-aaron .block-aaron.none_mt{
+    margin-top: 0px;
+ }
+.floor-two-aaron .block-aaron:nth-child(2n+1){
+    margin-right:2%;
+}
+.floor-two-aaron .block-aaron ul{
+    padding: 0;
+    margin: 0;
+    border-top: solid 1px #dedede;
+    border-left: solid 1px #dedede;
+}
+.floor-two-aaron .block-aaron ul li{
+    width: 33.333%;
+    box-sizing: border-box;
+    padding: 20px 14px;
+    border-right: solid 1px #dedede;
+    border-bottom: solid 1px #dedede;
+}
+
+.floor-two-aaron .block-aaron h1,
+.floor-two-aaron .block-aaron h2{
+    margin: 0;
+    font-weight: normal;
+}
+.floor-two-aaron .block-aaron h1{
+    margin-bottom: 24px;
+}
+.floor-two-aaron .block-aaron h1 span{
+    font-size: 18px;
+    margin-left: 16px;
+    vertical-align: 5px;
+    color: #203C54; 
+}
+.floor-two-aaron .block-aaron h2{
+    font-size: 14px;
+    color:#586D80 ;
+}
+.floor-two-aaron .block-aaron p{
+    margin-top: 30px;
+    font-size: 20px;
+    color: #16528D;
+}
+
+
+/* 底部 */
+.main-footer-aaron{
+    background: #fff;
+    text-align: center;
+    height: 120px;
+    font-size: 14px;
+    line-height: 120px;
+    margin-top: 20px;
+}
