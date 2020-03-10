@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fs-mapi:war">
+    <output-path>$PROJECT_DIR$/../mlcx-fs-mapi/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>fs-mapi</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="fs-mapi-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="fs-mapi:war exploded" />
+    </root>
+  </artifact>
+</component>
